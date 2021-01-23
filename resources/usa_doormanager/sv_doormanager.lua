@@ -91,96 +91,16 @@ local DOORS = {
 
   {name = "Yard Door", x = 1763.97, y = 2616.71, z = 45.97, model = 1028191914, locked = true, _dist = 2, offset={0.00, 1.20, 0.05}, heading=90,  allowedJobs = {'sheriff', 'corrections'}},
 
-  {name = "Mission Row / Door 1", x = 464.192, y = -1003.638, z = 24.9, model = -1033001619, locked = true, offset={0.0, -1.13, 0.05}, heading=0, _dist = 1.5, allowedJobs = {'sheriff', 'corrections'}},
-  {name = "Mission Row / Door 2", x = 463.72, y = -992.7, z = 24.9, model = 631614199, locked = true, offset={0.0, 1.12, 0.025}, heading=0, _dist = 1.5, allowedJobs = {'sheriff', 'corrections'}},
-  {name = "Mission Row / Cell 1", x = 461.7, y = -993.6, z = 24.9, model = 631614199, locked = false, offset={0.0, 1.12, 0.025}, heading=270, _dist = 1.5, allowedJobs = {'sheriff','corrections'}},
-  {name = "Mission Row / Cell 2", x = 462.75, y = -998.3, z = 24.9, model = 631614199, locked = false, offset={0.0, 1.12, 0.025}, heading=90, _dist = 1.5, allowedJobs = {'sheriff','corrections'}},
-  {name = "Mission Row / Cell 3", x = 462.7, y = -1001.9, z = 24.9, model = 631614199, locked = false, offset={0.0, 1.12, 0.025}, heading=90, _dist = 1.5, allowedJobs = {'sheriff', 'corrections'}},
-  {name = "Mission Row / Lower Entry 1", x = 463.57867431641,y = -1004.1882324219, z = 24.914945602417, model = 185711165, locked = true, static = true, _dist = 1.5, allowedJobs = {'sheriff', "corrections", "ems"}},
-  {name = "Mission Row / Lower Entry 2", x = 464.4914855957,y = -1004.1607055664, z = 24.914945602417, model = 185711165, locked = false, offset={0.0, 1.24, 0.0}, heading=0, _dist = 1.5, allowedJobs = {'sheriff', "corrections", "ems"}},
-  {name = "Mission Row / Office", x = 447.3,  y = -980.4, z = 30.7, model = -1320876379, locked = true, offset={0.0, 1.15, -0.1}, heading=180, _dist = 1.0, allowedJobs = {'sheriff'}},
-  {name = "Mission Row / Aux 1", x = 466.12319946289,y = -990.48913574219, z = 24.914930343628, model = 185711165, locked = true, static = true, _dist = 1.5, allowedJobs = {'sheriff', "corrections", "ems"}},
-  {name = "Mission Row / Aux 2", x = 466.26898193359,y = -989.31799316406, z = 24.914930343628, model = 185711165, locked = false, offset={0.0, 1.24, 0.0}, heading=90, _dist = 1.5, allowedJobs = {'sheriff', "corrections", "ems"}},
   {name = "EMS Station - Paleto", x = -361.8, y = 6129.8, z = 31.4, model = -250842784, locked = false, _dist = 1.5, allowedJobs = {'ems'}},
-  {name = "Mission Row / Roof", x = 463.58, y = -983.94, z =43.69, model = -340230128, locked = true, offset={0.0, -1.05, 0.10}, heading=89, _dist = 2, allowedJobs = {'sheriff', 'corrections', 'judge'}},
 
-  {name = "Mission Row / Holding Cells Entrance 1", x = 468.1, y = -1014.3299, z = 26.4, model = -2023754432, locked = true, offset={0.0, -1.12, 0.0}, heading=0, _dist = 1.5, allowedJobs = {'sheriff', 'corrections'}},
-  {name = "Mission Row / Holding Cells Entrance 2", x = 469.3, y = -1014.4, z = 26.4, model = -2023754432, locked = true, static = true, _dist = 1.5, allowedJobs = {'sheriff', 'corrections'}},
   {name = "Mission Row / Back Gate", x = 488.90, y = -1019.88, z = 28.21, model = -1603817716, locked = true, _dist = 8.0, gate = true, offset={0.0, -3.0, 1.5}, lockedCoords={488.89, -1017.35, 27.14}, allowedJobs = {'sheriff', 'corrections'}},
-  {name = "Mission Row / Cells Door 1", x = 443.9, y = -988.6, z = 30.7, model = 185711165, locked = true, static = true, _dist = 1.5, allowedJobs = {'sheriff', 'corrections'}},
-  {name = "Mission Row / Cells Door 2", x = 445.22, y = -989.4, z = 30.7, model = 185711165, locked = true, offset={0.0, 1.24, 0.0}, heading=0, _dist = 1.5, allowedJobs = {'sheriff', 'corrections'}},
-  {name = "Mission Row / Side Room 1", x = 443.7, y = -992.4, z = 30.7, model = -131296141, locked = true, static = true, _dist = 1.5, allowedJobs = {'sheriff', "corrections", "ems"}},
-  {name = "Mission Row / Side Room 2", x = 443.6, y = -993.9, z = 30.7, model = -131296141, locked = true, offset={0.0, 1.24, 0.0}, heading=270, _dist = 1.5, allowedJobs = {'sheriff', "corrections", "ems"}},
-  {name = 'Mission Row / Meeting Room 1',  x = 469.21,y = -1009.67, z = 26.39, model = -543497392, locked = true, offset={0.0, 1.05, 0.3}, heading = 89, _dist = 1.5, allowedJobs = {'sheriff', "corrections"}},
-  {name = "Mission Row / Meeting Room 2", x = 469.44,y = -1010.97, z = 26.39, model = -543497392, locked = true, static = true, _dist = 1.5, allowedJobs = {'sheriff', "corrections", "ems"}},
-  {name = "Mission Row / Solitary 1", x = 467.75,y = -996.86, z = 24.91, model = -1033001619, locked = true, offset={0.0, -1.05, 0.3}, heading = 358, _dist = 1.5, allowedJobs = {'sheriff', "corrections", "ems"}},
-  {name = "Mission Row / Solitary 2", x = 472.22,y = -996.62, z = 24.91, model = -1033001619, locked = true, offset={0.0, -1.05, 0.3}, heading = 358, _dist = 1.5, allowedJobs = {'sheriff', "corrections", "ems"}},
-  {name = "Mission Row / Solitary 2", x = 476.43,y = -997.01, z = 24.91, model = -1033001619, locked = true, offset={0.0, -1.05, 0.3}, heading = 358, _dist = 1.5, allowedJobs = {'sheriff', "corrections", "ems"}},
-  {name = "Mission Row / Solitary 3", x = 480.76,y = -997.01, z = 24.1, model = -1033001619, locked = true, offset={0.0, -1.05, 0.3}, heading = 358, _dist = 1.5, allowedJobs = {'sheriff', "corrections", "ems"}},
-  {name = "Mission Row / Interview Room 1", x = 480.74,y = -1002.8, z = 24.91, model = -1033001619, locked = true, offset={0.0, -1.05, 0.3}, heading = 358, _dist = 1.5, allowedJobs = {'sheriff', "corrections", "ems"}},
-  {name = "Mission Row / Interview Room 2", x = 476.65,y = -1002.93, z = 24.91, model = -1033001619, locked = true, offset={0.0, -1.05, 0.3}, heading = 178, _dist = 1.5, allowedJobs = {'sheriff', "corrections", "ems"}},
-  {name = "Mission Row / Interview Room 3", x = 472.1,y = -1002.98, z = 24.91, model = -1033001619, locked = true, offset={0.0, -1.05, 0.3}, heading = 0, _dist = 1.5, allowedJobs = {'sheriff', "corrections", "ems"}},
-  {name = "Mission Row / Interview Room 4", x = 467.55,y = -1002.48, z = 24.91, model = -1033001619, locked = true, offset={0.0, -1.05, 0.3}, heading = 181, _dist = 1.5, allowedJobs = {'sheriff', "corrections", "ems"}},
-  {name = "Mission Row / Storage / Evidence", x = 470.84,y = -985.25, z = 24.91, model = -131296141, locked = true, offset={0.0, 1.05, 0.3}, heading = 268, _dist = 1.5, allowedJobs = {'sheriff', "corrections", "ems"}},
-  {name = "Mission Row / Offices Double Doors 1", x = 464.99,y = -989.55, z = 24.91, model = -543497392, locked = true, offset={0.0, 1.05, 0.3}, heading = 90, _dist = 1.5, allowedJobs = {'sheriff', "corrections", "ems"}},
-  {name = "Mission Row / Offices Double Doors 2", x = 464.97,y = -991.0, z = 24.91, model = -543497392, locked = true, static=true, _dist = 1.5, allowedJobs = {'sheriff', "corrections", "ems"}},
-  {name = "Mission Row / Offices Double Doors(2) 1", x = 451.68,y = -984.83, z = 26.67, model = -543497392, locked = true, offset={0.0, 1.05, 0.3}, heading = 180, _dist = 1.5, allowedJobs = {'sheriff', "corrections", "ems"}},
-  {name = "Mission Row / Offices Double Doors(2) 2", x = 453.07,y = -984.49, z = 26.67, model = -543497392, locked = true, static=true, _dist = 1.5, allowedJobs = {'sheriff', "corrections", "ems"}},
-  {name = "Mission Row / Dispatch 1", x = 446.58,y = -987.2, z = 26.67, model = -543497392, locked = true, offset={0.0, 1.05, 0.3}, heading = 270, _dist = 1.5, allowedJobs = {'sheriff', "corrections", "ems"}},
-  {name = "Mission Row / Dispatch 2", x = 446.82,y = -985.52, z = 26.67, model = -543497392, locked = true, static=true, _dist = 1.5, allowedJobs = {'sheriff', "corrections", "ems"}},
-  {name = "Mission Row / Garage 1", x = 446.44,y = -998.28, z = 30.69, model = -1033001619, locked = true, offset={0.0, -1.05, 0.3}, heading = 180, _dist = 1.5, allowedJobs = {'sheriff', "corrections", "ems"}},
-  {name = "Mission Row / Garage 2", x = 445.33,y = -998.04, z = 30.69, model = -1033001619, locked = true, static=true, _dist = 1.5, allowedJobs = {'sheriff', "corrections", "ems"}},
-  {name = "Mission Row / Balcony Rear", x = 463.53,y = -1010.7, z = 32.99, model = 507213820, locked = true, offset={0.0, 1.05, 0.3}, heading = 358, _dist = 1.5, allowedJobs = {'sheriff', "corrections", "ems"}},
-  {name = "Mission Row / Locker Room / Canteen 1", x = 460.22,y = -990.0, z = 30.69, model = -131296141, locked = true, offset={0.0, 1.05, 0.3}, heading = 90, _dist = 1.5, allowedJobs = {'sheriff', "corrections", "ems"}},
-  {name = "Mission Row / Locker Room / Canteen 2", x = 460.23,y = -991.47, z = 30.69, model = -131296141, locked = true, static=true, _dist = 1.5, allowedJobs = {'sheriff', "corrections", "ems"}},
-  {name = "Mission Row / Ground Stairs", x = 460.29,y = -986.19, z = 30.69, model = 749848321, locked = true, offset={0.0, 1.05, 0.3}, heading = 88, _dist = 1.5, allowedJobs = {'sheriff', "corrections", "ems"}},
-
-  --{name = "BCSO Station Gate - Paleto", model = -1483471451, locked = false, _dist = 1.5, allowedJobs = {'sheriff', 'corrections', 'judge'}},
+  {name = "MRPD / Lower Parking Garage 1", x = 463.68695068359, y = -996.86315917969, z = 26.272928237915, model = 1830360419, locked = true, offset={0.0, -1.1, 0.05}, heading=94, _dist = 1.0, allowedJobs = {'sheriff', "corrections", "ems"}},
+  {name = "MRPD / Lower Parking Garage 1", x = 463.75643920898, y = -975.34484863281, z = 26.272916793823, model = 1830360419, locked = true, offset={0.0, -1.1, 0.05}, heading=270, _dist = 1.0, allowedJobs = {'sheriff', "corrections", "ems"}},
   {name = "BCSO Station - Sidewalk", x = -449.8, y = 6024.3, z = 31.5, model = -1156020871, locked = true, offset={0.0, -1.5, -0.095}, heading=315, _dist = 1.0, allowedJobs = {'sheriff', "corrections"}},
   {name = "BCSO Station - Sandy Shores", x = 1855.0, y = 3683.5, z = 34.2, model = -1765048490, locked = false, offset={0.0, 1.24, -0.1}, heading=30, _dist = 1.0, allowedJobs = {'sheriff', "corrections"}},
   {name = "BCSO Station - Cell 1", x = -432.09231567383, y = 5999.8515625, z = 31.716178894043, model = 631614199, locked = false, offset={0.0, 1.24, -0.1}, heading=315, _dist = 1.0, allowedJobs = {'sheriff', "corrections"}},
   {name = "BCSO Station - Cell 2", x = -429.02087402344,y = 5996.828125, z = 31.716180801392, model = 631614199, locked = false, offset={0.0, 1.24, -0.1}, heading=315, _dist = 1.0, allowedJobs = {'sheriff', "corrections"}},
   {name = "BCSO Station - Questioning", x = -453.81491088867,y = 6010.7387695313, z = 31.716337203979, model = -519068795, locked = false, offset={0.0, -1.0, -0.1}, heading=10, _dist = 1.0, allowedJobs = {'sheriff', "corrections"}},
-  --{name = "Prison Block / Cell 1", x = 1729.7, y = 2624.0, z = 45.6, model = -642608865, locked = true, cell_block = true, _dist = 1.5, allowedJobs = {'sheriff', 'corrections', 'judge'}},
-  --{name = "Prison Block / Cell 2", x = 1729.8, y = 2628.1, z = 45.6, model = -642608865, locked = true, cell_block = true, _dist = 1.5, allowedJobs = {'sheriff', 'corrections', 'judge'}},
-  --{name = "Prison Block / Cell 3", x = 1730.1, y = 2632.3, z = 45.6, model = -642608865, locked = true, cell_block = true, _dist = 1.5, allowedJobs = {'sheriff', 'corrections', 'judge'}},
-  --{name = "Prison Block / Cell 4", x = 1729.9, y = 2636.4, z = 45.6, model = -642608865, locked = true, cell_block = true, _dist = 1.5, allowedJobs = {'sheriff', 'corrections', 'judge'}},
-  --{name = "Prison Block / Cell 5", x = 1730.0, y = 2640.5, z = 45.6, model = -642608865, locked = true, cell_block = true, _dist = 1.5, allowedJobs = {'sheriff', 'corrections', 'judge'}},
-  --{name = "Prison Block / Cell 6", x = 1729.8, y = 2644.5, z = 45.6, model = -642608865, locked = true, cell_block = true, _dist = 1.5, allowedJobs = {'sheriff', 'corrections', 'judge'}},
-  --{name = "Prison Block / Cell 7", x = 1729.9, y = 2648.6, z = 45.6, model = -642608865, locked = true, cell_block = true, _dist = 1.5, allowedJobs = {'sheriff', 'corrections', 'judge'}},
-  --{name = "Prison Block / Cell 8", x = 1743.3, y = 2631.6, z = 45.6, model = -642608865, locked = true, cell_block = true, _dist = 1.5, allowedJobs = {'sheriff', 'corrections', 'judge'}},
-  --{name = "Prison Block / Cell 9", x = 1743.5, y = 2635.9, z = 45.6, model = -642608865, locked = true, cell_block = true, _dist = 1.5, allowedJobs = {'sheriff', 'corrections', 'judge'}},
-  --{name = "Prison Block / Cell 10", x = 1743.1, y = 2639.8, z = 45.6, model = -642608865, locked = true, cell_block = true, _dist = 1.5, allowedJobs = {'sheriff', 'corrections', 'judge'}},
-  --{name = "Prison Block / Cell 11", x = 1743.0, y = 2644.0, z = 45.6, model = -642608865, locked = true, cell_block = true, _dist = 1.5, allowedJobs = {'sheriff', 'corrections', 'judge'}},
-  --{name = "Prison Block / Cell 12", x = 1743.4, y = 2648.0, z = 45.6, model = -642608865, locked = true, cell_block = true, _dist = 1.5, allowedJobs = {'sheriff', 'corrections', 'judge'}},
-  --{name = "Prison Block / Cell 13", x = 1729.4, y = 2624.13, z = 49.25, model = -642608865, locked = true, cell_block = true, _dist = 1.5, allowedJobs = {'sheriff', 'corrections', 'judge'}},
-  --{name = "Prison Block / Cell 14", x = 1729.4, y = 2628.07, z = 49.29, model = -642608865, locked = true, cell_block = true, _dist = 1.5, allowedJobs = {'sheriff', 'corrections', 'judge'}},
-  --{name = "Prison Block / Cell 15", x = 1729.4, y = 2632.43, z = 49.27, model = -642608865, locked = true, cell_block = true, _dist = 1.5, allowedJobs = {'sheriff', 'corrections', 'judge'}},
-  --{name = "Prison Block / Cell 16", x = 1729.4, y = 2636.39, z = 49.27, model = -642608865, locked = true, cell_block = true, _dist = 1.5, allowedJobs = {'sheriff', 'corrections', 'judge'}},
-  --{name = "Prison Block / Cell 17", x = 1729.4, y = 2640.65, z = 49.28, model = -642608865, locked = true, cell_block = true, _dist = 1.5, allowedJobs = {'sheriff', 'corrections', 'judge'}},
-  --{name = "Prison Block / Cell 18", x = 1729.4, y = 2644.57, z = 49.27, model = -642608865, locked = true, cell_block = true, _dist = 1.5, allowedJobs = {'sheriff', 'corrections', 'judge'}},
-  --{name = "Prison Block / Cell 19", x = 1729.4, y = 2648.07, z = 49.27, model = -642608865, locked = true, cell_block = true, _dist = 1.5, allowedJobs = {'sheriff', 'corrections', 'judge'}},
-  --{name = "Prison Block / Cell 20", x = 1743.8, y = 2623.47, z = 49.25, model = -642608865, locked = true, cell_block = true, _dist = 1.5, allowedJobs = {'sheriff', 'corrections', 'judge'}},
-  --{name = "Prison Block / Cell 21", x = 1743.8, y = 2627.50, z = 49.26, model = -642608865, locked = true, cell_block = true, _dist = 1.5, allowedJobs = {'sheriff', 'corrections', 'judge'}},
-  --{name = "Prison Block / Cell 22", x = 1743.8, y = 2631.81, z = 49.26, model = -642608865, locked = true, cell_block = true, _dist = 1.5, allowedJobs = {'sheriff', 'corrections', 'judge'}},
-  --{name = "Prison Block / Cell 23", x = 1743.8, y = 2635.90, z = 49.27, model = -642608865, locked = true, cell_block = true, _dist = 1.5, allowedJobs = {'sheriff', 'corrections', 'judge'}},
-  --{name = "Prison Block / Cell 24", x = 1743.8, y = 2639.50, z = 49.28, model = -642608865, locked = true, cell_block = true, _dist = 1.5, allowedJobs = {'sheriff', 'corrections', 'judge'}},
-  --{name = "Prison Block / Cell 25", x = 1743.8, y = 2643.50, z = 49.28, model = -642608865, locked = true, cell_block = true, _dist = 1.5, allowedJobs = {'sheriff', 'corrections', 'judge'}},
-  --{name = "Prison Block / Cell 26", x = 1743.8, y = 2647.50, z = 49.26, model = -642608865, locked = true, cell_block = true, _dist = 1.5, allowedJobs = {'sheriff', 'corrections', 'judge'}},
-  --{name = "Prison Block / Cell 27", x = 1729.4, y = 2624.50, z = 53.06, model = -642608865, locked = true, cell_block = true, _dist = 1.5, allowedJobs = {'sheriff', 'corrections', 'judge'}},
-  --{name = "Prison Block / Cell 28", x = 1729.4, y = 2628.10, z = 53.06, model = -642608865, locked = true, cell_block = true, _dist = 1.5, allowedJobs = {'sheriff', 'corrections', 'judge'}},
-  --{name = "Prison Block / Cell 29", x = 1729.4, y = 2632.50, z = 53.07, model = -642608865, locked = true, cell_block = true, _dist = 1.5, allowedJobs = {'sheriff', 'corrections', 'judge'}},
-  --{name = "Prison Block / Cell 30", x = 1729.4, y = 2636.50, z = 53.07, model = -642608865, locked = true, cell_block = true, _dist = 1.5, allowedJobs = {'sheriff', 'corrections', 'judge'}},
-  --{name = "Prison Block / Cell 31", x = 1729.4, y = 2640.50, z = 53.08, model = -642608865, locked = true, cell_block = true, _dist = 1.5, allowedJobs = {'sheriff', 'corrections', 'judge'}},
-  --{name = "Prison Block / Cell 32", x = 1729.4, y = 2644.50, z = 53.08, model = -642608865, locked = true, cell_block = true, _dist = 1.5, allowedJobs = {'sheriff', 'corrections', 'judge'}},
-  --{name = "Prison Block / Cell 33", x = 1729.4, y = 2648.50, z = 53.09, model = -642608865, locked = true, cell_block = true, _dist = 1.5, allowedJobs = {'sheriff', 'corrections', 'judge'}},
-  --{name = "Prison Block / Cell 34", x = 1743.8, y = 2623.60, z = 53.07, model = -642608865, locked = true, cell_block = true, _dist = 1.5, allowedJobs = {'sheriff', 'corrections', 'judge'}},
-  --{name = "Prison Block / Cell 35", x = 1743.8, y = 2627.60, z = 53.08, model = -642608865, locked = true, cell_block = true, _dist = 1.5, allowedJobs = {'sheriff', 'corrections', 'judge'}},
-  --{name = "Prison Block / Cell 36", x = 1743.8, y = 2631.70, z = 53.08, model = -642608865, locked = true, cell_block = true, _dist = 1.5, allowedJobs = {'sheriff', 'corrections', 'judge'}},
-  --{name = "Prison Block / Cell 37", x = 1743.8, y = 2635.70, z = 53.08, model = -642608865, locked = true, cell_block = true, _dist = 1.5, allowedJobs = {'sheriff', 'corrections', 'judge'}},
-  --{name = "Prison Block / Cell 38", x = 1743.8, y = 2639.80, z = 53.09, model = -642608865, locked = true, cell_block = true, _dist = 1.5, allowedJobs = {'sheriff', 'corrections', 'judge'}},
-  --{name = "Prison Block / Cell 39", x = 1743.8, y = 2643.80, z = 53.09, model = -642608865, locked = true, cell_block = true, _dist = 1.5, allowedJobs = {'sheriff', 'corrections', 'judge'}},
-  --{name = "Prison Block / Cell 40", x = 1743.8, y = 2647.95, z = 53.10, model = -642608865, locked = true, cell_block = true, _dist = 1.5, allowedJobs = {'sheriff', 'corrections', 'judge'}},
   {name = "SSPD / Door 1", x = 1851.1119384766,y = 3683.1423339844, z = 34.286640167236, model = 1557126584, locked = false, offset={0.0, 1.24, 0.0}, heading=120, _dist = 1.5, allowedJobs = {'sheriff', 'corrections', "ems"}},
   {name = "SSPD / Cell 1", x = 1848.771484375,y = 3681.3623046875, z = 34.286636352539, model = 631614199, locked = false, offset={0.0, 1.24, 0.0}, heading=120, _dist = 1.5, allowedJobs = {'sheriff', 'corrections', "ems"}},
   {name = "SSPD / Cell 2", x = 1846.3103027344,y = 3685.2182617188, z = 34.286636352539, model = 631614199, locked = false, offset={0.0, 1.24, 0.0}, heading=300, _dist = 1.5, allowedJobs = {'sheriff', 'corrections', "ems"}},
@@ -255,6 +175,20 @@ function toggleDoorLock(index)
   TriggerClientEvent("doormanager:toggleDoorLock", -1, index, DOORS[index].locked, DOORS[index].x, DOORS[index].y, DOORS[index].z)
 end
 
+function canCharUnlockDoor(char, doorIndex)
+  local door = DOORS[doorIndex]
+  for i = 1, #door.allowedJobs do
+    if door.allowedJobs[i] == char.get("job") then -- clocked in for job
+      return true
+    elseif door.allowedJobs[i] == 'da' and char.get("daRank") and char.get("daRank") > 0 then -- not clocked in, but whitelisted for job
+      return true
+    elseif door.allowedJobs[i] == 'sheriff' and char.get("policeRank") and char.get("policeRank") > 0 then -- not clocked in, but whitelisted for job
+      return true
+    end
+  end
+  return false
+end
+
 RegisterServerEvent("doormanager:forceToggleLock")
 AddEventHandler("doormanager:forceToggleLock", function(index)
   if DOORS[index].name:find("Jewellery Store") then
@@ -271,18 +205,20 @@ end)
 RegisterServerEvent("doormanager:checkDoorLock")
 AddEventHandler("doormanager:checkDoorLock", function(index, x, y, z, lockpicked, thermited)
   local char = exports["usa-characters"]:GetCharacter(source)
-  local job = char.get("job")
-  local da_rank = char.get('daRank')
-  for i = 1, #DOORS[index].allowedJobs do
-    if job == DOORS[index].allowedJobs[i] or (lockpicked and DOORS[index].lockpickable) or (DOORS[index].allowedJobs[i] == 'da' and da_rank and da_rank > 0) or (lockpicked and DOORS[index].advancedlockpickable) or (thermited and DOORS[index].thermiteable) then
-        if not DOORS[index].locked then
-          DOORS[index].locked = true
-        else
-          DOORS[index].locked = false
-        end
-        TriggerClientEvent("doormanager:toggleDoorLock", -1, index, DOORS[index].locked, x, y, z)
-        break
-    end
+
+  if lockpicked and (DOORS[index].lockpickable or DOORS[index].advancedlockpickable) then
+    toggleDoorLock(index)
+    return
+  end
+
+  if thermited and DOORS[index].thermiteable then
+    toggleDoorLock(index)
+    return
+  end
+
+  if canCharUnlockDoor(char, index) then
+    toggleDoorLock(index)
+    return
   end
 end)
 

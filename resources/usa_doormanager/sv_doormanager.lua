@@ -94,8 +94,18 @@ local DOORS = {
   {name = "EMS Station - Paleto", x = -361.8, y = 6129.8, z = 31.4, model = -250842784, locked = false, _dist = 1.5, allowedJobs = {'ems'}},
 
   {name = "Mission Row / Back Gate", x = 488.90, y = -1019.88, z = 28.21, model = -1603817716, locked = true, _dist = 8.0, gate = true, offset={0.0, -3.0, 1.5}, lockedCoords={488.89, -1017.35, 27.14}, allowedJobs = {'sheriff', 'corrections'}},
+  {name = "MRPD / Back Gate Door 1", x = 468.00924682617, y = -1014.9345092773, z = 26.386682510376, model = -692649124, locked = true, offset={0.0, -1.1, 0.05}, heading=0, _dist = 1.0, allowedJobs = {'sheriff', "corrections", "ems"}},
+  {name = "MRPD / Back Gate Door 2", x = 469.24981689453, y = -1014.8209838867, z = 26.386684417725, model = -692649124, locked = true, offset={0.0, -1.1, 0.05}, heading=180, _dist = 1.0, allowedJobs = {'sheriff', "corrections", "ems"}},
   {name = "MRPD / Lower Parking Garage 1", x = 463.68695068359, y = -996.86315917969, z = 26.272928237915, model = 1830360419, locked = true, offset={0.0, -1.1, 0.05}, heading=94, _dist = 1.0, allowedJobs = {'sheriff', "corrections", "ems"}},
   {name = "MRPD / Lower Parking Garage 1", x = 463.75643920898, y = -975.34484863281, z = 26.272916793823, model = 1830360419, locked = true, offset={0.0, -1.1, 0.05}, heading=270, _dist = 1.0, allowedJobs = {'sheriff', "corrections", "ems"}},
+  {name = "MRPD / Bottom Floor 1a", x = 470.84484863281, y = -985.70220947266, z = 26.273393630981, model = -1406685646, locked = true, offset={0.0, -1.1, 0.05}, heading=270, _dist = 1.0, allowedJobs = {'sheriff', "corrections", "ems"}},
+  {name = "MRPD / Bottom Floor 1b", x = 470.83880615234, y = -986.91259765625, z = 26.273389816284, model = -96679321, locked = true, offset={0.0, 1.1, 0.05}, heading=270, _dist = 1.0, allowedJobs = {'sheriff', "corrections", "ems"}},
+  {name = "MRPD / Bottom Floor 2a", x = 468.04977416992, y = -1000.0216674805, z = 26.27339553833, model = -288803980, locked = true, offset={0.0, -1.1, 0.05}, heading=0, _dist = 1.0, allowedJobs = {'sheriff', "corrections", "ems"}},
+  {name = "MRPD / Bottom Floor 2b", x = 469.17175292969, y = -1000.0555419922, z = 26.273389816284, model = -288803980, locked = true, offset={0.0, -1.1, 0.05}, heading=180, _dist = 1.0, allowedJobs = {'sheriff', "corrections", "ems"}},
+  {name = "MRPD / Bottom Floor 3a", x = 470.84777832031, y = -1008.5513916016, z = 26.273124694824, model = 149284793, locked = true, offset={0.0, -1.1, 0.05}, heading=270, _dist = 1.0, allowedJobs = {'sheriff', "corrections", "ems"}},
+  {name = "MRPD / Bottom Floor 3b", x = 470.85287475586, y = -1009.6245727539, z = 26.273128509521, model = 149284793, locked = true, offset={0.0, -1.1, 0.05}, heading=90, _dist = 1.0, allowedJobs = {'sheriff', "corrections", "ems"}},
+
+
   {name = "BCSO Station - Sidewalk", x = -449.8, y = 6024.3, z = 31.5, model = -1156020871, locked = true, offset={0.0, -1.5, -0.095}, heading=315, _dist = 1.0, allowedJobs = {'sheriff', "corrections"}},
   {name = "BCSO Station - Sandy Shores", x = 1855.0, y = 3683.5, z = 34.2, model = -1765048490, locked = false, offset={0.0, 1.24, -0.1}, heading=30, _dist = 1.0, allowedJobs = {'sheriff', "corrections"}},
   {name = "BCSO Station - Cell 1", x = -432.09231567383, y = 5999.8515625, z = 31.716178894043, model = 631614199, locked = false, offset={0.0, 1.24, -0.1}, heading=315, _dist = 1.0, allowedJobs = {'sheriff', "corrections"}},

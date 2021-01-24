@@ -21,7 +21,7 @@ locations = {
 	{ ["x"] = -357.1, ["y"] = 6094.2, ["z"] = 31.4, ["jobs"] = {"sheriff", "ems", "police", "judge", "corrections"} }, -- paleto FD
 	{ ["x"] = 1865.5, ["y"] = 3695.9, ["z"] = 33.7, ["jobs"] = {"sheriff", "ems", "police", "judge", "corrections"} }, -- sandy PD
 	{ ["x"] = 1712.8, ["y"] = 3599.5, ["z"] = 35.3, ["jobs"] = {"sheriff", "ems", "police", "judge", "corrections"} }, -- sandy FD
-	{ ["x"] = 447.1, ["y"] = -1024.5, ["z"] = 28.6, ["jobs"] = {"sheriff", "ems", "police", "judge", "corrections"} }, -- LS PD mission row
+	{ ['x'] = 445.236328125, ['y'] = -991.69458007813, ['z'] = 25.699808120728, ["jobs"] = {"sheriff", "ems", "police", "judge", "corrections"} }, -- MRPD
 	{ ["x"] = 343.7, ["y"] = -560.4, ["z"] = 28.7, ["jobs"] = {"sheriff", "ems", "police", "judge", "corrections"} }, -- pillbox medical
 	{ ["x"] = 326.4, ["y"] = -1475.6, ["z"] = 29.8, ["jobs"] = {"sheriff", "ems", "police", "judge", "corrections"} }, -- one of the hospitals in LS, forgot exaclty the name
 	{ ["x"] = 1834.5, ["y"] = 2542.2, ["z"] = 45.9, ["jobs"] = {"sheriff", "ems", "police", "judge", "corrections", "da"} },

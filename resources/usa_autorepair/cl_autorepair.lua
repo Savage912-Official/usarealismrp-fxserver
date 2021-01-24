@@ -18,7 +18,6 @@ vehicleRepairStation = {
 	{-355.011,6109.35,30.0},-- Paleto Bay FD
 	--{-222.407,-1329.69,30.89},
 	{480.805,-1317.43,29.2},
-	{447.534, -997.033, 24.3635}, -- los santos police department on atlee & sinner st
 	{201.339, -1656.36, 27.2832}, -- los santos fire department in davis
 	{1146.7, -775.8, 56.79},
 	{-35.4, -1088.7, 25.55}, -- ls dealership

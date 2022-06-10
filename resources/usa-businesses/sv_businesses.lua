@@ -163,13 +163,12 @@ RegisterServerEvent("business:lease")
 AddEventHandler("business:lease", function(name)
   print("player wants to purchase business with name: " .. name)
   local usource = source
-  local player = exports["usa-characters"]:GetCharacter(usource)
+  local char = exports["usa-characters"]:GetCharacter(usource)
   GetBusinessByName(name, function(business)
     if business and business.owner.name then
       TriggerClientEvent("usa:notify", usource, "~y~Owner:~w~ " .. business.owner.name.full)
     else
-      if GetNumberOfOwnedBusinesses(player.get("_id")) < MAX_NUM_OF_BUSINESSES_SINGLE_PERSON then
-        local char = exports["usa-characters"]:GetCharacter(usource)        
+      if GetNumberOfOwnedBusinesses(char.get("_id")) < MAX_NUM_OF_BUSINESSES_SINGLE_PERSON then
         if char.get("money") >= BUSINESSES[name].price then -- if has enough cash
           char.removeMoney(BUSINESSES[name].price) -- take money
           CreateNewBusiness(usource, name, function(newBusinessDoc) -- create doc
@@ -221,7 +220,7 @@ function GetNumberOfOwnedBusinesses(id)
   local BUSINESSES = {}
   local count = 0
   for name, info in pairs(BUSINESSES) do
-    if business.owner.identifiers.id == id then
+    if info.owner.identifiers.id == id then
       count = count + 1
     end
   end

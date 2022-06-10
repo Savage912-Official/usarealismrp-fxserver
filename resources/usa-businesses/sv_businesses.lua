@@ -157,24 +157,29 @@ AddEventHandler("business:tryOpenMenuByName", function(name)
   end)
 end)
 
+local MAX_NUM_OF_BUSINESSES_SINGLE_PERSON = 2
+
 RegisterServerEvent("business:lease")
 AddEventHandler("business:lease", function(name)
   print("player wants to purchase business with name: " .. name)
   local usource = source
+  local player = exports["usa-characters"]:GetCharacter(usource)
   GetBusinessByName(name, function(business)
     if business and business.owner.name then
       TriggerClientEvent("usa:notify", usource, "~y~Owner:~w~ " .. business.owner.name.full)
     else
-      local char = exports["usa-characters"]:GetCharacter(usource)
-      if char.get("money") >= BUSINESSES[name].price then -- if has enough cash
-        char.removeMoney(BUSINESSES[name].price) -- take money
-        CreateNewBusiness(usource, name, function(newBusinessDoc) -- create doc
-          TriggerClientEvent("usa:notify", usource, "You now own: " .. name .. "!")
-          SendToDiscordLog(newBusinessDoc)
-          TriggerClientEvent("businesses:addMapBlip", usource, BUSINESSES[name].position)
-        end)
-      else
-        TriggerClientEvent("usa:notify", usource, "You need $" .. comma_value(BUSINESSES[name].price) .. " to lease this business.")
+      if GetNumberOfOwnedBusinesses(player.get("_id")) < MAX_NUM_OF_BUSINESSES_SINGLE_PERSON then
+        local char = exports["usa-characters"]:GetCharacter(usource)        
+        if char.get("money") >= BUSINESSES[name].price then -- if has enough cash
+          char.removeMoney(BUSINESSES[name].price) -- take money
+          CreateNewBusiness(usource, name, function(newBusinessDoc) -- create doc
+            TriggerClientEvent("usa:notify", usource, "You now own: " .. name .. "!")
+            SendToDiscordLog(newBusinessDoc)
+            TriggerClientEvent("businesses:addMapBlip", usource, BUSINESSES[name].position)
+          end)                        
+        else
+          TriggerClientEvent("usa:notify", usource, "You need $" .. comma_value(BUSINESSES[name].price) .. " to lease this business.")
+        end
       end
     end
   end)
@@ -210,6 +215,18 @@ function RobPercentageOfCashFromBusiness(name, percentage, cb)
             cb(reward)
         end)
     end)
+end
+
+function GetNumberOfOwnedBusinesses(id)
+  local BUSINESSES = {}
+  local count = 0
+  for name, info in pairs(BUSINESSES) do
+    if business.owner.identifiers.id == id then
+      count = count + 1
+    end
+  end
+  print("player with identifier [" .. id .. "] owns " .. count .. " businesses")
+  return count
 end
 
 function CheckBusinessLeases()

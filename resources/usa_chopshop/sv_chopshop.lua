@@ -17,7 +17,7 @@ AddEventHandler("chopshop:reward", function(veh_name, damage, securityToken)
 
   if numTroopers == 0 then
     damage = math.ceil(0.10 * damage)
-    reward = math.ceil(0.30 * reward) -- only give 30% of regular reward if no cops
+    reward = math.ceil(0.25 * reward) -- only give 25% of regular reward if no cops
   end
 
   local finalReward = math.max(reward - damage, 0) -- give money reward

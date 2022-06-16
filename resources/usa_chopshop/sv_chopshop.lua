@@ -12,12 +12,12 @@ AddEventHandler("chopshop:reward", function(veh_name, damage, securityToken)
 		return false
 	end
   local char = exports["usa-characters"]:GetCharacter(src)
-  local reward = math.random(200, 900)
+  local reward = math.random(200, 1250)
   local numTroopers = exports["usa-characters"]:GetNumCharactersWithJob("sheriff")
 
   if numTroopers == 0 then
     damage = math.ceil(0.10 * damage)
-    reward = math.ceil(0.20 * reward) -- only give 20% of regular reward if no cops
+    reward = math.ceil(0.30 * reward) -- only give 30% of regular reward if no cops
   end
 
   local finalReward = math.max(reward - damage, 0) -- give money reward

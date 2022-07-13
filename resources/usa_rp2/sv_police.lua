@@ -451,10 +451,12 @@ function GetPublicServantIds()
 	local sasp = exports["usa-characters"]:GetPlayerIdsWithJob("sheriff")
 	local bcso = exports["usa-characters"]:GetPlayerIdsWithJob("corrections")
 	local ems = exports["usa-characters"]:GetPlayerIdsWithJob("ems")
+	local doctor = exports["usa-characters"]:GetPlayerIdsWithJob("doctor")
 	local all = {}
 	for i = 1, #sasp do table.insert(all, sasp[i]) end
 	for i = 1, #bcso do table.insert(all, bcso[i]) end
 	for i = 1, #ems do table.insert(all, ems[i]) end
+	for i = 1, #doctor do table.insert(all, doctor[i]) end
 	return all
 end
 
@@ -470,7 +472,7 @@ function PlayPanicButtonSound(id)
 	TriggerClientEvent('InteractSound_CL:PlayOnOne', id, "panicButton", 0.26)
 end
 
-TriggerEvent('es:addJobCommand', 'p', { "sheriff", "ems", "corrections" }, function(source, args, char, location)
+TriggerEvent('es:addJobCommand', 'p', { "sheriff", "ems", "corrections", "doctor" }, function(source, args, char, location)
 	-- for all public servants:
 		-- put blip on map for x seconds
 		-- send text message alert

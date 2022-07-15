@@ -32,6 +32,7 @@ locations = {
 	{ ['x'] = -620.3, ['y'] = 52.7, ['z'] = 43.7, ['noBlip'] = true}, -- Tinsel Towers Apartments
 	{ ['x'] = 364.4, ['y'] = -1700.6, ['z'] = 32.5}, -- court house (davis, LS)
 	{ ["x"] = -1073.4, ["y"] = -879.7, ["z"] = 4.8, ["jobs"] = {"sheriff", "ems", "police", "judge", "corrections"}, ["noBlip"] = true }, -- Vespucci PD
+	{ ["x"] = 817.88757324219, ["y"] = -1356.1462402344, ["z"] = 26.115545272827, ["jobs"] = {"sheriff", "ems", "police", "judge", "corrections"}, ["noBlip"] = true }, -- La Mesa PD
 	{ ['x'] = 1127.5, ['y'] = 2670.8, ['z'] = 38.1, ['noBlip'] = true}, -- Sandy Shores Motel
 	{ ['x'] = 388.5, ['y'] = 2647.6, ['z'] = 44.5, ['noBlip'] = true}, -- Eastern Motel (sandy)
 	{ ['x'] = 967.45831298828, ['y'] = -128.59553527832, ['z'] = 74.387634277344, ['noBlip'] = true}, -- LS biker compound

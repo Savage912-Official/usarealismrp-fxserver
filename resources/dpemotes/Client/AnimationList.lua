@@ -879,7 +879,7 @@ DP.Emotes = {
        EmoteLoop = true,
        EmoteMoving = true,
    }},
-   ["mechanic2"] = {"amb@world_human_vehicle_mechanic@male@base", "idle_a", "Mechanic 2", AnimationOptions =
+   ["mechanic2"] = {"amb@world_human_vehicle_mechanic@male@base", "base", "Mechanic 2", AnimationOptions =
    {
        EmoteLoop = true,
    }},

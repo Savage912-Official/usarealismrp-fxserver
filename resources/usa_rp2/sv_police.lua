@@ -422,6 +422,7 @@ TriggerEvent('es:addJobCommand', 'showbadge', { "corrections", "sheriff" }, func
 	local cjob = char.get("job")
 	local char_name = char.getFullName()
 	exports["globals"]:sendLocalActionMessage(source, char_name .. " shows official police badge.")
+	TriggerClientEvent("badge:client:animation", source)
 	if cjob == "sheriff" then
 		local police_rank = char.get("policeRank")
 		if police_rank > 0 then

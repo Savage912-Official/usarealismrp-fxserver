@@ -20,5 +20,3 @@ server_scripts {
 	'Server/Server.lua',
 	'Server/Updates.lua'
 }
-
-data_file "DLC_ITYP_REQUEST" "copbadge.ytyp"

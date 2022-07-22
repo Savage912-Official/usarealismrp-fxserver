@@ -466,7 +466,7 @@ AddEventHandler('badge:client:animation', function()
       local boneIndex = GetPedBoneIndex(ped, 28422)
       
       AttachEntityToEntity(badgeProp, ped, boneIndex, 0.0800, -0.0120, -0.0600, -90.00, 180.00, 69.99, true, true, false, true, 1, true)
-      RequestAnimDict('paper_1_rcm_alt1-8')
+      exports.globals:loadAnimDict('paper_1_rcm_alt1-8')
       TaskPlayAnim(ped, 'paper_1_rcm_alt1-8', 'player_one_dual-8', 8.0, -8, 10.0, 49, 0, 0, 0, 0)
       Citizen.Wait(3000)
       ClearPedSecondaryTask(ped)

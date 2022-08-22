@@ -29,7 +29,7 @@ local LICENSE_PURCHASE_PRICE = 1000
 local RENTAL_PERCENTAGE = 0.40
 local CLAIM_PERCENTAGE = 0.05
 
-local PARACHUTE_ITEM = { name = "Parachute", type = "weapon", hash = "GADGET_PARACHUTE", price = 500, legality = "legal", quantity = 1, weight = 15, objectModel = "prop_parachute" }
+local PARACHUTE_ITEM = { name = "Parachute", type = "weapon", hash = "GADGET_PARACHUTE", price = 500, legality = "legal", quantity = 1, weight = 8, objectModel = "prop_parachute" }
 
 RegisterServerEvent('aircraft:requestOpenMenu')
 AddEventHandler('aircraft:requestOpenMenu', function()

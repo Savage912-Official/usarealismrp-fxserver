@@ -1,0 +1,41 @@
+Arguments: 
+  C:\USARRP\server\FXServer.exe C:\USARRP\usarealismrp-fxserver\resources\[system]\[builders]\yarn\yarn_cli.js install
+
+PATH: 
+  C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Users\dasav\AppData\Local\Microsoft\WindowsApps;C:\Users\dasav\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\dasav\AppData\Local\GitHubDesktop\bin
+
+Yarn version: 
+  1.13.0
+
+Node version: 
+  16.9.1
+
+Platform: 
+  win32 x64
+
+Trace: 
+  Error: EPERM: operation not permitted, lstat 'C:\Users\dasav\AppData\Local\Yarn\Cache\v4\npm-bluebird-3.7.2-9f229c15be272454ffa973ace0dbee79a1b0c36f\node_modules\bluebird\.yarn-tarball.tgz'
+
+npm manifest: 
+  {
+    "name": "webpack-builder",
+    "version": "1.0.1",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+      "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+      "async": "^3.1.0",
+      "webpack": "^4.41.2",
+      "worker-farm": "^1.7.0"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile

@@ -227,31 +227,35 @@ AddEventHandler('erp_adminmenu:spectate', function(target, on, src)
 end)
 
 RegisterCommand("goto", function(source, args, rawCommand)
-	if not IsPlayerAceAllowed(source, 'echorp.mod') then return end
-	local target = args[1]
-	if target ~= nil and target ~= source then
-		local ped = GetPlayerPed(target)
-		if DoesEntityExist(ped) then
-			local targetCoords = GetEntityCoords(ped)
-			TriggerClientEvent('erp_adminmenu:teleporttoplayer', source, targetCoords)
+	local group = exports["essentialmode"]:getPlayerFromId(source).getGroup()
+
+	if group == "owner" or group == "superadmin" or group == "admin" or group == "mod" and target then
+		local target = args[1]
+		if target ~= nil and target ~= source then
+			local ped = GetPlayerPed(target)
+			if DoesEntityExist(ped) then
+				local targetCoords = GetEntityCoords(ped)
+				TriggerClientEvent('erp_adminmenu:teleporttoplayer', source, targetCoords)
+			end
 		end
-	end 
-end, false) -- set this to false to allow anyone.
+	end
+end, false)
 
 RegisterCommand("tome", function(source, args, rawCommand)
-	if not IsPlayerAceAllowed(source, 'echorp.mod') then
-		return
-	end
-	local target = args[1]
-	if target ~= nil and target ~= source then
-		local ped = GetPlayerPed(source)
+	local group = exports["essentialmode"]:getPlayerFromId(source).getGroup()
 
-		if DoesEntityExist(ped) then
-			local targetCoords = GetEntityCoords(ped)
-			TriggerClientEvent('erp_adminmenu:teleporttoplayer', target, targetCoords)
-		end
-	end 
-end, false) -- set this to false to allow anyone.
+	if group == "owner" or group == "superadmin" or group == "admin" or group == "mod" and target then
+		local target = args[1]
+		if target ~= nil and target ~= source then
+			local ped = GetPlayerPed(source)
+
+			if DoesEntityExist(ped) then
+				local targetCoords = GetEntityCoords(ped)
+				TriggerClientEvent('erp_adminmenu:teleporttoplayer', target, targetCoords)
+			end
+		end 
+	end
+end, false)
 
 RegisterNetEvent('erp_adminmenu:Cloak')
 AddEventHandler('erp_adminmenu:Cloak', function(target)

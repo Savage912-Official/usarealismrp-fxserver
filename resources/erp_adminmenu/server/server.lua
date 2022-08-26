@@ -190,15 +190,12 @@ end)
 
 local spectating = {}
 
--- Spectate
-TriggerEvent('es:addGroupCommand', 'spectate', "mod", function(source, args, rawCommand)
+RegisterCommand("spectate", function(source, args, rawCommand)
 	local target = args[1]
 	local type = "1"
 	if spectating[source] then type = "0" end
 	TriggerEvent('erp_adminmenu:spectate', target, type == "1", source)
-end, {
-	help = "Spectate a player"
-})
+end)
 
 AddEventHandler('erp_adminmenu:spectate', function(target, on, src)
     local source = src

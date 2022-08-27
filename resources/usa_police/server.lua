@@ -259,6 +259,52 @@ end, {
     }
 })
 
+TriggerEvent('es:addJobCommand', 'records', {'sheriff', 'police' , 'judge', 'corrections'}, function(source, args, char)
+	if args[2] then
+		local user = exports["essentialmode"]:getPlayerFromId(tonumber(args[2]))
+		local targetchar = exports["usa-characters"]:GetCharacter(tonumber(args[2]))
+		if targetchar then
+			local ownedVehicles = targetchar.get("vehicles")
+			GetMakeModelPlate(ownedVehicles, function(vehs)
+				local vehiclenames = ""
+				local userVehicles = vehs
+				for i = 1, #userVehicles do
+					local vehicle = userVehicles[i]
+					vehiclenames = vehiclenames .. userVehicles[i].model
+					if i ~= #userVehicles then
+						vehiclenames = vehiclenames .. ", "
+					end
+				end
+				local property = targetchar.get("property")
+				local inventorynames = ""
+				local userInventory = targetchar.get("inventory").items 
+				for i = 0, targetchar.get("inventory").MAX_CAPACITY - 1 do
+					if userInventory[tostring(i)] then
+						inventorynames = inventorynames .. userInventory[tostring(i)].name .. "(" .. userInventory[tostring(i)].quantity .. ")"
+						inventorynames = inventorynames .. ", "
+					end
+				end
+
+				local insurance = targetchar.get("insurance")
+				local insurance_month = insurance.expireMonth
+				local insurance_year = insurance.expireYear
+				local displayInsurance = "Invalid"
+				
+				if insurance_month and insurance_year then
+					displayInsurance = insurance_month .. "/" .. insurance_year
+				end
+				if insurance.planName then
+					displayInsurance = "Valid"
+				end
+                TriggerClientEvent('chatMessage', source, "", {255, 255, 255}, " " .. targetchar.getFullName() .. "'s Citizen Records")
+                TriggerClientEvent('chatMessage', source, "", {255, 255, 255}, "^2Vehicles: ^0" .. vehiclenames .. " | ^2Insurance: ^0" .. displayInsurance .. " |")
+            end)
+		end
+	end
+end, {
+	help = "View citizen records"
+})
+
 RegisterServerEvent("policestation2:checkWhitelistForLockerRoom")
 AddEventHandler("policestation2:checkWhitelistForLockerRoom", function()
     local playerIdentifiers = GetPlayerIdentifiers(source)
@@ -466,4 +512,33 @@ function RemovePoliceWeapons(char)
             end
         end
     end
+end
+
+function GetMakeModelPlate(plates, cb)
+	-- query for the information needed from each vehicle --
+	local endpoint = "/vehicles/_design/vehicleFilters/_view/getMakeModelPlate"
+	local url = "http://" .. exports["essentialmode"]:getIP() .. ":" .. exports["essentialmode"]:getPort() .. endpoint
+	PerformHttpRequest(url, function(err, responseText, headers)
+		if responseText then
+			local responseVehArray = {}
+			--print(responseText)
+			local data = json.decode(responseText)
+			if data.rows then
+				for i = 1, #data.rows do
+					local veh = {
+						plate = data.rows[i].value[1], -- plate
+						make = data.rows[i].value[2], -- make
+						model = data.rows[i].value[3] -- model
+					}
+					table.insert(responseVehArray, veh)
+				end
+			end
+			-- send vehicles to client for displaying --
+			--print("# of vehicles loaded for menu: " .. #responseVehArray)
+			cb(responseVehArray)
+		end
+	end, "POST", json.encode({
+		keys = plates
+		--keys = { "86CSH075" }
+	}), { ["Content-Type"] = 'application/json', Authorization = "Basic " .. exports["essentialmode"]:getAuth() })
 end

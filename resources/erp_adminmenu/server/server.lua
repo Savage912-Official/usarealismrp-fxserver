@@ -321,7 +321,7 @@ AddEventHandler('erp_adminmenu:unbanPlayer', function(banid)
     local banid = banid
 	local group = exports["essentialmode"]:getPlayerFromId(source).getGroup()
 
-	if group == "owner" or group == "superadmin" or group == "admin" and banid then
+	if group == "owner" or group == "superadmin" and banid then
 		if GetResourceState("oxmysql") == "started" then
 			exports.oxmysql:execute("DELETE FROM bannedplayers WHERE id=:id", { id = tonumber(banid)}, function(result)
 				if result > 0 then

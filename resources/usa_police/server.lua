@@ -302,7 +302,10 @@ TriggerEvent('es:addJobCommand', 'records', {'sheriff', 'police' , 'judge', 'cor
 		end
 	end
 end, {
-	help = "View citizen records"
+	help = "View citizen records",
+    params = {
+		{ name = "id", help = "Citizen's ID" }
+	}
 })
 
 RegisterServerEvent("policestation2:checkWhitelistForLockerRoom")

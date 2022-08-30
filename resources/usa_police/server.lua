@@ -261,7 +261,7 @@ end, {
 
 TriggerEvent('es:addJobCommand', 'records', {'sheriff', 'police' , 'judge', 'corrections'}, function(source, args, char)
 	if args[2] then
-		local user = exports["essentialmode"]:getPlayerFromId(tonumber(args[2]))
+		
 		local targetchar = exports["usa-characters"]:GetCharacter(tonumber(args[2]))
 		if targetchar then
 			local ownedVehicles = targetchar.get("vehicles")

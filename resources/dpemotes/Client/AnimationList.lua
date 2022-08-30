@@ -1676,6 +1676,36 @@ DP.Emotes = {
       EmoteMoving = true,
       EmoteLoop = true,
    }},
+   ["gs1"] = {"mogangsign1@animation", "mogangsign1_clip", "Gang Sign 1", AnimationOptions =
+   {
+       EmoteLoop = true,
+       EmoteMoving = false,
+   }},
+   ["cp1"] = {"mopose1@animation", "mopose1_clip", "Chill Pose 1", AnimationOptions =
+   {
+       EmoteLoop = true,
+       EmoteMoving = false,
+   }},
+   ["cp2"] = {"mopose2@animation", "mopose2_clip", "Chill Pose 2", AnimationOptions =
+   {
+       EmoteLoop = true,
+       EmoteMoving = false,
+   }},
+   ["cp3"] = {"mopose3@animation", "mopose3_anim", "Chill Pose 3", AnimationOptions =
+   {
+       EmoteLoop = true,
+       EmoteMoving = false,
+   }},
+   ["cp4"] = {"mopose4@animation", "mopose4_clip", "Chill Pose 4", AnimationOptions =
+   {
+       EmoteLoop = true,
+       EmoteMoving = false,
+   }},
+   ["cp5"] = {"mopose5@animation", "mopose5_clip", "Chill Pose 5", AnimationOptions =
+   {
+       EmoteLoop = true,
+       EmoteMoving = false,
+   }},
    ["pee"] = {"misscarsteal2peeing", "peeing_loop", "Pee", AnimationOptions =
    {
        EmoteStuck = true,
@@ -1884,7 +1914,7 @@ DP.PropEmotes = {
         PropBone = 28422,
         PropPlacement = { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 },
     }},
-    ["copbeacon"] = { "amb@world_human_car_park_attendant@male@base", "base", "Cop 4", AnimationOptions = {
+    ["copbeacon"] = { "amb@world_human_car_park_attendant@male@base", "base", "Cop Beacon", AnimationOptions = {
         Prop = "prop_parking_wand_01",
         PropBone = 57005,
         PropPlacement = { 0.12, 0.05, 0.0, 80.0, -20.0, 180.0 },
@@ -2514,7 +2544,182 @@ DP.PropEmotes = {
         EmoteLoop = true,
         EmoteMoving = false,
     }},
-
+    ["megaphone"] = {"molly@megaphone", "megaphone_clip", "Megaphone", AnimationOptions = 
+    {
+        Prop = "prop_megaphone_01",
+        PropBone = 28422,
+        PropPlacement = {0.0500, 0.0540, -0.0060, -71.8855, -13.0889, -16.0242},
+        EmoteLoop = true,
+        EmoteMoving = true,
+    }},
+    ["megaphone2"] = {"molly@megaphone2", "megaphone_clip", "Megaphone 2", AnimationOptions = 
+    {
+        Prop = "prop_megaphone_01",
+        PropBone = 28422,
+        PropPlacement = {0.0500, 0.0540, -0.0060, -71.8855, -13.0889, -16.0242},
+        EmoteLoop = true,
+        EmoteMoving = true,
+     }},
+     ["suitcase3"] = {"anim@heists@narcotics@trash", "idle", "Airport Bag", AnimationOptions = 
+     {
+        Prop = "prop_suitcase_01c",
+        PropBone = 28422,
+        PropPlacement = {0.1100, -0.2100, -0.4300, -11.8999, 0.0, 30.0000},
+        EmoteLoop = true,
+        EmoteMoving = true,
+     }},
+     ["guitarcarry"] = {"move_weapon@jerrycan@generic", "idle", "Guitar Case Carry", AnimationOptions = 
+     {
+        Prop = "sf_prop_sf_guitar_case_01a",
+        PropBone = 28422,
+        PropPlacement = {0.2800, -0.2000, -0.0600, 0.0, 0.0, 15.0000},
+        EmoteLoop = true,
+        EmoteMoving = true,
+     }},
+     ["guitarcarry2"] = {"move_weapon@jerrycan@generic", "idle", "Guitar Carry Accoustic", AnimationOptions = 
+     {
+        Prop = "prop_acc_guitar_01",
+        PropBone = 28422,
+        PropPlacement = {0.1500, -0.1400, -0.0200, -101.5083, 5.7251, 29.4987},
+        EmoteLoop = true,
+        EmoteMoving = true,
+     }},
+     ["guitarcarry3"] = {"move_weapon@jerrycan@generic", "idle", "Guitar Carry Electric ", AnimationOptions = 
+     {
+        Prop = "prop_el_guitar_01",
+        PropBone = 28422,
+        PropPlacement = {0.1100, -0.1200, -0.0500, -80.0000, 0.0, 21.9999},
+        EmoteLoop = true,
+        EmoteMoving = true,
+     }},
+     ["guitarcarry4"] = {"move_weapon@jerrycan@generic", "idle", "Guitar Carry Electric 2 ", AnimationOptions = 
+     {
+        Prop = "prop_el_guitar_02",
+        PropBone = 28422,
+        PropPlacement = {0.1100, -0.1200, -0.0500, -80.0000, 0.0, 21.9999},
+        EmoteLoop = true,
+        EmoteMoving = true,
+     }},
+     ["guitarcarry5"] = {"move_weapon@jerrycan@generic", "idle", "Guitar Carry Electric 3 ", AnimationOptions = 
+     {
+        Prop = "prop_el_guitar_03",
+        PropBone = 28422,
+        PropPlacement = {0.1100, -0.1200, -0.0500, -80.0000, 0.0, 21.9999},
+        EmoteLoop = true,
+        EmoteMoving = true,
+     }},
+     ["guitarcarry6"] = {"move_weapon@jerrycan@generic", "idle", "Guitar Carry Electric 4 ", AnimationOptions = 
+     {
+        Prop = "vw_prop_casino_art_guitar_01a",
+        PropBone = 28422,
+        PropPlacement = {0.1100, -0.1200, -0.0500, -80.0000, 0.0, 21.9999},
+        EmoteLoop = true,
+        EmoteMoving = true,
+     }},
+     ["guitarcarry7"] = {"move_weapon@jerrycan@generic", "idle", "Guitar Carry Electric 5 ", AnimationOptions = 
+     {
+        Prop = "sf_prop_sf_el_guitar_02a",
+        PropBone = 28422,
+        PropPlacement = {0.1100, -0.1200, -0.0500, -80.0000, 0.0, 21.9999},
+        EmoteLoop = true,
+        EmoteMoving = true,
+     }},
+     ["cashcase"] = {"move_weapon@jerrycan@generic", "idle", "Cash Briefcase", AnimationOptions = 
+     {
+        Prop = "bkr_prop_biker_case_shut",
+        PropBone = 28422,
+        PropPlacement = {0.1000, 0.0100, 0.0040, 0.0, 0.0, -90.00},
+        EmoteLoop = true,
+        EmoteMoving = true,
+     }},
+     ["cashcase2"] = {"anim@heists@box_carry@", "idle", "Cash Briefcase 2", AnimationOptions = 
+     {
+        Prop = "prop_cash_case_01",
+        PropBone = 28422,
+        PropPlacement = { -0.0050, -0.1870, -0.1400, 0.0, 0.0, 0.0},
+        EmoteLoop = true,
+        EmoteMoving = true,
+     }},
+     ["cashcase3"] = { "anim@heists@box_carry@", "idle", "Cash Briefcase 3", AnimationOptions = 
+     {
+        Prop = "prop_cash_case_02",
+        PropBone = 28422,
+        PropPlacement = {0.0050, -0.1170, -0.1400, 14.000, 0.0, 0.0},
+        EmoteLoop = true,
+        EmoteMoving = true,
+     }},
+     ["cashcase4"] = {"anim@heists@box_carry@", "idle", "Cash Briefcase 4 - Diamonds", AnimationOptions = 
+     {
+        Prop = "ch_prop_ch_security_case_01a",
+        PropBone = 28422,
+        PropPlacement = {0.0, -0.0900, -0.1800, 14.4000, 0.0, 0.0},
+        EmoteLoop = true,
+        EmoteMoving = true,
+     }},
+     ["stealtv"] = {"beachanims@molly", "beachanim_surf_clip", "Steal TV", AnimationOptions =
+     {
+        Prop = "xs_prop_arena_screen_tv_01",
+        PropBone = 28252,
+        PropPlacement = {0.2600, 0.1100, -0.1400, 96.1620, 168.9069, 84.2402},
+        EmoteLoop = true,
+        EmoteMoving = true,
+     }},
+     ["beachring"] = {"beachanims@free", "beachanim_clip", "Beach Floatie", AnimationOptions = 
+     {
+        Prop = "prop_beach_ring_01",
+        PropBone = 0,
+        PropPlacement = {0.0, 0.0, 0.0100, -12.0, 0.0, -2.0},
+        EmoteLoop = true,
+         EmoteMoving = true,
+     }},
+     ["surfboard"] = {"beachanims@molly", "beachanim_surf_clip", "Surf Board", AnimationOptions =
+     {
+        Prop = "prop_surf_board_01",
+        PropBone = 28252,
+        PropPlacement = {0.1020, -0.1460, -0.1160, -85.5416, 176.1446, -2.1500},
+        EmoteLoop = true,
+        EmoteMoving = true,
+     }},
+     ["boombox"] = {"move_weapon@jerrycan@generic", "idle", "Boombox", AnimationOptions = 
+     {
+       Prop = "prop_boombox_01",
+       PropBone = 57005,
+       PropPlacement = {0.27, 0.0, 0.0, 0.0, 263.0, 58.0},
+       EmoteLoop = true,
+       EmoteMoving = true,
+    }},
+    ["sms"] = {"cellphone@", "cellphone_text_read_base", "SMS", AnimationOptions = 
+    {
+      Prop = "prop_phone_ing",
+      PropBone = 28422,
+      PropPlacement = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0},
+      EmoteLoop = true,
+      EmoteMoving = true,
+    }},
+    ["sms2"] = {"cellphone@female", "cellphone_text_read_base", "SMS 2", AnimationOptions = 
+    {
+       Prop = "prop_phone_ing",
+       PropBone = 28422,
+       PropPlacement = {0.00, 0.00, 0.0301, 0.000, 00.00, 00.00},
+       EmoteLoop = true,
+       EmoteMoving = true,
+    }},
+    ["sms3"] = {"cellphone@female", "cellphone_email_read_base", "SMS 3", AnimationOptions = 
+    {
+       Prop = "prop_phone_ing",
+       PropBone = 28422,
+       PropPlacement = {-0.0190, -0.0240, 0.0300, 18.99, -72.07, 6.39},
+       EmoteLoop = false,
+       EmoteMoving = true,
+    }},
+    ["sms4"] = {"amb@code_human_wander_texting_fat@male@base", "static", "SMS 4", AnimationOptions = 
+    {
+       Prop = "prop_phone_ing",
+       PropBone = 28422,
+       PropPlacement = {-0.0200, -0.0100, 0.00, 2.309, 88.845, 29.979},
+       EmoteLoop = false,
+       EmoteMoving = true,
+    }},
 
 -----------------------------------------------------------------------------------------------------
 ------ This is an example of an emote with 2 props, pretty simple! ----------------------------------
@@ -2921,4 +3126,15 @@ DP.PropEmotes = {
        EmoteLoop = true,
        EmoteMoving = true,
    }},
+   ["boombox2"] = {"molly@boombox1", "boombox1_clip", "Boombox 2", AnimationOptions = 
+   {
+       Prop = "prop_cs_sol_glasses",
+       PropBone = 31086,
+       PropPlacement = {0.0440, 0.0740, 0.0000, -160.9843, -88.7288, -0.6197},
+       SecondProp = 'prop_ghettoblast_02',
+       SecondPropBone = 10706,
+       SecondPropPlacement = {-0.2310, -0.0770, 0.2410, -179.7256, 176.7406, 23.0190},
+       EmoteLoop = true,
+       EmoteMoving = true,
+    }},
 }

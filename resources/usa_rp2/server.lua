@@ -237,7 +237,11 @@ AddEventHandler("usa:loadPlayerComponents", function(id)
 end)
 
 TriggerEvent('es:addJobCommand', 'impound', { "sheriff", "ems", "corrections" }, function(source, args, char)
-	TriggerClientEvent('impoundVehicle', source)
+	if exports["usa-characters"]:GetNumCharactersWithJob("mechanic") < 3 then
+		TriggerClientEvent('impoundVehicle', source)
+	else
+		TriggerClientEvent("usa:notify", source, "Must call a mechanic!")
+	end
 end, { help = "Impound a vehicle." })
 
 TriggerEvent('es:addCommand', 'dv', function(source, args, char)

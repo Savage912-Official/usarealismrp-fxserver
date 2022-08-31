@@ -1896,6 +1896,41 @@ DP.Emotes = {
        EmoteMoving = true,
        EmoteDuration = 5000
    }},
+   ["gs2"] = {"gang_2@ierrorr", "gang_2_clip", "Gang Sign 2", AnimationOptions =
+   {
+       EmoteMoving = false,
+       EmoteLoop = true
+   }},
+   ["gs3"] = {"bwcsign@leucos", "bwcsign_clip", "Gang Sign 3", AnimationOptions =
+   {
+       EmoteMoving = false,
+       EmoteLoop = true
+   }},
+   ["gs4"] = {"npksign@leucos", "npksign_clip", "Gang Sign 4", AnimationOptions =
+   {
+       EmoteMoving = false,
+       EmoteLoop = true
+   }},
+   ["gs5"] = {"ofbsign@leucos", "ofbsign_clip", "Gang Sign 5", AnimationOptions =
+   {
+       EmoteMoving = false,
+       EmoteLoop = true
+   }},
+   ["gs6"] = {"zone2sign@leucos", "zone2sign_clip", "Gang Sign 6", AnimationOptions =
+   {
+       EmoteMoving = false,
+       EmoteLoop = true
+   }},
+   ["gs7"] = {"n15sign@leucos", "n15sign_clip", "Gang Sign 7", AnimationOptions =
+   {
+       EmoteMoving = false,
+       EmoteLoop = true
+   }},
+   ["gs8"] = {"arves@killer", "killer_clip", "Gang Sign 8", AnimationOptions =
+   {
+       EmoteMoving = false,
+       EmoteLoop = false
+   }},
 }
 
 DP.PropEmotes = {

@@ -261,7 +261,6 @@ end, {
 
 TriggerEvent('es:addJobCommand', 'records', {'sheriff', 'police' , 'judge', 'corrections'}, function(source, args, char)
 	if args[2] then
-		
 		local targetchar = exports["usa-characters"]:GetCharacter(tonumber(args[2]))
 		if targetchar then
 			local ownedVehicles = targetchar.get("vehicles")
@@ -275,21 +274,11 @@ TriggerEvent('es:addJobCommand', 'records', {'sheriff', 'police' , 'judge', 'cor
 						vehiclenames = vehiclenames .. ", "
 					end
 				end
-				local property = targetchar.get("property")
-				local inventorynames = ""
-				local userInventory = targetchar.get("inventory").items 
-				for i = 0, targetchar.get("inventory").MAX_CAPACITY - 1 do
-					if userInventory[tostring(i)] then
-						inventorynames = inventorynames .. userInventory[tostring(i)].name .. "(" .. userInventory[tostring(i)].quantity .. ")"
-						inventorynames = inventorynames .. ", "
-					end
-				end
 
 				local insurance = targetchar.get("insurance")
 				local insurance_month = insurance.expireMonth
 				local insurance_year = insurance.expireYear
 				local displayInsurance = "Invalid"
-				
 				if insurance_month and insurance_year then
 					displayInsurance = insurance_month .. "/" .. insurance_year
 				end

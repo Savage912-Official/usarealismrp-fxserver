@@ -1,7 +1,8 @@
 local ALLOWED_JOBS = {
     sheriff = true,
     corrections = true,
-    ems = true
+    ems = true,
+    eventPlanner = true
 }
 
 RegisterServerEvent('ZoneActivated')

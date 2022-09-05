@@ -21,7 +21,7 @@ if Config.UseESX == true then
         if not exports['salty_tokenizer']:secureServerEvent(GetCurrentResourceName(), source, securityToken) then
             return false
         end
-        local orange = { name = "Orange", type = "misc", price = 5, legality = "legal", quantity = 5, weight = 2 }
+        local orange = {name = "Orange", price = 5, type = "food", substance = 5.0, quantity = 1, legality = "legal", weight = 2}
         local char = exports["usa-characters"]:GetCharacter(source)
 
         if isAtTreeLocation(GetEntityCoords(GetPlayerPed(source))) then

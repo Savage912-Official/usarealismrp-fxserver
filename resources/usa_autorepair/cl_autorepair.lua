@@ -70,6 +70,7 @@ AddEventHandler("autoRepair:repairVehicle", function(cost)
 	SetVehicleDirtLevel(playerVeh, 0.0)
 	SetVehicleFixed(playerVeh)
 	SetVehicleDeformationFixed(playerVeh)
+	TriggerEvent("kq_wheeldamage:fixCar", playerVeh)
 	SetVehicleUndriveable(playerVeh, false)
 	repairingVehicle = false
 	exports.globals:notify("Vehicle repaired for: $" .. cost)

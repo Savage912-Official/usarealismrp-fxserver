@@ -422,7 +422,7 @@ AddEventHandler('towJob:towVehicle', function()
 						ClearPedTasks(playerPed)
 						NetworkRequestControlOfEntity(targetVehicle)
 						while not NetworkHasControlOfEntity(targetVehicle) do
-							Citizen.wait(100)
+							Wait(100)
 						end
 						AttachEntityToEntity(targetVehicle, lastTowTruck, GetEntityBoneIndexByName(lastTowTruck, 'bodyshell'), 0.0, -2.35, 0.75, 0, 0, 0, 1, 1, 0, 1, 0, 1)
 						currentlyTowedVehicle = targetVehicle

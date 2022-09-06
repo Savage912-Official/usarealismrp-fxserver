@@ -432,3 +432,50 @@ TriggerEvent('es:addCommand', 'discord', function(source, args, char)
 	TriggerClientEvent("chatMessage", source, "", {255, 255, 255}, "Discord: https://discord.gg/usarrp")
 	TriggerClientEvent("chatMessage", source, "", {255, 255, 255}, "^3Join the discord channel to keep up with the community! If that link doesn't work, visit the website.")
 end, {help = "View the server's discord link."})
+
+------------------------
+-- Feedback Command --
+------------------------
+local cooldowns = {}
+TriggerEvent('es:addCommand','feedback', function(source, args, char, message)
+	local char = exports["usa-characters"]:GetCharacter(source)
+	local char_name = char.getFullName()
+	table.remove(args, 1)
+	local message = table.concat(args, ' ')
+	local msg = "**Server ID:** "..source.."\n**Steam Name:** "..GetPlayerName(source).."\n**Steam ID:** "..GetPlayerIdentifiers(source)[1].."\n**Character Name:** "..char_name.."\n**Character Playtime:** "..FormatSeconds(char.get("ingameTime")).." \n**Feedback:** "..message.."\n"
+	
+	if not cooldowns[source] or ((os.clock() - cooldowns[source]) > 86400) then
+		cooldowns[source] = os.clock()
+		exports['erp_adminmenu']:sendToDiscord('New Feedback Submitted', msg, "16711680", GetConvar("feedback-webhook", ""))
+		TriggerClientEvent("usa:notify", source, "Your feedback has been sent!")
+	else
+		TriggerClientEvent("usa:notify", source, "You can only send feedback every hour.")
+	end
+end, {
+	help = "Submit feedback to the server staff.",
+	params = {
+		{ name = "message", help = "Feedback to send to staff." }
+	}
+})
+
+function FormatSeconds(mins)
+	local output = ""
+	local days = math.floor(mins / 1440)
+	local remainder = mins % 1440
+	local hours = math.floor(remainder / 60)
+	local mins = remainder % 60
+	if days ~= 0 then
+		output = days .. " Days"
+	end
+	if output ~= "" then
+		output = output .. ", "
+	end
+	if hours ~= 0 then
+		output = output .. hours .. " Hrs"
+	end
+	if output ~= "" then
+		output = output .. ", "
+	end
+	output = output .. mins .. " Mins"
+	return output
+end

@@ -9,9 +9,6 @@ function sendToDiscord(name, message, color, webhook)
             ["color"] = color or "16082267",
             ["title"] = "**".. name .."**",
             ["description"] = message,
-            ["footer"] = {
-                ["text"] = "We catch hackers... yay!",
-            },
         }
     }
     PerformHttpRequest(webhook, function(err, text, headers) end, 'POST', json.encode({username = DISCORD_NAME, embeds = embed, avatar_url = DISCORD_IMAGE}), { ['Content-Type'] = 'application/json' })

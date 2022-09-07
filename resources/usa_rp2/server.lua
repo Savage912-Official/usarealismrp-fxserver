@@ -436,20 +436,21 @@ end, {help = "View the server's discord link."})
 ------------------------
 -- Feedback Command --
 ------------------------
-local cooldowns = {}
+local hasUsedCommand = {}
 TriggerEvent('es:addCommand','feedback', function(source, args, char, message)
+	local WEBHOOK_URL = GetConvar("feedback-webhook", "")
 	local char = exports["usa-characters"]:GetCharacter(source)
 	local char_name = char.getFullName()
 	table.remove(args, 1)
 	local message = table.concat(args, ' ')
 	local msg = "**Server ID:** "..source.."\n**Steam Name:** "..GetPlayerName(source).."\n**Steam ID:** "..GetPlayerIdentifiers(source)[1].."\n**Character Name:** "..char_name.."\n**Character Playtime:** "..FormatSeconds(char.get("ingameTime")).." \n**Feedback:** "..message.."\n"
-	
-	if not cooldowns[source] or ((os.clock() - cooldowns[source]) > 86400) then
-		cooldowns[source] = os.clock()
-		exports['erp_adminmenu']:sendToDiscord('New Feedback Submitted', msg, "16711680", GetConvar("feedback-webhook", ""))
+
+	if not hasUsedCommand[source] then
+		exports.globals:SendDiscordLog(WEBHOOK_URL, msg)
 		TriggerClientEvent("usa:notify", source, "Your feedback has been sent!")
+		hasUsedCommand[source] = true
 	else
-		TriggerClientEvent("usa:notify", source, "You can only send feedback every hour.")
+		TriggerClientEvent("usa:notify", source, "You can only send feedback once every restart.")
 	end
 end, {
 	help = "Submit feedback to the server staff.",

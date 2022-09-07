@@ -48,6 +48,7 @@ end
 
 function myveh.repair()
 	SetVehicleFixed(myveh.vehicle)
+	TriggerEvent("kq_wheeldamage:fixCar", myveh.vehicle)
 end
 
 local function round(num, idp)

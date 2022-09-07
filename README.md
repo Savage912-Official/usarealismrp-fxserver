@@ -142,6 +142,8 @@ set sasp-timesheet-webhook ""
 set bcso-timesheet-webhook ""
 set ems-timesheet-webhook ""
 set doj-timesheet-webhook ""
+set feedback-webhook ""
+set discordWebhook ""
 ```
 
 Just replace the empty strings with your channel's webhook URL.

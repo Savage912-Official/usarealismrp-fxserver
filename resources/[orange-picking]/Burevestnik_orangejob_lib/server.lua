@@ -7,7 +7,7 @@
 -- -- ╚═════╝░░╚═════╝░╚═╝░░╚═╝╚══════╝░░░╚═╝░░░╚══════╝╚═════╝░░░░╚═╝░░░╚═╝░░╚══╝╚═╝╚═╝░░╚═╝*/
 
 if Config.UseESX == true then
-    local orange = {name = "Orange", price = 5, type = "food", substance = 5.0, quantity = 1, legality = "legal", weight = 2}
+    local orange = {name = "Orange", price = 5, type = "food", substance = 35.0, quantity = 1, legality = "legal", weight = 2}
     
     RegisterServerEvent('bur_orangejob_lib:buy')
     AddEventHandler('bur_orangejob_lib:buy', function(amount, price)

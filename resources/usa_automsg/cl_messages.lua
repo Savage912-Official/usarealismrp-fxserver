@@ -13,7 +13,8 @@ local m = {
         "Don't know where to start? Find our brief guide with commands here: https://www.usarrp.gg/server-commands/",
         "Looking to become apart of a our legal initiative? Find how to become a lawyer, or a judge at https://www.usarrp.gg ^*>^r Applications",
         "Ever wanted to run a successful business, implemented just for you? Find how at https://www.usarrp.gg ^*>^r Forums ^*>^r Department of Justice",
-        "You can contribute to the community by visiting https://www.usarrp.gg ^*>^r Donations or finding us on Patreon - you get a shiny tag too!"
+        "You can contribute to the community by visiting https://www.usarrp.gg ^*>^r Donations or finding us on Patreon - you get a shiny tag too!",
+        "Ever wanted to provide feedback about the server to the staff team? You can do so by typing /feedback message in chat!"
     }
 }
 local timeout = m.delay * 1000 * 60 -- from ms, to sec, to min

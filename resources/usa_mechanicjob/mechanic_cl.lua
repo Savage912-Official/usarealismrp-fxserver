@@ -498,6 +498,7 @@ AddEventHandler("mechanic:repair", function(repairCount)
 				if success then
 					print("repair succeeded!")
 					TriggerServerEvent("mechanic:vehicleRepaired")
+					TriggerEvent("kq_wheeldamage:fixCar", veh)
 					exports.globals:notify("Vehicle repaired!")
 				else 
 					print("repair failed")

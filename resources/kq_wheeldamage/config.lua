@@ -47,7 +47,7 @@ Config.offroadTireFallDamageMultiplier = 0.6
 Config.fallThreshold = 4.0
 
 -- Minimum fall airtime (in seconds) for the wheels to get damaged. This only counts for the duration the car was falling (going downwards)
-Config.minimumAirTime = 0.7
+Config.minimumAirTime = 2
 
 -- If you define a model specific multiplier it will be used instead of the class multiplier
 -- Vehicle classes https://docs.fivem.net/natives/?_0x29439776AAA00A62

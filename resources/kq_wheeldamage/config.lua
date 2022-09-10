@@ -44,7 +44,7 @@ Config.fallDamageAmount = 25
 Config.offroadTireFallDamageMultiplier = 0.6
 
 -- Threshold of the fall speed required to deal wheel damage (3.8 by default. If you don't want smaller jumps to deal damage set it higher)
-Config.fallThreshold = 4.6
+Config.fallThreshold = 4.0
 
 -- Minimum fall airtime (in seconds) for the wheels to get damaged. This only counts for the duration the car was falling (going downwards)
 Config.minimumAirTime = 0.7

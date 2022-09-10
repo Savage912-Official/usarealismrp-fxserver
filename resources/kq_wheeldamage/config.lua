@@ -85,7 +85,7 @@ Config.fallDamageMultiplier = {
 }
 
 -- Chance of the wheel falling off when it reaches critical damage (0 - 100)
-Config.fallOffChance = 30
+Config.fallOffChance = 35
 
 -- Chance of the tire bursting when it reaches critical damage (0 - 100)
 Config.tireBurstChance = 80

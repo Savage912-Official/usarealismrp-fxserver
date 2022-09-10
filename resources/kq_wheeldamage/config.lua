@@ -91,7 +91,7 @@ Config.fallOffChance = 35
 Config.tireBurstChance = 80
 
 -- Whether or not to respect bulletproof tires for popping (wheels will still fall off)
-Config.respectBulletproofTires = true
+Config.respectBulletproofTires = false
 
 -- Makes the car undriveable when at least one wheel falls off
 Config.setVehicleUndriveable = false

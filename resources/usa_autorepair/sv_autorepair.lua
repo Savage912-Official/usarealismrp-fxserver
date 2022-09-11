@@ -13,14 +13,14 @@ AddEventHandler("autoRepair:checkMoney", function(business, engineHp, bodyHp, se
   else
     if char.get("money") - REPAIR_COST >= 0 then
       char.removeMoney(REPAIR_COST)
+      if business then
+        exports["usa-businesses"]:GiveBusinessCashPercent(business, REPAIR_COST)
+      end
       TriggerClientEvent("autoRepair:repairVehicle", source, REPAIR_COST)
       TriggerClientEvent("usa:notify", source, '~y~Charged:~w~ $' .. REPAIR_COST)
     else
       TriggerClientEvent("usa:notify", source, 'Cash required for repair: $' .. REPAIR_COST)
     end
-  end
-  if business then
-    exports["usa-businesses"]:GiveBusinessCashPercent(business, REPAIR_COST)
   end
 end)
 

@@ -5,11 +5,11 @@ local timeout = GetGameTimer()
 local veh = GetVehiclePedIsIn(playerPed, true)
 local playerHotwiredVehicles = {}
 local searchedVehicles = {}
+local Result = nil
+local NUI_status = false
 
 local VEHICLE_ITEM_SEARCH_TIME = 20000
-
 local HOTWIRE_BREAK_CHANCE = 0.70
-
 local ENABLE_KEY_CHECK_FOR_ENGINE = true
 
 Citizen.CreateThread(function()
@@ -156,7 +156,7 @@ AddEventHandler('veh:toggleEngine', function(_hasKey, _engineOn)
 end)
 
 RegisterNetEvent('veh:hotwireVehicle')
-AddEventHandler('veh:hotwireVehicle', function()
+AddEventHandler('veh:hotwireVehicle', function(callback, circles)
   local playerPed = PlayerPedId()
   if veh and GetPedInVehicleSeat(veh, -1) == playerPed and not IsPedCuffed(PlayerPedId()) then
     if not hasKeys and DoesEntityExist(playerPed) and not IsEntityDead(playerPed) then
@@ -175,50 +175,40 @@ AddEventHandler('veh:hotwireVehicle', function()
         end
         TriggerServerEvent('911:HotwiringVehicle', x, y, z, lastStreetNAME, GetLabelText(GetDisplayNameFromVehicleModel(GetEntityModel(veh))), exports.globals:trim(GetVehicleNumberPlateText(veh)), isMale, primary, secondary)
       end
-      if math.random() < HOTWIRE_BREAK_CHANCE then
-        TriggerServerEvent('veh:removeHotwiringKit')
-      end
+
       RequestAnimDict('veh@handler@base')
       while not HasAnimDictLoaded('veh@handler@base') do
         Citizen.Wait(100)
       end
-      local hotwireTime = 40000
-      if GetVehicleClass(veh) == 18 then
-        hotwireTime = 80000
-      end
-      local beginTime = GetGameTimer()
-      while GetGameTimer() - beginTime < hotwireTime do
+
+      if not isHotwiring then
         isHotwiring = true
-        DisableControlAction(0, 86, true)
-        DisableControlAction(0, 244, true)
-        DisableControlAction(0, 245, true)
-        DisableControlAction(0, 288, true)
-        DisableControlAction(0, 79, true)
-        DisableControlAction(0, 73, true)
-        DisableControlAction(0, 75, true)
-        DisableControlAction(0, 37, true)
-        DisableControlAction(0, 311, true)
+        if math.random() < HOTWIRE_BREAK_CHANCE then
+          TriggerServerEvent('veh:removeHotwiringKit')
+        end
         if not IsEntityPlayingAnim(playerPed, 'veh@handler@base', 'hotwire', 3) then
           TaskPlayAnim(playerPed, 'veh@handler@base', 'hotwire', 8.0, 1.0, -1, 49, 1.0, false, false, false)
         end
-        DrawTimer(beginTime, hotwireTime, 1.42, 1.475, 'HOTWIRING')
-        Citizen.Wait(0)
-      end
-      isHotwiring = false
-      ClearPedTasks(playerPed)
-      if math.random() < 0.80 then
-        hasKeys = true
-        playerHotwiredVehicles[GetVehicleNumberPlateText(veh)] = true
-        TriggerEvent('usa:notify', 'The hotwiring kit was ~g~successful~s~!')
-        SetVehicleEngineOn(veh, true, false, false)
-        Citizen.CreateThread(function()
-          local timeToWait = math.random((5 * 60000), (20 * 60000))
-          Citizen.Wait(timeToWait)
-          TriggerServerEvent('mdt:addTempVehicle', GetLabelText(GetDisplayNameFromVehicleModel(GetEntityModel(veh))), 'Unknown', exports.globals:trim(GetVehicleNumberPlateText(veh)), true)
-          print('flagging as stolen!')
-        end)
-      else
+        lockpickCallback = callback
+        local seconds = math.random(8,12)
+        local circles = math.random(4,8)
+        local success = exports['usa_vehtheft']:StartHotwire(circles, seconds, success)
+        if success then
+          if math.random() < 0.80 then
+            TriggerEvent('usa:notify', 'The hotwiring kit was ~g~successful~s~!')
+            hasKeys = true
+            playerHotwiredVehicles[GetVehicleNumberPlateText(veh)] = true
+            SetVehicleEngineOn(veh, true, false, false)
+            Citizen.CreateThread(function()
+              local timeToWait = math.random((5 * 60000), (20 * 60000))
+              Citizen.Wait(timeToWait)
+              TriggerServerEvent('mdt:addTempVehicle', GetLabelText(GetDisplayNameFromVehicleModel(GetEntityModel(veh))), 'Unknown', exports.globals:trim(GetVehicleNumberPlateText(veh)), true)
+              print('flagging as stolen!')
+            end)
+          end
+        else
           TriggerEvent('usa:notify', 'The hotwiring kit was ~y~unsuccessful~s~!')
+        end
       end
     end
   else
@@ -427,3 +417,41 @@ function DrawText3D(x, y, z, distance, text)
       DrawRect(_x,_y+0.0125, 0.015+factor, 0.03, 41, 11, 41, 68)
   end
 end
+
+function StartHotwire(circles, seconds, callback)
+  Result = nil
+  NUI_status = true
+  SendNUIMessage({
+    action = 'start',
+    value = circles,
+		time = seconds,
+    })
+    while NUI_status do
+      Wait(5)
+      SetNuiFocus(NUI_status, false)
+    end
+    Wait(100)
+    SetNuiFocus(false, false)
+    lockpickCallback = callback
+    return Result
+end
+
+RegisterNUICallback('fail', function()
+  isHotwiring = false
+  TriggerEvent('usa:notify', 'The hotwiring kit was ~y~unsuccessful~s~!')
+  ClearPedTasks(PlayerPedId())
+  Result = false
+  Wait(100)
+  NUI_status = false
+end)
+
+RegisterNUICallback('success', function()
+  isHotwiring = false
+  ClearPedTasks(PlayerPedId())
+	Result = true
+	Wait(100)
+	NUI_status = false
+  SetNuiFocus(false, false)
+  --print(Result)
+  return Result
+end)

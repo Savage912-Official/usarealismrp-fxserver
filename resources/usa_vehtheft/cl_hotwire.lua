@@ -182,7 +182,7 @@ AddEventHandler('veh:hotwireVehicle', function(callback, circles)
       end
 
       if not isHotwiring then
-        exports.globals:notify("The number shown is the number than needs to be pressed for the hotwire!")
+        exports.globals:notify("Press the key shown on screen!")
         isHotwiring = true
         if math.random() < HOTWIRE_BREAK_CHANCE then
           TriggerServerEvent('veh:removeHotwiringKit')

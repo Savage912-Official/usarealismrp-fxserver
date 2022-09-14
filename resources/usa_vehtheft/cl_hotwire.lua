@@ -9,7 +9,7 @@ local Result = nil
 local NUI_status = false
 
 local VEHICLE_ITEM_SEARCH_TIME = 20000
-local HOTWIRE_BREAK_CHANCE = 0.70
+local HOTWIRE_BREAK_CHANCE = 0.40
 local ENABLE_KEY_CHECK_FOR_ENGINE = true
 
 Citizen.CreateThread(function()

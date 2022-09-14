@@ -34,7 +34,8 @@ server_scripts {
 }
 
 shared_scripts {
-    'config/shared.lua'
+    'config/shared.lua',
+    '@pmc-callbacks/import.lua',
 }
 
 ui_page 'tablet/nui/index.html'

@@ -485,6 +485,7 @@ var itemImages = {
     "Hacking Device": "https://i.imgur.com/aR4KqCI.png",
     "GPS Removal Device": "https://i.imgur.com/k9wRbRx.png",
     "Tablet": "https://i.imgur.com/Ig7jl1m.png",
+    "Racing Dongle": "https://i.imgur.com/zM8Qc4r.png",
 }
 
 var menuItems = [{

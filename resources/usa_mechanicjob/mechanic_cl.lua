@@ -205,6 +205,29 @@ locations = {
 			disable_blip = false
 		}
 	},
+	["Tuner Shop"] = {
+		duty = {
+			x = 153.05549621582, 
+			y = -3050.2783203125, 
+			z = 6.0408916473389,
+		},
+		truck_spawn = {
+			x = 165.74934387207, 
+			y = -3049.3461914063, 
+			z = 5.8909130096436,
+			heading = 267.5
+		},
+		impound = nil,
+		ped = {
+			x = 153.05549621582, 
+			y = -3050.2783203125, 
+			z = 7.0408916473389,
+			heading = 30.1
+		},
+		show_blip = {
+			disable_blip = false
+		}
+	}
 }
 	
 -- S P A W N  J O B  P E D S

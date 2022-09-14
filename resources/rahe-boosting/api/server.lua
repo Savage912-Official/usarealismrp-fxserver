@@ -91,6 +91,11 @@ function giveItem(playerId, itemId, amount)
             item.type = "misc"
             item.notStackable = true
             item.objectModel = "imp_prop_tool_box_01a"
+        elseif itemId == "Racing Dongle" then
+            item.type = "misc" 
+            item.legality = "legal"
+            item.weight = 1
+            item.objectModel = "hei_prop_hst_usb_drive"
         end
         char.giveItem(item)
         TriggerClientEvent("usa:notify", "You have picked up your item!")

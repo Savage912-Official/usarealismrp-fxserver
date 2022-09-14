@@ -4,7 +4,7 @@ translations = {
     GENERAL_PERSON_PLURAL = 'persons',
 
     NOTIFICATION_TABLET_CONTRACT_STARTED = 'Boosting contract started. Necessary information has been marked on your GPS..',
-    NOTIFICATION_TABLET_ORDER_SUCCESSFUL = "Order successful. You can pick up your goods from the workshop in Mirror Park. The order won't be there for long!",
+    NOTIFICATION_TABLET_ORDER_SUCCESSFUL = "Order successful. You can pick up your goods from the Tuner Shop down at the docks. The order won't be there for long!",
     NOTIFICATION_TABLET_IN_QUEUE = "You've added yourself to the boosting queue.",
     NOTIFICATION_TABLET_OUT_OF_QUEUE = "You've removed yourself from the boosting queue.",
     NOTIFICATION_TABLET_ALREADY_ACTIVE = 'You already have an active boosting contract!',

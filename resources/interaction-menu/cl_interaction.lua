@@ -1217,6 +1217,8 @@ function interactionMenuUse(index, itemName, wholeItem)
 		TriggerEvent("rahe-boosting:client:gpsHackingDeviceUsed")
 	elseif itemName == "Tablet" then
 		TriggerEvent("rahe-boosting:client:openTablet")
+	elseif itemName == "Racing Dongle" then
+		TriggerEvent("rahe-racing:client:openTablet")
 	else
 		TriggerEvent("interaction:notify", "There is no use action for that item!")
 	end

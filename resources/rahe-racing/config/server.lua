@@ -1,3 +1,5 @@
+local WEBHOOK_URL = GetConvar("race-notification-webhook", "")
+
 svConfig = {
     -- Competition race prize pool size (per minute)
     -- For example if set to $9000 and $11000, the prize pool of a 7 minute competition race will be 7 x random(9000, 11000) = between $63,000 and $77,000
@@ -11,7 +13,7 @@ svConfig = {
     competitionGenerationHour = 14,
 
     -- The Discord webhook URL where notifications should be sent. It will send the starting races, times & classes
-    competitionNotificationWebHook = '',
+    competitionNotificationWebHook = WEBHOOK_URL,
 
     -- The logo which will be attached to the notification message sent
     competitionDiscordLogo = 'https://i.imgur.com/vGZj9jQ.png',
@@ -45,7 +47,7 @@ svConfig = {
     },
 
     -- The minimum amount of people that a competition race must have for it to start.
-    minimumCompetitionParticipantAmount = 1,
+    minimumCompetitionParticipantAmount = 3,
 
     -- TRACK CREATION RESTRICTION (true / false)
     -- If set to false, then everyone can create tracks. If true, then only selected people / ratings can create tracks (configure below).
@@ -54,7 +56,7 @@ svConfig = {
     -- Choose one of the two types (identifier / rating) and comment out the other.
     -- When IDENTIFIER is selected, then only people with certain identifiers can create tracks.
     -- When RATING is selected, then people with certain rating or higher rating can create tracks.
-    trackRestrictionType = 'IDENTIFIER',
+    -- trackRestrictionType = 'IDENTIFIER',
     trackRestrictionType = 'RATING',
 
     -- Comma separated list of string identifiers that are allowed to create tracks (used when restriction is enabled & trackRestrictionType is set to IDENTIFIER).
@@ -62,7 +64,7 @@ svConfig = {
     trackRestrictionIdentifiers = {'1', '2', '3'},
 
     -- The ELO rating from which people are allowed to create tracks (used when restriction is enabled & trackRestrictionType is set to RATING).
-    trackRestrictionRating = 1700,
+    trackRestrictionRating = 1750,
 
     -- COMPETITION CREATION RESTRICTION (true / false)
     -- If set to false, then people with 1750 ELO or higher can start competition tracks. If true, then only selected people can create tracks (configure below).
@@ -90,5 +92,5 @@ svConfig = {
     -- ALL: Phasing is enabled in both (normal races and competition races).
     -- COMPETITION: Phasing is only enabled only in competition races.
     -- NORMAL: Phasing is only enabled only in normal races.
-    phasingMode = 'COMPETITION'
+    phasingMode = 'ALL'
 }

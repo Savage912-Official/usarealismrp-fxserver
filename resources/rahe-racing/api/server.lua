@@ -1,267 +1,118 @@
-svConfig = {
-    -- The currency settings which are used to display money amount in the tablet's HTML.
-    -- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toLocaleString
-    -- The first variable (currencyLocale) defines how the number is formatted. For example in 'en-US': '$60,890.00', 'et': '60 890,00 $'
-    -- The second variable (currency) defines the symbol which is used - €/$ or whatever you wish.
-    currencyLocale = 'en-us',
-    currency = 'USD',
+function getPlayerIdentifier(playerId)
+    local char = exports["usa-characters"]:GetCharacter(playerId)
+    return (char.get("_id") or nil)
+end
 
-    -- Time between boosting contract loop executions. If the default value (15) is used, then every 15 minutes (4 times per hour), contracts will be
-    -- generated for the players who are queued. The chances of receiving a contract in that loop execution are defined in vehicle class configs, the
-    -- 'generationPercentage' value. For example, if the 'D' class has a generationPercentage value of 70, then every 15 minutes there is a 25% chance
-    -- that you will receive a D class boosting contract.
-    minutesBetweenGenerations = 15,
+function getPlayerMoney(playerId)
+    local char = exports["usa-characters"]:GetCharacter(playerId)
+    return char.get("bank")
+end
 
-    -- The amount of contracts that player will be given when he opens the tablet for the very first time (to get him started).
-    initialContractAmount = 5,
+function removePlayerMoney(playerId, amount)
+    local char = exports["usa-characters"]:GetCharacter(playerId)
+    char.set("bank", char.get("bank") - amount)
+    TriggerClientEvent("usa:notify",playerId, "$"..amount.." has been ~r~removed~w~ from your bank account.")
+end
 
-    -- The amount of online police required for people to get important (A / S class) contracts. This will be applied to classes which have the 'isImportant' as true.
-    requiredPoliceAmount = 4,
+function givePlayerMoney(playerId, amount)
+    local char = exports["usa-characters"]:GetCharacter(playerId)
+    char.set("bank", char.get("bank") + amount)
+    TriggerClientEvent("usa:notify",playerId, "$"..amount.." has been ~g~added~w~ to your bank account.")
+end
 
-    -- A comma separated list of player identifiers that are allowed to access the admin panel.
-    adminIdentifiers = {},
+-- SERVER export - This function is exported, so it can be opened from any other server-side script by using 'exports['rahe-racing']:openRacingTablet(source)'
+function openRacingTablet(playerId)
+    TriggerClientEvent('rahe-racing:client:openTablet', playerId)
+end
 
-    -- A comma separated list of player identifiers that are allowed to access the admin panel.
-    penalizeForDamagedEngine = true,
+function notifyPlayer(playerId, message)
+    TriggerClientEvent('chatMessage', playerId, "SERVER", "normal", message)
+end
 
-    -- The amount in dollars that's the maximum penalty for having a damaged engine when dropping off.
-    maximumEngineDamagePenalty = 500,
+-- You can use the function provided here, or use your own existing logic
+function getVehicleClassFromHash(modelHash)
+    return getVehicleClassFromHash(modelHash)
+end
 
-    -- A list of conditions for different vehicle classes
-    -- The list must be ordered by their 'xpRequired' value (high -> low)
+function getVehicleClassFromHash(modelHash)
+    for _, v in ipairs(supportedVehicles) do
+        if GetHashKey(v.model) == modelHash then
+            return v.class
+        end
+    end
 
-    -- Class parameters explained:
-    -- @class: the main identifier, used for displaying and getting a vehicles class
-    -- @xpRequired: experience required for a player to receive a contract of this class
-    -- @generationPercentage: the probability of a player getting this class when a generation occurs (0-100%)
-    -- @timeBetweenGenerations: the time in minutes that has to be passed since the last generation of this class
-    -- @isImportant: if a class is important, then it needs police presence for it to be generated (svConfig.requiredPoliceAmount) and has a GPS tracker.
-    -- @gpsHacksRequired: if the class is marked is important, then it will have a GPS tracker which has to be hacked this many times.
-    -- @gpsHackMinTime:
-    -- @gpsHackMaxTime:
-    -- @maxContractsOfType: how many contracts of this type can be available at once
-    -- @maxContactsPerSession: how many contracts of this type can one player receive per restart
-    -- @priceMin: the minimum crypto price needed to accept the contract
-    -- @priceMax: the maximum crypto price needed to accept the contract
-    -- @minScratchPrice = the minimum crypto price needed to VIN scratch (take it yourself) the vehicle
-    -- @maxScratchPrice = the maximum crypto price needed to VIN scratch (take it yourself) vehicle
-    -- @rewardCashMin: the minimum cash reward
-    -- @rewardCashMax: the maximum cash reward
-    -- @rewardCryptoMin: the minimum crypto reward
-    -- @rewardCryptoMax: the maximum crypto reward
-    -- @experiencePerJob: amount of experience points received when the contract is successful
-    -- @tuningChance: the probability of the vehicle being tuned (0-100%)
-    -- @riskChances: the probability of different risks on the vehicle
-    -- @doorsLocked: the probability that vehicle doors are locked
-    -- @advancedLockChance: the probability that vehicle doors are locked with an advanced lock (must use a better lock pick than the bad one)
-    -- @advancedSystemChance: the probability that vehicle doors are locked with an high-tech system (must use a hacking device)
-    -- @npcChance: the probability (percentage 0-100) that killer NPCs will spawn when you try to hack the vehicle.
-    -- npcChance can only be higher than 0 on classes that have isImportant = true. This is because isImportant boosts use different spawns that
-    -- have npc spawn locations built in (shared.lua advancedVehicleCoords). DO NOT use this variable on lower, non-important boosts.
+    -- Returns 'C' class for a vehicle when a class wasn't found for it
+    return 'C'
+end
 
-    -- BEFORE YOU MAKE ANY EDITS, PLEASE READ THE EXPLANATIONS ABOVE. TY - LOVE WEEP
-    vehicleClasses = {
-        [1] = {
-            class = "S",
-            xpRequired = 2500,
-            generationPercentage = 1,
-            timeBetweenGenerations = 120,
-            isImportant = true,
-            gpsHacksRequired = 20,
-            gpsHackMinTime = 20,
-            gpsHackMaxTime = 25,
-            maxContractsOfType = 1,
-            maxContractsPerSession = 1,
-            priceMin = 600,
-            priceMax = 950,
-            minScratchPrice = 9000,
-            maxScratchPrice = 17500,
-            rewardCashMin = 50000,
-            rewardCashMax = 80000,
-            rewardCryptoMin = 1000,
-            rewardCryptoMax = 1400,
-            experiencePerJob = 12,
-            tuningChance = 60,
-            riskChances = {
-                doorsLocked = 100,
-                advancedLockChance = 0,
-                advancedSystemChance = 100,
-                npcChance = 100
-            }
-        },
-        [2] = {
-            class = "A",
-            xpRequired = 800,
-            generationPercentage = 30,
-            timeBetweenGenerations = 30,
-            isImportant = true,
-            gpsHacksRequired = 10,
-            gpsHackMinTime = 25,
-            gpsHackMaxTime = 30,
-            maxContractsOfType = 1,
-            maxContractsPerSession = 2,
-            priceMin = 250,
-            priceMax = 450,
-            minScratchPrice = 2500,
-            maxScratchPrice = 4500,
-            rewardCashMin = 27500,
-            rewardCashMax = 37500,
-            rewardCryptoMin = 500,
-            rewardCryptoMax = 700,
-            experiencePerJob = 8,
-            tuningChance = 35,
-            riskChances = {
-                doorsLocked = 100,
-                advancedLockChance = 0,
-                advancedSystemChance = 100,
-                npcChance = 75
-            }
-        },
-        [3] = {
-            class = "B",
-            xpRequired = 100,
-            generationPercentage = 40,
-            timeBetweenGenerations = 0,
-            isImportant = false,
-            maxContractsOfType = 1,
-            maxContractsPerSession = 0,
-            priceMin = 40,
-            priceMax = 60,
-            minScratchPrice = 400,
-            maxScratchPrice = 600,
-            rewardCashMin = 3000,
-            rewardCashMax = 4000,
-            rewardCryptoMin = 60,
-            rewardCryptoMax = 90,
-            experiencePerJob = 3,
-            tuningChance = 25,
-            riskChances = {
-                doorsLocked = 100,
-                advancedLockChance = 50,
-                advancedSystemChance = 0,
-                npcChance = 0
-            }
-        },
-        [4] = {
-            class = "C",
-            xpRequired = 6,
-            generationPercentage = 50,
-            timeBetweenGenerations = 0,
-            isImportant = false,
-            maxContractsOfType = 2,
-            maxContractsPerSession = 0,
-            priceMin = 3,
-            priceMax = 6,
-            minScratchPrice = 30,
-            maxScratchPrice = 60,
-            rewardCashMin = 1500,
-            rewardCashMax = 2500,
-            rewardCryptoMin = 6,
-            rewardCryptoMax = 9,
-            experiencePerJob = 2,
-            tuningChance = 25,
-            riskChances = {
-                doorsLocked = 100,
-                advancedLockChance = 0,
-                advancedSystemChance = 0,
-                npcChance = 0
-            }
-        },
-        [5] = {
-            xpRequired = 0,
-            class = "D",
-            generationPercentage = 70,
-            timeBetweenGenerations = 0,
-            isImportant = false,
-            maxContractsOfType = 3,
-            maxContractsPerSession = 0,
-            priceMin = 0,
-            priceMax = 0,
-            minScratchPrice = 20,
-            maxScratchPrice = 40,
-            rewardCashMin = 1000,
-            rewardCashMax = 1800,
-            rewardCryptoMin = 1,
-            rewardCryptoMax = 1,
-            experiencePerJob = 1,
-            tuningChance = 25,
-            riskChances = {
-                doorsLocked = 0,
-                advancedLockChance = 0,
-                advancedSystemChance = 0,
-                npcChance = 0
-            }
-        }
-    },
+-- Debug Stuff below
+-- TriggerEvent('es:addCommand', "carclass", function(source, args, char)
+--     local vehicle = GetVehiclePedIsIn(GetPlayerPed(source), false)
+--     local model = GetEntityModel(vehicle)
+--     local myClass = getVehicleClassFromHash(model)
+--     notifyPlayer(source, "This vehicle is ".. model .. " and is a " .. myClass .. " class.")
+-- end, { help = "Get Racing Items - TESTING PURPOSES" })
 
-    storeItems = {
-        ['nospacka'] = {
-            cashRequired = 6000,
-            cryptoRequired = 100,
-            availablePerRestart = 10,
-            isSoldOut = false,
-            title = "Nitrous oxide (Stage 1)",
-            description = "When you need that extra bit of boost.",
-            iconFile = 'nitrous-oxide.png',
-            receiveItemIds = {
-                [1] = 'NOS Bottle (Stage 1)',
-            }
-        },
-        ['nospackb'] = {
-            cashRequired = 17500,
-            cryptoRequired = 210,
-            availablePerRestart = 5,
-            isSoldOut = false,
-            title = "Nitrous oxide (Stage 1 & 2)",
-            description = "When you need that extra bit of boost.",
-            iconFile = 'nitrous-oxide.png',
-            receiveItemIds = {
-                [1] = 'NOS Bottle (Stage 1)',
-                [2] = 'NOS Bottle (Stage 2)',
-            }
-        },
-        ['lockpick'] = {
-            cashRequired = 950,
-            cryptoRequired = 10,
-            availablePerRestart = 10,
-            isSoldOut = false,
-            title = "Lockpick",
-            description = "A low-quality lockpick which will get the job done.",
-            iconFile = 'lockpick.png',
-            receiveItemIds = {
-                [1] = 'Lockpick'
-            }
-        },
-        ['repairkit'] = {
-            cashRequired = 1500,
-            cryptoRequired = 20,
-            availablePerRestart = 5,
-            isSoldOut = false,
-            title = "Repair kit (LW)",
-            description = "Will get your car moving when you break down. Light Weight Edition",
-            iconFile = 'repair-kit.png',
-            receiveItemIds = {
-                [1] = 'Repair Kit'
-            }
-        },
-        ['racingdongle'] = {
-            cashRequired = 1500,
-            cryptoRequired = 0,
-            availablePerRestart = 75,
-            isSoldOut = false,
-            title = "Racing Dongle",
-            description = "Prepare yourself to enter the racing world",
-            iconFile = 'racingtablet.png',
-            receiveItemIds = {
-                [1] = 'Racing Dongle'
-            }
-        }
-    }
-}
+-- -- Testing Phase
+-- TriggerEvent('es:addCommand', 'raceitems', function(source, args, char)
+--     local char = exports["usa-characters"]:GetCharacter(source)
+--     local itemOne = { name = "Racing Dongle", type = "misc",  quantity = 1,  legality = "legal",  weight = 1,  objectModel = "hei_prop_hst_usb_drive" }
+--     local itemTwo = { name = "Tablet", type = "misc",  quantity = 1,  legality = "legal",  weight = 3,  objectModel = "imp_prop_impexp_tablet" }
+--     char.giveItem(itemOne)
+--     char.giveItem(itemTwo)
+-- end, { help = "Get Racing Items - TESTING PURPOSES" })
 
 -- Feel free to add your own vehicles here. Most of the default cars are here, modded cars have to be added!
 supportedVehicles = {
-    -- S CLASS
+    -- Df Class:*
+    { name = "Declasse Drift Tampa", model = "tampa2", class = "V"},
+    -- CUSTOM- Df Class
+    { name = "Mazda Miata", model = "na6", class = "Df" },
+    { name = "Nissan 240SX", model = "rmod240sx", class = "Df" },
+    { name = "Nissan 240SX (s14)", model = "silvia3", class = "Df" },
+    { name = "Nissan S15", model = "s15yoshio", class = "Df" },
+    { name = "Mitsubishi EVO IX", model = "evoix", class = "Df" },
+    { name = "Toyota Chaser", model = "razerchaser", class = "Df" },
+    { name = "1982 Datsun Bluebird 910 SSS", model = "datsun910", class = "Df" },
+    { name = "1985 Toyota Sprinter Trueno GT Apex (AE86)", model = "ae86", class = "Df" },
+    { name = "Chevorlet Corvette C6", model = "GODzC6FD", class = "Df" },
+    { name = "Chevorlet Corvette C6 RC", model = "GODzC6FD_RC", class = "Df" },
+    { name = "Ford Mustang", model = "bugfd", class = "Df" },
+    -- Event Class:**
+    { name = "Formula", model = "formula", class = "DD" },
+    { name = "Formula", model = "formula2", class = "DD" },
+    { name = "Benefactor BR8", model = "openwheel1", class = "DD" },
+    { name = "Benefactor BR8", model = "openwheel2", class = "DD" },
+    { name = "1975 Ferrari 312T2", model = "312t2", class = "DD" },
+    { name = "2022 Red Bull RB18", model = "rb18", class = "DD" },
+    { name = "Bruiser", model = "bruiser", class = "DD" },
+    { name = "Bruiser", model = "bruiser2", class = "DD" },
+    { name = "Bruiser", model = "bruiser3", class = "DD" },
+    { name = "Bruiser", model = "bruiser4", class = "DD" },
+    { name = "Brutus", model = "brutus3", class = "DD" },
+    { name = "Dominator", model = "dominator4", class = "DD" },
+    { name = "Dominator", model = "dominator6", class = "DD" },
+    { name = "Issi", model = "issi4", class = "DD" },
+    { name = "Issi", model = "issi5", class = "DD" },
+    { name = "Issi", model = "issi6", class = "DD" },
+    { name = "Impaler", model = "impaler4", class = "DD" },
+    { name = "Monster", model = "monster3", class = "DD" },
+    { name = "Monster", model = "monster4", class = "DD" },
+    { name = "Monster", model = "monster5", class = "DD" },
+    { name = "Slamvan", model = "slamvan6", class = "DD" },
+    { name = "Cerebus", model = "cerebus2", class = "DD" },
+    { name = "Cerebus", model = "cerebus3", class = "DD" },
+    -- X Class:**
+    { name = "Truffade Adder", model = "adder", class = "X" },
+    { name = "Truffade Nero", model = "nero", class = "X" },
+    { name = "Truffade Nero (Custom)", model = "nero2", class = "X" },
+    { name = "Truffade Thrax", model = "thrax", class = "X" },
+    { name = "Benefactor LM87", model = "lm87", class = "X" },
+    -- CUSTOM- X Class:
+    { name = "2011 Bugatti Veyron Super Sport", model = "supersport", class = "X" },
+    { name = "2017 Koenigsegg Agera RS", model = "agerars", class = "X" },
+    { name = "Koenigsegg Jesko", model = "rmodjesko", class = "X" },
+    -- S Class:**
     { name = "Lampadati Tigon", model = "tigon", class = "S" },
     { name = "Pfister 811", model = "pfister811", class = "S" },
     { name = "Pegassi Vacca", model = "vacca", class = "S" },
@@ -275,6 +126,7 @@ supportedVehicles = {
     { name = "Annis LE7B", model = "lE7B", class = "S" },
     { name = "Overflod Tyrant", model = "tyrant", class = "S" },
     { name = "Overflod Zeno", model = "zeno", class = "S" },
+    { name = "Pegassi Tezeract", model = "tezeract", class = "S" },
     { name = "Grotti Visione", model = "visione", class = "S" },
     { name = "Pegassi Zorrusso", model = "zorrusso", class = "S" },
     { name = "Dewbauchee Vagner", model = "vagner", class = "S" },
@@ -312,7 +164,7 @@ supportedVehicles = {
     { name = "Obey 10F", model = "tenf", class = "S" },
     { name = "Obey 10F Widebody", model = "tenf2", class = "S" },
     { name = "Pegassi Torero XO", model = "torero2", class = "S" },
-    -- Custom S Class
+    -- CUSTOM- S Class:
     { name = "1999 Lamborghini Diablo GTR", model = "500gtrlam", class = "S" },
     { name = "Mclaren 600LT", model = "600lt", class = "S" },
     { name = "Ferrari F8 Tributo", model = "f8t", class = "S" },
@@ -325,9 +177,13 @@ supportedVehicles = {
     { name = "Ferrari F40", model = "rmodf40", class = "S" },
     { name = "Italdesign Nissan GTR-50", model = "rmodgtr50", class = "S" },
     { name = "Lamborghini Sian", model = "rmodsianr", class = "S" },
+    { name = "BMW I8", model = "I8", class = "S" },
     { name = "Porsche 911 Turbo S", model = "pts21", class = "S" },
     { name = "Porsche GT3", model = "pgt3", class = "S" },
-    -- A CLASS
+    { name = "2020 Tesla Roadster", model = "tesroad20", class = "S" },
+    { name = "Lamborghini Terzo Millennio", model = "ocnlamtmc", class = "S" },
+    { name = "Lotus Evija", model = "evija", class = "S" },
+    -- A Class:**
     { name = "Sultan RS", model = "sultanrs", class = "A" },
     { name = "Annis Elegy Retro", model = "elegy", class = "A" },
     { name = "Bravado Banshee 900R", model = "banshee2", class = "A" },
@@ -374,13 +230,29 @@ supportedVehicles = {
     { name = "Enus Paragon", model = "paragon", class = "A" },
     { name = "Enus Windsor", model = "windsor", class = "A" },
     { name = "Grotti Brioso R/A", model = "brioso", class = "A" },
+    { name = "Coil Voltic", model = "voltic", class = "A" },
     { name = "Vapid Dominator", model = "dominator", class = "A" },
     { name = "Vapid Dominator GTX", model = "dominator3", class = "A" },
     { name = "Vapid Dominator ASP", model = "dominator7", class = "A" },
     { name = "Vapid Dominator GTT", model = "dominator8", class = "A" },
     { name = "Bravado Gauntlet", model = "gauntlet", class = "A" },
     { name = "Declasse Vigero ZX", model = "vigero2", class = "A" },
-    -- Custom A Class
+    { name = "Enus Stafford", model = "stafford", class = "A" },
+    { name = "Vapid Blade", model = "blade", class = "A" },
+    { name = "Imponte Dukes", model = "dukes", class = "A" },
+    { name = "Declasse Vamos", model = "vamos", class = "A" },
+    { name = "Vapid Ellie", model = "ellie", class = "A" },
+    { name = "Imponte Ruiner", model = "ruiner", class = "A" },
+    { name = "Declasse Sabre Turbo", model = "sabregt", class = "A" },
+    { name = "Vapid Slamvan", model = "slamvan", class = "A" },
+    { name = "Vapid Slamvan Custom", model = "slamvan3", class = "A" },
+    { name = "Declasse Tampa", model = "tampa", class = "A" },
+    { name = "Declasse Yosemite", model = "yosemite", class = "A" },
+    { name = "Ubermacht Sentinel SG4", model = "sentinelsg4", class = "A" },
+    { name = "Ocelot Locust", model = "locust", class = "A" },
+    { name = "Ocelot Lynx", model = "lynx", class = "A" },
+    { name = "Maibatsu Penumbra FF", model = "penumbra2", class = "A" },
+    -- CUSTOM- A Class:
     { name = "Dodge Challenger", model = "16challenger", class = "A" },
     { name = "2016 Dodge Charger", model = "16charger", class = "A" },
     { name = "2021 Chevrolet Camaro", model = "21camaro", class = "A" },
@@ -408,15 +280,22 @@ supportedVehicles = {
     { name = "Mercedes GT63", model = "rmodgt63", class = "A" },
     { name = "Mercedes C63 AMG", model = "C63AMG", class = "A" },
     { name = "2020 Audi RS6 Avant", model = "rs62", class = "A" },
+    { name = "BMW 1100R Street Fighter", model = "BMW1100R", class = "A" },
+    { name = "2016 BMW S1000RR", model = "BMWS1000RR", class = "A" },
     { name = "2017 Subaru WRX STI", model = "sti17", class = "A" },
     { name = "Toyota Supra Mk4", model = "supra2", class = "A" },
     { name = "Nissan Skyline (R34)", model = "skyline", class = "A" },
     { name = "2016 Maserati GranTurismo", model = "stradale18", class = "A" },
+    { name = "Tesla Model S Prior Design", model = "teslapd", class = "A" },
+    { name = "Tesla Model S", model = "models", class = "A" },
+    { name = "Tesla Model S", model = "teslamodels", class = "A" },
+    { name = "Tesla Model X", model = "teslax", class = "A" },
     { name = "Bentley Bacalar", model = "rmodbacalar", class = "A" },
     { name = "Aston Martin DBS", model = "rmodmartin", class = "A" },
     { name = "Ford Raptor Pandem", model = "razerpandemraptor", class = "A" },
     { name = "Chrysler 300 SRT8", model = "300srt8", class = "A" },
-    -- B CLASS
+    { name = "Porsche Taycan", model = "taycan", class = "A" },
+    -- B Class:**
     { name = "Bravado Gauntlet Hellfire", model = "gauntlet4", class = "B" },
     { name = "Declasse Hotring Sabre", model = "hotring", class = "B" },
     { name = "Imponte Beater Dukes", model = "dukes3", class = "B" },
@@ -467,6 +346,11 @@ supportedVehicles = {
     { name = "Lampadati Felon", model = "felon", class = "B" },
     { name = "Lampadati Cinquemila", model = "cinquemila", class = "B" },
     { name = "Pfister Astron", model = "astron", class = "B" },
+    { name = "Obey I-Wagen", model = "iwagen", class = "B" },
+    { name = "Coil Raiden", model = "raiden", class = "B" },
+    { name = "Pfister Neon", model = "neon", class = "B" },
+    { name = "Coil Cyclone", model = "cyclone", class = "B" },
+    { name = "Cheval Surge", model = "surge", class = "B" },
     { name = "Ubermacht Rebla", model = "rebla", class = "B" },
     { name = "Gallivanter Baller LE", model = "baller3", class = "B" },
     { name = "Gallivanter Baller ST", model = "baller7", class = "B" },
@@ -483,11 +367,62 @@ supportedVehicles = {
     { name = "Rhinehart", model = "rhinehart", class = "B" },
     { name = "Imponte Ruiner ZZ-8", model = "ruiner4", class = "B" },
     { name = "Ubermacht Sentinel Classic Widebody", model = "sentinel4", class = "B" },
-    
-    -- Custom B Class
+    { name = "Declasse Draugur", model = "draugur", class = "B" },
+    { name = "BF Weevil Custom", model = "weevil2", class = "B" },
+    { name = "Weeny Issi Sport", model = "issi7", class = "B" },
+    { name = "Vapid Flash GT", model = "flashgt", class = "B" },
+    { name = "Obey Omnis", model = "omnis", class = "B" },
+    { name = "Lampadati Tropos Rallye", model = "tropos", class = "B" },
+    { name = "Vapid GB200", model = "gb200", class = "B" },
+    { name = "Lampadati Michelli GT", model = "michelli", class = "B" },
+    { name = "Nagasaki Outlaw", model = "outlaw", class = "B" },
+    { name = "Karin Everon", model = "everon", class = "B" },
+    { name = "Annis Hellion", model = "hellion", class = "B" },
+    { name = "Vapid Trophy Truck", model = "trophytruck", class = "B" },
+    { name = "Vapid Desert Raid", model = "trophytruck2", class = "B" },
+    { name = "Vapid Slamvan", model = "slamvan2", class = "B" },
+    { name = "RUNE Cheburek", model = "cheburek", class = "B" },
+    { name = "Albany Buccaneer", model = "buccaneer", class = "B" },
+    { name = "Albany Buccaneer Custom", model = "buccaneer2", class = "B" },
+    { name = "Vapid Clique", model = "clique", class = "B" },
+    { name = "Willard Faction", model = "faction", class = "B" },
+    { name = "Willard Faction Custom", model = "faction2", class = "B" },
+    { name = "Declasse Impaler", model = "impaler", class = "B" },
+    { name = "Imponte Nightshade", model = "nightshade", class = "B" },
+    { name = "Imponte Phoenix", model = "phoenix", class = "B" },
+    { name = "Cheval Picador", model = "picador", class = "B" },
+    { name = "Bravado Rat-Truck", model = "ratloader2", class = "B" },
+    { name = "Declasse Sabre Turbo Custom", model = "sabregt2", class = "B" },
+    { name = "Declasse Stallion", model = "stalion", class = "B" },
+    { name = "Declasse Tulip", model = "tulip", class = "B" },
+    { name = "Declasse Vigero", model = "vigero", class = "B" },
+    { name = "Albany Virgo", model = "virgo", class = "B" },
+    { name = "Benefactor Stirling GT", model = "feltzer3", class = "B" },
+    { name = "Lampadati Casco", model = "casco", class = "B" },
+    { name = "Invetero Coquette Classic", model = "coquette2", class = "B" },
+    { name = "Invetero Coquette Blackfin", model = "coquette3", class = "B" },
+    { name = "Grotti GT500", model = "gt500", class = "B" },
+    { name = "Declasse Mamba", model = "mamba", class = "B" },
+    { name = "Grotti Stinger", model = "stinger", class = "B" },
+    { name = "Grotti Stinger GT", model = "stingergt", class = "B" },
+    { name = "Ocelot Swinger", model = "swinger", class = "B" },
+    { name = "Lampadati Viseris", model = "viseris", class = "B" },
+    { name = "Dewbauchee Rapid GT Classic", model = "rapidgt3", class = "B" },
+    { name = "Bravado Gauntlet Classic", model = "gauntlet3", class = "B" },
+    { name = "Bravado Gauntlet Classic Custom", model = "gauntlet5", class = "B" }, 
+    { name = "Coil Savanna", model = "savanna", class = "B" },
+    { name = "Albany VSTR", model = "vstr", class = "B" },
+    { name = "Lampadati Novak", model = "novak", class = "B" },
+    { name = "BF Club", model = "club", class = "B" },
+    { name = "Vapid Retinue", model = "retinue", class = "B" },
+    { name = "Vapid Retinue MkII", model = "retinue2", class = "B" },
+    { name = "Maxwell Vagrant", model = "vagrant", class = "B" },
+    -- CUSTOM- B Class:
     { name = "Toyota 4Runner", model = "4runner", class = "B" },
     { name = "2019 Mercedes-Benz S650 Maybach", model = "19S650", class = "B" },
     { name = "2021 Cadillac Escalade", model = "21escalade", class = "B" },
+    { name = "1993 Porsche 928 GTS", model = "928gts", class = "B" },
+    { name = "1979 Chevrolet Hoonigan K5 Blazer", model = "k5", class = "B" },
     { name = "2002 Chevrolet Camaro", model = "camaro02", class = "B" },
     { name = "2008 Chevrolet Tahoe", model = "tahoe08", class = "B" },
     { name = "2021 Ford Bronco Wildtrak", model = "wildtrak", class = "B" },
@@ -496,11 +431,14 @@ supportedVehicles = {
     { name = "BMW E30", model = "alpinae30", class = "B" },
     { name = "BMW E34", model = "e34", class = "B" },
     { name = "2016 BMW X5", model = "x5m2016", class = "B" },
+    { name = "2020 BMW i4", model = "ocni422spe", class = "B" },
     { name = "BMW Z3", model = "z3", class = "B" },
     { name = "Subaru BRZ", model = "brz13", class = "B" },
     { name = "Chevrolet C-10 Stepside Custom", model = "c10custom", class = "B" },
     { name = "1969 Chevrolet Camaro SS", model = "camaro69", class = "B" },
     { name = "1970 Chevrolet Camaro Z28", model = "camaro70", class = "B" },
+    { name = "2018 Can Am Maverick", model = "can", class = "B" },
+    { name = "2020 Lincoln Continental (Custom Wheels)", model = "cont", class = "B" },
     { name = "1970 Chevrolet Corvette", model = "corvette70", class = "B" },
     { name = "Ford Crown Victoria", model = "crownvic2011", class = "B" },
     { name = "Rolls Royce Cullinan", model = "cullinan", class = "B" },
@@ -525,6 +463,7 @@ supportedVehicles = {
     { name = "Toyota Supra", model = "rmodsuprapandem", class = "B" },
     { name = "Mazda RX-7", model = "rx7rb", class = "B" },
     { name = "Chevrolet Silverado 2500 HD", model = "silv2500hd", class = "B" },
+    { name = "Chevrolet Silverado (Single Cab)", model = "silv20", class = "B" },
     { name = "Subaru WRX STI", model = "subisti08", class = "B" },
     { name = "2004 Subaru WRX STI", model = "subwrx", class = "B" },
     { name = "2016 Rolls Royce Wraith", model = "wraith", class = "B" },
@@ -532,7 +471,7 @@ supportedVehicles = {
     { name = "2020 Ford F-450", model = "20f450", class = "B" },
     { name = "2020 Ford F-350", model = "f350d", class = "B" },
     { name = "2020 GMC Sierra 3500HD", model = "GODz3500HDWELDER", class = "B" },
-    { name = "Volkswagon Golf (MK6)", model = "golfmk6", class = "B" },
+    { name = "Volkswagon Golf (Mk6)", model = "golfmk6", class = "B" },
     { name = "Acura RSX (DC5)", model = "dc5", class = "B" },
     { name = "Audi A6", model = "a6", class = "B" },
     { name = "Voodoo Caddy S", model = "voodoo_caddys", class = "B" },
@@ -542,7 +481,13 @@ supportedVehicles = {
     { name = "Dodge Ram TRX", model = "dodgetrx", class = "B" },
     { name = "Ford F100 Slammed", model = "slammedf100", class = "B" },
     { name = "Dababy Car", model = "dababy", class = "B" },
-    -- C CLASS
+    { name = "Ford Mach E", model = "mache", class = "B" },
+    { name = "Audi e-tron GT", model = "ocnetrongt", class = "B" },
+    { name = "2018 Harley Davidson FLHXS", model = "flhxs_streetglide_special18", class = "B" },
+    { name = "Harley Davidson Road King", model = "na25", class = "B" },
+    { name = "2022 Sur Ron Lightbee Pxx", model = "22Surron", class = "B" },
+    -- C Class:**
+    { name = "Declasse Yosemite Rancher", model = "yosemite3", class = "C" },
     { name = "Dinka Blista Compact", model = "blista2", class = "C" },
     { name = "Karin Asterope", model = "asterope", class = "C" },
     { name = "Vulcar Ingot", model = "ingot", class = "C" },
@@ -560,8 +505,8 @@ supportedVehicles = {
     { name = "Gallivanter Baller", model = "baller", class = "C" },
     { name = "Gallivanter Baller", model = "baller2", class = "C" },
     { name = "Karin BeeJay XL", model = "bjxl", class = "C" },
-    { name = "Albany Cavalcade", model = "cavalcade", class = "C" },
-    { name = "Albany Cavalcade", model = "cavalcade2", class = "C" },
+    { name = "Albany Cavalcade", model = "cavcade", class = "C" },
+    { name = "Albany Cavalcade", model = "cavcade2", class = "C" },
     { name = "Fathom FQ-2", model = "fq2", class = "C" },
     { name = "Declasse Granger", model = "granger", class = "C" },
     { name = "Declasse Granger 3600LX", model = "granger", class = "C" },
@@ -578,16 +523,59 @@ supportedVehicles = {
     { name = "Dinka Kanjo SJ", model = "kanjosj", class = "C" },
     { name = "Dinka Postlude", model = "postlude", class = "C" },
     { name = "Bravado Greenwood", model = "greenwood", class = "C" },
-    -- Custom C Class
+    { name = "MTL Dune", model = "rallytruck", class = "C" },
+    { name = "Vapid Caracara", model = "caracara2", class = "C" },
+    { name = "Vapid Contender", model = "contender", class = "C" },
+    { name = "Bravado Rumpo Custom", model = "rumpo3", class = "C" },
+    { name = "Benefactor Streiter", model = "streiter", class = "C" },
+    { name = "Canis Mesa", model = "mesa", class = "C" },
+    { name = "Canis Mesa Lifted", model = "mesa3", class = "C" },
+    { name = "Pfister Comet Safari", model = "comet4", class = "C" },
+    { name = "BF Bifta", model = "bifta", class = "C" },
+    { name = "Nagasaki Street Blazer", model = "blazer4", class = "C" },
+    { name = "Coil Brawler", model = "brawler", class = "C" },
+    { name = "Benefactor Dubsta 6x6", model = "dubsta3", class = "C" },
+    { name = "BF Dune Buggy", model = "dune", class = "C" },
+    { name = "BF Injection", model = "bfinjection", class = "C" },
+    { name = "Canis Kamacho", model = "kamacho", class = "C" },
+    { name = "Karin Rebel", model = "rebel", class = "C" },
+    { name = "Karin Rebel", model = "rebel2", class = "C" },
+    { name = "Vapid Guardian", model = "guardian", class = "C" },
+    { name = "Bravado Bison", model = "bison", class = "C" },
+    { name = "Vapid Bobcat XL", model = "bobcatxl", class = "C" },
+    { name = "Vapid Riata", model = "riata", class = "C" },
+    { name = "Benefactor Glendale", model = "glendale", class = "C" },
+    { name = "Vulcar Fagaloa", model = "fagaloa", class = "C" },
+    { name = "Weeny Issi Classic", model = "issi3", class = "C" },
+    { name = "Willard Faction Donk", model = "faction3", class = "C" },
+    { name = "Vapid Chino", model = "chino", class = "C" },
+    { name = "Vapid Chino Custom", model = "chino2", class = "C" },
+    { name = "Vapid Hotknife", model = "hotknife", class = "C" },
+    { name = "Albany Roosevelt", model = "btype", class = "C" },
+    { name = "Albany Roosevelt Valor", model = "btype3", class = "C" },
+    { name = "Truffade Z-Type", model = "ztype", class = "C" },
+    { name = "Declasse Moonbeam", model = "moonbeam", class = "C" },
+    { name = "Declasse Moonbeam Custom", model = "moonbeam2", class = "C" },
+    { name = "Bravado Rat-Loader", model = "ratloader", class = "C" },
+    { name = "Dewbauchee JB 700", model = "jb7002", class = "C" },
+    { name = "Vulcar Nebula Turbo", model = "nebula", class = "C" },
+    { name = "Imponte Deluxo", model = "deluxo2", class = "C" },
+    { name = "Benefactor Glendale Custom", model = "glendale2", class = "C" },
+    { name = "Dundreary Landstalker XL", model = "landstlkr2", class = "C" },
+    { name = "Coil Brawler HOA", model = "hoabrawler", class = "C" },
+    { name = "Canis Freecrawler", model = "freecrawler", class = "C" },
+    -- CUSTOM- C Class:
     { name = "1996 Chevrolet Impala SS", model = "impala", class = "C" },
     { name = "1959 Chevrolet Impala", model = "impala59c", class = "C" },
     { name = "Porsche 356", model = "356ac", class = "C" },
     { name = "1978 Ford F150", model = "f15078", class = "C" },
     { name = "1973 Chevrolet Caprice Nip Donk", model = "brainshack", class = "C" },
     { name = "1957 Ferrari California", model = "cali57", class = "C" },
+    { name = "Chevrolet Caprice (Donk)", model = "trixbox", class = "C" },
     { name = "Chevrolet Nova", model = "nova66", class = "C" },
     { name = "Ford Galaxie", model = "galaxie", class = "C" },
     { name = "Mercedes-Benz 300 SL", model = "mb300sl", class = "C" },
+    { name = "Volkswagon Golf (MK3)", model = "mk3", class = "C" },
     { name = "1973 Porsche 911", model = "porrs73", class = "C" },
     { name = "1986 Chevrolet Silverado", model = "SILV86", class = "C" },
     { name = "Weeny Tamworth", model = "tamworth", class = "C" },
@@ -595,7 +583,7 @@ supportedVehicles = {
     { name = "1963 Volkswagon Type 2", model = "type263", class = "C" },
     { name = "1966 Volkswagon Type 2", model = "type266", class = "C" },
     { name = "2000 Ford F350 Dually", model = "00f350d", class = "C" },
-    -- D CLASS
+    -- D Class:**
     { name = "Bravado Youga Classic 4x4", model = "youga3", class = "D" },
     { name = "Bravado Youga Custom", model = "youga4", class = "D" },
     { name = "Albany Manana Custom", model = "manana2", class = "D" },
@@ -614,7 +602,16 @@ supportedVehicles = {
     { name = "Brute Camper", model = "camper", class = "D" },
     { name = "Declasse Burrito", model = "burrito3", class = "D" },
     { name = "Canis Kalahari", model = "kalahari", class = "D" },
-    -- Vintage D Class
+    { name = "Karin Dilettante", model = "dilettante", class = "D" },
+    { name = "Karin Dilettante Patrol", model = "dilettante2", class = "D" },
+    { name = "Nagasaki Blazer", model = "blazer", class = "D" },
+    { name = "Nagasaki Lifeguard", model = "blazer2", class = "D" },
+    { name = "Canis Bodhi", model = "bodhi2", class = "D" },
+    { name = "Declasse Rancher XL", model = "rancherxl", class = "D" },
+    { name = "Bravado Duneloader", model = "dloader", class = "D" },
+    { name = "Vapid Sadler", model = "sadler", class = "D" },
+    { name = "Vapid Sandking", model = "sandking2", class = "D" },
+    { name = "Vapid Sandking XL", model = "sandking", class = "D" },
     { name = "BF Surfer", model = "surfer", class = "D" },
     { name = "BF Surfer Kona", model = "surfer2", class = "D" },
     { name = "Albany Hermes", model = "hermes", class = "D" },
@@ -632,4 +629,22 @@ supportedVehicles = {
     { name = "Zirconium Journey", model = "journey", class = "D" },
     { name = "Bravado Youga Classic", model = "youga2", class = "D" },
     { name = "BF Weevil", model = "weevil", class = "D" },
+    { name = "Chillybin", model = "chillybin", class = "D" },
+    { name = "Chariot Romero Hearse", model = "romero", class = "D" },
+    { name = "Weeny Dynasty", model = "dynasty", class = "D" },
+    { name = "Vapid Hustler", model = "hustler", class = "D" },
+    -- CUSTOM- D Class:
+    { name = "1932 Ford V-8 Coupé", model = "fordc32", class = "D" },
+}
+
+RegisterServerCallback {
+	eventName = 'rahe-racing:hasItem',
+	eventCallback = function(source)		
+		local char = exports["usa-characters"]:GetCharacter(source)
+        local reqItem = char.getItem("Tablet")
+        if reqItem then
+            return true
+        end
+        return false
+	end
 }

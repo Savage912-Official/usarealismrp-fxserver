@@ -20,4 +20,6 @@ Config.DumpsterSearchItems = {
 	{ name = "Large Scissors", price = 15, type = "misc", quantity = 1, legality = "legal", weight = 5, objectModel = "prop_cs_scissors"},
     { name = "Sturdy Rope", price = 100, type = "misc", quantity = 1, legality = "legal", weight = 15, objectModel = "prop_devin_rope_01  "},
     { name = "Bag", price = 100, type = "misc", quantity = 1, legality = "legal", weight = 15, objectModel = "prop_paper_bag_01"},
+	{ name = 'Hotwiring Kit', type = 'misc', price = 250, legality = 'illegal', quantity = 1, weight = 10 },
+	{ name = 'Lockpick', type = 'misc', price = 150, legality = 'illegal', quantity = 10, weight = 5 },
 }

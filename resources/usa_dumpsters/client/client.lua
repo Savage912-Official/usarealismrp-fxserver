@@ -71,7 +71,7 @@ function dumpsterKeyPressed()
             local dumpsterFound = false
             Citizen.Wait(0)
             DrawText3D(currentCoords.x, currentCoords.y, currentCoords.z + 1.0, '[E] - Search Dumpster')
-            if IsControlJustReleased(0, 54) then
+            if IsControlJustReleased(0, Config.SearchKey) then
                 for i = 1, #searched do
                     if searched[i] == realDumpster then
                         dumpsterFound = true

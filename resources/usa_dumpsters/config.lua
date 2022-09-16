@@ -2,6 +2,7 @@ Config = {}
 
 Config.WaitTime = 30 -- in minutes
 Config.FindItemChance = 45 -- Chance of finding items
+Config.SearchKey = 54 -- (E)
 
 Config.DumpsterSearchItems = {
 	{ name = "Pistol Parts", price = 3000, type = "weaponParts", weight = 10.0, quantity = 1 },

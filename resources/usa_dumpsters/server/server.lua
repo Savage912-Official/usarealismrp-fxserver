@@ -18,7 +18,9 @@ AddEventHandler('usa_dumpsters:server:giveDumpsterReward', function(securityToke
             char.giveItem(randomItem, 1)
             TriggerClientEvent('usa:notify', source, "You found " ..randomItem.name..".")
         else
-            TriggerClientEvent('usa:notify', source, "You don't have enough space!")
+            TriggerClientEvent('usa:notify', source, "Item dropped on ground!")
+            randomItem.coords = GetEntityCoords(GetPlayerPed(source))
+            TriggerEvent("interaction:addDroppedItem", randomItem)
         end
     else
         TriggerClientEvent('usa:notify', source, "You found nothing of interest")

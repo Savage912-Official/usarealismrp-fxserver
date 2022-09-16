@@ -79,12 +79,9 @@ function dumpsterKeyPressed()
                     if i == #searched and dumpsterFound then
                         exports.globals:notify("Dumpster already searched!")
                     elseif i == #searched and not dumpsterFound then
-                        exports.globals:loadAnimDict("amb@prop_human_bum_bin@base")
-                        if not IsEntityPlayingAnim(GetPlayerPed(source), "amb@prop_human_bum_bin@base", "base", 3) then
-                            TaskPlayAnim(GetPlayerPed(source), "amb@prop_human_bum_bin@base", "base", 8.0, 1.0, -1, 11, 1.0, false, false, false)
-                        end
-                        Citizen.Wait(100)
                         exports.globals:notify("Searching Dumpster")
+                        exports.globals:playAnimation("amb@prop_human_bum_bin@base", "base", 1500, 49, "Searching!")
+                        Wait(1500)
                         while securityToken == nil do
                             Wait(1)
                         end

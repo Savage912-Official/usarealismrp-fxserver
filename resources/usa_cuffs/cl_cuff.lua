@@ -6,7 +6,8 @@ local prevMaleVariation = 0
 local prevFemaleVariation = 0
 
 local uncuff_locations = {
-	{x = -533.3, y = 5291.5, z = 74.2}
+	{x = -533.3, y = 5291.5, z = 74.2},
+	{x = 605.73565673828, y = -3091.7116699219, z = 6.069260597229}
 }
 
 -- falling when running

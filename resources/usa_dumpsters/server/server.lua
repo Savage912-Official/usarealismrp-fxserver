@@ -1,5 +1,3 @@
-local timer = Config.WaitTime * 60 * 1000
-
 RegisterServerEvent('usa_dumpsters:server:startDumpsterTimer')
 AddEventHandler('usa_dumpsters:server:startDumpsterTimer', function(dumpster)
     startTimer(source, dumpster)
@@ -28,8 +26,13 @@ AddEventHandler('usa_dumpsters:server:giveDumpsterReward', function(securityToke
 end)
 
 function startTimer(id, object)
-    Citizen.CreateThread(function()
-        Citizen.Wait(timer)
-        TriggerClientEvent('usa_dumpsters:server:startDumpsterTimer', id, object)
-    end)
+    local timer = Config.WaitTime * 60 * 1000
+
+    while timer > 0 do
+        Wait(1000)
+        timer = timer - 1000
+        if timer == 0 then
+            TriggerClientEvent('usa_dumpsters:client:removeDumpster', id, object)
+        end
+    end
 end

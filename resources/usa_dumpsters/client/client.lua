@@ -1,15 +1,13 @@
 local searched = {3423423424}
 local canSearch = true
 local dumpsters = {218085040, 666561306, -58485588, -206690185, 1511880420, 682791951}
-local searchTime = 6000
 local idle = 0
 local dumpPos
 local nearDumpster = false
 local maxDistance = 2.5
 local listening = false
-local dumpster
+--local dumpster
 local currentCoords = nil
-local realDumpster
 
 function DrawText3D(x, y, z, text)
     SetTextScale(0.35, 0.35)
@@ -38,7 +36,7 @@ Citizen.CreateThread(function()
                 local distance
                 dumpster = GetClosestObjectOfType(pos.x, pos.y, pos.z, 1.0, dumpsters[i], false, false, false)
                 if dumpster ~= 0 then
-                    realDumpster = dumpster 
+                    dumpster = dumpster 
                 end
                 dumpPos = GetEntityCoords(dumpster)
                 local distance = #(pos - dumpPos)
@@ -73,7 +71,7 @@ function dumpsterKeyPressed()
             DrawText3D(currentCoords.x, currentCoords.y, currentCoords.z + 1.0, '[E] - Search Dumpster')
             if IsControlJustReleased(0, Config.SearchKey) then
                 for i = 1, #searched do
-                    if searched[i] == realDumpster then
+                    if searched[i] == dumpster then
                         dumpsterFound = true
                     end
                     if i == #searched and dumpsterFound then
@@ -87,10 +85,19 @@ function dumpsterKeyPressed()
                         end
                         TriggerServerEvent("usa_dumpsters:server:giveDumpsterReward", securityToken)
                         TriggerServerEvent('usa_dumpsters:server:startDumpsterTimer', dumpster)
-                        table.insert(searched, realDumpster)
+                        table.insert(searched, dumpster)
                     end
                 end
             end
         end
     end)
 end
+
+RegisterNetEvent('usa_dumpsters:client:removeDumpster')
+AddEventHandler('usa_dumpsters:client:removeDumpster', function(object)
+    for i = 1, #searched do
+        if searched[i] == object then
+            table.remove(searched, i)
+        end
+    end
+end)

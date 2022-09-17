@@ -1,6 +1,6 @@
 Config = {}
 
-Config.WaitTime = 30 -- in minutes
+Config.WaitTime = 45 -- in minutes
 Config.FindItemChance = 45 -- Chance of finding items
 Config.SearchKey = 54 -- (E)
 

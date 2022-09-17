@@ -4,12 +4,32 @@ Config.minimumSpeed = 10 -- km/h
 Config.groundHeight = 2.5 -- minimum height to perform and autocancel the superman animation.
 
 Config.allowedVehicles = {
-    [`crf450`] = true,
+    [`bmws100rr`] = true,
+    [`bmw1100r`] = true,
     [`manchez`] = true,
+    [`manchez2`] = true,
     [`sanchez`] = true,
+    [`sanchez2`] = true,
+    [`double`] = true,
+    [`bati`] = true,
+    [`bati2`] = true,
+    [`akuma`] = true,
+    [`carbonrs`] = true,
+    [`lectro`] = true,
+    [`hakuchou`] = true,
+    [`nemesis`] = true,
+    [`defiler`] = true,
+    [`ruffian`] = true,
+    [`pcj`] = true,
+    [`vader`] = true,
+    [`fcr`] = true,
+    [`fcr2`] = true,
+    [`vortex`] = true,
+    [`bf400`] = true,
+    [`esskey`] = true,
     [`diablous`] = true,
+    [`diablous2`] = true,
     [`seashark`] = true,
-    [`fmx`] = true,
 }
 
 Config.tricks = {

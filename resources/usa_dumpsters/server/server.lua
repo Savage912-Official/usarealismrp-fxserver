@@ -31,7 +31,7 @@ function startTimer(id, object)
     while timer > 0 do
         Wait(1000)
         timer = timer - 1000
-        if timer == 0 then
+        if timer <= 0 then
             TriggerClientEvent('usa_dumpsters:client:removeDumpster', id, object)
         end
     end

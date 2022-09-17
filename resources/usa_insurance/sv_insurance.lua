@@ -7,8 +7,8 @@ AddEventHandler("insurance:buyInsurance", function(userSource)
 	-- if source then return end -- prevent malicious LUA injuection
 	local char = exports["usa-characters"]:GetCharacter(userSource)
 	local insurance = char.get("insurance")
-	local money = char.get("money")
-	if money >= INSURANCE_COVERAGE_MONTHLY_COST then
+	local bank = char.get("bank")
+	if bank >= INSURANCE_COVERAGE_MONTHLY_COST then
 		local insurancePlan = {
 			planName = "LifeInvader Auto Insurance",
 			type = "auto",
@@ -17,10 +17,10 @@ AddEventHandler("insurance:buyInsurance", function(userSource)
 			purchaseTime = os.time()
 		}
 		char.set("insurance", insurancePlan)
-		char.removeMoney(INSURANCE_COVERAGE_MONTHLY_COST)
+		char.removeBank(INSURANCE_COVERAGE_MONTHLY_COST)
 		TriggerClientEvent("usa:notify", userSource, "~w~Thanks for purchasing auto insurance coverage! Your coverage expires in ~y~31~w~ days.")
 	else
-		TriggerClientEvent("usa:notify", userSource, "You ~r~don't have enough money~w~ to buy auto insurance coverage!")
+		TriggerClientEvent("usa:notify", userSource, "You ~r~don't have enough money in the bank~w~ to buy auto insurance coverage!")
 	end
 end)
 
@@ -31,14 +31,14 @@ AddEventHandler("insurance:fileClaim", function(vehicle_to_claim)
 	local insurance = char.get("insurance")
 	if insurance.type == "auto" then
 		if playerHasValidAutoInsurance(insurance) then
-			local cash = char.get("money")
+			local bank = char.get("bank")
 			local CLAIM_PROCESSING_FEE = math.floor(BASE_FEE + (PERCENTAGE * vehicle_to_claim.price))
-			if CLAIM_PROCESSING_FEE <= cash then
+			if CLAIM_PROCESSING_FEE <= bank then
 				TriggerEvent('es:exposeDBFunctions', function(couchdb)
 					exports["usa_vehinv"]:GetVehicleInventory(vehicle_to_claim.plate, function(inv)
 						inv.items = {}
 						couchdb.updateDocument("vehicles", vehicle_to_claim.plate, {{inventory = inv}, stored = true, impounded = false}, function() end)
-						char.removeMoney(CLAIM_PROCESSING_FEE)
+						char.removeBank(CLAIM_PROCESSING_FEE)
 						if vehicle_to_claim.make and vehicle_to_claim.model then
 							TriggerClientEvent("usa:notify", _source, "Filed an insurance claim for your " .. vehicle_to_claim.make .. " " .. vehicle_to_claim.model .. ".\n~y~Fee:~w~ $" .. CLAIM_PROCESSING_FEE)
 						else
@@ -51,7 +51,7 @@ AddEventHandler("insurance:fileClaim", function(vehicle_to_claim)
 					end)
 				end)
 			else
-				TriggerClientEvent("usa:notify", _source, "You don't have enough money to make a claim on that vehicle.")
+				TriggerClientEvent("usa:notify", _source, "You don't have enough money in the bank to make a claim on that vehicle.")
 			end
 		else
 			insurance.valid = false

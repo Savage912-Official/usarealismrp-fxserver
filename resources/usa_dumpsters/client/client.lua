@@ -95,7 +95,7 @@ end
 
 RegisterNetEvent('usa_dumpsters:client:removeDumpster')
 AddEventHandler('usa_dumpsters:client:removeDumpster', function(object)
-    for i = 1, #searched do
+    for i = #searched, 1, -1 do
         if searched[i] == object then
             table.remove(searched, i)
         end

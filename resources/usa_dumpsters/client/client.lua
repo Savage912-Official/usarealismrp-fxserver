@@ -54,8 +54,8 @@ Citizen.CreateThread(function()
                 FreezeEntityPosition(PlayerPedId(), true)
                 markAsSearched(nearbyDumpster)
                 exports.globals:notify("Searching Dumpster")
-                exports.globals:playAnimation("amb@prop_human_bum_bin@base", "base", 1500, 49, "Searching!")
-                Wait(1500)
+                exports.globals:playAnimation("amb@prop_human_bum_bin@base", "base", 10000, 49, "Searching!")
+                Wait(10000)
                 while securityToken == nil do
                     Wait(1)
                 end

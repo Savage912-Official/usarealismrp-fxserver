@@ -158,7 +158,7 @@ You'll also either want to disable the `block_vpn` script or get an account api 
 ]]
 
 -- for example:
-local char = exports["usa-characters]:GetCharacter(source) -- get the usa-characters resource character object for player with given source
+local char = exports["usa-characters"]:GetCharacter(source) -- get the usa-characters resource character object for player with given source
 
 if char.get("money") > 100 then
 	-- do something
@@ -176,10 +176,17 @@ if char.get("job") == "sheriff" then
 	-- do something
 end
 
+char.giveItem(item) -- give an item to player
+char.removeItem(item) -- remove an item from player
+
 char.set("job", "civ") -- player's job is now marked as civilian
 char.set("job", "mechanic") -- player's job is now marked as mechanic
 
-char.removeMoney(5000) -- remove $5,000 from player
+char.giveMoney(5000) -- give $5,000 cash to player
+char.removeMoney(5000) -- remove $5,000 cash from player
+char.giveBank(5000) -- give $5,000 bank to player
+char.removeBank(5000) -- remove $5,000 bank from player
+
 char.set("bank", char.get("bank") + math.random(100, 500)) -- give player random amount of money from $100 to $500 directly to their bank
 ```
 

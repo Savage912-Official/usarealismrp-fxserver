@@ -19,6 +19,7 @@ local function table_matches(t1, t2)
 end
 
 local function LeaveSlot(source)
+    if not Slots[source] then return end
     if DoesEntityExist(Slots[source].Reel1) then DeleteEntity(Slots[source].Reel1) end
     if DoesEntityExist(Slots[source].Reel2) then DeleteEntity(Slots[source].Reel2) end
     if DoesEntityExist(Slots[source].Reel3) then DeleteEntity(Slots[source].Reel3) end

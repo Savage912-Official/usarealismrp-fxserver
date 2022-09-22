@@ -16,7 +16,7 @@ local markets = {
       { name = "Pistol .50 Parts", price = 7000, type = "weaponParts", weight = 18.0, quantity = 1, stock = math.random(0, 2) },
       --{name = 'Pump Shotgun', type = 'weapon', hash = 487013001, price = 9000, legality = 'illegal', quantity = 1, weight = 30, stock = math.random(0, 2), objectModel = "w_sg_pumpshotgun"},
       { name = "Pump Shotgun Parts", price = 9000, type = "weaponParts", weight = 30.0, quantity = 1, stock = math.random(0, 2) },
-      { name = 'Hotwiring Kit', type = 'misc', price = 300, legality = 'illegal', quantity = 1, weight = 10, stock = math.random(0, 6)},
+      { name = 'Hotwiring Kit', type = 'misc', price = 300, legality = 'illegal', quantity = 1, weight = 10, stock = math.random(0, 8)},
       --{ name = "AP Pistol", type = "weapon", hash = 0x22D8FE39, price = 20000, legality = "illegal", quantity = 1, weight = 15, stock = math.random(0, 2), objectModel = "w_pi_appistol" },
       { name = "AP Pistol Parts", price = 20000, type = "weaponParts", weight = 15.0, quantity = 1, stock = math.random(0, 2) },
       --{ name = "Sawn-off", type = "weapon", hash = 0x7846A318, price = 30000, legality = "illegal", quantity = 1, weight = 30, stock = math.random(0, 3), objectModel = "w_sg_sawnoff", },
@@ -44,7 +44,7 @@ local markets = {
     ['coords'] = {-1936.9052734375, 2051.40625, 140.83247375488}, -- Vineyard
     ['items'] = {
       {name = 'Lockpick', type = 'misc', price = 150, legality = 'illegal', quantity = 1, weight = 5, stock = math.random(1, 5)},
-      {name = 'Hotwiring Kit', type = 'misc', price = 300, legality = 'illegal', quantity = 1, weight = 10, stock = math.random(0, 6)},
+      {name = 'Hotwiring Kit', type = 'misc', price = 300, legality = 'illegal', quantity = 1, weight = 10, stock = math.random(0, 8)},
       --{name = 'Heavy Shotgun', type = 'weapon', hash = 984333226, price = 20000, legality = 'illegal', quantity = 1, weight = 35, stock = math.random(0, 2), objectModel = "w_sg_heavyshotgun"},
       { name = "Heavy Shotgun Parts", price = 15000, type = "weaponParts", weight = 35.0, quantity = 1, stock = math.random(0, 2) },
       --{name = 'SNS Pistol', type = 'weapon', hash = -1076751822, price = 3500, legality = 'illegal', quantity = 1, weight = 8, stock = math.random(0, 3), objectModel = "w_pi_sns_pistol"},

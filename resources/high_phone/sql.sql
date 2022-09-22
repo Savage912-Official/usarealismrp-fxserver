@@ -74,7 +74,7 @@ CREATE TABLE IF NOT EXISTS `phone_messages` (
   `from` varchar(255) DEFAULT NULL,
   `to` varchar(255) DEFAULT NULL,
   `message` varchar(512) DEFAULT NULL,
-  `attachments` varchar(15000) NOT NULL DEFAULT '[]',
+  `attachments` varchar(9999) NOT NULL DEFAULT '[]',
   `time` bigint(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -82,7 +82,7 @@ CREATE TABLE IF NOT EXISTS `phone_darkmessages` (
   `from` varchar(255) DEFAULT NULL,
   `to` int(11) DEFAULT NULL,
   `message` varchar(512) DEFAULT NULL,
-  `attachments` varchar(15000) NOT NULL DEFAULT '[]',
+  `attachments` varchar(9999) NOT NULL DEFAULT '[]',
   `time` bigint(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -110,7 +110,7 @@ CREATE TABLE IF NOT EXISTS `phone_tweets` (
   `views` int(11) NOT NULL DEFAULT 0,
   `likes` int(11) NOT NULL DEFAULT 0,
   `time` bigint(20) DEFAULT NULL,
-  `likers` varchar(13000) NOT NULL DEFAULT '[]',
+  `likers` varchar(9999) NOT NULL DEFAULT '[]',
   PRIMARY KEY (`id`),
   KEY `id` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;

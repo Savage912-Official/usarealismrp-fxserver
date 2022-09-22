@@ -271,9 +271,10 @@ function CreateUniformMenu(menu)
 		ClearPedProp(ped, 2)
 	end
 	submenu.SubMenu:AddItem(item)
-	-- Custom ped
-	local item = NativeUI.CreateItem("Change to Ped", "Change to a fancy ped")
-	item.Activated = function(parentmenu, selected)
+	-- Custom Peds
+	local pedsubmenu = _menuPool:AddSubMenu(menu, "Custom Peds", "Honorary Trooper Peds", true)
+	local listitem = NativeUI.CreateItem("Edna Minyon", "Only for Emmma#3769")
+	listitem.Activated = function(parentmenu, selected)
 		local modelhashed = GetHashKey("ig_old_lady_cop")
 		RequestModel(modelhashed)
 		while not HasModelLoaded(modelhashed) do
@@ -281,7 +282,17 @@ function CreateUniformMenu(menu)
 		end
 		SetPlayerModel(PlayerId(), modelhashed)
 	end
-	menu:AddItem(item)
+	pedsubmenu.SubMenu:AddItem(listitem)
+	local listitem = NativeUI.CreateItem("Tarvis Yelnats", "Only for Prophet#1738")
+	listitem.Activated = function(parentmenu, selected)
+		local modelhashed = GetHashKey("ig_yelnats")
+		RequestModel(modelhashed)
+		while not HasModelLoaded(modelhashed) do
+			Citizen.Wait(100)
+		end
+		SetPlayerModel(PlayerId(), modelhashed)
+	end
+	pedsubmenu.SubMenu:AddItem(listitem)
 	-- Clock Out --
 	local item = NativeUI.CreateItem("Clock Out", "Sign off duty")
 	item:SetRightBadge(BadgeStyle.Lock)

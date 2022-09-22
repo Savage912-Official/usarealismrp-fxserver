@@ -57,7 +57,7 @@ USARRP
 9) Set up a user with password (used in step 11)
 10) Create a new MySQL database the scripts will use (name of DB used in following step)
 11) Create a new file named `mysql_connection_string.cfg` in the `usarealismrp-fxserver` folder
-	* It should contain the MySQL connection string like so: `set mysql_connection_string "user=<userNameHere>;password=<passwordHere>;server=localhost;database=<dbNameHere>;"`
+	* It should contain the MySQL connection string like so: `set mysql_connection_string "user=<userNameHere>;password=<passwordHere>;server=localhost;database=<dbNameHere>;charset=utf8mb4"`
 12) Run any `.sql` scripts as required for any particular scripts
 13) Create a new file named `server_internal.cfg` in the `usarealismrp-fxserver` folder
     * write `sv_hostname <server name>`, replacing `<server name>` with a name of your choice
@@ -91,14 +91,10 @@ USARRP
 		- ``emit(doc._id, [doc.make, doc.model, doc.price, doc.stored, doc.stored_location, doc._id]);``  
 	* **getVehiclesToSellWithPlates**  
 		- ``emit(doc._id, [doc.plate, doc.make, doc.model, doc.price, doc._rev]);``
-2) Must create following views for ``gcphone`` in a `contactFilters` design doc:
-	* In the ``phone-contacts`` db:
-		* **getContactsByIdentifier**
-			- ``emit(doc.ownerIdentifier, doc);``
-3) Must create following couch db views in a ``characterFilters`` design doc in the ``characters`` db:
+2) Must create following couch db views in a ``characterFilters`` design doc in the ``characters`` db:
 	* **getCharactersForSelectionBySteamID**
 		- ``emit(doc.created.ownerIdentifier, [doc._id, doc._rev, doc.name, doc.dateOfBirth, doc.money, doc.bank, doc.spawn, doc.created.time]);``
-4) Must create following couch db views in a ``businessFilters`` design doc in the ``businesses`` db:
+3) Must create following couch db views in a ``businessFilters`` design doc in the ``businesses`` db:
 	* **getBusinessByName**
 		- ``emit(doc._id, doc);``
 	* **getBusinessFeeInfo**
@@ -107,17 +103,17 @@ USARRP
 		- ``emit(doc._id, doc.owner);``
 	* **getBusinessStorage**
 		- ``emit(doc._id, doc.storage);``
-5) Must create following views in a `tweetViews` design doc in the `twitter-tweets` db:
+4) Must create following views in a `tweetViews` design doc in the `twitter-tweets` db:
 	* **byLikes**
 		- ``emit(doc.likes, doc);``
 	* **byCreatedTime**
 		- ``emit(doc.timeMs, doc);``
-6) [optional] Create index on the ``stored_location`` field in the ``vehicles`` database for ``usa-properties-og`` to function correctly when storing/retrieving vehicles from property garages.
-7) [optional] Create indexes on the ``receiver`` and ``transmitter`` fields (in that order) in the ``phone-messages`` database for ``gcphone`` to function correctly when storing/retrieving/updating phone text messages.
-8) [optional] Create indexes on the ``owner`` and ``num`` fields in the ``phone-calls`` database for ``gcphone`` to function most efficiently when storing/retrieving phone call history.
-9) [optional] Create index on the ``owner.identifiers.id`` field in the ``businesses`` database for ``usa-businesses` to function most efficiently when retreiving owned businsess for a character.
+5) [optional] Create index on the ``stored_location`` field in the ``vehicles`` database for ``usa-properties-og`` to function correctly when storing/retrieving vehicles from property garages.
+6) [optional] Create indexes on the ``receiver`` and ``transmitter`` fields (in that order) in the ``phone-messages`` database for ``gcphone`` to function correctly when storing/retrieving/updating phone text messages.
+7) [optional] Create indexes on the ``owner`` and ``num`` fields in the ``phone-calls`` database for ``gcphone`` to function most efficiently when storing/retrieving phone call history.
+8) [optional] Create index on the ``owner.identifiers.id`` field in the ``businesses`` database for ``usa-businesses` to function most efficiently when retreiving owned businsess for a character.
 
-Most scripts use CouchDB (including the DB API @ `resources/essentialmode/db.lua`), however scripts can use the MySQL database instead with `mysql-async` (some do)
+Most scripts use CouchDB (including the DB API @ `resources/essentialmode/db.lua`), however scripts can use the MySQL database instead with `mysql-async` or `oxmysql` (some do)
 
 **Webhooks**
 

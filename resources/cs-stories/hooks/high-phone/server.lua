@@ -1,24 +1,9 @@
 return function(resource)
     exports[resource]:GetStoryPlayerName(function(source)
         -- You can replace a story's author name parser here, this will be stored in a story's metadata and you cannot change it on-demand.
-
-        local info = Config.FrameworkFunctions.getPlayer(source)
-
-        if (info) then
-            info = info.getIdentity()
-
-            if (info) then
-                if (info.firstname and info.lastname) then
-                    return info.firstname .. ' ' .. info.lastname
-                elseif (info.firstname) then
-                    return info.firstname
-                elseif (info.lastname) then
-                    return info.lastname
-                end
-            end
-        end
-
-        return GetPlayerName(source)
+        local char = exports["usa-characters"]:GetCharacter(source)
+        local name = char.get("name")
+        return name.first
     end)
 
     RegisterCommand('delete-phone-story', function(source, args, raw) -- The default way of deleting a story, an Ace-restricted command.

@@ -23,7 +23,9 @@ local function LeaveSlot(source)
     if DoesEntityExist(Slots[source].Reel1) then DeleteEntity(Slots[source].Reel1) end
     if DoesEntityExist(Slots[source].Reel2) then DeleteEntity(Slots[source].Reel2) end
     if DoesEntityExist(Slots[source].Reel3) then DeleteEntity(Slots[source].Reel3) end
-    UsedSlots[Slots[source].SlotNetID] = false
+    if UsedSlots[Slots[source].SlotNetID] then
+        UsedSlots[Slots[source].SlotNetID] = false
+    end
     Slots[source] = {}
 end
 

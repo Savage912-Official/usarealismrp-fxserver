@@ -1215,6 +1215,12 @@ function interactionMenuUse(index, itemName, wholeItem)
 			return
 		end
 		TriggerEvent("mechanic:usedPart", wholeItem)
+	elseif itemName == "Car Jack" then
+		TriggerEvent('kq_drifttires:client:useJackstand', source)
+	elseif itemName == "Regular Tire" then
+		TriggerEvent('kq_drifttires:client:takeOutTire', source, 0)
+	elseif itemName == "Drift Tire" then
+		TriggerEvent('kq_drifttires:client:takeOutTire', source, 1)
 	elseif itemName == "Beer Pong Kit" then
 		ExecuteCommand("createbeerpong")
 	elseif wholeItem.type and wholeItem.type == "tradingCard" then

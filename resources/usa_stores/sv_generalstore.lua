@@ -88,6 +88,9 @@ local HARDWARE_STORE_ITEMS = {
     { name = "Tablet", price = 1000, type = "misc", quantity = 1, legality = "legal", weight = 3, objectModel = "imp_prop_impexp_tablet", blockedInPrison = true}
   },
   ["Misc"] = {
+    { name = "Car Jack", type = "misc",  quantity = 1,  legality = "legal", price = 500,  weight = 15,  objectModel = "imp_prop_axel_stand_01a" },
+    { name = "Regular Tire", type = "misc",  quantity = 1,  legality = "legal", price = 750, weight = 15,  objectModel = "v_ind_cm_tyre06" },
+    { name = "Drift Tire", type = "misc",  quantity = 1,  legality = "legal",  price = 1500, weight = 15,  objectModel = "v_ind_cm_tyre08" },
     { name = "Repair Kit", price = 500, type = "misc", quantity = 1, legality = "legal", weight = 20, objectModel = "imp_prop_tool_box_01a"},
     {name = 'Razor Blade', type = 'misc', price = 60, legality = 'legal', quantity = 1, residue = false, weight = 3},
     { name = "First Aid Kit", price = 100, type = "misc", quantity = 1, legality = "legal", weight = 15, objectModel = "v_ret_ta_firstaid"},

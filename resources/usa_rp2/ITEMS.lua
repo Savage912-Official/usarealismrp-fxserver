@@ -164,6 +164,9 @@ local ITEMS = {
     { name = "5.56mm Bullets", type = "ammo", price = 600, weight = 0.5, quantity = 10, legality = "legal", objectModel = "prop_ld_ammo_pack_03"  },
     { name = "Taser Cartridge", type = "ammo", price = 50, weight = 0.25, quantity = 1 },
     { name = "Stun Gun", type = "weapon", hash = 911657153, price = 400, weight = 5 },
+    { name = "Car Jack", type = "misc",  quantity = 1,  legality = "legal", price = 500,  weight = 15,  objectModel = "imp_prop_axel_stand_01a" },
+    { name = "Regular Tire", type = "misc",  quantity = 1,  legality = "legal", price = 750, weight = 15,  objectModel = "v_ind_cm_tyre06" },
+    { name = "Drift Tire", type = "misc",  quantity = 1,  legality = "legal",  price = 1500, weight = 15,  objectModel = "v_ind_cm_tyre08" },
 }
 
 

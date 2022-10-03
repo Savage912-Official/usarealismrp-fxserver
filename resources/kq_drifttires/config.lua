@@ -29,7 +29,7 @@ Config.esxSettings = {
 
 --- SETTINGS FOR QBCORE
 Config.qbSettings = {
-    enabled = false,
+    enabled = true,
     
     -- Account that will be used for tire shop purchases
     moneyAccount = 'cash',
@@ -42,7 +42,7 @@ Config.qbSettings = {
 
 --- SETTINGS FOR STANDALONE
 Config.standaloneSettings = {
-    enabled = true,
+    enabled = false,
     sqlDriver = 'mysql', -- oxmysql or mysql
     
     -------------------------
@@ -70,7 +70,7 @@ Config.newOxMysql = false
 --- put it on back on the vehicle (This will allow players to swap tires without a wheel balancer)
 ---
 --- beware - server restart is highly recommended after changing this option.
-Config.advancedMode = true
+Config.advancedMode = false
 
 
 

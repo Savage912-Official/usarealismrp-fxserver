@@ -15,6 +15,7 @@ files {
 dependency 'essentialmode'
 
 shared_scripts {
+  "@pmc-callbacks/import.lua",
   "ITEMS.lua"
 }
 

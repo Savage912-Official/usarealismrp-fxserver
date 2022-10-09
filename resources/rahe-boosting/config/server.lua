@@ -265,7 +265,7 @@ svConfig = {
             description = "Time for a world of hacker man himself.",
             iconFile = 'laptop.png',
             receiveItemIds = {
-                [1] = 'Laptop'
+                [1] = 'Bank Laptop'
             }
         }
     }

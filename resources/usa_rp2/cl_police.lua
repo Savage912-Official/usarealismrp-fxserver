@@ -106,12 +106,23 @@ AddEventHandler("search:civSearchCheck", function(searchedSrc, searcherSrc, isLE
   local me = PlayerPedId()
   local isIncapacitated = IsPedDeadOrDying(me, 1)
   local handsTied = exports["usa_rp2"]:areHandsTied()
-  if isIncapacitated or handsTied or isLEO then
+  local handsUp = exports["usa_rp2"]:areHandsUp()
+  if isIncapacitated or handsTied or isLEO or handsUp then
     TriggerServerEvent("search:searchPlayer", searchedSrc, searcherSrc)
   else
     TriggerServerEvent("search:civSearchedCheckFailedNotify", searcherSrc)
   end
 end)
+
+RegisterClientCallback { 
+  eventName = "search:canBeSearched",
+  eventCallback = function()
+    local isIncapacitated = IsPedDeadOrDying(PlayerPedId(), 1)
+    local handsTied = exports["usa_rp2"]:areHandsTied()
+    local handsUp = exports["usa_rp2"]:areHandsUp()
+    return isIncapacitated or handsTied or handsUp
+  end
+}
 
 RegisterNetEvent("search:attemptToSearchNearestPerson")
 AddEventHandler("search:attemptToSearchNearestPerson", function()

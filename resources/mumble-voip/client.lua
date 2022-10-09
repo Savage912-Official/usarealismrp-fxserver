@@ -894,7 +894,7 @@ Citizen.CreateThread(function()
 
 			if mumbleConfig.radioEnabled then
 				if not mumbleConfig.controls.radio.pressed then
-					if IsControlJustPressed(0, mumbleConfig.controls.radio.key) and not IsPlayerFreeAiming(PlayerId()) then
+					if IsControlJustPressed(0, mumbleConfig.controls.radio.key) and not IsPlayerFreeAiming(PlayerId()) and exports.usa_injury:isConscious(PlayerPedId()) then
 						if playerData.radio > 0 then
 							SetVoiceData("radioActive", true)
 							playerData.radioActive = true
@@ -906,7 +906,7 @@ Citizen.CreateThread(function()
 							mumbleConfig.controls.radio.pressed = true
 
 							Citizen.CreateThread(function()
-								while IsControlPressed(0, mumbleConfig.controls.radio.key) and not IsPlayerFreeAiming(PlayerId()) do
+								while IsControlPressed(0, mumbleConfig.controls.radio.key) and not IsPlayerFreeAiming(PlayerId()) and exports.usa_injury:isConscious(PlayerPedId()) do
 									Citizen.Wait(0)
 								end
 

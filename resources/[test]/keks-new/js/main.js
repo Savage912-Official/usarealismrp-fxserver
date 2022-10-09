@@ -9,7 +9,7 @@
       "img/loadscreen-video-2.mp4",
       "img/loadscreen-video-3.mp4"
     ]
-    let chosenVideo = LOADSCREEN_VIDEOS[Math.floor(Math.random() * LOADSCREEN_VIDEOS.length)];
+    let chosenVideo = LOADSCREEN_VIDEOS[Math.floor(Math.random() * LOADSCREEN_VIDEOS.length) - 1];
     $("video").attr("src", chosenVideo)
 
     /* BEGIN HOWL RADIO PLAYER */

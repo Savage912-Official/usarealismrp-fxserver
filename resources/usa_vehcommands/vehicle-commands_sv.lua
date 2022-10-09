@@ -304,6 +304,11 @@ local VEHICLE_RANKS = {
 			allowedLiveries = { 1, 2},
 			hash = GetHashKey("fordambo")
 		},
+		["e20exp"] = {
+			rank = 1,
+			allowedLiveries = { 1, 2},
+			hash = GetHashKey("e20exp")
+		},
 		["p21tah"] = {
 			rank = 3,
 			allowedLiveries = {1, 2, 3, 4},

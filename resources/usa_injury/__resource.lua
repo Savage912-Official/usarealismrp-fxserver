@@ -4,5 +4,6 @@ client_script "cl_injury.lua"
 server_script "sv_injury.lua"
 
 exports {
-    "getPlayerInjuries"
+    "getPlayerInjuries",
+    "isConscious"
 }

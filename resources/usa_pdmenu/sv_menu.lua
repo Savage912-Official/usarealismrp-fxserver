@@ -3,7 +3,7 @@ local LEO_VEHICLES = {"pcvpi","p14tesla","p16tau", "p18char", "p18xl", "p20exp",
 local JOB_VEHICLES = {
 	["sheriff"] = LEO_VEHICLES,
 	["corrections"] = LEO_VEHICLES,
-	["ems"] = {"fordambo", "p21tah", "pierce1", "lguard2", "blazer", "sotruck"},
+	["ems"] = {"fordambo", "e20exp", "p21tah", "pierce1", "lguard2", "blazer", "sotruck"},
 	["doctor"] = {"p21tah"}
 }
 

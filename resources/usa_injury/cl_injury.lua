@@ -178,6 +178,71 @@ AddEventHandler('injuries:showMyInjuries', function()
     end
 end)
 
+local isEpi = false
+local epiTimer = nil
+
+Citizen.CreateThread(function()
+    while true do
+        Citizen.Wait(0)
+        if isEpi == true then
+            local beginTime = GetGameTimer()
+            while GetGameTimer() - beginTime < epiTimer * 1000 do
+                -- print((GetGameTimer() - beginTime))
+                Citizen.Wait(0)
+            end
+            if IsEntityDead(PlayerPedId()) then
+                TriggerEvent('usa:notify', 'The effect of the epinephrine has worn off you fall back unconscious')
+            end
+            TriggerEvent("usa_death:epi", false)
+            isEpi = false
+            epiTimer = nil
+        end
+    end
+end)
+
+RegisterNetEvent("usa_injury:epi")
+AddEventHandler("usa_injury:epi", function(bool)
+    if bool then
+        if IsEntityDead(PlayerPedId()) then
+            TriggerEvent('usa:notify', 'You have been injected with epinephrine, you are temporarily conscious and can talk')
+            TriggerEvent("usa_death:epi", true)
+            isEpi = true
+            epiTimer = 300 -- Five Minutes
+        end
+    else
+        TriggerEvent("usa_death:epi", false)
+        isEpi = false
+        epiTimer = 0
+    end
+end)
+
+function isConscious()
+    if IsEntityDead(PlayerPedId()) and not isEpi then
+        local seriousInjuries = 0
+        for bone, injuries in pairs(injuredParts) do
+            local boneName = parts[bone]
+            for injury, data in pairs(injuredParts[bone]) do
+                local type = injuredParts[bone][injury].type
+                local cause = injuredParts[bone][injury].string
+                if type == 'penetrating' or type == 'laceration' or type == 'burn' then
+                    if boneName == 'Head' or cause == "Explosion" then
+                        seriousInjuries = seriousInjuries + 3
+                    else
+                        seriousInjuries = seriousInjuries + 1
+                    end
+                end
+            end
+        end
+        if seriousInjuries >= 3 then
+            return false
+        else
+            return true
+        end
+    else
+        return true
+    end
+end
+
 Citizen.CreateThread(function()
     while true do
         Citizen.Wait(120000)

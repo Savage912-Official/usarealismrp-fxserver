@@ -515,6 +515,8 @@ Citizen.CreateThread(function()
 
     GenerateFrequencyList()
 
+    local injuryScript = exports.usa_injury
+
     while true do
         Citizen.Wait(0)
         -- Init local vars
@@ -526,7 +528,7 @@ Citizen.CreateThread(function()
         local broadcastType = 3 + (HAS_EARPIECE and 1 or 0) + (radioConfig.AllowRadioWhenClosed and 1 or 0) + ((Radio.Open and radioConfig.AllowRadioWhenClosed) and -1 or 0)
         local broadcastDictionary = Radio.Dictionary[broadcastType]
         local broadcastAnimation = Radio.Animation[broadcastType]
-        local isBroadcasting = IsControlPressed(0, radioConfig.Controls.Broadcast.Key) and not IsPlayerFreeAiming(PlayerId()) and GetLastInputMethod(0) and not IsEntityDead(playerPed)
+        local isBroadcasting = IsControlPressed(0, radioConfig.Controls.Broadcast.Key) and not IsPlayerFreeAiming(PlayerId()) and GetLastInputMethod(0) and injuryScript:isConscious(PlayerPedId())
         local isPlayingBroadcastAnim = IsEntityPlayingAnim(playerPed, broadcastDictionary, broadcastAnimation, 3)
 
         -- Open radio settings

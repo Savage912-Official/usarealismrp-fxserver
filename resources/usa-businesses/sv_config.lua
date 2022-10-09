@@ -45,6 +45,15 @@ BUSINESSES = {
 		price = 25000,
 		purchasePercentage = 0.09
 	},
+	["Benefactor Dealership"] = {
+		position = {-52.756038665771, 71.777839660645, 71.933853149414},
+		cameraID = 'store98',
+		isBeingRobbed = false,
+		lastRobbedTime = 0,
+		price = 30000,
+		purchasePercentage = 0.10,
+		notRobbable = true
+	},
 	["Car Dealership (Harmony)"] = {
 		position = {1234.0, 2737.2, 38.0},
 		cameraID = 'store33',

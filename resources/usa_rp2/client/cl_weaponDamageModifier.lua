@@ -78,16 +78,21 @@ end)
 -- 'modified weapon damage' anti cheat
 Citizen.CreateThread(function()
   local lastCheck = 0
+  local pierce1_hash = GetHashKey("pierce1")
   while true do
     if GetGameTimer() - lastCheck >= WEAPON_DAMAGE_MODIFIER_INTERVAL then
       lastCheck = GetGameTimer()
       if whatItShouldBeModifier then
         local currentWeapon = GetSelectedPedWeapon(PlayerPedId())
         local currentDamageModifier = GetWeaponDamageModifier(currentWeapon)
+        local veh = GetVehiclePedIsIn(PlayerPedId(), false)
+        local vehModel = GetEntityModel(veh)
         currentDamageModifier = tonumber(string.format("%.3f", currentDamageModifier))
-        if currentDamageModifier ~= whatItShouldBeModifier then
-          SetWeaponDamageModifier(currentWeapon, whatItShouldBeModifier)
-          TriggerServerEvent("usa:notifyStaff", "ANTICHEAT: Player with ID #" .. GetPlayerServerId(PlayerId()) .. " has modified their weapon damage! It was reset to what it should be.")
+        if vehModel ~= pierce1_hash then
+          if currentDamageModifier ~= whatItShouldBeModifier then
+            SetWeaponDamageModifier(currentWeapon, whatItShouldBeModifier)
+            TriggerServerEvent("usa:notifyStaff", "ANTICHEAT: Player with ID #" .. GetPlayerServerId(PlayerId()) .. " has modified their weapon damage! It was reset to what it should be.")
+          end
         end
       else
         if PlayerId() ~= 0 and GetPlayerWeaponDamageModifier(PlayerId()) ~= 1.0 then -- 1.0 being the default

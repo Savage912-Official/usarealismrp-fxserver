@@ -63,6 +63,11 @@ function CreateCharacter(data)
     if field == "money" then
       TriggerClientEvent("es:setMoneyDisplay", self.source, 1, data)
     elseif field == "job" then
+      if data == "ems" then
+        TriggerClientEvent("fire:setEMS", self.source, true)
+      else
+        TriggerClientEvent("fire:setEMS", self.source, false)
+      end
       self.adjustChatSuggestions(data)
     end
   end

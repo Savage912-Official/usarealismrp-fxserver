@@ -49,10 +49,11 @@ AddEventHandler("civ:robPlayerIfTiedOrDowned", function(fromSrc)
   local me = PlayerPedId()
   local isDowned = IsPedDeadOrDying(me, 1)
   local isTied = exports["usa_rp2"]:areHandsTied()
-  if isDowned or isTied then
+  local handsUp = exports["usa_rp2"]:areHandsUp()
+  if isDowned or isTied or handsUp then
     TriggerServerEvent("civ:continueRobbingPlayer", fromSrc)
   else
-    TriggerServerEvent("civ:notify", fromSrc, "Person not downed / hands tied")
+    TriggerServerEvent("civ:notify", fromSrc, "Person not downed / hands tied / hands not up")
   end
 end)
 
@@ -329,7 +330,7 @@ Citizen.CreateThread(function()
   while true do
     local playerPed = PlayerPedId()
     DisableControlAction(0, 73, true)
-    if IsControlPressed(1, 323) and DoesEntityExist(playerPed) then
+    if IsControlPressed(1, 323) and DoesEntityExist(playerPed) and not IsPedDeadOrDying(playerPed) then
       Citizen.CreateThread(function()
         RequestAnimDict(dict)
         while not HasAnimDictLoaded(dict) do
@@ -351,6 +352,7 @@ Citizen.CreateThread(function()
           end
           if hands_up then
             hands_up = false
+            TriggerServerEvent("civ:handsDown")
             ClearPedSecondaryTask(playerPed)
             Wait(800)
           end
@@ -386,9 +388,13 @@ end)
 
 RegisterNetEvent("crim:areHandsUp")
 AddEventHandler("crim:areHandsUp", function(from_source, to_source, action, x, y, z, heading)
-  if hands_up then
+  if hands_up == true and closeEnoughToPlayer(from_source) then
     if action == "tie" then
       TriggerServerEvent("crim:continueTyingHands", from_source, to_source, true, x, y, z, heading)
+    elseif action == "rob" then
+      TriggerServerEvent("crim:continueRobbing", true, from_source, to_source)
+    elseif action == "search" then
+      TriggerServerEvent("search:searchPlayer", to_source, from_source)
     end
   else
     TriggerServerEvent("crim:continueTyingHands", from_source, to_source, false)

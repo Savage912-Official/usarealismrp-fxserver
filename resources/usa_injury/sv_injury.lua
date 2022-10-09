@@ -124,6 +124,22 @@ end, {
 	}
 })
 
+TriggerEvent('es:addJobCommand', 'epi', {'ems', 'doctor', 'sheriff', 'corrections'}, function(source, args, char)
+	local _source = source
+	local targetSource = tonumber(args[2])
+	if targetSource and GetPlayerName(targetSource) and targetSource ~= _source then
+		TriggerClientEvent('usa_injury:epi', targetSource, true)
+		TriggerClientEvent('usa:notify', _source, 'Patient has been injected with epinephrine.')
+		exports.globals:sendLocalActionMessage(_source, "injects with epinephrine", 5.0, 3500)
+		TriggerClientEvent("usa:playAnimation", _source, "amb@medic@standing@tendtodead@base", "base", -8, 1, -1, 33, 0, 0, 0, 0, 3)
+	end
+end, {
+	help = 'Inject target with epinephrine to wake them from unconsciousness temporarily',
+	params = {
+		{ name = "id", help = "id of person to use epi pen on" }
+	}
+})
+
 TriggerEvent('es:addJobCommand', 'newrecord', {'ems', 'doctor'}, function(source, args, char)
 	local targetSource = tonumber(args[2])
 	local payment = math.ceil(tonumber(args[3]))
@@ -177,12 +193,18 @@ AddEventHandler('injuries:validateCheckin', function(playerInjuries, isPedDead, 
 	local totalPrice = BASE_CHECKIN_PRICE
 	local copsCalled = false
 	local isPolice = IsPlayerCop(usource)
+	local chance = math.random()
 	for bone, injuries in pairs(playerInjuries) do
 		for injury, data in pairs(playerInjuries[bone]) do
-			if SuspiciousWound(injuries[injury].string) and not copsCalled and not isPolice then
-				TriggerEvent('911:SuspiciousHospitalInjuries', char.getFullName(), x, y, z)
-				copsCalled = true
+			if chance < 0.45 then
+				local name
+				if SuspiciousWound(injuries[injury].string) and not copsCalled and not isPolice then
+					if chance > 0.25 then name = char.getFullName() else name = "Unidentified Individual" end
+					TriggerEvent('911:SuspiciousHospitalInjuries', name, x, y, z)
+					copsCalled = true
+				end
 			end
+			-- print(chance) -- DEBUG
 			totalPrice = totalPrice + injuries[injury].treatmentPrice
 			if injuries[injury].string == "High-speed Projectile" then 
 				treatmentTimeMinutes = treatmentTimeMinutes + 3

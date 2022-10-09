@@ -273,14 +273,24 @@ end
 
 RegisterServerEvent("search:foundPlayerToSearch")
 AddEventHandler("search:foundPlayerToSearch", function(id)
-	local fromSrc = source
-	local fromChar = exports["usa-characters"]:GetCharacter(fromSrc)
-	TriggerClientEvent("search:civSearchCheck", id, id, fromSrc, canBypassDownedOrTiedCheck(fromChar))
+	local src = source
+	local fromChar = exports["usa-characters"]:GetCharacter(src)
+	local canBypassSearchChecks = canBypassDownedOrTiedCheck(fromChar)
+	local civCanBeSearched = TriggerClientCallback {
+		source = id,
+		eventName = "search:canBeSearched",
+		args = {}
+	}
+	if canBypassSearchChecks or civCanBeSearched then
+		TriggerEvent("search:searchPlayer", id, src)
+	else
+		TriggerClientEvent("usa:notify", src, "Player not downed, tied, hands up")
+	end
 end)
 
 RegisterServerEvent("search:civSearchedCheckFailedNotify")
 AddEventHandler("search:civSearchedCheckFailedNotify", function(playerId)
-	TriggerClientEvent("usa:notify", playerId, "Person not downed / tied up")
+	TriggerClientEvent("usa:notify", playerId, "Person not downed / tied up / hands not up")
 end)
 
 TriggerEvent('es:addCommand', 'search', function(source, args, char)

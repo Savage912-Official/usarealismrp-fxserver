@@ -39,8 +39,6 @@ if not IS_SERVER then
 
     RegisterNetEvent('high_callback:serverCallback')
     AddEventHandler('high_callback:serverCallback', function(requestId, ...)
-        print("serverCallback start")
-        print(requestId)
         CServerCallbacks[requestId](...)
         CServerCallbacks[requestId] = nil
     end)
@@ -96,10 +94,6 @@ Config.FrameworkFunctions = {
     triggerCallback = function(name, cb, ...)
         CServerCallbacks[CurrentRequestId] = cb
 
-        print("triggerCallback start")
-        print(name)
-        print(CurrentRequestId)
-
         TriggerServerEvent('high_callback:triggerServerCallback', name, CurrentRequestId, ...)
 
         if CurrentRequestId < 65535 then
@@ -111,7 +105,6 @@ Config.FrameworkFunctions = {
     
     -- Server-side register callback
     registerCallback = function(name, cb)
-        -- print(name)
         ServerCallbacks[name] = cb
     end,
 
@@ -144,7 +137,6 @@ Config.FrameworkFunctions = {
 
     -- Server-side get player data
     getPlayer = function(source)
-        -- print("getPlayer")
         if source == "" or source == nil or not source then
             return nil 
         end
@@ -155,7 +147,6 @@ Config.FrameworkFunctions = {
             self.source = source
         end
         local char = exports["usa-characters"]:GetCharacter(self.source)
-        -- print(self.source)
         if char == nil or not char then 
             return nil 
         end
@@ -168,9 +159,6 @@ Config.FrameworkFunctions = {
         end
         self.jobGrade = 10
         self.identifier = char.get("_id")
-        -- print(self.identifier)
-        -- REMOVE THE -- IN FRONT OF self.onDuty IF YOU WANT TO CHECK IF THE PLAYER IS ON DUTY/IN SERVICE BEFORE SENDING HIM JOB MESSAGES/CALLS.
-        --self.onDuty = player.job.service == 1 or false
         self.money = {cash = char.get("money"), bank = char.get("bank")}
         self.number = Players[self.source] ~= nil and Players[self.source].number or nil
 
@@ -205,15 +193,12 @@ Config.FrameworkFunctions = {
             return c
         end
 
-        -- print(self)
         return self
 
     end,
 
     -- Server-side get player data by identifier
     getPlayerByIdentifier = function(ident)
-        -- print("\ngetbyIdent")
-        -- print(ident)
         local player = nil
         TriggerEvent("es:getPlayers", function(players)
             for i,v in pairs(players) do
@@ -227,8 +212,6 @@ Config.FrameworkFunctions = {
                 end
             end
         end)
-        -- print("player return:")
-        -- print(player)
         return player
     end
 }

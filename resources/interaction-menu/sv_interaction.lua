@@ -345,3 +345,11 @@ AddEventHandler("interaction:InvLoadHotkey", function(plate)
 		target_vehicle_plate = plate
 	})
 end)
+
+RegisterServerEvent("civ:handsDown")
+AddEventHandler("civ:handsDown", function()
+	for id, isAccessing in pairs(inventoriesBeingAccessed[source]) do
+		TriggerClientEvent("interaction:sendNUIMessage", id, { type = "close" })
+		inventoriesBeingAccessed[source] = nil
+	end
+end)

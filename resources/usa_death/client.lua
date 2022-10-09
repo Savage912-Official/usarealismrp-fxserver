@@ -93,11 +93,19 @@ function respawnPed(ped,coords)
 	TriggerEvent("chatMessage", "", { 0, 0, 0 }, "^1^*[RESPAWN] ^r^7You wake up at the local hospital, and can't seem to remember events leading up to now...")
 end
 
+RegisterNetEvent("usa_death:epi")
+AddEventHandler("usa_death:epi", function(bool)
+	if IsEntityDead(PlayerPedId()) then
+		TriggerEvent("mumble:setDead", not bool)
+	end 
+end)
+
 Citizen.CreateThread(function()
 	local playsound = false
 	local freeze = true
 	local triggerDeadEvents = false
 	local wasDead = false
+	local injuryScript = exports.usa_injury
 
 	local respawnCount = 0
 	local spawnPoints = {
@@ -111,13 +119,15 @@ Citizen.CreateThread(function()
 
 	while true do
 		Wait(0)
-		local ped = GetPlayerPed(-1)
+		local ped = PlayerPedId()
 
 		if (IsEntityDead(ped)) then
-                        if not wasDead then
-			  wasDead = true
-			  TriggerEvent("mumble:setDead", true)
-                        end
+            if not wasDead then
+				wasDead = true
+				if not injuryScript:isConscious(PlayerPedId()) then
+					TriggerEvent("mumble:setDead", true)
+				end
+            end
 			if triggerDeadEvents then
 				triggerDeadEvents = false
 				TriggerEvent('death:createLog', ped)
@@ -216,6 +226,7 @@ Citizen.CreateThread(function()
 			if wasDead then 
 				wasDead = false
 				TriggerEvent("mumble:setDead", false)
+				TriggerEvent("usa_injury:epi", false)
 			end
 			emscalled = false
 	  		allowRespawn = false

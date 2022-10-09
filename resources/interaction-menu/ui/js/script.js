@@ -1235,6 +1235,8 @@ $(function() {
             }
             /* Set page */
             interactionMenu.currentPage = "Inventory";
+        } else if (event.data.type == "close") {
+            CloseMenu();
         }
     });
     /* Close Menu */

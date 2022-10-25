@@ -1,0 +1,12 @@
+fx_version 'cerulean'
+games { 'rdr3', 'gta5' }
+
+files {
+	'events.meta',
+	'relationships.dat'
+}
+
+data_file 'FIVEM_LOVES_YOU_4B38E96CC036038F' 'events.meta'
+
+server_script 'server.lua'
+client_script 'client.lua'

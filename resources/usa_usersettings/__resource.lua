@@ -1,1 +1,0 @@
-server_script 'sv_usersettings.lua'

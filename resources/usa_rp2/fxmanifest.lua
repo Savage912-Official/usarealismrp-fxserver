@@ -1,0 +1,52 @@
+resource_type 'gametype' { name = 'usa_realism_rp' }
+
+-- Manifest
+fx_version 'cerulean'
+games { 'rdr3', 'gta5' }
+
+ui_page 'html/index.html'
+
+files {
+  'html/index.html',
+  'html/script.js',
+  'html/style.css'
+}
+
+-- Requiring essentialmode
+dependency 'essentialmode'
+
+shared_scripts {
+  "@pmc-callbacks/import.lua",
+  "ITEMS.lua"
+}
+
+-- General
+client_scripts {
+  'client.lua',
+  'cl_police.lua',
+  'cl_ems.lua',
+  'cl_civ.lua', 
+  'cl_judge.lua',
+  'cl_groupRelationships.lua', 
+  'cl_buyItemsFromHospital.lua',
+  'client/*.lua'
+}
+server_scripts {
+  'config.lua',
+  'server.lua',
+  'sv_police.lua',
+  'sv_ems.lua',
+  'sv_civ.lua',
+  'sv_judge.lua'
+}
+
+exports {
+  "areHandsTied",
+  "areHandsUp",
+  "isBlindfolded"
+}
+
+server_exports {
+  "handlePlayerDropDutyLog",
+  "GetRankName"
+}

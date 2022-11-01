@@ -433,12 +433,12 @@ TriggerEvent('es:addCommand', 'showbadge', function(source, args, char, location
 	local char_name = char.getFullName()
 	if police_rank > 0 then
 		exports["globals"]:sendLocalActionMessage(source, char_name .. " shows official police badge.")
-	    TriggerClientEvent("badge:client:animation", source)
+	        TriggerClientEvent("badge:client:animation", source)
 		local msg = "^*[SASP BADGE]^r ^2Name: ^0" .. char_name .. " - ^2SSN: ^0" .. source .. " - ^2Rank: ^0" .. GetRankName(police_rank, "sheriff")
 		exports["globals"]:sendLocalActionMessageChat(msg, location)
 	elseif bcso_rank > 0 then
 		exports["globals"]:sendLocalActionMessage(source, char_name .. " shows official police badge.")
-	    TriggerClientEvent("badge:client:animation", source)
+	        TriggerClientEvent("badge:client:animation", source)
 		local msg = "^*[BCSO BADGE]^r ^2Name: ^0" .. char_name .. " - ^2SSN: ^0" .. source .. " - ^2Rank: ^0" .. GetRankName(bcso_rank, "corrections")
 		exports["globals"]:sendLocalActionMessageChat(msg, location)
 	end

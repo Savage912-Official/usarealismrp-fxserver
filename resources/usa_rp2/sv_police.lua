@@ -427,26 +427,22 @@ AddEventHandler("police:seizeCash", function(amount)
 	end
 end)
 
-
-TriggerEvent('es:addJobCommand', 'showbadge', { "corrections", "sheriff" }, function(source, args, char, location)
-	local cjob = char.get("job")
+TriggerEvent('es:addCommand', 'showbadge', function(source, args, char, location)
+	local police_rank = char.get("policeRank")
+	local bcso_rank = char.get("bcsoRank")
 	local char_name = char.getFullName()
-	exports["globals"]:sendLocalActionMessage(source, char_name .. " shows official police badge.")
-	TriggerClientEvent("badge:client:animation", source)
-	if cjob == "sheriff" then
-		local police_rank = char.get("policeRank")
-		if police_rank > 0 then
-			local msg = "^*[SASP BADGE]^r ^2Name: ^0" .. char_name .. " - ^2SSN: ^0" .. source .. " - ^2Rank: ^0" .. GetRankName(police_rank, "sheriff")
-			exports["globals"]:sendLocalActionMessageChat(msg, location)
-		end
-	elseif cjob == "corrections" then
-		local bcso_rank = char.get("bcsoRank")
-		if bcso_rank > 0 then
-			local msg = "^*[BCSO BADGE]^r ^2Name: ^0" .. char_name .. " - ^2SSN: ^0" .. source .. " - ^2Rank: ^0" .. GetRankName(bcso_rank, "corrections")
-			exports["globals"]:sendLocalActionMessageChat(msg, location)
-		end
+	if police_rank > 0 then
+		exports["globals"]:sendLocalActionMessage(source, char_name .. " shows official police badge.")
+	    TriggerClientEvent("badge:client:animation", source)
+		local msg = "^*[SASP BADGE]^r ^2Name: ^0" .. char_name .. " - ^2SSN: ^0" .. source .. " - ^2Rank: ^0" .. GetRankName(police_rank, "sheriff")
+		exports["globals"]:sendLocalActionMessageChat(msg, location)
+	elseif bcso_rank > 0 then
+		exports["globals"]:sendLocalActionMessage(source, char_name .. " shows official police badge.")
+	    TriggerClientEvent("badge:client:animation", source)
+		local msg = "^*[BCSO BADGE]^r ^2Name: ^0" .. char_name .. " - ^2SSN: ^0" .. source .. " - ^2Rank: ^0" .. GetRankName(bcso_rank, "corrections")
+		exports["globals"]:sendLocalActionMessageChat(msg, location)
 	end
-end, { help = "Present your official police or EMS identification." })
+end, { help = "Present your official police identification." })
 
 function GetRankName(rank, dept)
 	local department = nil

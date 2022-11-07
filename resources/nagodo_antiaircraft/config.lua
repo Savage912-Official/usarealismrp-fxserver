@@ -6,7 +6,7 @@ Config = {
         {
             coords = vector3(1689.37, 2592.81, 78.34), 
             radius = 200.0, 
-            allowedJobs = {"police","sheriff","ems"}
+            allowedJobs = {"corrections","sheriff","ems"}
         },
     },
 

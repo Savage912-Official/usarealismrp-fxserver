@@ -1,15 +1,3 @@
 [submodule "resources/[EmergencyBlips]"]
 	path = resources/[EmergencyBlips]
 	url = https://github.com/minipunch/EmergencyBlips
-[submodule "resources/[custom_clothing]/usarrp-customClothing-converted"]
-	path = resources/[custom_clothing]/usarrp-customClothing-converted
-	url = git@github.com:minipunch/usarrp-customClothing-converted.git
-[submodule "resources/[custom_vehicles]"]
-	path = resources/[custom_vehicles]
-	url = git@github.com:minipunch/usarrp-customVehicles.git
-[submodule "resources/[custom_maps]"]
-	path = resources/[custom_maps]
-	url = git@github.com:minipunch/usarrp-custom-maps.git
-[submodule "resources/[trains]/usa_trains"]
-	path = resources/[trains]/usa_trains
-	url = git@github.com:maxgestic/Train-System.git

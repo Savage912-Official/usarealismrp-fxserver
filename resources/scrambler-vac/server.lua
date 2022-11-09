@@ -117,6 +117,7 @@ local events = {
   '911:SuspiciousHospitalInjuries',
   '911:SuspiciousWeaponBuying',
   '911:PlayerCall',
+  '911:LocalCall'
   '911:BankRobbery',
   '911:LockpickingDoor',
   '911:CuffCutting',

@@ -14,6 +14,8 @@ Config.UseESX = true
 Config.ItemOrangeDB = 'Orange'
 -- Do you want to use blips?
 Config.UseBlips = true
+-- Do you wan to use Tree blips
+Config.UseTreeBlips = false
 -- The price for buying an orange
 Config.BuyOrange = 40
 -- The sale price of an orange
@@ -32,6 +34,9 @@ Config.Blips = {
     [1] = {["x"] = 416.5863, ["y"] = 6520.8721, ["z"] = 26.7128, ["id"] = 569, ["color"] = 52, ["scale"] = 0.7, ["text"] = "Orange Factory"},
     [2] = {["x"] = 2564.1194, ["y"] = 4680.6182, ["z"] = 33.0768, ["id"] = 569, ["color"] = 52, ["scale"] = 0.7, ["text"] = "Orange Factory"},
     [3] = {["x"] = -1933.6201, ["y"] = 2039.0726, ["z"] = 140.8295, ["id"] = 569, ["color"] = 52, ["scale"] = 0.7, ["text"] = "Orange Factory"},
+    [4] = {["x"] = 350.67816162109, ["y"] = 6517.7192382813, ["z"] = 28.552055358887, ["id"] = 464, ["color"] = 47, ["scale"] = 0.9, ["text"] = "Orange Farm" },
+    [5] = {["x"] = -1775.7983398438, ["y"] = 2021.2008056641, ["z"] = 122.9554977417, ["id"] = 464, ["color"] = 47, ["scale"] = 0.9, ["text"] = "Orange Farm" },
+    [6] = {["x"] = 2396.0522460938, ["y"] = 4705.6186523438, ["z"] = 33.678695678711, ["id"] = 464, ["color"] = 47, ["scale"] = 0.9, ["text"] = "Orange Farm" },
 }
 
 Config.Orange = {

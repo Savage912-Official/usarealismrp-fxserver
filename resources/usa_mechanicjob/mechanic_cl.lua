@@ -268,6 +268,24 @@ locations = {
 			disable_blip = true
 		}
 	},
+	["McDougal Autocare Garage"] = {
+		duty = {
+			x = 947.2812,
+			y = -972.4387,
+			z = 39.4999
+		},
+		truck_spawn = {
+			x = 944.0109,
+			y = -975.4879,
+			z = 39.4999,
+			heading = 180.0
+		},
+		impound = nil,
+		ped = nil,
+		show_blip = {
+			disable_blip = true
+		}
+	},
 }
 	
 -- S P A W N  J O B  P E D S

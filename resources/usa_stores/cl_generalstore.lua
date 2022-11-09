@@ -43,7 +43,8 @@ TriggerServerEvent('generalStore:loadShopliftAreas')
 
 local HARDWARE_STORE_LOCATIONS = {
   {x = 46.38, y = -1749.47, z = 29.63},
-  {x = 2748.35, y = 3472.56, z = 55.67}
+  {x = 2748.35, y = 3472.56, z = 55.67},
+  {x = -3152.76, y = 1110.10, z = 20.87}
 }
 
 --------------------

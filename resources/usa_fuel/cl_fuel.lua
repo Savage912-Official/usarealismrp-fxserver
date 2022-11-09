@@ -389,7 +389,7 @@ function CreateMapBlips(type)
 				type = 'Gasoline'
 			}
 	        SetBlipSprite(blip, 361)
-	        SetBlipDisplay(blip, 3)
+	        SetBlipDisplay(blip, 2)
 	        SetBlipScale(blip, 0.5)
 	        SetBlipAsShortRange(blip, true)
 	        BeginTextCommandSetBlipName("STRING")
@@ -405,7 +405,7 @@ function CreateMapBlips(type)
 				type = 'Watercraft'
 			}
 	        SetBlipSprite(blip, 361)
-	        SetBlipDisplay(blip, 3)
+	        SetBlipDisplay(blip, 2)
 	        SetBlipScale(blip, 0.5)
 	        SetBlipColour(blip, 21)
 	        SetBlipAsShortRange(blip, true)
@@ -423,7 +423,7 @@ function CreateMapBlips(type)
 					type = 'Aircraft'
 				}
 		        SetBlipSprite(blip, 361)
-		        SetBlipDisplay(blip, 3)
+		        SetBlipDisplay(blip, 2)
 		        SetBlipScale(blip, 0.5)
 		        SetBlipColour(blip, 21)
 		        SetBlipAsShortRange(blip, true)

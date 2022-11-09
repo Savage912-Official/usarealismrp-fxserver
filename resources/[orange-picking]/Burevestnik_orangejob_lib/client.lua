@@ -78,7 +78,7 @@ Citizen.CreateThread(function()
 	end 
 end)
 
-if Config.UseBlips == true then
+if Config.UseTreeBlips == true then
     Citizen.CreateThread(function()
         for i=1, #Config.Orange, 1 do
             Citizen.Wait(100)

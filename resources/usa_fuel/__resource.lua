@@ -33,3 +33,5 @@ client_scripts {
 }
 
 server_script 'sv_fuel.lua'
+
+data_file 'DLC_ITYP_REQUEST' 'stream/mads_no_exp_pumps.ytyp'

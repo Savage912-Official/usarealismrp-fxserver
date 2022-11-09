@@ -157,7 +157,7 @@ Citizen.CreateThread(function()
 						local x, y, z = table.unpack(GetEntityCoords(GetPlayerPed(-1), true))
 			            local lastStreetHASH = GetStreetNameAtCoord(x, y, z)
 			            local lastStreetNAME = GetStreetNameFromHashKey(lastStreetHASH)
-			            TriggerServerEvent('911:PlayerCall', x, y, z, lastStreetNAME, "Local 911 Call about an unconscious person! Dispatch medical ASAP!")
+			            TriggerServerEvent('911:LocalCall', x, y, z, lastStreetNAME, "Local 911 Call about an unconscious person! Dispatch medical ASAP!")
 					end
 				end
 			end

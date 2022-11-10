@@ -1,18 +1,27 @@
 local isOpened = false
 
 RegisterCommand("aviator", function()
-  if not isOpened then
-    SetNuiFocus(true, true)
-    SendNUIMessage({
-      action = "open",
-    })
-    isOpened = true
+  local hasItems = TriggerServerCallback {
+    eventName = "oe-aviator:hasItems",
+    args = {}
+  }
+
+  if hasItems then
+    if not isOpened then
+      SetNuiFocus(true, true)
+      SendNUIMessage({
+        action = "open",
+      })
+      isOpened = true
+    else
+      SetNuiFocus(false, false)
+      SendNUIMessage({
+        action = "close"
+      })
+      isOpened = false
+    end
   else
-    SetNuiFocus(false, false)
-    SendNUIMessage({
-      action = "close"
-    })
-    isOpened = false
+    TriggerEvent("usa:notify", "You need a ~r~Tablet~w~ to use this dongle!")
   end
 end)
 

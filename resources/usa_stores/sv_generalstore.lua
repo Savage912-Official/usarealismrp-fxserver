@@ -90,7 +90,8 @@ local HARDWARE_STORE_ITEMS = {
     { name = "Radio", price = 2000, type = "misc", quantity = 1, legality = "legal", weight = 10, objectModel = "prop_cs_hand_radio" },
     { name = "Speaker", price = 5000, legality = "legal", quantity = 1, type = "misc", weight = 20, objectModel = "sm_prop_smug_speaker" },
     { name = "Megaphone", type = "weapon", hash = GetHashKey("WEAPON_MEGAPHONE"), price = 2000, legality = "legal", weight = 15, objectModel = "w_pi_megaphone" },
-    { name = "Tablet", price = 1000, type = "misc", quantity = 1, legality = "legal", weight = 3, objectModel = "imp_prop_impexp_tablet", blockedInPrison = true}
+    { name = "Tablet", price = 1000, type = "misc", quantity = 1, legality = "legal", weight = 3, objectModel = "imp_prop_impexp_tablet", blockedInPrison = true},
+    { name = "Casino Dongle", price = 1500, type = "misc", quantity = 1, legality = "legal", weight = 1, objectModel = "sf_prop_sf_usb_drive_01a", blockedInPrison = true },
   },
   ["Misc"] = {
     { name = "Repair Kit", price = 500, type = "misc", quantity = 1, legality = "legal", weight = 20, objectModel = "imp_prop_tool_box_01a"},

@@ -1219,6 +1219,8 @@ function interactionMenuUse(index, itemName, wholeItem)
 		TriggerEvent("rahe-boosting:client:openTablet")
 	elseif itemName == "Racing Dongle" then
 		TriggerEvent("rahe-racing:client:openTablet")
+	elseif itemName == "Casino Dongle" then
+		ExecuteCommand("aviator")
 	elseif itemName == "Crumpled Paper" then
 		TriggerEvent("core_rob_truck:hint")
 		TriggerServerEvent("usa:removeItem", itemName, 1)

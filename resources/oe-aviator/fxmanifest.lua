@@ -17,3 +17,7 @@ client_scripts {
 server_scripts {
 	"server/sv_*.lua"
 }
+
+shared_scripts {
+	"@pmc-callbacks/import.lua"
+}

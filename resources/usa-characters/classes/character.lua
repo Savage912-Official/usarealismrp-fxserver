@@ -140,10 +140,19 @@ function CreateCharacter(data)
   end
 
   rTable.removeWeapons = function()
+    local toIgnoreWeps = {"Plasma Pistol"}
+    function shouldIgnoreWep(item)
+      for i = 1, #toIgnoreWeps do
+        if toIgnoreWeps[i] == item.name then
+          return true
+        end
+      end
+      return false
+    end
     local inv = self.inventory
     for i = 0, inv.MAX_CAPACITY - 1 do
       local item = inv.items[tostring(i)]
-      if item then
+      if item and not shouldIgnoreWep(item) then
         if item.type == "weapon" then
           TriggerClientEvent("interaction:equipWeapon", self.source, item, false)
           self.inventory.items[tostring(i)] = nil

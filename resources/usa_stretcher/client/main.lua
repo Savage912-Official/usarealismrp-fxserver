@@ -170,6 +170,17 @@ Use = function(pushable)
 	LoadAnim(pushable.anim.dict)
 
 	if DoesEntityExist(pushable.closestObject) then
+
+		local isInPrison = TriggerServerCallback {
+			eventName = "jail:isInPrison",
+			args = {}
+		}
+
+		if isInPrison then
+			exports.globals:notify("Can't use that now")
+			return
+		end
+
 		currentlyUsing = true
 		--AttachEntityToEntity(PlayerPedId(), pushable.closestObject, 0, 0, 0.0, 0.4, 0.0, 0.0, 180.0, 0.0, false, true, false, false, 2, true)
 		AttachEntityToEntity(PlayerPedId(), pushable.closestObject, 0, 0, 0.0, (pushable.usingZPos or 0.4), 0.0, 0.0, 180.0, 0.0, false, true, false, false, 2, true)

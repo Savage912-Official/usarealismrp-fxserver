@@ -203,6 +203,26 @@ local ITEMS = {
     { name = "7.62mm Shell Casing", legality = "legal", quantity = 2, type = "misc", weight = 0.2 },
     { name = "5.56mm Shell Casing", legality = "legal", quantity = 2, type = "misc", weight = 0.2 },
     { name = "9x18mm Shell Casing", legality = "legal", quantity = 2, type = "misc", weight = 0.2 },
+    {
+        name = "Wheelchair",
+        price = 200,
+        type = "misc",
+        quantity = 1,
+        legality = "legal",
+        weight = 30,
+        objectModel = "prop_wheelchair_01",
+        invisibleWhenDropped = true
+    },
+    {
+        name = "Stretcher",
+        price = 400,
+        type = "misc",
+        quantity = 1,
+        legality = "legal",
+        weight = 40,
+        objectModel = "prop_ld_binbag_01",
+        invisibleWhenDropped = true
+    }
 }
 
 

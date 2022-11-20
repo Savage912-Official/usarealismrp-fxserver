@@ -45,7 +45,6 @@ local WEPS_WITH_MAGS = {
     -- shotguns --
     [GetHashKey("WEAPON_ASSAULTSHOTGUN")] = { accepts = "12 Gauge Shells", magAmmoCounts = {8, 32} },
     [GetHashKey("WEAPON_HEAVYSHOTGUN")] = { accepts = "12 Gauge Shells", magAmmoCounts = {6, 12, 30} },
-    [GetHashKey("WEAPON_DBSHOTGUN")] = { accepts = "12 Gauge Shells", magAmmoCounts = {2} },
 }
 
 local WEPS_NO_MAGS = {

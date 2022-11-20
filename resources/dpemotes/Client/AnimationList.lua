@@ -1837,6 +1837,14 @@ DP.Emotes = {
     {
         EmoteLoop = true,
     }},
+    ["gympose3"] = {"frabi@femalepose@solo@firstsport", "fem_pose_sport_004", "Gym Pose 3 - Planking Pose", AnimationOptions = 
+    {
+		EmoteLoop = true,
+    }},
+    ["gympose4"] = {"frabi@femalepose@solo@firstsport", "fem_pose_sport_005", "Gym Pose 4 - Sit Ups Pose", AnimationOptions = 
+    {
+        EmoteLoop = true,
+    }},
     ["relax"] = {"lying@on_grass", "base", "Relax", AnimationOptions =
     {
         EmoteLoop = true,
@@ -1864,10 +1872,59 @@ DP.Emotes = {
         EmoteMoving = false,
         EmoteLoop = true,
     }},
+    ["fpose1"] = {"nhyza@pose7", "pose7_clip", "Female Pose 1", AnimationOptions =
+    {
+        EmoteMoving = false,
+        EmoteLoop = false,
+    }},
+    ["fpose2"] = {"nhyza@pose8", "pose8_clip", "Female Pose 2", AnimationOptions =
+    {
+        EmoteMoving = false,
+        EmoteLoop = false,
+    }},
+    ["fpose3"] = {"nhyza@pose9", "pose9_clip", "Female Pose 3", AnimationOptions =
+    {
+        EmoteMoving = false,
+        EmoteLoop = false,
+    }},
+    ["fpose4"] = {"nhyza@pose10", "pose10_clip", "Female Pose 4", AnimationOptions =
+    {
+        EmoteMoving = false,
+        EmoteLoop = false,
+    }},
+    ["fpose5"] = {"nhyza@pose11", "pose11_clip", "Female Pose 5", AnimationOptions =
+    {
+        EmoteMoving = false,
+        EmoteLoop = false,
+    }},
+    ["fpose6"] = {"pose1@nhyza", "pose1_clip", "Female Pose 6", AnimationOptions =
+    {
+        EmoteMoving = false,
+        EmoteLoop = false,
+    }},
+    ["fpose7"] = {"nhyza@pose3", "pose3_clip", "Female Pose 7", AnimationOptions =
+    {
+        EmoteMoving = false,
+        EmoteLoop = false,
+    }},
+    ["fpose8"] = {"nhyza2@animation", "nhyza2_clip", "Female Pose 8", AnimationOptions =
+    {
+        EmoteMoving = false,
+        EmoteLoop = false,
+    }},
+    ["fpose9"] = {"nhyza@stairs", "stairs_clip", "Female Pose 9 Stairs", AnimationOptions =
+    {
+        EmoteMoving = false,
+        EmoteLoop = false,
+    }},
+    ["fpose10"] = {"nhyza@sit", "sit_clip", "Female Pose 10 Sit", AnimationOptions =
+    {
+        EmoteMoving = false,
+        EmoteLoop = false,
+    }},
 -----------------------------------------------------------------------------------------------------------
 ------ These are Scenarios, some of these dont work on women and some other issues, but still good to have.
 -----------------------------------------------------------------------------------------------------------
-
    ["atm"] = {"Scenario", "PROP_HUMAN_ATM", "ATM"},
    ["bbq"] = {"MaleScenario", "PROP_HUMAN_BBQ", "BBQ"},
    ["bumbin"] = {"Scenario", "PROP_HUMAN_BUM_BIN", "Bum Bin"},
@@ -3640,5 +3697,12 @@ DP.PropEmotes = {
         PropPlacement = {-0.0800, -0.0300, -0.1700, 11.4181, -159.1026, 15.0338},
         EmoteLoop = true,
         EmoteMoving = true,
+    }},
+    ["gamer"] = {"playing@with_controller", "base", "Gamer", AnimationOptions = 
+    {
+        Prop = 'prop_controller_01',
+        PropBone = 24818,
+        PropPlacement = {0.2890, 0.4110, 0.0020, -44.0174, 88.6103, -1.4385},
+        EmoteLoop = true,
     }},
 }

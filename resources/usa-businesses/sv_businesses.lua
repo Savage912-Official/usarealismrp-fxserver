@@ -1,3 +1,5 @@
+BUSINESS_AMOUT_CHAR = {}
+
 RegisterServerEvent("business:storeMoney")
 AddEventHandler("business:storeMoney", function(name, amount)
   local usource = source
@@ -167,12 +169,17 @@ AddEventHandler("business:lease", function(name)
     else
       local char = exports["usa-characters"]:GetCharacter(usource)
       if char.get("money") >= BUSINESSES[name].price then -- if has enough cash
-        char.removeMoney(BUSINESSES[name].price) -- take money
-        CreateNewBusiness(usource, name, function(newBusinessDoc) -- create doc
-          TriggerClientEvent("usa:notify", usource, "You now own: " .. name .. "!")
-          SendToDiscordLog(newBusinessDoc)
-          TriggerClientEvent("businesses:addMapBlip", usource, BUSINESSES[name].position)
-        end)
+        if BUSINESS_AMOUT_CHAR[char.get("_id")] < MAX_OWNED_BUSINESSES then
+          char.removeMoney(BUSINESSES[name].price) -- take money
+          BUSINESS_AMOUT_CHAR[char.get("_id")] = BUSINESS_AMOUT_CHAR[char.get("_id")] + 1
+          CreateNewBusiness(usource, name, function(newBusinessDoc) -- create doc
+            TriggerClientEvent("usa:notify", usource, "You now own: " .. name .. "! " .. BUSINESS_AMOUT_CHAR[char.get("_id")] .. "/" .. MAX_OWNED_BUSINESSES .. " max businesses!")
+            SendToDiscordLog(newBusinessDoc)
+            TriggerClientEvent("businesses:addMapBlip", usource, BUSINESSES[name].position)
+          end)
+        else
+          TriggerClientEvent("usa:notify", usource, "You already have too many businesses!")
+        end
       else
         TriggerClientEvent("usa:notify", usource, "You need $" .. comma_value(BUSINESSES[name].price) .. " to lease this business.")
       end
@@ -182,6 +189,18 @@ end)
 
 AddEventHandler("character:loaded", function(char)
   -- grab all owned businesses with this char's identifier and send their positions to the client for adding blips to map
+  loadCharBusinesses(char)
+end)
+
+AddEventHandler('onResourceStart', function(resourceName)
+  for i,v in ipairs(GetPlayers()) do
+    -- grab all owned businesses with this char's identifier and send their positions to the client for adding blips to map
+    local char = exports["usa-characters"]:GetCharacter(tonumber(v))
+    loadCharBusinesses(char)
+  end
+end)
+
+function loadCharBusinesses(char)
   TriggerEvent("es:exposeDBFunctions", function(db)
     local query = {
       owner = {
@@ -192,14 +211,17 @@ AddEventHandler("character:loaded", function(char)
     }
     db.findDocuments("businesses", { selector = query }, function(docs)
       local ownedBusinessesMapBlipData = {}
+      local counter = 0
       for i = 1, #docs do
+        counter = counter + 1
         print(docs[i].name)
         ownedBusinessesMapBlipData[docs[i].name] = BUSINESSES[docs[i].name].position
       end
+      BUSINESS_AMOUT_CHAR[char.get("_id")] = counter
       TriggerClientEvent("businesses:addMapBlips", char.get("source"), ownedBusinessesMapBlipData)
     end)
   end)
-end)
+end
 
 -- remove percentage from cash and return amount taken --
 function RobPercentageOfCashFromBusiness(name, percentage, cb)

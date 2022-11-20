@@ -116,6 +116,21 @@ AddEventHandler('es_admin:spawnVehicle', function(v)
 	end
 end)
 
+RegisterNetEvent('es_admin:fix')
+AddEventHandler('es_admin:fix', function()
+	local playerPed = GetPlayerPed(-1)
+	if IsPedInAnyVehicle(playerPed, false) then
+		local vehicle = GetVehiclePedIsIn(playerPed, false)
+		SetVehicleDirtLevel(vehicle, 0)
+		SetVehicleEngineHealth(vehicle, 1000)
+		SetVehicleEngineOn( vehicle, true, true )
+		SetVehicleFixed(vehicle)
+		notification("~g~Your vehicle has been fixed and cleaned!")
+	else
+		notification("~o~You're not in a vehicle!")
+	end
+end)
+
 RegisterNetEvent('es_admin:notifySound')
 AddEventHandler('es_admin:notifySound', function()
 	SetFlash(0, 0, 100, 100, 100)

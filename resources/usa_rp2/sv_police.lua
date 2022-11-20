@@ -26,6 +26,17 @@ local POLICE_RANKS = {
 		[9] = "Commander",
 		[10] = "Undersheriff",
 		[11] = "Sheriff"
+	},
+	["EMS"] = {
+		[1] = "Probationary Fire Paramedic",
+		[2] = "Fire Paramedic",
+		[3] = "Sr. Fire Paramedic",
+		[4] = "Engineer",
+		[5] = "Lieutenant",
+		[6] = "Captain",
+		[7] = "Battalion Chief",
+		[8] = "Assistant Fire Chief",
+		[9] = "Fire Chief"
 	}
 }
 
@@ -430,19 +441,60 @@ end)
 TriggerEvent('es:addCommand', 'showbadge', function(source, args, char, location)
 	local police_rank = char.get("policeRank")
 	local bcso_rank = char.get("bcsoRank")
+	local ems_rank = char.get("emsRank")
 	local char_name = char.getFullName()
-	if police_rank > 0 then
-		exports["globals"]:sendLocalActionMessage(source, char_name .. " shows official police badge.")
-		TriggerClientEvent("badge:client:animation", source)
-		local msg = "^*[SASP BADGE]^r ^2Name: ^0" .. char_name .. " - ^2SSN: ^0" .. source .. " - ^2Rank: ^0" .. GetRankName(police_rank, "sheriff")
-		exports["globals"]:sendLocalActionMessageChat(msg, location)
-	elseif bcso_rank > 0 then
-		exports["globals"]:sendLocalActionMessage(source, char_name .. " shows official police badge.")
-		TriggerClientEvent("badge:client:animation", source)
-		local msg = "^*[BCSO BADGE]^r ^2Name: ^0" .. char_name .. " - ^2SSN: ^0" .. source .. " - ^2Rank: ^0" .. GetRankName(bcso_rank, "corrections")
-		exports["globals"]:sendLocalActionMessageChat(msg, location)
+
+	if args[2] == "sasp" then	
+		if police_rank > 0 then
+			exports["globals"]:sendLocalActionMessage(source, char_name .. " shows official police badge.")
+			TriggerClientEvent("badge:client:animation", source)
+			local msg = "^*[SASP BADGE]^r ^2Name: ^0" .. char_name .. " - ^2SSN: ^0" .. source .. " - ^2Rank: ^0" .. GetRankName(police_rank, "sheriff")
+			exports["globals"]:sendLocalActionMessageChat(msg, location)
+		else
+			TriggerClientEvent("usa:notify", source, "Not whitelisted for this dept.")
+		end
+	elseif args[2] == "bcso" then
+		if bcso_rank > 0 then
+			exports["globals"]:sendLocalActionMessage(source, char_name .. " shows official police badge.")
+			TriggerClientEvent("badge:client:animation", source)
+			local msg = "^*[BCSO BADGE]^r ^2Name: ^0" .. char_name .. " - ^2SSN: ^0" .. source .. " - ^2Rank: ^0" .. GetRankName(bcso_rank, "corrections")
+			exports["globals"]:sendLocalActionMessageChat(msg, location)
+		else
+			TriggerClientEvent("usa:notify", source, "Not whitelisted for this dept.")
+		end
+	elseif args[2] == "ems" then
+		if ems_rank > 0 then
+			exports["globals"]:sendLocalActionMessage(source, char_name .. " shows official ems badge.")
+			TriggerClientEvent("badge:client:animation", source)
+			local msg = "^*[EMS BADGE]^r ^2Name: ^0" .. char_name .. " - ^2SSN: ^0" .. source .. " - ^2Rank: ^0" .. GetRankName(ems_rank, "ems")
+			exports["globals"]:sendLocalActionMessageChat(msg, location)
+		else
+			TriggerClientEvent("usa:notify", source, "Not whitelisted for this dept.")
+		end
+	elseif args[2] == nil then
+		if police_rank > 0 then
+			exports["globals"]:sendLocalActionMessage(source, char_name .. " shows official police badge.")
+			TriggerClientEvent("badge:client:animation", source)
+			local msg = "^*[SASP BADGE]^r ^2Name: ^0" .. char_name .. " - ^2SSN: ^0" .. source .. " - ^2Rank: ^0" .. GetRankName(police_rank, "sheriff")
+			exports["globals"]:sendLocalActionMessageChat(msg, location)
+		elseif bcso_rank > 0 then
+			exports["globals"]:sendLocalActionMessage(source, char_name .. " shows official police badge.")
+			TriggerClientEvent("badge:client:animation", source)
+			local msg = "^*[BCSO BADGE]^r ^2Name: ^0" .. char_name .. " - ^2SSN: ^0" .. source .. " - ^2Rank: ^0" .. GetRankName(bcso_rank, "corrections")
+			exports["globals"]:sendLocalActionMessageChat(msg, location)
+		elseif ems_rank > 0 then
+			exports["globals"]:sendLocalActionMessage(source, char_name .. " shows official ems badge.")
+			TriggerClientEvent("badge:client:animation", source)
+			local msg = "^*[EMS BADGE]^r ^2Name: ^0" .. char_name .. " - ^2SSN: ^0" .. source .. " - ^2Rank: ^0" .. GetRankName(ems_rank, "ems")
+			exports["globals"]:sendLocalActionMessageChat(msg, location)
+		end
 	end
-end, { help = "Present your official police identification." })
+end, {
+	help = "Show official police or ems badge.",
+	params = {
+		{ name = "dept", help = "Department: sasp, bcso, ems." }
+	}
+})
 
 function GetRankName(rank, dept)
 	local department = nil
@@ -450,6 +502,8 @@ function GetRankName(rank, dept)
 		department = "BCSO"
 	elseif dept == "sheriff" then 
 		department = "SASP"
+	elseif dept == "ems" then
+		department = "EMS"
 	end
 	return POLICE_RANKS[department][rank]
 end

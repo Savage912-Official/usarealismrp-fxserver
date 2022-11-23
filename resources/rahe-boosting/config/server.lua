@@ -348,6 +348,13 @@ supportedVehicles = {
     { name = "Jaguar C-X75", model = "cx75", class = "S" },
     { name = "Lamborghini Essenza", model = "rmodessenza", class = "S" },
     { name = "Mercedes SLR Stirling Moss", model = "moss", class = "S" },
+    { name = "Ford GT500" , model = "shelby20", class = "S" },
+    { name = "Mercedes-Benz AMG GT" , model = "rr20amggt", class = "S" },
+    { name = "Dodge Charger (Redeye)" , model = "chr20" , class = "S" },
+    { name = "Lamborghini Urus", model = "urustc", class = "S" },
+    { name = "Honda Civic (EG6)", model = "eg6", class = "S" },
+    { name = "Honda Civic (EK9)", model = "spoonek", class = "S" },
+    { name = "1993 Honda Civic (FnF)", model = "fnfcivic", class = "S" },
     -- A CLASS
     { name = "Sultan RS", model = "sultanrs", class = "A" },
     { name = "Annis Elegy Retro", model = "elegy", class = "A" },

@@ -521,9 +521,12 @@ local vehicleShopItems = {
 			{make = "Harley Davidson", model = "FLHXS (2018)", price = 70000, hash = "flhxs_streetglide_special18", storage_capacity = 95.0},
 			{make = "Harley Davidson", model = "Road King", price = 55000, hash = "na25", storage_capacity = 70.0},
 			--
-			{make = "Honda", model = "Accord (2020)", price = 75000, hash = "accord20", storage_capacity = 160.0},
+			{make = "Honda", model = "Accord (2020)", price = 75000, hash = "accord20", storage_capacity = 190.0},
 			{make = "Honda", model = "Civic Type-R (2001)", price = 60000, hash = "ep3", storage_capacity = 190.0},
-            		{make = "Honda", model = "Civic Type-R (2018)", price = 90000, hash = "FK8", storage_capacity = 190.0},
+			{make = "Honda", model = "Civic Type-R (2018)", price = 90000, hash = "FK8", storage_capacity = 190.0},
+			{make = "Honda", model = "Civic (EG6)", price = 100000, hash = "eg6", storage_capacity = 160.0},
+			{make = "Honda", model = "Civic (EK9)", price = 105000, hash = "spoonek", storage_capacity = 160.0},
+			{make = "Honda", model = "Civic (FnF) (1993)", price = 110000, hash = "fnfcivic", storage_capacity = 160.0},
 			--
 			{make = "Hummer", model = "H2", price = 110000, hash = "h2", storage_capacity = 300.0},
 			--

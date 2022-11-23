@@ -87,15 +87,7 @@ end
 ----------------------
 for i = 1, #CLOTHING_STORE_LOCATIONS do
 	if not CLOTHING_STORE_LOCATIONS[i].noblip then
-		local blip = AddBlipForCoord(CLOTHING_STORE_LOCATIONS[i].x, CLOTHING_STORE_LOCATIONS[i].y, CLOTHING_STORE_LOCATIONS[i].z)
-		SetBlipSprite(blip, 73)
-		SetBlipDisplay(blip, 4)
-		SetBlipScale(blip, 0.8)
-		SetBlipColour(blip, 43)
-		SetBlipAsShortRange(blip, true)
-		BeginTextCommandSetBlipName("STRING")
-		AddTextComponentString('Clothes Store')
-		EndTextCommandSetBlipName(blip)
+		TriggerEvent("usa_map_blips:addMapBlip", {CLOTHING_STORE_LOCATIONS[i].x, CLOTHING_STORE_LOCATIONS[i].y, CLOTHING_STORE_LOCATIONS[i].z}, 73, 4, 0.8, 43, true, 'Clothes Store', 'clothing_stores') --coords, sprite, display, scale, color, shortRange, name, groupName)
 	end
 end
 -----------------

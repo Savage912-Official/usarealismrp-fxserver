@@ -13,15 +13,7 @@ local BARBER_SHOPS = {
 }
 
 for i = 1, #BARBER_SHOPS do -- place map blips
-  local blip = AddBlipForCoord(BARBER_SHOPS[i].x, BARBER_SHOPS[i].y, BARBER_SHOPS[i].z)
-  SetBlipSprite(blip, 71  )
-  SetBlipDisplay(blip, 4)
-  SetBlipScale(blip, 0.8)
-  SetBlipColour(blip, 13)
-  SetBlipAsShortRange(blip, true)
-  BeginTextCommandSetBlipName("STRING")
-  AddTextComponentString('Barber Shop')
-  EndTextCommandSetBlipName(blip)
+  TriggerEvent("usa_map_blips:addMapBlip", {BARBER_SHOPS[i].x, BARBER_SHOPS[i].y, BARBER_SHOPS[i].z}, 71, 4, 0.8, 13, true, 'Barber Shop', 'barber_shops') --coords, sprite, display, scale, color, shortRange, name, groupName)
 end
 
 local purchases = {}

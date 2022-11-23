@@ -215,13 +215,5 @@ end)
 ---- Set up blips ----
 ----------------------
 for i = 1, #SHOPS do
-  local blip = AddBlipForCoord(SHOPS[i].x, SHOPS[i].y, SHOPS[i].z)
-  SetBlipSprite(blip, 75)
-  SetBlipDisplay(blip, 4)
-  SetBlipScale(blip, 0.8)
-  SetBlipColour(blip, 1)
-  SetBlipAsShortRange(blip, true)
-  BeginTextCommandSetBlipName("STRING")
-  AddTextComponentString('Tattoo Shop')
-  EndTextCommandSetBlipName(blip)
+    TriggerEvent("usa_map_blips:addMapBlip", {SHOPS[i].x, SHOPS[i].y, SHOPS[i].z}, 75, 4, 0.8, 1, true, 'Tattoo Shop', 'tattoo_shops') --coords, sprite, display, scale, color, shortRange, name, groupName)
 end

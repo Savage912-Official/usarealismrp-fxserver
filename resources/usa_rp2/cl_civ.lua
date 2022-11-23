@@ -688,11 +688,6 @@ Citizen.CreateThread(function()
           SetForcePedFootstepsTracks(false)
         end
       end
-
-      if GetSelectedPedWeapon(ped) == SNOWBALL_HASH then
-        SetPlayerWeaponDamageModifier(PlayerId(), 0.0)
-      end
-      
       Wait(0)
     end
 end)

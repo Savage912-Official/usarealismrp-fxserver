@@ -127,27 +127,11 @@ end
 ----------------------
 for i = 1, #GENERAL_STORE_LOCATIONS do
   if not GENERAL_STORE_LOCATIONS[i].prison then
-    local blip = AddBlipForCoord(GENERAL_STORE_LOCATIONS[i].x, GENERAL_STORE_LOCATIONS[i].y, GENERAL_STORE_LOCATIONS[i].z)
-    SetBlipSprite(blip, 52)
-    SetBlipDisplay(blip, 4)
-    SetBlipScale(blip, 0.7)
-    SetBlipAsShortRange(blip, true)
-    SetBlipColour(blip, 36)
-    BeginTextCommandSetBlipName("STRING")
-    AddTextComponentString('General Store')
-    EndTextCommandSetBlipName(blip)
+    TriggerEvent("usa_map_blips:addMapBlip", {GENERAL_STORE_LOCATIONS[i].x, GENERAL_STORE_LOCATIONS[i].y, GENERAL_STORE_LOCATIONS[i].z}, 52, 4, 0.7, 36, true, 'General Store', 'general_stores') --coords, sprite, display, scale, color, shortRange, name, groupName)
   end
 end
 for i = 1, #HARDWARE_STORE_LOCATIONS do
-  local blip = AddBlipForCoord(HARDWARE_STORE_LOCATIONS[i].x, HARDWARE_STORE_LOCATIONS[i].y, HARDWARE_STORE_LOCATIONS[i].z)
-  SetBlipSprite(blip, 473)
-  SetBlipDisplay(blip, 4)
-  SetBlipScale(blip, 0.7)
-  SetBlipAsShortRange(blip, true)
-  SetBlipColour(blip, 64)
-  BeginTextCommandSetBlipName("STRING")
-  AddTextComponentString('Hardware Store')
-  EndTextCommandSetBlipName(blip)
+    TriggerEvent("usa_map_blips:addMapBlip", {HARDWARE_STORE_LOCATIONS[i].x, HARDWARE_STORE_LOCATIONS[i].y, HARDWARE_STORE_LOCATIONS[i].z}, 473, 4, 0.7, 64, true, 'Hardware Store', 'hardware_stores') --coords, sprite, display, scale, color, shortRange, name, groupName)
 end
 
 ----------------------

@@ -209,6 +209,9 @@ supportedVehicles = {
     { name = "Mercedes-Benz AMG GT" , model = "rr20amggt", class = "S" },
     { name = "Dodge Charger (Redeye)" , model = "chr20" , class = "S" },
     { name = "Lamborghini Urus", model = "urustc", class = "S" },
+    { name = "Honda Civic (EG6)", model = "eg6", class = "S" },
+    { name = "Honda Civic (EK9)", model = "spoonek", class = "S" },
+    { name = "1993 Honda Civic (FnF)", model = "fnfcivic", class = "S" },
     -- A Class:**
     { name = "Sultan RS", model = "sultanrs", class = "A" },
     { name = "Annis Elegy Retro", model = "elegy", class = "A" },

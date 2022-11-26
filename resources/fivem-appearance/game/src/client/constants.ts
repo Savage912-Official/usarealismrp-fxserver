@@ -211,7 +211,7 @@ export const DATA_CLOTHES: DataClothes = {
     },
     props: {
       male: [
-        [11, 252],
+        [11, 15],
         [3, 15],
         [8, 15],
         [10, 0],
@@ -243,8 +243,8 @@ export const DATA_CLOTHES: DataClothes = {
     },
     props: {
       male: [
-        [4, 61],
-        [6, 34],
+        [4, 44],
+        [6, 60],
       ],
       female: [
         [4, 15],

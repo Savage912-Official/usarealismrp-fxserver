@@ -971,7 +971,6 @@ AddEventHandler('rconCommand', function(commandName, args)
 	elseif commandName == "stafflist" then
 		printStaffList(true, 0)
 	end
-	CancelEvent()
 end)
 
 --------------- BAN MANAGEMENT: -------------------

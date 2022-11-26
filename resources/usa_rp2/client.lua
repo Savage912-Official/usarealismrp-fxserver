@@ -645,16 +645,7 @@ AddEventHandler("usa:loadCivCharacter", function(character, playerWeapons)
         SetPedPropIndex(ped, tonumber(key), value, character["propstexture"][key], true)
       end
     end
-    -- add any tattoos if they have any --
-    if character.tattoos then
-      for i = 1, #character.tattoos do
-        ApplyPedOverlay(ped, GetHashKey(character.tattoos[i].category), GetHashKey(character.tattoos[i].hash_name))
-      end
-    else
-      --print("no tattoos!!!")
-    end
-    -- add any barber shop customizations if any --
-    TriggerServerEvent("barber:loadCustomizations")
+    TriggerServerEvent("spawn:loadCustomizations")
     -- give weapons
     if playerWeapons then
       for i = 1, #playerWeapons do
@@ -684,13 +675,8 @@ AddEventHandler("usa:setPlayerComponents", function(character)
       end
       -- set tattoos --
       ClearPedDecorations(playerPed)
-      if character.tattoos then
-        for i = 1, #character.tattoos do
-          ApplyPedOverlay(playerPed, GetHashKey(character.tattoos[i].category), GetHashKey(character.tattoos[i].hash_name))
-        end
-      end
       -- set barbershop customizations --
-      TriggerServerEvent("barber:loadCustomizations")
+      TriggerServerEvent("spawn:loadCustomizations")
     else
       -- non-MP model --
       Citizen.CreateThread(function()

@@ -344,9 +344,10 @@ Citizen.CreateThread(function()
 		_menuPool:MouseControlsEnabled(false)
 		_menuPool:ControlDisablingEnabled(false)
 		_menuPool:ProcessMenus()
+		local player = PlayerId()
 		local playerPed = PlayerPedId()
 		local playerCoords = GetEntityCoords(playerPed)
-		if IsControlJustPressed(0, 303) and not discardingEvidence and not IsPedCuffed(playerPed) and not IsEntityDead(playerPed) and not IsPedInAnyVehicle(playerPed) then
+		if IsControlJustPressed(0, 303) and not discardingEvidence and not IsPedCuffed(playerPed) and not IsEntityDead(playerPed) and not IsPedInAnyVehicle(playerPed) and IsPlayerFreeAiming(player) and GetSelectedPedWeapon(playerPed) == GetHashKey("WEAPON_FLASHLIGHT") then
 			for i = 1, #droppedEvidence do
 				local item = droppedEvidence[i]
 				if Vdist(playerCoords, item.coords) < 1.0 then
@@ -415,14 +416,18 @@ end)
 
 Citizen.CreateThread(function()
 	while true do
-		for i = 1, #droppedEvidence do
-			local item = droppedEvidence[i]
-			local text = '[U] - Discard Evidence'
-			if onDuty then
-				text = '[U] - Pickup '..item.string
+		local player = PlayerId()
+		local playerPed = PlayerPedId()
+		if IsPlayerFreeAiming(player) and GetSelectedPedWeapon(playerPed) == GetHashKey("WEAPON_FLASHLIGHT") then
+			for i = 1, #droppedEvidence do
+				local item = droppedEvidence[i]
+				local text = '[U] - Discard Evidence'
+				if onDuty then
+					text = '[U] - Pickup '..item.string
+				end
+				local x, y, z = table.unpack(item.coords)
+				DrawText3D(x, y, z - 1.0, 5, text)
 			end
-			local x, y, z = table.unpack(item.coords)
-			DrawText3D(x, y, z - 1.0, 5, text)
 		end
 		
 		for i = 1, #evidenceMenus do
@@ -439,8 +444,9 @@ Citizen.CreateThread(function()
     local lastCheck = 0
     while true do
         if GetGameTimer() - lastCheck > POLL_INTERVAL_SECONDS * 1000 then
-            local mycoords = GetEntityCoords(PlayerPedId())
-            TriggerServerEvent("evidence:loadNearbyEvidence", mycoords)
+			local playerPed = PlayerPedId()
+            local playerCoords = GetEntityCoords(playerPed)
+            TriggerServerEvent("evidence:loadNearbyEvidence", playerCoords)
             lastCheck = GetGameTimer()
         end
         Wait(1)

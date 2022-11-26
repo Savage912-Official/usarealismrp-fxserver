@@ -273,6 +273,16 @@ function AddPropToPlayer(prop1, bone, off1, off2, off3, rot1, rot2, rot3)
   SetModelAsNoLongerNeeded(prop1)
 end
 
+local isPassanger = false
+
+AddEventHandler("usa_trains:setExportPassager", function(bool)
+  isPassanger = bool
+end)
+
+function isTrainPassanger()
+  return isPassanger
+end
+
 -----------------------------------------------------------------------------------------------------
 -- V -- This could be a whole lot better, i tried messing around with "IsPedMale(ped)"
 -- V -- But i never really figured it out, if anyone has a better way of gender checking let me know.
@@ -297,7 +307,8 @@ end
 -----------------------------------------------------------------------------------------------------
 
 function OnEmotePlay(EmoteName)
-  if not exports.usa_trains:checkIsPassanger() then
+  
+  if not isTrainPassanger() then
     local isBlacklisted = TriggerServerCallback {
       eventName = "emote:isAtBlacklistedLocation",
       args = {EmoteName}

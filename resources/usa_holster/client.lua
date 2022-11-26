@@ -135,10 +135,21 @@ Citizen.CreateThread(function()
 	end
 end)
 
+local isPassanger = false
+
+RegisterNetEvent("usa_trains:setExportPassager")
+AddEventHandler("usa_trains:setExportPassager", function(bool)
+  isPassanger = bool
+end)
+
+function isTrainPassanger()
+  return isPassanger
+end
+
 function handleHolsterAnim()
 	local ped = GetPlayerPed(-1)
 	if GetPedParachuteState(ped) == -1 then
-		if DoesEntityExist(ped) and not IsEntityDead(ped) and not IsPedInAnyVehicle(ped, true) and not exports["usa_stretcher"]:IsInStretcher() and not exports["usa_trains"]:checkIsPassanger() then
+		if DoesEntityExist(ped) and not IsEntityDead(ped) and not IsPedInAnyVehicle(ped, true) and not exports["usa_stretcher"]:IsInStretcher() and not isTrainPassanger() then
 			loadAnimDict("reaction@intimidation@1h")
 			loadAnimDict("rcmjosh4")
 			loadAnimDict("timetable@jimmy@ig_2@ig_2_p2")

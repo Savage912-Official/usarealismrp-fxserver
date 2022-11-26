@@ -129,6 +129,27 @@ AddEventHandler('spawn:setCharLastLocation', function(coords)
 	SaveLastLocationWithRetry(source, coords)
 end)
 
+RegisterServerEvent("spawn:loadCustomizations")
+AddEventHandler("spawn:loadCustomizations", function(tats)
+	local usource = source
+	local char = exports["usa-characters"]:GetCharacter(usource)
+	TriggerEvent("es:exposeDBFunctions", function(db)
+		db.getDocumentById("character-appearance", char.get("_id"), function(doc)
+			if doc ~= false then
+				local customizations = {
+					headBlend = doc.headBlend,
+					faceFeatures = doc.faceFeatures,
+					headOverlays = doc.headOverlays,
+					hair = doc.hair,
+					eyeColor = doc.eyeColor,
+					tattoos = doc.tattoos
+				}
+				TriggerClientEvent("spawn:loadCustomizations", usource, customizations, false)
+			end
+		end)
+	end)
+end)
+
 function DeleteCharacterById(id, rev, cb)
 	PerformHttpRequest("http://127.0.0.1:5984/characters/".. id .."?rev=".. rev, function(err, rText, headers)
 		if err == 0 then

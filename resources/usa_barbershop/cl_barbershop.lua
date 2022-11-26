@@ -16,55 +16,48 @@ for i = 1, #BARBER_SHOPS do -- place map blips
   TriggerEvent("usa_map_blips:addMapBlip", {BARBER_SHOPS[i].x, BARBER_SHOPS[i].y, BARBER_SHOPS[i].z}, 71, 4, 0.8, 13, true, 'Barber Shop', 'barber_shops') --coords, sprite, display, scale, color, shortRange, name, groupName)
 end
 
-local purchases = {}
 
 local closest_shop = nil --// keep track of closest shop to help keep track of shop player is currently at
 
 local MENU_OPEN_KEY = 38
 
-local MAX_EYE_COLORS = 31
-local MAX_PARENT_OPTIONS = 45
-local MAX_COLOR_OPTIONS = 85
-
 -- Draw Markers / Help Text / Listen for menu open key press --
 Citizen.CreateThread(function()
-  local openedMenu = false
   while true do
-      Wait(1)
-      -- vars --
-      local me = GetPlayerPed(-1)
-      local playerCoords = GetEntityCoords(me, false)
+    Wait(1)
+    local me = GetPlayerPed(-1)
+    local playerCoords = GetEntityCoords(me, false)
 
     for i = 1, #BARBER_SHOPS do
-        if Vdist(playerCoords.x,playerCoords.y,playerCoords.z,BARBER_SHOPS[i].x,BARBER_SHOPS[i].y,BARBER_SHOPS[i].z)  <  3 then
-            DrawText3D(BARBER_SHOPS[i].x,BARBER_SHOPS[i].y,BARBER_SHOPS[i].z, '[E] - Barber Shop (~g~$70.00~s~)')
-            if IsControlJustPressed(1, MENU_OPEN_KEY) then
-                closest_shop = BARBER_SHOPS[i] --// set shop player is at
-                local config = {
-                  ped = false,
-                  headBlend = true,
-                  faceFeatures = true,
-                  headOverlays = true,
-                  components = false,
-                  props = false,
-                  tattoos = false,
-                  skipTattooSetOnExit = true,
-                  skipModelSetOnExit = true
-                }
-                exports['fivem-appearance']:startPlayerCustomization(function (appearance)
-                  if (appearance) then
-                    local business = exports["usa-businesses"]:GetClosestStore(30)
-                    TriggerServerEvent("barber:save", appearance, business)
-                  else
-                    print('Canceled')
-                  end
-                end, config)
+      if Vdist(playerCoords.x,playerCoords.y,playerCoords.z,BARBER_SHOPS[i].x,BARBER_SHOPS[i].y,BARBER_SHOPS[i].z)  <  3 then
+        DrawText3D(BARBER_SHOPS[i].x,BARBER_SHOPS[i].y,BARBER_SHOPS[i].z, '[E] - Barber Shop (~g~$75.00~s~)')
+        if IsControlJustPressed(1, MENU_OPEN_KEY) then
+          closest_shop = BARBER_SHOPS[i] --// set shop player is at
+          local config = {
+            ped = false,
+            headBlend = true,
+            faceFeatures = true,
+            headOverlays = true,
+            components = false,
+            props = false,
+            tattoos = false,
+            skipTattooSetOnExit = true,
+            skipModelSetOnExit = false
+          }
+          exports['fivem-appearance']:startPlayerCustomization(function (appearance)
+            if (appearance) then
+              local business = exports["usa-businesses"]:GetClosestStore(30)
+              TriggerServerEvent("barber:save", appearance, business)
+            else
+              print('Canceled')
             end
-        else
-            if closest_shop == BARBER_SHOPS[i] then
-                closest_shop = nil
-            end
+          end, config)
         end
+      else
+        if closest_shop == BARBER_SHOPS[i] then
+            closest_shop = nil
+        end
+      end
     end
   end
 end)
@@ -82,8 +75,3 @@ function DrawText3D(x, y, z, text)
     local factor = (string.len(text)) / 500
     DrawRect(_x,_y+0.0125, 0.015+factor, 0.03, 41, 11, 41, 68)
 end
-
-RegisterNetEvent("barber:loadCustomizations")
-AddEventHandler("barber:loadCustomizations", function(customizations)
-  exports["fivem-appearance"]:setPlayerAppearance(customizations)
-end)

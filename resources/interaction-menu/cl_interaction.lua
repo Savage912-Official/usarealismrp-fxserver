@@ -987,7 +987,7 @@ function interactionMenuUse(index, itemName, wholeItem)
 
 		exports.globals:loadAnimDict(JERRY_CAN_ANIMATION.dict)
 
-		hitHandleVehicle, distance = getVehicleInsideOrInFrontOfUser()
+		hitHandleVehicle = getVehicleInFrontOfUser()
 		if tonumber(hitHandleVehicle) ~= 0 then
 			busy = true
 			local ped = GetPlayerPed(-1)
@@ -998,7 +998,7 @@ function interactionMenuUse(index, itemName, wholeItem)
 			local start = GetGameTimer()
 			while GetGameTimer() - start < JERRY_CAN_REFUEL_TIME do
 				if not IsEntityPlayingAnim(playerPed, JERRY_CAN_ANIMATION.dict, JERRY_CAN_ANIMATION.name, 3) then
-					TaskPlayAnim(playerPed, JERRY_CAN_ANIMATION.dict, JERRY_CAN_ANIMATION.name, 8.0, -8, -1, 49, 0, 0, 0, 0)
+					TaskPlayAnim(playerPed, JERRY_CAN_ANIMATION.dict, JERRY_CAN_ANIMATION.name, 8.0, -8, -1, 31, 0, 0, 0, 0)
 				end
 				if GetSelectedPedWeapon(ped) ~= jcan then
 					GiveWeaponToPed(ped, jcan, 20, false, true)

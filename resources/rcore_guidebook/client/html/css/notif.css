@@ -1,0 +1,70 @@
+
+/* Notifications */
+
+.notif-box {
+    position: absolute;
+    margin-top: 40px;
+    z-index: 999999;
+}
+
+.notif-box__notif {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    margin: 10px;
+    background-color: #433f54;
+    width: fit-content;
+    color: white;
+    border-radius: 0 10px 0 0;
+    position: relative;
+    animation: notif 7s;
+}
+
+.notif-box__notif:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 4px;
+    background-color: black;
+    opacity: 0.5;
+    animation: progress 7s;
+}
+
+.notif-box__notif--success {
+    background-color: #56d897;
+    color: black;
+}
+
+.notif-box__notif--error {
+    background-color: #833030;
+}
+
+.notif-box__title {
+    font-size: 14px;
+    font-weight: 700;
+}
+
+@keyframes notif {
+    0% {
+      opacity: 0;
+    }
+    10% {
+      opacity: 1;
+    }
+    95% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+}
+
+@keyframes progress {
+    0% {
+      width: 0px;
+    }
+    100% {
+      width: 100%;
+    }
+}

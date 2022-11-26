@@ -1229,7 +1229,6 @@ AddEventHandler('rconCommand', function(commandName, args)
       RconPrint(name .. " was not found.")
     end
   end
-	CancelEvent()
 end)
 
 function GetOwnedPropertyCoords(identifier, includingCoOwner)

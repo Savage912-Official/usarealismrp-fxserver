@@ -18,6 +18,7 @@ local WEPS_WITH_MAGS = {
     [GetHashKey("WEAPON_ASSAULTSMG")] = { accepts = "9mm", magAmmoCounts = {30, 60} },
     [GetHashKey("WEAPON_MACHINEPISTOL")] = { accepts = "9mm", magAmmoCounts = {12, 20, 30} },
     [GetHashKey("WEAPON_MINISMG")] = { accepts = "9mm", magAmmoCounts = {20, 30} },
+    [GetHashKey("WEAPON_COMBATPDW")] = { accepts = "9mm", magAmmoCounts = {20, 30} },
     -- assault rifles --
     [GetHashKey("WEAPON_ASSAULTRIFLE")] = { accepts = "7.62mm", magAmmoCounts = {30, 60, 100} },
     [GetHashKey("WEAPON_ASSAULTRIFLE_MK2")] = { accepts = "7.62mm", magAmmoCounts = {20, 30, 60} },

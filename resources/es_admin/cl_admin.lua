@@ -125,9 +125,9 @@ AddEventHandler('es_admin:fix', function()
 		SetVehicleEngineHealth(vehicle, 1000)
 		SetVehicleEngineOn( vehicle, true, true )
 		SetVehicleFixed(vehicle)
-		notification("~g~Your vehicle has been fixed and cleaned!")
+		exports.globals:notify("~g~Your vehicle has been fixed and cleaned!")
 	else
-		notification("~o~You're not in a vehicle!")
+		exports.globals:notify("~o~You're not in a vehicle!")
 	end
 end)
 

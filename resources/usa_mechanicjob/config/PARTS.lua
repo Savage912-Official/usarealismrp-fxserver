@@ -76,5 +76,13 @@ PARTS = {
 		type = "mechanicPart",
 		notStackable = true,
 		objectModel = "imp_prop_impexp_engine_part_01a"
+	},
+	["RGB Controller"] = {
+		name = "RGB Controller",
+		price = 2500,
+		quantity = 1,
+		weight = 5,
+		type = "misc",
+		notStackable = true
 	}
 }

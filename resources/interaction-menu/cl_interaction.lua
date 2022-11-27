@@ -1228,6 +1228,8 @@ function interactionMenuUse(index, itemName, wholeItem)
 		TriggerEvent("skating:roller", wholeItem)
 	elseif itemName == "Ice Skates" then
 		TriggerEvent("skating:iceroller", wholeItem)
+	elseif itemName == "RGB Controller" then
+		ExecuteCommand("rgbcontrolleritemlol")
 	else
 		TriggerEvent("interaction:notify", "There is no use action for that item!")
 	end

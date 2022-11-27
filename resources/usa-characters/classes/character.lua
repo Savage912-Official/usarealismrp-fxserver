@@ -70,6 +70,7 @@ function CreateCharacter(data)
       end
       self.adjustChatSuggestions(data)
       TriggerClientEvent("usa_trains:setJob", self.source, data)
+      TriggerEvent("high_callback:setJob", self.source)
     end
   end
 

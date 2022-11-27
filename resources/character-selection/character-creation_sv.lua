@@ -23,6 +23,12 @@ AddEventHandler("character:getCharactersAndOpenMenu", function(menu, src)
 	end)
 end)
 
+RegisterServerEvent("character:swapCharSetJob")
+AddEventHandler("character:swapCharSetJob", function()
+	exports["globals"]:setJob(source, "civ")
+	TriggerEvent("high_callback:drop", source)
+end)
+
 -- Creating a new character
 RegisterServerEvent("character:new")
 AddEventHandler("character:new", function(data)

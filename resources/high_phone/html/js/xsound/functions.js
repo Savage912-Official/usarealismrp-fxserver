@@ -19,23 +19,17 @@ function isReady(divId, howler){
         {
             var sound = soundList[soundName];
             if(sound.loaded() == false){
-
                 sound.setLoaded(true);
-                $.post(`https://${GetParentResourceName()}/events`, JSON.stringify(
-                {
-                    type: "onPlay",
-                    id: sound.getName(),
-                }));
 
                 var time = 0;
                 if(sound.getAudioPlayer() != null){time = sound.getAudioPlayer()._duration;}
                 if(sound.isDynamic()) sound.setVolume(0);
 
-                $.post(`https://${GetParentResourceName()}/data_status`, JSON.stringify(
+                $.post(`https://${GetParentResourceName()}/events`, JSON.stringify(
                 {
-                    time: time,
-                    type: "maxDuration",
+                    type: "onPlay",
                     id: sound.getName(),
+                    maxDuration: time
                 }));
                 break;
             }
@@ -46,22 +40,17 @@ function isReady(divId, howler){
 	{
 		var sound = soundList[soundName];
         if(sound.getDivId() === divId){
-            $.post(`https://${GetParentResourceName()}/events`, JSON.stringify(
-            {
-                type: "onPlay",
-                id: sound.getName(),
-            }));
+            sound.setLoaded(true);
 
             var time = 0;
             if(sound.getYoutubePlayer() != null){time = sound.getYoutubePlayer().getDuration();}
 			if(sound.isDynamic()) sound.setVolume(0);
-            sound.setLoaded(true);
 
-            $.post(`https://${GetParentResourceName()}/data_status`, JSON.stringify(
+            $.post(`https://${GetParentResourceName()}/events`, JSON.stringify(
             {
-                time: time,
-                type: "maxDuration",
+                type: "onPlay",
                 id: sound.getName(),
+                maxDuration: time
             }));
 
             sound.isYoutubeReady(true);

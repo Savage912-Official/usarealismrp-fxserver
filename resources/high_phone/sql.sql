@@ -1,20 +1,7 @@
-CREATE TABLE IF NOT EXISTS `users` (
-  `ownerIdentifier` varchar(50) DEFAULT NULL,
-  `phone` varchar(50) DEFAULT NULL,
-  `iban` varchar(50) DEFAULT NULL,
-  `twitteraccount` varchar(50) DEFAULT NULL,
-  `settings` longtext DEFAULT NULL,
-  `calls` longtext DEFAULT NULL,
-  `notes` longtext DEFAULT NULL,
-  `photos` longtext DEFAULT NULL,
-  `darkchatuser` mediumtext DEFAULT NULL,
-  `mailaccount` varchar(50) DEFAULT NULL
-);
-
 CREATE TABLE IF NOT EXISTS `phone_ads` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `owner` varchar(255) DEFAULT NULL,
-  `job` varchar(50) DEFAULT 'default',
+  `category` varchar(50) DEFAULT 'default',
   `author` varchar(255) DEFAULT NULL,
   `title` varchar(50) DEFAULT NULL,
   `content` varchar(512) DEFAULT NULL,
@@ -30,7 +17,7 @@ CREATE TABLE IF NOT EXISTS `phone_chats` (
   `owner` varchar(255) DEFAULT NULL,
   `number` varchar(255) DEFAULT NULL,
   `name` varchar(255) NOT NULL DEFAULT 'Unknown',
-  `muted` tinyint(1) DEFAULT 0,
+  `settings` text DEFAULT NULL,
   `lastOpened` bigint(20) DEFAULT 0,
   PRIMARY KEY (`id`),
   KEY `id` (`id`)
@@ -41,7 +28,7 @@ CREATE TABLE IF NOT EXISTS `phone_groups` (
   `owner` varchar(255) DEFAULT NULL,
   `name` varchar(50) DEFAULT NULL,
   `photo` varchar(512) NOT NULL DEFAULT '',
-  `members` mediumtext NOT NULL,
+  `members` mediumtext DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `id` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
@@ -53,7 +40,7 @@ CREATE TABLE IF NOT EXISTS `phone_darkgroups` (
   `name` varchar(50) DEFAULT NULL,
   `photo` varchar(512) NOT NULL DEFAULT '',
   `maxmembers` int(11) DEFAULT 0,
-  `members` mediumtext NOT NULL,
+  `members` mediumtext DEFAULT NULL,
   `bannedmembers` mediumtext DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `id` (`id`)
@@ -74,7 +61,7 @@ CREATE TABLE IF NOT EXISTS `phone_messages` (
   `from` varchar(255) DEFAULT NULL,
   `to` varchar(255) DEFAULT NULL,
   `message` varchar(512) DEFAULT NULL,
-  `attachments` varchar(9999) NOT NULL DEFAULT '[]',
+  `attachments` mediumtext DEFAULT NULL,
   `time` bigint(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -82,7 +69,7 @@ CREATE TABLE IF NOT EXISTS `phone_darkmessages` (
   `from` varchar(255) DEFAULT NULL,
   `to` int(11) DEFAULT NULL,
   `message` varchar(512) DEFAULT NULL,
-  `attachments` varchar(9999) NOT NULL DEFAULT '[]',
+  `attachments` mediumtext DEFAULT NULL,
   `time` bigint(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -100,7 +87,7 @@ CREATE TABLE IF NOT EXISTS `phone_transactions` (
 CREATE TABLE IF NOT EXISTS `phone_tweets` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `reply` int(11) DEFAULT NULL,
-  `email` varchar(255) DEFAULT NULL,
+  `authorId` int(11) DEFAULT NULL,
   `author` varchar(255) DEFAULT NULL,
   `authorimg` varchar(255) DEFAULT NULL,
   `authorrank` varchar(255) DEFAULT NULL,
@@ -110,7 +97,7 @@ CREATE TABLE IF NOT EXISTS `phone_tweets` (
   `views` int(11) NOT NULL DEFAULT 0,
   `likes` int(11) NOT NULL DEFAULT 0,
   `time` bigint(20) DEFAULT NULL,
-  `likers` varchar(9999) NOT NULL DEFAULT '[]',
+  `likers` longtext DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `id` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
@@ -124,21 +111,33 @@ CREATE TABLE IF NOT EXISTS `phone_mail` (
   `trash` tinyint(1) NOT NULL DEFAULT 0,
   `muted` tinyint(1) NOT NULL DEFAULT 0,
   `lastOpened` bigint(20) NOT NULL DEFAULT 0,
+  `lastMail` bigint(20) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   KEY `id` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE IF NOT EXISTS `phone_twitteraccounts` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `owner` varchar(255) DEFAULT NULL,
   `nickname` varchar(50) DEFAULT NULL,
   `email` varchar(50) DEFAULT NULL,
   `password` varchar(60) DEFAULT NULL,
-  `picture` varchar(512) DEFAULT NULL,
-  `rank` varchar(50) NOT NULL DEFAULT 'default'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `picture` varchar(512) NOT NULL DEFAULT '',
+  `banner` varchar(512) NOT NULL DEFAULT '#000',
+  `rank` varchar(50) NOT NULL DEFAULT 'default',
+  `joinedat` datetime DEFAULT CURRENT_TIMESTAMP(),
+  `blockedusers` longtext DEFAULT NULL,
+  `followers` longtext DEFAULT NULL,
+  `following` longtext DEFAULT NULL,
+  `banneduntil` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE IF NOT EXISTS `phone_mailaccounts` (
-  `address` varchar(50) DEFAULT NULL,
+  `address` varchar(50) NOT NULL,
   `name` varchar(50) DEFAULT NULL,
   `password` varchar(60) DEFAULT NULL,
-  `photo` varchar(255) DEFAULT ''
+  `photo` varchar(255) DEFAULT '',
+  UNIQUE KEY `address` (`address`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

@@ -158,10 +158,9 @@ AddEventHandler("character:swap--check-distance", function()
 	for i = 1, #swap_locations do
 		local location = swap_locations[i]
 		if GetDistanceBetweenCoords(location.x, location.y, location.z, mycoords) < 8 then
-			TriggerServerEvent("high_callback:drop", GetPlayerServerId(PlayerId()))
+			TriggerServerEvent("character:swapCharSetJob")
 			TriggerEvent("Radio.Set", false, {})
 			TriggerEvent("hotkeys:setCurrentSlotPassive", nil)
-			TriggerEvent("gcPhone:twitter_Logout")
 			TriggerEvent("radio:unsubscribe")
 			TriggerServerEvent("character:getCharactersAndOpenMenu", "home")
 			TriggerServerEvent("spawn:setCharLastLocation", mycoords)
@@ -217,6 +216,7 @@ AddEventHandler("character:setCharacter", function(appearance, weapons, hp, armo
 		-- player state checks  --
 		TriggerServerEvent("usa_rp:checkJailedStatusOnPlayerJoin")
 		TriggerServerEvent('morgue:checkToeTag')
+		TriggerServerEvent("high_callback:load", GetPlayerServerId(PlayerId()))
 		if IsScreenFadedOut() then
 			DoScreenFadeIn(3000)
 		end

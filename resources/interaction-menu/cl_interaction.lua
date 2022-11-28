@@ -1065,40 +1065,13 @@ function interactionMenuUse(index, itemName, wholeItem)
 		            end
 					TriggerServerEvent('911:LockpickingVehicle', x, y, z, lastStreetNAME, GetLabelText(GetDisplayNameFromVehicleModel(GetEntityModel(veh))), exports.globals:trim(GetVehicleNumberPlateText(veh)), isMale, primary, secondary)
 				end
-				Citizen.CreateThread(function()
-					while GetGameTimer() - start_time < duration and isLockpicking do
-						Citizen.Wait(0)
-						DisableControlAction(0, 301, true)
-						DisableControlAction(0, 86, true)
-								DisableControlAction(0, 244, true)
-								DisableControlAction(0, 245, true)
-								DisableControlAction(0, 288, true)
-								DisableControlAction(0, 79, true)
-								DisableControlAction(0, 73, true)
-								DisableControlAction(0, 37, true)
-								DisableControlAction(0, 311, true)
-									DrawTimer(start_time, duration, 1.42, 1.475, 'LOCKPICKING')
-					end
-				end)
-				while GetGameTimer() - start_time < duration and isLockpicking do
-					Wait(0)
-					local x, y, z = table.unpack(GetEntityCoords(playerPed))
-					local car_coords = GetEntityCoords(veh, 1)
-					--print("IsEntityPlayingAnim(me, anim.dict, anim.name, 3): " .. tostring(IsEntityPlayingAnim(me, anim.dict, anim.name, 3)))
-					if not IsEntityPlayingAnim(playerPed, anim.dict, anim.name, 3) then
-								TaskPlayAnim(playerPed, anim.dict, anim.name, 8.0, 1.0, -1, 11, 1.0, false, false, false)
-								Citizen.Wait(2000)
-								ClearPedTasks(playerPed)
-								SetEntityCoords(playerPed, x, y, z - 1.0, false, false, false, false)
-							end
-					if Vdist(car_coords, x, y, z) > 3.0 then
-						TriggerEvent("usa:notify", "Lockpick ~y~failed~s~, out of range!")
-						ClearPedTasksImmediately(playerPed)
-						isLockpicking = false
-						return
-					end
+
+				if not IsEntityPlayingAnim(playerPed, anim.dict, anim.name, 3) then
+					TaskPlayAnim(playerPed, anim.dict, anim.name, 8.0, 1.0, -1, 11, 1.0, false, false, false)
 				end
-				if math.random() < 0.8 then
+
+				local success = lib.skillCheck({'easy', 'easy', 'medium', 'medium'})
+				if success then
 					SetVehicleDoorsLocked(veh, 1)
 					SetVehicleDoorsLockedForAllPlayers(veh, 0)
 					if not GetIsVehicleEngineRunning(veh) then
@@ -1106,11 +1079,14 @@ function interactionMenuUse(index, itemName, wholeItem)
 					end
 					TriggerEvent("usa:notify", "Lockpick was ~y~successful~s~!")
 				else
-					TriggerEvent("usa:notify", "Lockpick has ~y~broken~s~!")
-					TriggerServerEvent("usa:removeItem", wholeItem, 1)
+					TriggerEvent("usa:notify", "Lockpick has ~y~failed~s~!")
+					if math.random() > 0.65 then
+						TriggerEvent("usa:notify", "Lockpick has ~y~broken~s~!")
+						TriggerServerEvent("usa:removeItem", wholeItem, 1)
+					end
 				end
 				isLockpicking = false
-				ClearPedTasksImmediately(me)
+				ClearPedTasksImmediately(playerPed)
 			else
 				TriggerEvent("usa:notify", "Door is already unlocked!")
 			end

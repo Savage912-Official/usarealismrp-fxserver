@@ -40,8 +40,8 @@ end)
 
 RegisterNUICallback("addMoneyCallBack" , function(data, cb)
   while securityToken == nil do
-		Wait(1)
-	end
+  	Wait(1)
+  end
   TriggerServerEvent('oe-aviator:addMoneyCallBack', data, securityToken)
 end)
 

@@ -645,16 +645,7 @@ AddEventHandler("usa:loadCivCharacter", function(character, playerWeapons)
         SetPedPropIndex(ped, tonumber(key), value, character["propstexture"][key], true)
       end
     end
-    -- add any tattoos if they have any --
-    if character.tattoos then
-      for i = 1, #character.tattoos do
-        ApplyPedOverlay(ped, GetHashKey(character.tattoos[i].category), GetHashKey(character.tattoos[i].hash_name))
-      end
-    else
-      --print("no tattoos!!!")
-    end
-    -- add any barber shop customizations if any --
-    TriggerServerEvent("barber:loadCustomizations")
+    TriggerServerEvent("spawn:loadCustomizations")
     -- give weapons
     if playerWeapons then
       for i = 1, #playerWeapons do
@@ -684,13 +675,8 @@ AddEventHandler("usa:setPlayerComponents", function(character)
       end
       -- set tattoos --
       ClearPedDecorations(playerPed)
-      if character.tattoos then
-        for i = 1, #character.tattoos do
-          ApplyPedOverlay(playerPed, GetHashKey(character.tattoos[i].category), GetHashKey(character.tattoos[i].hash_name))
-        end
-      end
       -- set barbershop customizations --
-      TriggerServerEvent("barber:loadCustomizations")
+      TriggerServerEvent("spawn:loadCustomizations")
     else
       -- non-MP model --
       Citizen.CreateThread(function()
@@ -1049,3 +1035,70 @@ for name, info in pairs(STATIC_OBJECTS) do
   end
   FreezeEntityPosition(info.handle, true)
 end
+
+-- Vehicle Neon Controls --
+local VehiclesWithNeons = {}
+
+local function HasNeon(vehicle)
+  if VehiclesWithNeons[vehicle] ~= nil then
+    return true
+  end
+
+  if IsVehicleNeonLightEnabled(vehicle) then
+    VehiclesWithNeons[vehicle] = true
+    return true
+  end
+end
+
+local function LightLogic()
+	local playerPed = PlayerPedId()
+  local vehicle = GetVehiclePedIsIn(playerPed, false)
+
+	if not vehicle or not IsPedInAnyVehicle(playerPed, false) or GetPedInVehicleSeat(vehicle, -1) ~= playerPed then return end -- ignore if not in car or driver seat
+	
+	local hasNeons = HasNeon(vehicle)
+
+	if not hasNeons then return end
+    
+  local neonsOn = (VehiclesWithNeons[vehicle] ~= nil and VehiclesWithNeons[vehicle] or false)
+
+	SetVehicleNeonLightEnabled(vehicle, 0, not neonsOn)
+	SetVehicleNeonLightEnabled(vehicle, 1, not neonsOn)
+	SetVehicleNeonLightEnabled(vehicle, 2, not neonsOn)
+	SetVehicleNeonLightEnabled(vehicle, 3, not neonsOn)
+  VehiclesWithNeons[vehicle] = not neonsOn
+end
+
+RegisterCommand("toggleneons", function()
+	if antiSpam then return end
+		
+	local playerPed = PlayerPedId()
+	local vehicle = GetVehiclePedIsIn(playerPed, false)
+	if not vehicle or not IsPedInAnyVehicle(playerPed, false) or GetPedInVehicleSeat(vehicle, -1) ~= playerPed then return end
+
+	LightLogic()
+	antiSpam = true
+
+	Wait(1250)
+	antiSpam = false
+end, false)
+
+RegisterKeyMapping("toggleneons", 'Toggle Underglow', 'keyboard', 'G')
+
+local function CheckVehicles()
+  for k,v in pairs(VehiclesWithNeons) do
+    local valid = DoesEntityExist(k)
+
+    if (not valid) then
+      VehiclesWithNeons[k] = nil
+      return
+    end
+  end
+
+  Wait(300000)
+  CheckVehicles()
+end
+
+Citizen.CreateThread(function()
+  CheckVehicles()
+end)

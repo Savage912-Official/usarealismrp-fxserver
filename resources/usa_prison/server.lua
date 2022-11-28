@@ -314,3 +314,11 @@ AddEventHandler("prison:retrieveItems", function()
 		end)
 	end)
 end)
+
+RegisterServerCallback {
+	eventName = "jail:isInPrison",
+	eventCallback = function(source)
+		local char = exports["usa-characters"]:GetCharacter(source)
+		return char.get("jailTime") > 0
+	end
+}

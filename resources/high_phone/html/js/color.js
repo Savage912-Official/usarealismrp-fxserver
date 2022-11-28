@@ -3,541 +3,10 @@
  * Licensed under the MIT License (MIT)
  * https://github.com/mdbassit/Coloris
  */
+ // Modified by high-scripts.com (highrider#2873)
 
 (function (window, document, Math) {
-  var css = `.clr-picker {
-    display: none;
-    flex-wrap: wrap;
-    position: absolute;
-    width: 10.5vw;
-    z-index: 1000;
-    border-radius: 0.5vw;
-    background-color: rgba(0, 0, 0, 0.3);
-    backdrop-filter: blur(0.4vw);
-    
-    justify-content: space-between;
-    box-shadow: 0 0 0.3vw rgba(0,0,0,.05), 0 0.3vw 1vw rgba(0,0,0,.1);
-  
-    -moz-user-select: none;
-    -webkit-user-select: none;
-    user-select: none;
-  
-    animation: show 0.2s ease-in-out;
-  }
-  
-  .clr-picker.clr-open {
-    display: flex;
-  }
-  
-  .clr-picker.clr-hiding {
-    animation: hide 0.2s ease-in-out;
-  }
-  
-  @keyframes show {
-    0% {
-      opacity: 0;
-      transform: scale3d(0.8, 0.8, 0.8)
-    }
-    50% {
-      transform: scale3d(1.05, 1.05, 1.05);
-    }
-    100% {
-      transform: scale3d(1, 1, 1);
-    }
-  }
-  
-  @keyframes hide {
-    0% {
-      opacity: 1;
-      transform: scale3d(1, 1, 1);
-    }
-    100% {
-      opacity: 0;
-      transform: scale3d(0.8, 0.8, 0.8);
-    }
-  }
-  
-  .clr-gradient {
-    position: relative;
-    width: 100%;
-    height: 5.5vw;
-    margin-bottom: 0.8vw;
-    border-radius: 0.2vw 0.2vw 0 0;
-    background-image: linear-gradient(rgba(0,0,0,0), #000), linear-gradient(90deg, #fff, currentColor);
-    cursor: pointer;
-  }
-  
-  .clr-marker {
-    position: absolute;
-    width: 0.6vw;
-    height: 0.6vw;
-    margin: -0.3vw 0 0 -0.3vw;
-    border: 1px solid #fff;
-    border-radius: 50%;
-    background-color: currentColor;
-    cursor: pointer;
-  }
-  
-  .clr-picker input[type="range"]::-webkit-slider-runnable-track {
-    width: 100%;
-    height: 0.4vw;
-  }
-  
-  .clr-picker input[type="range"]::-webkit-slider-thumb {
-    width: 0.4vw;
-    height: 0.4vw;
-    -webkit-appearance: none;
-  }
-  
-  .clr-picker input[type="range"]::-moz-range-track {
-    width: 100%;
-    height: 0.4vw;
-    border: 0;
-  }
-  
-  .clr-picker input[type="range"]::-moz-range-thumb {
-    width: 0.4vw;
-    height: 0.4vw;
-    border: 0;
-  }
-  
-  .clr-hue {
-    background-image: linear-gradient(to right, #f00 0%, #ff0 16.66%, #0f0 33.33%, #0ff 50%, #00f 66.66%, #f0f 83.33%, #f00 100%);
-  }
-  
-  .clr-hue,
-  .clr-alpha {
-    position: relative;
-    width: calc(100% - 2.1vw);
-    height: 0.4vw;
-    margin: 0.25vw 1vw;
-    border-radius: 0.2vw;
-  }
-  
-  .clr-alpha span {
-    display: block;
-    height: 100%;
-    width: 100%;
-    border-radius: inherit;
-    background-image: linear-gradient(90deg, rgba(0,0,0,0), currentColor);
-  }
-  
-  .clr-hue input,
-  .clr-alpha input {
-    position: absolute;
-    width: calc(100% + 0.9vw);
-    height: 0.9vw;
-    left: -0.4vw;
-    top: -0.2vw;
-    margin: 0;
-    background-color: transparent;
-    opacity: 0;
-    cursor: pointer;
-    appearance: none;
-    -webkit-appearance: none;
-  }
-  
-  .clr-hue div,
-  .clr-alpha div {
-    position: absolute;
-    width: 0.9vw;
-    height: 0.9vw;
-    left: 0;
-    top: 50%;
-    margin-left: -0.4vw;
-    transform: translateY(-50%);
-    border: 0.1vw solid #fff;
-    border-radius: 50%;
-    background-color: currentColor;
-    pointer-events: none;
-  }
-  
-  .clr-alpha div:before {
-    content: '';
-    position: absolute;
-    height: 100%;
-    width: 100%;
-    left: 0;
-    top: 0;
-    border-radius: 50%;
-    background-color: currentColor;
-  }
-  
-  .clr-format {
-    display: none;
-    order: 1;
-    width: calc(100% - 2.1vw);
-    margin: 0 1vw 1vw;
-  }
-  
-  .clr-segmented {
-    display: flex;
-    position: relative;
-    width: 100%;
-    margin: 0;
-    padding: 0;
-    border: 1px solid #ddd;
-    border-radius: 0.8vw;
-    box-sizing: border-box;
-    color: #999;
-    font-size: 0.6vw;
-  }
-  
-  .clr-segmented input,
-  .clr-segmented legend {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    border: 0;
-    left: 0;
-    top: 0;
-    opacity: 0;
-    pointer-events: none;
-  }
-  
-  .clr-segmented label {
-    flex-grow: 1;
-    padding: 0.2vw 0;
-    text-align: center;
-    cursor: pointer;
-  }
-  
-  .clr-segmented label:first-of-type {
-    border-radius: 0.5vw 0 0 0.5vw;
-  }
-  
-  .clr-segmented label:last-of-type {
-    border-radius: 0 0.5vw 0.5vw 0;
-  }
-  
-  .clr-segmented input:checked + label {
-    color: #fff;
-    background-color: #666;
-  }
-  
-  .clr-swatches {
-    order: 2;
-    width: calc(100% - 1.7vw);
-    margin: 0 0.85vw;
-  }
-  
-  .clr-swatches div {
-    display: flex;
-    flex-wrap: wrap;
-    padding-bottom: 0.6vw;
-    justify-content: center;
-  }
-  
-  .clr-swatches button {
-    position: relative;
-    width: 1vw;
-    height: 1vw;
-    margin: 0 0.2vw 0.3vw 0.2vw;
-    border: 0;
-    border-radius: 50%;
-    color: inherit;
-    text-indent: -53vw;
-    white-space: nowrap;
-    overflow: hidden;
-    cursor: pointer;
-  }
-  
-  .clr-swatches button:after {
-    content: '';
-    display: block;
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    left: 0;
-    top: 0;
-    border-radius: inherit;
-    background-color: currentColor;
-    box-shadow: inset 0 0 0 1px rgba(0,0,0,.1);
-  }
-  
-  input.clr-color {
-    order: 1;
-    width: calc(100% - 4.2vw);
-    height: 1.7vw;
-    margin: 0.8vw 1vw 1vw 0;
-    padding: 0 0.5vw;
-    border: 1px solid #ddd;
-    border-radius: 0.85vw;
-    color: #444;
-    background-color: #fff;
-    font-family: sans-serif;
-    font-size: 0.7vw;
-    text-align: center;
-    box-shadow: none;
-  }
-  
-  input.clr-color:focus {
-    outline: none;
-    border: 1px solid #1e90ff;
-  }
-  
-  .clr-clear {
-    display: none;
-    order: 2;
-    height: 1.3vw;
-    margin: 0 1vw 1vw auto;
-    padding: 0 1vw;
-    border: 0;
-    border-radius: 0.6vw;
-    color: #fff;
-    background-color: #666;
-    font-family: inherit;
-    font-size: 0.6vw;
-    font-weight: 400;
-    cursor: pointer;
-  }
-  
-  .clr-preview {
-    position: relative;
-    width: 1.7vw;
-    height: 1.7vw;
-    margin: 0.8vw 0 1vw 1vw;
-    border: 0;
-    border-radius: 50%;
-    background: transparent;
-    overflow: hidden;
-    cursor: pointer;
-  }
-  
-  .clr-preview:before,
-  .clr-preview:after {
-    content: '';
-    position: absolute;
-    height: 100%;
-    width: 100%;
-    left: 0;
-    top: 0;
-
-    border-radius: 50%;
-  }
-  
-  .clr-preview:after {
-    border: 0;
-    background-color: currentColor;
-  }
-  
-  .clr-marker,
-  .clr-hue div,
-  .clr-alpha div,
-  .clr-color {
-    box-sizing: border-box;
-  }
-  
-  .clr-field {
-    display: inline-block;
-    position: relative;
-    color: transparent;
-  }
-  
-  .clr-field button {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    right: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    border: 0;
-    color: inherit;
-    text-indent: -53vw;
-    white-space: nowrap;
-    overflow: hidden;
-    pointer-events: none;
-  }
-  
-  .clr-field button:after {
-    content: '';
-    display: block;
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    left: 0;
-    top: 0;
-    border-radius: inherit;
-    background-color: currentColor;
-
-  }
-  
-  .clr-alpha,
-  .clr-alpha div,
-  .clr-swatches button,
-  .clr-preview:before,
-  .clr-field button {
-    background: transparent;
-  }
-  
-  .clr-marker:focus {
-    outline: none;
-  }
-  
-  .clr-keyboard-nav .clr-marker:focus,
-  .clr-keyboard-nav .clr-hue input:focus + div,
-  .clr-keyboard-nav .clr-alpha input:focus + div,
-  .clr-keyboard-nav .clr-segmented input:focus + label {
-    outline: none;
-
-  }
-  
-  .clr-picker[data-alpha="false"] .clr-alpha {
-    display: none;
-  }
-  
-  .clr-picker[data-minimal="true"] {
-    padding-top: 0.85vw;
-  }
-  
-  .clr-picker[data-minimal="true"] .clr-gradient,
-  .clr-picker[data-minimal="true"] .clr-hue,
-  .clr-picker[data-minimal="true"] .clr-alpha,
-  .clr-picker[data-minimal="true"] .clr-color,
-  .clr-picker[data-minimal="true"] .clr-preview {
-    display: none;
-  }
-  
-  /** Dark theme **/
-  
-  .clr-dark {
-    background-color: #444;
-  }
-  
-  .clr-dark .clr-segmented {
-    border-color: #777;
-  }
-  
-  .clr-dark .clr-swatches button:after {
-    
-  }
-  
-  .clr-dark input.clr-color {
-    color: #fff;
-    border-color: #777;
-    background-color: #555;
-  }
-  
-  .clr-dark input.clr-color:focus {
-    border-color: #1e90ff;
-  }
-  
-  .clr-dark .clr-preview:after {
-    background: transparent;
-  }
-  
-  .clr-dark .clr-alpha,
-  .clr-dark .clr-alpha div,
-  .clr-dark .clr-swatches button {
-    background: transparent;
-  }
-  
-  /** Polaroid theme **/
-  
-  .clr-picker.clr-polaroid {
-    border-radius: 0.3vw;
-    box-shadow: 0 0 0.25vw rgba(0,0,0,.1), 0 0.25vw 1.6vw rgba(0,0,0,.2);
-  }
-  
-  .clr-picker.clr-polaroid:before {
-    content: '';
-    display: block;
-    position: absolute;
-    width: 0.85vw;
-    height: 0.5vw;
-    left: 1vw;
-    top: -0.5vw;
-    border: solid transparent;
-    border-width: 0 0.4vw 0.5vw 0.4vw;
-    border-bottom-color: currentColor;
-    box-sizing: border-box;
-    color: #fff;
-    filter: drop-shadow(0 -0.2vw 0.15vw rgba(0,0,0,.1));
-    pointer-events: none;
-  }
-  
-  .clr-picker.clr-polaroid.clr-dark:before {
-    color: #444;
-  }
-  
-  .clr-picker.clr-polaroid.clr-left:before {
-    left: auto;
-    right: 1vw;
-  }
-  
-  .clr-picker.clr-polaroid.clr-top:before {
-    top: auto;
-    bottom: -0.5vw;
-    transform: rotateZ(180deg);
-  }
-  
-  .clr-polaroid .clr-gradient {
-    width: calc(100% - 1vw);
-    height: 6.4vw;
-    margin: 0.5vw;
-    border-radius: 0.15vw;
-  }
-  
-  .clr-polaroid .clr-hue,
-  .clr-polaroid .clr-alpha {
-    width: calc(100% - 1.6vw);
-    height: 0.5vw;
-    margin: 0.3vw 0.8vw;
-    border-radius: 0.25vw;
-  }
-  
-  .clr-polaroid .clr-hue div,
-  .clr-polaroid .clr-alpha div {
-    box-shadow: 0 0 0.25vw rgba(0,0,0,.2);
-  }
-  
-  .clr-polaroid .clr-format {
-    width: calc(100% - 1vw);
-    margin: 0 0.5vw 0.8vw;
-  }
-  
-  .clr-polaroid .clr-swatches {
-    width: calc(100% - 0.6vw);
-    margin: 0 0.3vw;
-  }
-  .clr-polaroid .clr-swatches div {
-    padding-bottom: 0.5vw;
-  }
-  
-  .clr-polaroid .clr-swatches button {
-    width: 1.2vw;
-    height: 1.2vw;
-  }
-  
-  .clr-polaroid input.clr-color {
-    width: calc(100% - 3.2vw);
-    margin: 0.5vw 0.5vw 0.8vw 0;
-  }
-  
-  .clr-polaroid .clr-clear {
-    margin: 0 0.5vw 0.8vw auto;
-  }
-  
-  .clr-polaroid .clr-preview {
-    margin: 0.5vw 0 0.8vw 0.5vw;
-  }
-  
-  /** Large theme **/
-  
-  .clr-picker.clr-large {
-    width: 14.5vw;
-  }
-  
-  .clr-large .clr-gradient {
-    height: 8vw;
-  }
-  
-  .clr-large .clr-swatches button {
-    width: 1.2vw;
-    height: 1.2vw;
-  }`
+  var css = `.clr-picker {display: none;flex-wrap: wrap;position: absolute;width: 10.5vw;z-index: 9999999;border-radius: 0.5vw;background-color: rgba(0, 0, 0, 0.3);backdrop-filter: blur(0.8vw);justify-content: space-between;box-shadow: 0 0 0.3vw rgba(0,0,0,.05), 0 0.3vw 1vw rgba(0,0,0,.1);-moz-user-select: none;-webkit-user-select: none;user-select: none;animation: show 0.2s ease-in-out;}.clr-picker.clr-open {display: flex;}.clr-picker.clr-hiding {animation: hide 0.2s ease-in-out;}@keyframes show {0% {opacity: 0;transform: scale3d(0.8, 0.8, 0.8) }50% {transform: scale3d(1.05, 1.05, 1.05);}100% {transform: scale3d(1, 1, 1);}}@keyframes hide {0% {opacity: 1;transform: scale3d(1, 1, 1);}100% {opacity: 0;transform: scale3d(0.8, 0.8, 0.8);}}.clr-gradient {position: relative;width: 100%;height: 5.5vw;margin-bottom: 0.8vw;border-radius: 0.2vw 0.2vw 0 0;background-image: linear-gradient(rgba(0,0,0,0), #000), linear-gradient(90deg, #fff, currentColor);cursor: pointer;}.clr-marker {position: absolute;width: 0.6vw;height: 0.6vw;margin: -0.3vw 0 0 -0.3vw;border: 1px solid #fff;border-radius: 50%;background-color: currentColor;cursor: pointer;}.clr-picker input[type="range"]::-webkit-slider-runnable-track {width: 100%;height: 0.4vw;}.clr-picker input[type="range"]::-webkit-slider-thumb {width: 0.4vw;height: 0.4vw;-webkit-appearance: none;}.clr-picker input[type="range"]::-moz-range-track {width: 100%;height: 0.4vw;border: 0;}.clr-picker input[type="range"]::-moz-range-thumb {width: 0.4vw;height: 0.4vw;border: 0;}.clr-hue {background-image: linear-gradient(to right, #f00 0%, #ff0 16.66%, #0f0 33.33%, #0ff 50%, #00f 66.66%, #f0f 83.33%, #f00 100%);}.clr-hue, .clr-alpha {position: relative;width: calc(100% - 2.1vw);height: 0.4vw;margin: 0.25vw 1vw;border-radius: 0.2vw;}.clr-alpha span {display: block;height: 100%;width: 100%;border-radius: inherit;background-image: linear-gradient(90deg, rgba(0,0,0,0), currentColor);}.clr-hue input, .clr-alpha input {position: absolute;width: calc(100% + 0.9vw);height: 0.9vw;left: -0.4vw;top: -0.2vw;margin: 0;background-color: transparent;opacity: 0;cursor: pointer;appearance: none;-webkit-appearance: none;}.clr-hue div, .clr-alpha div {position: absolute;width: 0.9vw;height: 0.9vw;left: 0;top: 50%;margin-left: -0.4vw;transform: translateY(-50%);border: 0.1vw solid #fff;border-radius: 50%;background-color: currentColor;pointer-events: none;}.clr-alpha div:before {content: '';position: absolute;height: 100%;width: 100%;left: 0;top: 0;border-radius: 50%;background-color: currentColor;}.clr-format {display: none;order: 1;width: calc(100% - 2.1vw);margin: 0 1vw 1vw;}.clr-segmented {display: flex;position: relative;width: 100%;margin: 0;padding: 0;border: 1px solid #ddd;border-radius: 0.8vw;box-sizing: border-box;color: #999;font-size: 0.6vw;}.clr-segmented input, .clr-segmented legend {position: absolute;width: 100%;height: 100%;margin: 0;padding: 0;border: 0;left: 0;top: 0;opacity: 0;pointer-events: none;}.clr-segmented label {flex-grow: 1;padding: 0.2vw 0;text-align: center;cursor: pointer;}.clr-segmented label:first-of-type {border-radius: 0.5vw 0 0 0.5vw;}.clr-segmented label:last-of-type {border-radius: 0 0.5vw 0.5vw 0;}.clr-segmented input:checked + label {color: #fff;background-color: #666;}.clr-swatches {order: 2;width: calc(100% - 1.7vw);margin: 0 0.85vw;}.clr-swatches div {display: flex;flex-wrap: wrap;padding-bottom: 0.6vw;justify-content: center;}.clr-swatches button {position: relative;width: 1vw;height: 1vw;margin: 0 0.2vw 0.3vw 0.2vw;border: 0;border-radius: 50%;color: inherit;text-indent: -53vw;white-space: nowrap;overflow: hidden;cursor: pointer;}.clr-swatches button:after {content: '';display: block;position: absolute;width: 100%;height: 100%;left: 0;top: 0;border-radius: inherit;background-color: currentColor;box-shadow: inset 0 0 0 1px rgba(0,0,0,.1);}input.clr-color {order: 1;width: calc(100% - 4.2vw);height: 1.7vw;margin: 0.8vw 1vw 1vw 0;padding: 0 0.5vw;border: solid 0.5px #00000061;border-radius: 0.5vw;color: white;background-color: #00000038;font-family: sans-serif;font-size: 0.7vw;text-align: center;box-shadow: none;transition: 0.15s border, 0.15s background;}input.clr-color:focus {outline: none;border: 0.5px solid rgba(255, 255, 255, 0.6);background: #b3b3b338;}.clr-clear {display: none;order: 2;height: 1.3vw;margin: 0 1vw 1vw auto;padding: 0 1vw;border: 0;border-radius: 0.6vw;color: #fff;background-color: #666;font-family: inherit;font-size: 0.6vw;font-weight: 400;cursor: pointer;}.clr-preview {position: relative;width: 1.7vw;height: 1.7vw;margin: 0.8vw 0 1vw 1vw;border: 0;border-radius: 50%;background: transparent;overflow: hidden;cursor: pointer;}.clr-preview:before, .clr-preview:after {content: '';position: absolute;height: 100%;width: 100%;left: 0;top: 0;border-radius: 50%;}.clr-preview:after {border: 0;background-color: currentColor;}.clr-marker, .clr-hue div, .clr-alpha div, .clr-color {box-sizing: border-box;}.clr-field {display: inline-block;position: relative;color: transparent;-webkit-background-clip: text;}.clr-field button {position: absolute;width: 100%;height: 100%;right: 0;top: 50%;transform: translateY(-50%);border: 0;color: inherit;text-indent: -53vw;white-space: nowrap;overflow: hidden;pointer-events: none;}.clr-field button:after {content: '';display: block;position: absolute;width: 100%;height: 100%;left: 0;top: 0;border-radius: inherit;background-color: currentColor;}.clr-alpha, .clr-alpha div, .clr-swatches button, .clr-preview:before, .clr-field button {background: transparent;}.clr-marker:focus {outline: none;}.clr-keyboard-nav .clr-marker:focus, .clr-keyboard-nav .clr-hue input:focus + div, .clr-keyboard-nav .clr-alpha input:focus + div, .clr-keyboard-nav .clr-segmented input:focus + label {outline: none;}.clr-picker[data-alpha="false"] .clr-alpha {display: none;}.clr-picker[data-minimal="true"] {padding-top: 0.85vw;}.clr-picker[data-minimal="true"] .clr-gradient, .clr-picker[data-minimal="true"] .clr-hue, .clr-picker[data-minimal="true"] .clr-alpha, .clr-picker[data-minimal="true"] .clr-color, .clr-picker[data-minimal="true"] .clr-preview {display: none;}.clr-dark {background-color: #444;}.clr-dark .clr-segmented {border-color: #777;}.clr-dark .clr-swatches button:after {}.clr-dark input.clr-color {color: #fff;border-color: #777;background-color: #555;}.clr-dark input.clr-color:focus {border-color: #1e90ff;}.clr-dark .clr-preview:after {background: transparent;}.clr-dark .clr-alpha, .clr-dark .clr-alpha div, .clr-dark .clr-swatches button {background: transparent;}.clr-picker.clr-polaroid {border-radius: 0.3vw;box-shadow: 0 0 0.25vw rgba(0,0,0,.1), 0 0.25vw 1.6vw rgba(0,0,0,.2);}.clr-picker.clr-polaroid:before {content: '';display: block;position: absolute;width: 0.85vw;height: 0.5vw;left: 1vw;top: -0.5vw;border: solid transparent;border-width: 0 0.4vw 0.5vw 0.4vw;border-bottom-color: currentColor;box-sizing: border-box;color: #fff;filter: drop-shadow(0 -0.2vw 0.15vw rgba(0,0,0,.1));pointer-events: none;}.clr-picker.clr-polaroid.clr-dark:before {color: #444;}.clr-picker.clr-polaroid.clr-left:before {left: auto;right: 1vw;}.clr-picker.clr-polaroid.clr-top:before {top: auto;bottom: -0.5vw;transform: rotateZ(180deg);}.clr-polaroid .clr-gradient {width: calc(100% - 1vw);height: 6.4vw;margin: 0.5vw;border-radius: 0.15vw;}.clr-polaroid .clr-hue, .clr-polaroid .clr-alpha {width: calc(100% - 1.6vw);height: 0.5vw;margin: 0.3vw 0.8vw;border-radius: 0.25vw;}.clr-polaroid .clr-hue div, .clr-polaroid .clr-alpha div {box-shadow: 0 0 0.25vw rgba(0,0,0,.2);}.clr-polaroid .clr-format {width: calc(100% - 1vw);margin: 0 0.5vw 0.8vw;}.clr-polaroid .clr-swatches {width: calc(100% - 0.6vw);margin: 0 0.3vw;}.clr-polaroid .clr-swatches div {padding-bottom: 0.5vw;}.clr-polaroid .clr-swatches button {width: 1.2vw;height: 1.2vw;}.clr-polaroid input.clr-color {width: calc(100% - 3.2vw);margin: 0.5vw 0.5vw 0.8vw 0;}.clr-polaroid .clr-clear {margin: 0 0.5vw 0.8vw auto;}.clr-polaroid .clr-preview {margin: 0.5vw 0 0.8vw 0.5vw;}.clr-picker.clr-large {width: 14.5vw;}.clr-large .clr-gradient {height: 8vw;}.clr-large .clr-swatches button {width: 1.2vw;height: 1.2vw;}`
 
   var tag = document.createElement('style');
   tag.setAttribute("type", "text/css")
@@ -553,7 +22,7 @@
   // Default settings
   var settings = {
     el: '[data-coloris]',
-    parent: null,
+    parent: document.querySelector("#main > .screen"),
     theme: 'default',
     themeMode: 'light',
     wrap: true,
@@ -711,71 +180,47 @@
     // Show the color picker on click on the input fields that match the selector
     addListener(document, 'click', selector, function (event) {
 	  if(opened) return closePicker();
+
+    openPicker();
 		
       var parent = settings.parent;
       var coords = event.target.getBoundingClientRect();
+      var parentRect = parent.getBoundingClientRect();
       var scrollY = window.scrollY;
       var reposition = { left: false, top: false };
-      var offset = { x: 0, y: 0 };
-      var left = coords.x;
-      var top = scrollY + coords.y + coords.height + settings.margin;
+      let scaling = (HR.Phone.settings.size.value+50)/100
+      var left = coords.left - parentRect.left + settings.margin;
+      var top = scrollY + coords.top + coords.height - parentRect.top + settings.margin;
 
       currentEl = event.target;
       oldColor = currentEl.value;
       currentFormat = getColorFormatFromStr(oldColor);
-      $(picker).addClass("clr-open");
+      picker.classList.add("clr-open")
 	  
-	  opened = true;
+	    opened = true;
+      let offsetWidth = picker.offsetWidth, offsetHeight = picker.offsetHeight;
 
-      var pickerWidth = picker.offsetWidth;
-      var pickerHeight = picker.offsetHeight;
+      if (left + offsetWidth > parentRect.width) {
+        left -= offsetWidth + settings.margin * 2;
+        reposition.left = true;
+      }
 
-      // If the color picker is inside a custom container
-      // set the position relative to it
-      if (parent) {
-        var style = window.getComputedStyle(parent);
-        var marginTop = parseFloat(style.marginTop);
-        var borderTop = parseFloat(style.borderTopWidth);
-
-        offset = parent.getBoundingClientRect();
-        offset.y += borderTop + scrollY;
-        left -= offset.x;
-        top -= offset.y;
-
-        if (left + pickerWidth > parent.clientWidth) {
-          left += coords.width - pickerWidth;
-          reposition.left = true;
-        }
-
-        if (top + pickerHeight > parent.clientHeight - marginTop) {
-          top -= coords.height + pickerHeight + settings.margin * 2;
-          reposition.top = true;
-        }
-
-        top += parent.scrollTop;
-
-        // Otherwise set the position relative to the whole document
-      } else {
-        if (left + pickerWidth > document.documentElement.clientWidth) {
-          left += coords.width - pickerWidth;
-          reposition.left = true;
-        }
-
-        if (top + pickerHeight - scrollY > document.documentElement.clientHeight) {
-          top = scrollY + coords.y - pickerHeight - settings.margin;
-          reposition.top = true;
-        }
+      if (top + offsetHeight > parentRect.height) {
+        top -= offsetHeight + coords.height + settings.margin * 2;
+        reposition.top = true;
       }
 
       picker.classList.toggle('clr-left', reposition.left);
       picker.classList.toggle('clr-top', reposition.top);
-      picker.style.left = (left / window.innerWidth * 100) + "%";
-      picker.style.top = (top / window.innerHeight * 100) + "%";
+      picker.style.left = (left / parentRect.width * 100) + "%";
+      picker.style.top = (top / parentRect.height * 100) + "%";
+      picker.style["transform-origin"] = (reposition.top ? "bottom" : "top") + " " + (reposition.left ? "right" : "left");
       colorAreaDims = {
         width: colorArea.offsetWidth,
         height: colorArea.offsetHeight,
-        x: picker.offsetLeft + colorArea.offsetLeft + offset.x,
-        y: picker.offsetTop + colorArea.offsetTop + offset.y };
+        x: (picker.offsetLeft + parentRect.left) * scaling,
+        y: (picker.offsetTop + parentRect.top) * scaling
+      };
 
 
       setColorFromStr(oldColor);
@@ -797,7 +242,7 @@
 
       // Only update the preview if the field has been previously wrapped
       if (parent.classList.contains('clr-field')) {
-        parent.style.color = event.target.value;
+        parent.style.background = event.target.value;
       }
     });
   }
@@ -816,7 +261,7 @@
         wrapper.innerHTML = "<button aria-labelledby=\"clr-open-label\"></button>";
         parentNode.insertBefore(wrapper, field);
         wrapper.setAttribute('class', 'clr-field');
-        wrapper.style.color = field.value;
+        wrapper.style.background = field.value;
         wrapper.appendChild(field);
       }
     });
@@ -840,10 +285,7 @@
         currentEl.dispatchEvent(new Event('change', { bubbles: true }));
       }
 
-      $(picker).addClass("clr-hiding");
-      setTimeout(() => {
-        $(picker).removeClass("clr-open").removeClass("clr-hiding");
-      }, 200);
+      picker.classList.add("clr-hiding");
 
       if (settings.focusInput) {
         currentEl.focus({ preventScroll: true });
@@ -854,6 +296,12 @@
     }
   }
 
+  function openPicker() {
+    if(picker.classList.contains("clr-hiding")) picker.classList.remove("clr-hiding");
+
+    settings.parent.appendChild(picker);
+  }
+
   /**
    * Set the active color from a string.
    * @param {string} str String representing a color.
@@ -861,7 +309,7 @@
   function setColorFromStr(str) {
     var rgba = strToRGBA(str);
     var hsva = RGBAtoHSVA(rgba);
-
+    
     updateMarkerA11yLabel(hsva.s, hsva.v);
     updateColor(rgba, hsva);
 
@@ -870,8 +318,10 @@
     picker.style.color = "hsl(" + hsva.h + ", 100%, 50%)";
     hueMarker.style.left = hsva.h / 360 * 100 + "%";
 
+
+    let cheight = colorAreaDims.height;
     colorMarker.style.left = colorAreaDims.width * hsva.s / 100 + "px";
-    colorMarker.style.top = colorAreaDims.height - colorAreaDims.height * hsva.v / 100 + "px";
+    colorMarker.style.top = cheight - cheight * hsva.v / 100 + "px";
 
     alphaSlider.value = hsva.a * 100;
     alphaMarker.style.left = hsva.a * 100 + "%";
@@ -955,15 +405,17 @@
    * @param {object} event The MouseEvent object.
    */
   function moveMarker(event) {
-    var pointer = getPointerPosition(event);
-    var x = pointer.pageX - colorAreaDims.x;
-    var y = pointer.pageY - colorAreaDims.y;
+    //var pointer = getPointerPosition(event);
+    var size = (HR.Phone.settings.size.value+50)/100;
+    var scaling = 1/size;
+    var x = (event.clientX - colorAreaDims.x) * scaling;
+    var y = (event.clientY - colorAreaDims.y) * scaling;
 
     if (settings.parent) {
       y += settings.parent.scrollTop;
     }
 
-    x = x < 0 ? 0 : x > colorAreaDims.width ? colorAreaDims.width : x;
+    x = x < 0 ? 0 : x > colorAreaDims.width ? colorAreaDims.width : x ;
     y = y < 0 ? 0 : y > colorAreaDims.height ? colorAreaDims.height : y;
 
     colorMarker.style.left = x + "px";
@@ -1292,8 +744,17 @@
     settings.a11y.open + "</span>") + ("<span id=\"clr-swatch-label\" hidden>" +
     settings.a11y.swatch + "</span>");
 
-    // Append the color picker to the DOM
-    document.body.appendChild(picker);
+    picker.addEventListener("animationend", function(e) {
+        if(e.target == picker && e.target.classList.contains("clr-hiding")) {
+          e.target.classList.remove("clr-open", "clr-hiding");
+          e.target.remove();
+        }
+    })
+
+    if(!settings.parent)
+      document.body.appendChild(picker);
+    else
+      settings.parent.appendChild(picker);
 
     // Reference the UI elements
     colorArea = getEl('clr-color-area');
@@ -1403,6 +864,8 @@
     addListener(colorArea, 'click', moveMarker);
     addListener(hueSlider, 'input', setHue);
     addListener(alphaSlider, 'input', setAlpha);
+
+    picker.remove();
   }
 
   /**

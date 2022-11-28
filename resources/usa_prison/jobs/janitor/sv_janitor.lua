@@ -20,9 +20,14 @@ local cleaningLocations = {
     --]]
 }
 
+local REDUCE_TIME_RATES = {
+    tables = math.random(0, 2),
+    gym = math.random(0, 3)
+}
+
 local PAY_RATES = {
-    tables = 75,
-    gym = 50
+    tables = math.random(20, 60),
+    gym = math.random(25, 75)
 }
 
 local CLEANING_TIME_SECONDS = 45
@@ -45,16 +50,20 @@ AddEventHandler("prison-janitor:toggleJob", function(targetSrc)
         currentlyCleaningTaskName[src] = chosenTask
     else
         print("stopping job")
-        -- calculate pay for cleaned areas
-        local pay = 0
+        -- calculate time for cleaned areas
+        local char = exports["usa-characters"]:GetCharacter(src)
+        local time = char.get("jailTime")
+        local payment = 0
         for i = 1, #currentlyCleaning[src] do
             if currentlyCleaning[src][i].cleaned then
-                pay = pay + PAY_RATES[currentlyCleaningTaskName[src]]
+                time = time - REDUCE_TIME_RATES[currentlyCleaningTaskName[src]]
+                payment = payment + PAY_RATES[currentlyCleaningTaskName[src]]
             end
         end
-        local c = exports["usa-characters"]:GetCharacter(src)
-        c.giveBank(pay)
-        TriggerClientEvent("usa:notify", src, "You've been paid: $" .. exports.globals:comma_value(pay))
+        char.set("jailTime", time)
+        char.giveBank(payment)
+        TriggerClientEvent("usa:notify", src, "You've been paid: $" .. exports.globals:comma_value(payment))
+        TriggerClientEvent("usa:notify", src, "Reduced Prison Time, New Time: " .. time)
         -- record stoppage
         currentlyCleaning[src] = nil
         currentlyCleaningTaskName[src] = nil

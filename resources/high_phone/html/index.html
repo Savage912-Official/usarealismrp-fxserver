@@ -2,34 +2,20 @@
 <html>
 <head>
     <title>High-phone</title>
-    <link rel="stylesheet" href="css/other.css">
     <link rel="stylesheet" href="css/all.min.css">
-
-    <link rel="stylesheet" href="css/main.css">
-    <link rel="stylesheet" href="css/callscreen.css">
-    <link rel="stylesheet" href="css/lockscreen.css">
-    <link rel="stylesheet" href="css/twitter.css">
-    <link rel="stylesheet" href="css/phone.css">
-    <link rel="stylesheet" href="css/contacts.css">
-    <link rel="stylesheet" href="css/messages.css">
-    <link rel="stylesheet" href="css/bank.css">
-    <link rel="stylesheet" href="css/notes.css">
-    <link rel="stylesheet" href="css/darkchat.css">
-    <link rel="stylesheet" href="css/appstore.css">
-    <link rel="stylesheet" href="css/mail.css">
-    <link rel="stylesheet" href="css/ads.css">
-    <link rel="stylesheet" href="css/settings.css">
-    <link rel="stylesheet" href="css/gallery.css">
-    <link rel="stylesheet" href="css/camera.css">
 	<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.15/lodash.min.js" integrity="sha512-3oappXMVVac3Ge3OndW0WqpGTWx9jjRJA8SXin8RxmPfc8rg87b31FGy14WHG/ZMRISo9pBjezW9y00RYAEONA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.1.2/handlebars.min.js"></script>
-    <script src="https://unpkg.com/scrollbooster@2/dist/scrollbooster.min.js"></script>
+    <script type="text/javascript" src="js/scrollbooster.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.1.1/howler.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
     <script type="text/javascript" src="js/all.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.2.0/chart.min.js"></script>
+    <script src="https://s.ytimg.com/yts/jsbin/www-widgetapi-vflJJaNgk/www-widgetapi.js"></script>
+    <script src="https://www.youtube.com/iframe_api"></script>
 </head>
 <body>
     <div class="bignotification">
@@ -44,8 +30,17 @@
             <p class="savephoto">{{save_to_gallery}}</p>
         </div>
     </div>
-    <div class="main" id="main">
-        <img class="frame" style="pointer-events: none;" src="media/frame.png">
+
+    <div class="main" id="main" style="--frame-color:#171e27">
+        <div class="frame">
+            <img src="media/frame.png">
+        </div>
+        <div class="buttons">
+            <div class="button silent left" data-action="silent"></div>
+            <div class="button volume left" data-action="volumeup"></div>
+            <div class="button volume left" data-action="volumedown"></div>
+            <div class="button power right" data-action="power"></div>
+        </div>
         <div class="screen">
             <div class="blackscreen" style="pointer-events: none;opacity: 0.0;"></div>
             <div class="dragger"></div>
@@ -61,12 +56,107 @@
                     </div>
                 </div>
             </div>
+            <!-- TOOLTIP -->
+            <div class="tooltip"></div>
+            <!-- CALENDAR -->
+            <div class="calendarwrapper">
+                <div class="bg"></div>
+            </div>
+            <div class="calendar">
+                <div class="header">
+                    <div class="resize">
+                        <i class="far fa-expand"></i>
+                    </div>
+
+                    <div class="center">
+                        <div class="main">
+                            <p class="year"></p>
+                            <p class="month"></p>
+                        </div>
+                        <p class="time">Time</p>
+                    </div>
+                    
+                    <div class="back">
+                        <i class="far fa-chevron-left"></i>
+                    </div>
+                    <div class="next">
+                        <i class="far fa-chevron-right"></i>
+                    </div>
+                </div>
+                <div class="content">
+                    <div class="month">
+                        <div class="left">
+                            <div id="calendar-weekdays">
+                            </div>
+                            <div class="month" id="calendar-days">
+                            </div>
+                        </div>
+                        <div class="scroller">
+                            <div class="up">
+                                <i class="far fa-chevron-up"></i>
+                            </div>
+                            <div class="down">
+                                <i class="far fa-chevron-down"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="year" id="calendar-year">
+                    </div>
+                    <div class="time">
+                        <div class="hourswrapper">
+                            <div class="dummyScroller" id="calendar-hours">
+                            </div>
+                            <div class="hours">
+                            </div>
+                        </div>
+                        <p class="seperator">:</p>
+                        <div class="minuteswrapper">
+                            <div class="dummyScroller" id="calendar-minutes">
+                            </div>
+                            <div class="minutes">
+                            </div>
+                        </div>
+                        <div class="ampmwrapper">
+                            <div class="dummyScroller" id="calendar-ampm">
+                            </div>
+                            <div class="ampm">
+                            </div>
+                        </div>
+
+                        <div class="focus"></div>
+                    </div>
+                </div>
+            </div>
             <!-- NOTIFICATIONS -->
-            <div class="notifbox">
+            <div class="notifbox" style="--top:-2.8vw;">
                 <i class="fab fa-twitter icon"></i>
                 <p class="title"></p>
                 <p class="content"></p>
                 <p class="timestamp">{{just_now}}</p>
+            </div>
+            <!-- REMINDER -->
+            <div class="reminderbox" style="--top:-2.8vw;">
+                <i class="fab fa-twitter icon"></i>
+                <p class="title"></p>
+                <p class="content"></p>
+            </div>
+            <!-- SILENT MODE -->
+            <div class="silentmode">
+                <div class="icon">
+                    <i class="fas fa-bell"></i>
+                </div>
+                <p class="title">{{silent_mode}}</p>
+                <p class="status"></p>
+            </div>
+            <!-- VOLUME -->
+            <div class="volumeslider">
+                <div class="fill" style="height: 50%;"></div>
+                <div class="icon">
+                    <i class="fas fa-volume-off"></i>
+                    <i class="fas fa-volume-down"></i>
+                    <i class="fas fa-volume"></i>
+                    <i class="fas fa-volume-up"></i>
+                </div>
             </div>
             <!-- CONTEXT MENU -->
             <div id="contextmenu" class="">
@@ -86,6 +176,42 @@
                 <p class="time" id="current-time2"></p>
                 <p class="date" id="current-date"></p>
 
+                <div class="widgets">
+                    <div class="music-player">
+                        <div class="inner">
+                            <div class="thumbnail"></div>
+                            <div class="left">
+                                <div class="name">
+                                    <p></p>
+                                </div>
+                                <p class="artist"></p>
+                                <div class="info">
+                                    <p class="length"></p>
+                                    <div class="song-like icon" data-liked="true">
+                                        <i class="fas fa-heart liked"></i>
+                                        <i class="far fa-heart"></i>
+                                    </div>
+                                    <div class="repeat icon">
+                                        <i class="far fa-repeat-alt"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="controls">
+                                <div class="play-previous">
+                                    <i class="fas fa-backward"></i>
+                                </div>
+                                <div class="play-pause"></div>
+                                <div class="play-next">
+                                    <i class="fas fa-forward"></i>
+                                </div>
+                            </div>
+                            <div class="progress">
+                                <div class="inner"></div>
+                                <div class="point"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="notificationtools">
                     <button data-action="showall" data-enabled="false"><i class="fas fa-chevron-down icon" style="margin-right: 0.3vw;"></i><span>{{showall}}</span></button>
                     <button data-action="clearall"><span>{{clearall}}</span></button>
@@ -174,6 +300,95 @@
 
             <!-- TWITTER -->
             <div class="twitter" id="Twitter">
+                <!-- USER PROFILE -->
+                <div class="userprofilecontent">
+                    <div class="content">
+
+                    </div>
+                    <img class="tweet-loader" src="./media/icons/tail-spin.svg">
+                    <!-- PROFILE SETTINGS -->
+                    <div class="profilesettings">
+                        <form name="twitter-settings" class="inputs">
+                            <div class="flex">
+                                <div class="input" style="flex-basis:50%">
+                                    <label>{{change_nickname}}</label>
+                                    <input name="nickname" type="text" spellcheck="false" maxlength="16" placeholder="{{nickname}}">
+                                </div>
+                                <div class="input" style="flex-basis:50%">
+                                    <label>{{change_password}}</label>
+                                    <input name="password" type="password" spellcheck="false" maxlength="50" placeholder="{{password}}">
+                                </div>
+                            </div>
+                            <label>{{change_picture}}</label>
+                            <div class="image">
+                                <input name="picture" type="text" style="padding-left: 2.2vw;" spellcheck="false" maxlength="512" placeholder="{{image_url}}">
+                                <div class="upload" data-open="false">
+                                    <i class="far fa-plus icon"></i>
+                                </div>
+                            </div>
+                            <label>{{change_banner}}</label>
+                            <div class="banner">
+                                <input name="banner" type="text" style="padding-left: 2.2vw;" spellcheck="false" maxlength="512" placeholder="{{image_url}}">
+                                <div class="upload" data-open="false">
+                                    <i class="far fa-plus icon"></i>
+                                </div>
+                                <input id="bannercolor" type="text" data-coloris spellcheck="false" value="#000">
+                            </div>
+                            <button class="fill" style="margin-top: 0.8vw" id="twittersavesettings">{{save_settings}}</button>
+                            <button class="nofill" id="twitterclosesettings">{{cancel_settings}}</button>
+                        </form>
+                    </div>
+                </div>
+                <div class="userprofileheader">
+                    <div class="userbanner"></div>
+                    <div class="info">
+                        <img src="media/default.png" class="userimage" style="display: block;">
+                        <div class="right">
+                            <div class="username">
+                                <span></span>
+                                <div class="rank-icon" style="display: none;"></div>
+                            </div>
+                            <div class="usertools"><i class="fas fa-ellipsis-h icon"></i></div>
+                            <p class="usersince"></p>
+                        </div>
+                        <div class="close">
+                            <i class="fal fa-times"></i>
+                        </div>
+                    </div>
+                    <div class="secondaryinfo">
+                        <div class="data">
+                            <p class="userfollowers"></p>
+                            <p class="usertweets"></p>
+                        </div>
+                        <div class="stats">
+                            <i class="fas fa-heart icon" style="color:#FF5757;"></i>
+                            <p class="userlikes"></p>
+                            <i class="fas fa-eye icon"></i>
+                            <p class="userviews"></p>
+                        </div>
+                        <button class="userfollow">Follow</button>
+                    </div>
+                </div>
+                <!-- BAN USER -->
+                <div class="popup" id="bantwitterpopup">
+                    <div class="bg"></div>
+                    <div class="content">
+                        <div class="header">
+                            <p class="title"></p>
+                            <i class="fal fa-times close"></i>
+                        </div>
+                        <div class="box">
+                            <div class="calendarwrapper"></div>
+                            <form class="inputs" name="bantwitteruser">
+                                <input name="reason" type="text" spellcheck="false" maxlength="30" placeholder="{{bantwitter_reason}}">
+                                <button id="bantwitteruser">{{bantwitter_button}}</button>
+                            </form>
+                        </div>
+                        <div class="banneduntilwrapper">
+                            <p class="banneduntil"></p>
+                        </div>
+                    </div>
+                </div>
                 <!-- MAIN SCREEN [TWEETS AND SHIT] -->
                 <div class="mainscreen">
                     <div class="header">
@@ -181,12 +396,91 @@
                             <i class="fab fa-twitter icon"></i>
                             <p class="title">{{twitter_title}}</p>
                         </div>
+                        <div class="center">
+                            <div class="highlight"></div>
+                            <p class="button" data-category="followed">{{followed}}</p>
+                            <p class="button" data-category="all">{{all}}</p>
+                        </div>
                         <div class="right">
-                            <div id="twitter-notifications">
-                                <i class="fas fa-bell-on icon"></i>
+                            <!--<div class="searchinput">
+                                <i class="far fa-search icon"></i>
+                                <input id="searchchats" type="text" spellcheck="false" maxlength="255" placeholder="{{search_twitter}}">
                             </div>
-                            <div id="opensettings">
-                                <i class="fas fa-cog icon"></i>
+                            <div class="search">
+                                <i class="far fa-search icon"></i>
+                            </div>-->
+
+                            <div id="twitter-tags">
+                                <div class="amount"></div>
+                                <i class="far fa-at icon"></i>
+                                <div class="container">
+                                    <div class="header">
+                                        <p class="title">{{recently_mentioned}}</p>
+                                        <p id="clearalltwittertags">{{clear_all_mentions}}</p>
+                                    </div>
+                                    <p class="nomentions">{{no_mentions}}</p>
+                                    <div class="tags">
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="twitter-notifications">
+                                <i class="fas fa-bell icon"></i>
+                                <div class="container">
+                                    <div class="header">
+                                        <p class="title">{{twitter_notifications}}</p>
+                                    </div>
+                                    <label class="label">{{twitter_tweetnotifications}}</label>
+                                    <label class="container option">{{twitter_alltweetnotifications}}
+                                        <input type="checkbox" data-setting="tweets" data-value="2">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                    <label class="container option">{{twitter_followedtweetnotifications}}
+                                        <input type="checkbox" data-setting="tweets" data-value="1">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                    <label class="container option">{{twitter_notweetnotifications}}
+                                        <input type="checkbox" data-setting="tweets" data-value="0">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                    <label class="label">{{twitter_mentionnotifications}}</label>
+                                    <label class="container option">{{twitter_mentionallnotifications}}
+                                        <input type="checkbox" data-setting="mentions" data-value="2">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                    <label class="container option">{{twitter_mentionfollowednotifications}}
+                                        <input type="checkbox" data-setting="mentions" data-value="1">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                    <label class="container option">{{twitter_mentionnonotifications}}
+                                        <input type="checkbox" data-setting="mentions" data-value="0">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                    <label class="label">{{twitter_othernotifications}}</label>
+                                    <label class="container">{{twitter_followernotifications}}
+                                        <input type="checkbox" data-setting="followers">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="avatar">
+                                <img src="media/default.png" id="twitter-myimg">
+    
+                                <div class="container">
+                                    <div class="info">
+                                        <div id="twitter-myrank" class="rank-icon" style="display: none;"></div>
+                                        <p class="name" id="twitter-myname"></p>
+                                        <p class="address" id="twitter-myaddress"></p>
+                                    </div>
+                                    <hr>
+                                    <div class="button" data-action="viewprofile">
+                                        <i class="fas fa-user icon"></i>
+                                        <p class="title">{{view_profile}}</p>
+                                    </div>
+                                    <div class="button" data-action="logout">
+                                        <i class="fas fa-sign-out icon"></i>
+                                        <p class="title">{{log_out}}</p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -198,49 +492,6 @@
                         <i class="fal fa-plus icon"></i>
                     </div>
                 </div>
-                <!-- SETTINGS -->
-                <div class="twtsettings">
-                    <div class="header">
-                        <div class="menu">
-                            <div class="left">
-                                <i class="fab fa-twitter icon"></i>
-                                <p class="title">{{twitter_settings_title}}</p>
-                            </div>
-                            <div class="right">
-                                <div id="closesettings">
-                                    <i class="fal fa-times icon"></i>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="player">
-                            <img id="twitter-myimg" src="media/avatar.jpg">
-                            <div class="data">
-                                <div class="name">
-                                    <p class="name" id="twitter-myname"></p>
-                                    <div id="twitter-myrank" class="rank-icon" style="display: none;"></div>
-                                </div>
-                                <div class="stats">
-                                    <i class="fas fa-eye icon"></i>
-                                    <p id="twitter-myviews"></p>
-                                    <i class="fas fa-heart icon"></i>
-                                    <p id="twitter-mylikes"></p>
-                                    <i class="fas fa-comments-alt icon"></i>
-                                    <p id="twitter-myposts"></p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <form name="twitter-settings" class="inputs">
-                        <label>{{change_nickname}}</label>
-                        <input name="nickname" type="text" spellcheck="false" maxlength="16" placeholder="{{nickname}}">
-                        <label>{{change_password}}</label>
-                        <input name="password" type="password" spellcheck="false" maxlength="50" placeholder="{{password}}">
-                        <label>{{change_picture}}</label>
-                        <input name="image" type="text" spellcheck="false" maxlength="512" placeholder="{{image_url}}">
-                        <button class="fill" style="margin-top: 0.8vw" id="twittersavesettings">{{save_settings}}</button>
-                        <button class="nofill" id="twitterlogout">{{log_out}}</button>
-                    </form>
-                </div>
                 <!-- POST SCREEN -->
                 <div class="post">
                     <div class="header">
@@ -249,9 +500,7 @@
                             <p class="title">{{twitter_post_title}}</p>
                         </div>
                         <div class="right">
-                            <div id="closepost">
-                                <i class="fal fa-times icon"></i>
-                            </div>
+                            <i class="fal fa-times closeicon"></i>
                         </div>
                     </div>
                     <form class="inputs" name="tweet">
@@ -259,8 +508,13 @@
                         <input name="title" type="text" spellcheck="false" maxlength="20" placeholder="{{tweet_title}}">
                         <label>{{post_message}}<span style="color: red">*</span></label>
                         <div class="content">
-                            <textarea name="content" type="text" spellcheck="false" maxlength="200" placeholder="{{tweet_content}}"></textarea>
+                            <p class="placeholder">{{tweet_content}}</p>
+                            <div name="content" role="input" contenteditable="true" spellcheck="false" maxlength="255"></div>
                             <i class="far fa-smile emoji"></i>
+                            <p class="leftcharacters"></p>
+                        </div>
+                        <div class="tagresults">
+                            
                         </div>
                         <label>{{post_photo}}</label>
                         <div class="image">
@@ -283,10 +537,14 @@
                             <input name="email" type="text" spellcheck="false" placeholder="{{email}}">
                             <p class="emailformat"></p>
                         </div>
-                        <input name="password" type="password" maxlength="50" spellcheck="false" placeholder="{{password}}">
-                        <label class="container">{{{register_rules}}}
+                        <div class="password">
+                            <input name="password" type="password" maxlength="50" spellcheck="false" placeholder="{{password}}">
+                            <div class="togglePassword"><i class="fas fa-eye"></i></div>
+                        </div>
+                        <label class="container">
                             <input type="checkbox">
                             <span class="checkmark"></span>
+                            <span>{{{register_rules}}}</span>
                         </label>
                         <button class="fill" id="register">{{register_button}}</button>
                         <p class="login">{{{already_registered}}}</p>
@@ -303,7 +561,10 @@
                                 <input name="email" type="text" spellcheck="false" placeholder="{{email}}">
                                 <p class="emailformat"></p>
                             </div>
-                            <input name="password" type="password" spellcheck="false" placeholder="{{password}}">
+                            <div class="password">
+                                <input name="password" type="password" spellcheck="false" placeholder="{{password}}">
+                                <div class="togglePassword"><i class="fas fa-eye"></i></div>
+                            </div>
                             <div class="forgotpassword">
                                 <span>{{forgot_password}}</span>
                                 <i class="fas fa-info-circle icon"></i>
@@ -343,6 +604,15 @@
                         </form>
                     </div>
                 </div>
+                <!-- BANNED SCREEN -->
+                <div class="banned">
+                    <div class="icon">
+                        <i class="fab fa-twitter icon"></i>
+                        <i class="fas fa-tint tear"></i>
+                    </div>
+                    <p class="title">{{banned_title}}</p>
+                    <p class="description">{{{banned_description}}}</p>
+                </div>
 
                 <div class="bottomline">
                     <div></div>
@@ -355,7 +625,7 @@
                 <div class="chats">
                     <div class="header">
                         <div class="left">
-                            <i class="far fa-paper-plane icon"></i>
+                            <i class="fad fa-paper-plane icon"></i>
                             <p class="title">{{messages_title}}</p>
                         </div>
 
@@ -393,53 +663,139 @@
                 <!-- PRIVATE CHAT -->
                 <div class="privatechat">
                     <div class="header">
-                        <div class="left">
-                            <div class="avatar" id="currentchatletter"></div>
-                            <img class="avatar" id="currentchatimage" style="display: none;background-color:rgb(80, 80, 80)" src="media/default.png">
-                            <p class="name" id="currentchatname"></p>
-                            <p class="number" id="currentchatnumber"></p>
+                        <div class="top">
+                            <div class="tools">
+                                <i class="fas fa-ellipsis-v"></i>
+                            </div>
+                            <div class="avatarwrap">
+                                <svg width="100%" height="100%" style="display: block;">
+                                    <foreignObject width="100%" height="100%" mask="url(#contact-status-mask)">
+                                        <div class="avatar" id="currentchatletter"></div>
+                                        <img class="avatar" id="currentchatimage" style="display: none;background-color:rgb(80, 80, 80)" src="media/default.png">
+                                    </foreignObject>
+                                </svg>
+                                <div class="status" id="currentchatstatus"></div>
+                            </div>
+    
+                            <div class="info">
+                                <p class="name" id="currentchatname"></p>
+                                <p class="number" id="currentchatnumber"></p>
+                            </div>
                         </div>
-                        <div class="right">
-                            <div id="leavegroup">
-                                <i class="fas fa-sign-out-alt icon"></i>
+                        <i class="fal fa-times icon" id="closechat"></i>
+
+                        <div class="people">
+                            <label>{{people_title}}</label>
+                            <div class="members" id="currentgroupmembers">
+                                <div class="member">
+                                    <img class="avatar" src="media/default.png">
+                                    <div class="info">
+                                        <p class="name">Kęstutis Kęstauskas</p>
+                                        <p class="number">+370 645 45879</p>
+                                    </div>
+                                    <div class="tools">
+                                        <i class="fas fa-ellipsis-v"></i>
+                                    </div>
+                                </div>
+                                <div class="member">
+                                    <img class="avatar" src="media/default.png">
+                                    <div class="info">
+                                        <p class="name">Kęstutis Kęstauskas</p>
+                                        <p class="number">+370 645 45879</p>
+                                    </div>
+                                    <div class="tools">
+                                        <i class="fas fa-ellipsis-v"></i>
+                                    </div>
+                                </div>
+                                <div class="member">
+                                    <img class="avatar" src="media/default.png">
+                                    <div class="info">
+                                        <p class="name">Kęstutis Kęstauskas</p>
+                                        <p class="number">+370 645 45879</p>
+                                    </div>
+                                    <div class="tools">
+                                        <i class="fas fa-ellipsis-v"></i>
+                                    </div>
+                                </div>
+                                <div class="member">
+                                    <img class="avatar" src="media/default.png">
+                                    <div class="info">
+                                        <p class="name">Kęstutis Kęstauskas</p>
+                                        <p class="number">+370 645 45879</p>
+                                    </div>
+                                    <div class="tools">
+                                        <i class="fas fa-ellipsis-v"></i>
+                                    </div>
+                                </div>
+                                <div class="member">
+                                    <img class="avatar" src="media/default.png">
+                                    <div class="info">
+                                        <p class="name">Kęstutis Kęstauskas</p>
+                                        <p class="number">+370 645 45879</p>
+                                    </div>
+                                    <div class="tools">
+                                        <i class="fas fa-ellipsis-v"></i>
+                                    </div>
+                                </div>
+                                <div class="member">
+                                    <img class="avatar" src="media/default.png">
+                                    <div class="info">
+                                        <p class="name">Kęstutis Kęstauskas</p>
+                                        <p class="number">+370 645 45879</p>
+                                    </div>
+                                    <div class="tools">
+                                        <i class="fas fa-ellipsis-v"></i>
+                                    </div>
+                                </div>
+                                <div class="member">
+                                    <img class="avatar" src="media/default.png">
+                                    <div class="info">
+                                        <p class="name">Kęstutis Kęstauskas</p>
+                                        <p class="number">+370 645 45879</p>
+                                    </div>
+                                    <div class="tools">
+                                        <i class="fas fa-ellipsis-v"></i>
+                                    </div>
+                                </div>
+                                <div class="member">
+                                    <img class="avatar" src="media/default.png">
+                                    <div class="info">
+                                        <p class="name">Kęstutis Kęstauskas</p>
+                                        <p class="number">+370 645 45879</p>
+                                    </div>
+                                    <div class="tools">
+                                        <i class="fas fa-ellipsis-v"></i>
+                                    </div>
+                                </div>
                             </div>
-                            <div id="managegroup">
-                                <i class="fas fa-cog icon"></i>
-                            </div>
-                            <div id="closechat">
-                                <i class="fal fa-times icon"></i>
-                            </div>
+                            <div class="closeline"></div>
                         </div>
                     </div>
                     
                     <div class="chatmessages" id="messages">
-
                     </div>
 
                     <div class="bottom">
                         <div class="line"></div>
-                        <div class="attachments" style="display: none;"></div>
+                        <div class="attachments"></div>
                         <div class="content">
-                            <div class="more">
-                                <div class="more-items">
-                                    <div class="icon" data-action="takephoto">
-                                        <i class="fas fa-camera icon"></i>
-                                    </div>
-                                    <div class="icon" data-action="selectphoto">
-                                        <i class="fas fa-image icon"></i>
-                                    </div>
-                                    <div class="icon" data-action="sendcoords">
-                                        <i class="fas fa-map-marker-alt icon"></i>
-                                    </div>
-                                    <div class="icon" data-action="openemojimenu">
-                                        <span class="icon">😃</span>
-                                    </div>
-                                    <div class="open-more">
-                                        <div class="icon">
-                                            <i class="far fa-plus"></i>
-                                        </div>
-                                    </div>
+                            <div class="more-tools">
+                                <div class="icon" style="transform: translate3d(-0.3vw, -1.7vw, 0);transition-delay:0.1s, 0.1s, 0s;" data-action="openemojimenu">
+                                    <span class="icon">😃</span>
                                 </div>
+                                <div class="icon" style="transform: translate3d(1.3vw, -1.3vw, 0);transition-delay:0.15s, 0.15s, 0s;" data-action="sendcoords">
+                                    <i class="fas fa-map-marker-alt icon"></i>
+                                </div>
+                                <div class="icon" style="transform: translate3d(1.7vw, 0.3vw, 0)" data-action="takephoto">
+                                    <i class="fas fa-camera icon"></i>
+                                </div>
+                                <div class="icon" style="transform: translate3d(0.9vw, -2.8vw, 0) scale(0.9); transition-delay:0.2s, 0.2s, 0s;" data-action="theme">
+                                    <input class="chattheme" type="text" data-coloris spellcheck="false" value="radial-gradient(circle at -5% -10%, rgb(24 127 255), transparent), radial-gradient(circle at 50% 80%, rgb(255, 169, 40), rgb(194 47 255))">
+                                </div>
+                                <div class="icon" style="transform: translate3d(2.8vw, -0.9vw, 0) scale(0.9); transition-delay:0.25s, 0.25s, 0s;" data-action="selectphoto">
+                                    <i class="fas fa-image icon"></i>
+                                </div>
+                                <i class="far fa-plus"></i>
                             </div>
                             <input class="text" spellcheck="false" maxlength="500" placeholder="{{chat_message}}">
                             <div class="send"><i class="fas fa-location-arrow"></i></div>
@@ -472,22 +828,23 @@
 
                         <label>{{new_group_members}}</label>
                         <div class="groupmembers">
-                            <input name="contacts" type="text" spellcheck="false" placeholder="{{search_contacts}}">
+                            <div class="container">
+                                <input name="contacts" type="text" spellcheck="false" placeholder="{{search_contacts}}">
+                                <i class="fas fa-address-book selectgroupcontacts"></i>
+                            </div>
+                        </div>
+
+                        <div class="contactsearch">
                         </div>
 
                         <p class="leftcontacts"></p>
-                        <div class="container">
-                            <div class="contactlist">
-
-                            </div>
-                        </div>
 
                         <div class="noresults" style="display: none;">
                             <p class="title">{{no_results}}</p>
                             <p class="description"></p>
                         </div>    
     
-                        <button class="fill" style="margin-top: 1.5vw" id="createnewgroup">{{new_group_create}}</button>
+                        <button class="fill" style="margin-top: 5.5vw" id="createnewgroup">{{new_group_create}}</button>
                     </form>
                 </div>
 
@@ -516,15 +873,16 @@
 
                         <label>{{new_group_members}}</label>
                         <div class="groupmembers">
-                            <input name="contacts" type="text" spellcheck="false" placeholder="{{search_contacts}}">
+                            <div class="container">
+                                <input name="contacts" type="text" spellcheck="false" placeholder="{{search_contacts}}">
+                                <i class="fas fa-address-book selectgroupcontacts"></i>
+                            </div>
+                        </div>
+
+                        <div class="contactsearch">
                         </div>
 
                         <p class="leftcontacts"></p>
-                        <div class="container">
-                            <div class="contactlist">
-
-                            </div>
-                        </div>
 
                         <div class="noresults" style="display: none;">
                             <p class="title">{{no_results}}</p>
@@ -549,22 +907,30 @@
                             <i class="fas fa-address-book icon"></i>
                             <p class="title">{{contacts_title}}</p>
                         </div>
-                        <div class="player">
-                            <div class="avatar" id="contacts-myletter"></div>
-                            <img class="avatar" id="contacts-myimg" style="display: none;background-color:rgb(80, 80, 80)" src="media/default.png">
-                            <div class="data">
-                                <p class="name" id="contacts-myname"></p>
-                                <p class="number" id="contacts-mynumber"></p>
-                            </div>
+                    </div>
+
+                    <div class="player">
+                        <div class="avatarwrap">
+                            <svg width="100%" height="100%" style="display: block;">
+                                <foreignObject width="100%" height="100%" mask="url(#contacts-status-mask)">
+                                    <div class="avatar" id="contacts-myletter"></div>
+                                    <img class="avatar" id="contacts-myimg" style="display: none;background-color:rgb(80, 80, 80)" src="media/default.png">
+                                </foreignObject>
+                            </svg>
+                            <div class="status" id="contacts-mystatus"></div>
                             <div class="shareowncontact">
                                 <i class="fas fa-share-square icon"></i>
                             </div>
+                        </div>
+                        <div class="data">
+                            <p class="name" id="contacts-myname"></p>
+                            <p class="number" id="contacts-mynumber"></p>
                         </div>
                     </div>
 
                     <div class="search">
                         <i class="far fa-search input-icon"></i>
-                        <input id="searchcontacts" type="text" spellcheck="false" maxlength="255" placeholder="{{search_contacts}}">
+                        <input class="searchcontacts" type="text" spellcheck="false" maxlength="255" placeholder="{{search_contacts}}">
                     </div>
 
                     <div class="contactlist">
@@ -651,8 +1017,7 @@
                         </div>
                         <label>{{contact_edit_tag}}</label>
                         <input name="tag" type="text" spellcheck="false" maxlength="25" placeholder="{{tag}}">
-                        <button class="fill" style="margin-top: 0.7vw" id="editcontact">{{contact_edit_save}}</button>
-                        <button class="nofill" style="margin-top: 0.5vw" id="canceleditcontact">{{contact_edit_cancel}}</button>
+                        <button class="fill" style="margin-top: 1.7vw" id="editcontact">{{contact_edit_save}}</button>
                     </form>
                 </div>
                 
@@ -734,7 +1099,10 @@
                         </div>
     
                         <label class="input">{{mail_password}}</label>
-                        <input name="password" type="password" spellcheck="false" maxlength="50" placeholder="{{mail_password}}">
+                        <div class="password">
+                            <input name="password" type="password" spellcheck="false" maxlength="50" placeholder="{{mail_password}}">
+                            <div class="togglePassword"><i class="fas fa-eye"></i></div>
+                        </div>
 
                         <button id="loginmail" class="fill" style="margin-top: 1vw;">{{mail_login}}</button>
                         <p class="hr">{{or}}</p>
@@ -836,6 +1204,7 @@
                                 <div class="attachments">
 
                                 </div>
+                                <p class="leftcharacters">512</p>
                                 <i class="far fa-paperclip attach"></i>
                                 <div class="send">
                                     <i class="fas fa-paper-plane-alt"></i>
@@ -893,7 +1262,10 @@
                             </div>
                         </div>
                         <label>{{mail_editaccount_password}}</label>
-                        <input name="password" type="password" spellcheck="false" maxlength="50" placeholder="{{mail_password}}">
+                        <div class="password">
+                            <input name="password" type="password" spellcheck="false" maxlength="50" placeholder="{{mail_password}}">
+                            <div class="togglePassword"><i class="fas fa-eye"></i></div>
+                        </div>
 
                         <button id="savemailaccount">{{mail_editaccount_save}}</button>
                     </form>
@@ -904,11 +1276,217 @@
                 </div>
             </div>
 
+            <!-- YOUTUBE MUSIC -->
+            <div class="music" id="Music">
+                <div class="header">
+                    <div class="avatar" id="music-myletter"></div>
+                    <img class="avatar" id="music-myimg" style="display: none;background-color:rgb(80, 80, 80)" src="media/default.png">
+                    <div class="left">
+                        <p class="title">{{music_title}}</p>
+                        <p class="name"></p>
+                    </div>
+                    <div class="searchinput">
+                        <input id="searchmusic" type="text" spellcheck="false" maxlength="255" placeholder="{{search_music}}">
+                    </div>
+                    <div class="right">
+                        <div class="search">
+                            <i class="far fa-search searchicon"></i>
+                            <i class="far fa-times closeicon"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="wrap">
+                    <div class="categories">
+                        <div class="highlight"></div>
+                        <p class="button" data-category="library">{{library}}</p>
+                        <p class="button" data-category="playlists">{{playlists}}</p>
+                    </div>
+    
+                    <div class="mainscreen">
+                        <div class="biglist" id="mainsongs">
+                            
+                        </div>
+                        <div class="recentlyplayedheader">
+                            <label>{{recently_played}}</label>
+                            <p class="showall">{{show_all}}</p>
+                        </div>
+                        <div class="recentlyplayed">
+
+                        </div>
+                        <label>{{popular}}</label>
+                        <div class="biglist" id="popularsongs" style="margin-bottom:8vw;">
+
+                        </div>
+                    </div>
+    
+                    <div class="playlistscreen">
+                        <div class="liked">
+                            <div class="artists">
+                                <div class="inner">
+                                    <div style="overflow:hidden;"><img style="filter:blur(0.15vw);" src="https://i.ytimg.com/vi/YYZz8BXN7ag/maxresdefault.jpg"></div>
+                                    <div style="overflow:hidden;"><img style="filter:blur(0.15vw);" src="https://i.ytimg.com/vi/fHI8X4OXluQ/maxresdefault.jpg"></div>
+                                    <div style="overflow:hidden;"><img style="filter:blur(0.15vw);" src="https://i.ytimg.com/vi/3_g2un5M350/maxresdefault.jpg"></div>
+                                    <div style="overflow:hidden;"><img style="filter:blur(0.15vw);" src="https://i.ytimg.com/vi/JTbMeUmQuWY/maxresdefault.jpg"></div>
+                                </div>
+                                <div class="more"></div>
+                            </div>
+                            <p class="artistslabel"></p>
+                            <p class="name">{{liked_songs}}</p>
+                            <p class="description"></p>
+                        </div>
+                        <div class="create">
+                            <div class="icon"><i class="fal fa-plus"></i></div>
+                            <span>{{create_playlist}}</span>
+                        </div>
+                        <label>{{your_playlists}}</label>
+                        <div class="biglist">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="playlist">
+                    <div class="inner">
+                        <div class="header">
+                            <div class="thumbnail">
+                            </div>
+                            <div class="info">
+                                <div class="left">
+                                    <p class="name"></p>
+                                    <p class="description"></p>
+                                </div>
+                                <i class="fas fa-ellipsis-h tools"></i>
+                                <i class="far fa-chevron-down close"></i>
+                            </div>
+                        </div>
+                        <div class="songs">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="searchresults">
+                    <h1>{{search_results}}</h1>
+                    <img class="songs-loader" style="display:none;" src="./media/icons/tail-spin.svg">
+                    <label class="songlabel">{{song_results_title}}</label>
+                    <div class="songs" data-type="songs"></div>
+                    <label class="videolabel">{{video_results_title}}</label>
+                    <div class="songs" data-type="videos"></div>
+                </div>
+
+                <div class="music-player">
+                    <div class="inner">
+                        <div class="header">
+                            <i class="far fa-chevron-down close"></i>
+                            <p class="name">{{now_playing}}</p>
+                            <i class="fas fa-ellipsis-h tools"></i>
+                        </div>
+                        <div class="close"><i class="far fa-times"></i></div>
+                        <div class="thumbnail"></div>
+                        <div class="left">
+                            <div class="name">
+                                <p></p>
+                            </div>
+                            <p class="artist"></p>
+                            <div class="info">
+                                <p class="length"></p>
+                                <div class="song-like icon" data-liked="true">
+                                    <i class="fas fa-heart liked"></i>
+                                    <i class="far fa-heart"></i>
+                                </div>
+                                <div class="repeat icon">
+                                    <i class="far fa-repeat-alt"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="controls">
+                            <div class="play-previous">
+                                <i class="fas fa-backward"></i>
+                            </div>
+                            <div class="play-pause"></div>
+                            <div class="play-next">
+                                <i class="fas fa-forward"></i>
+                            </div>
+                        </div>
+                        <div class="tools">
+                            <div class="song-like" data-liked="true">
+                                <i class="fas fa-heart liked"></i>
+                                <i class="far fa-heart"></i>
+                            </div>
+                        </div>
+                        <div class="progress">
+                            <div class="inner"></div>
+                            <div class="point"></div>
+                            <div class="time"><span class="timestamp">00:00</span><span class="end">00:00</span></div>
+                        </div>
+                        <div class="fullcontrols">
+                            <div class="play-previous">
+                                <i class="fas fa-backward"></i>
+                            </div>
+                            <div class="play-pause"></div>
+                            <div class="play-next">
+                                <i class="fas fa-forward"></i>
+                            </div>
+                            <div class="repeat icon">
+                                <i class="far fa-repeat-alt"></i>
+                            </div>
+                        </div>
+                        <div class="next">
+                            <label>{{next_up}}</label>
+                            <div class="songs">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ADD SONG TO PLAYLIST -->
+                <div class="playlistPopup" id="playlistpopup">
+                    <div class="bg"></div>
+                    <div class="box">
+                        <div class="header">
+                            <p class="title">{{add_to_playlist}}</p>
+                            <i class="fal fa-times close"></i>
+                        </div>
+                        <div class="playlists">
+                        </div>
+                        <button id="saveplaylists">{{playlists_save}}</button>
+                    </div>
+                </div>
+
+                <!-- EDIT PLAYLIST -->
+                <div class="playlistPopup" id="editplaylistpopup">
+                    <div class="bg"></div>
+                    <div class="box">
+                        <div class="header">
+                            <p class="title">{{edit_playlist}}</p>
+                            <i class="fal fa-times close"></i>
+                        </div>
+                        <form class="inputs" name="editplaylist">
+                            <label>{{playlist_name}}</label>
+                            <input name="name" type="text" spellcheck="false" maxlength="30" placeholder="{{playlist_name}}">
+                            <label>{{playlist_photo}}</label>
+                            <div class="image">
+                                <input name="photo" style="padding-left: 2vw;" type="text" spellcheck="false" maxlength="512" placeholder="{{image_url}}">
+                                <div class="upload" data-open="false">
+                                    <i class="far fa-plus icon"></i>
+                                </div>
+                            </div>
+                            <button id="saveplaylist">{{playlist_save}}</button>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="bottomline">
+                    <div style="background-color: #00000080;"></div>
+                </div>
+            </div>
+
             <!-- YELLOW PAGES [ADVERTISMENTS] -->
             <div class="ads" id="Ads">
                 <div class="header">
-                    <p class="title">{{{ads_title}}}</p>
-                    <p class="description">{{ads_description}}</p>
+                    <div class="left">
+                        <p class="title">{{{ads_title}}}</p>
+                        <p class="description">{{ads_description}}</p>
+                    </div>
 
                     <div class="buttons">
                         <div id="ads-notifications">
@@ -924,17 +1502,32 @@
                     <div class="categories">
 
                     </div>
-                    <p class="title"></p>
-                    <p class="description"></p>
+                    <div class="info">
+                        <p class="title"></p>
+                        <p class="description"></p>
+                        <div class="searchinput">
+                            <i class="far fa-search icon"></i>
+                            <input id="searchads" type="text" spellcheck="false" maxlength="255" placeholder="{{search_ads}}">
+                        </div>
+                        <div class="search">
+                            <i class="far fa-search searchicon"></i>
+                            <i class="fal fa-times closeicon"></i>
+                        </div>
+                    </div>
                     
                     <img class="ads-loader" src="./media/icons/tail-spin.svg">
                     <div class="adslist" id="adscontent">
 
                     </div>
+
+                    <div class="noresults" style="display: none;">
+                        <p class="title">{{no_results}}</p>
+                        <p class="description"></p>
+                    </div>
                 </div>
 
                 <div class="newadbox">
-                    <p class="title">{{new_ad_title}}</p>
+                    <p class="title">{{{new_ad_title}}}</p>
                     <p class="description">{{new_ad_description}}</p>
 
                     <form class="inputs" name="newad">
@@ -942,7 +1535,10 @@
                         <input name="title" type="text" spellcheck="false" maxlength="30" placeholder="{{ad_topic}}">
         
                         <label class="input">{{new_ad_content}}<span style="color: red">*</span></label>
-                        <textarea name="content" type="text" spellcheck="false" maxlength="255"placeholder="{{ad_content}}"></textarea>
+                        <div class="content">
+                            <textarea name="content" type="text" spellcheck="false" maxlength="255"placeholder="{{ad_content}}"></textarea>
+                            <p class="leftcharacters"></p>
+                        </div>
     
                         <label class="input">{{new_ad_image}}</label>
                         <div class="image">
@@ -953,14 +1549,16 @@
                         </div>
 
                         <div class="checkmarks">
-                            <label class="container dark">{{{ad_calls}}}
+                            <label class="container dark">
                                 <input type="checkbox" id="adcalls">
                                 <span class="checkmark"></span>
+                                <span>{{{ad_calls}}}</span>
                             </label>
     
-                            <label class="container dark">{{{ad_messages}}}
+                            <label class="container dark">
                                 <input type="checkbox" id="admessages">
                                 <span class="checkmark"></span>
+                                <span>{{{ad_messages}}}</span>
                             </label>
                         </div>
 
@@ -1032,7 +1630,7 @@
                         <input name="id" type="text" spellcheck="false" maxlength="12" placeholder="{{player_id}}">
                         <label>{{transfer_amount}}</label>
                         <input name="amount" type="number" spellcheck="false" maxlength="20" placeholder="{{amount}}">
-                        <p class="currency">$</p>
+                        <p class="currency">€</p>
                         <label>{{transfer_reason}}</label>
                         <input name="purpose" type="text" spellcheck="false" maxlength="25" placeholder="{{reason}}">
                         <button class="transfer fill" style="margin-top: 1.8vw;" id="transfer">{{transfer_submit}}</button>
@@ -1047,7 +1645,7 @@
                         <input name="id" type="text" spellcheck="false" maxlength="6" placeholder="{{player_id}}">
                         <label>{{request_amount}}</label>
                         <input name="amount" type="number" spellcheck="false" maxlength="20" placeholder="{{amount}}">
-                        <p class="currency">$</p>
+                        <p class="currency">€</p>
                         <label>{{request_reason}}</label>
                         <input name="purpose" type="text" spellcheck="false" maxlength="25" placeholder="{{reason}}">
                         <button class="request fill" style="margin-top: 1.8vw;" id="request">{{request_submit}}</button>
@@ -1183,11 +1781,26 @@
 
                 <div class="main">
                     <div class="player">
-                        <div class="avatar" id="settings-myletter"></div>
+                        <div class="avatarwrap">
+                            <div class="avatar" id="settings-myletter"></div>
+                            <img class="avatar" id="settings-myimg" style="display: none;background-color:rgb(80, 80, 80)" src="media/default.png">
+                            <div class="setsettingspicture">
+                                <i class="fas fa-camera icon"></i>
+                            </div>
+                        </div>
                         <div class="data">
                             <p class="name" id="settings-myname"></p>
                             <p class="number" id="settings-myinfo"></p>
                         </div>
+                    </div>
+
+                    <div class="outdated">
+                        <div class="icon"><i class="fas fa-exclamation-triangle"></i></div>
+                        <div class="info">
+                            <p class="title">{{{outdated_title}}}</p>
+                            <p class="description">{{{outdated_description}}}</p>
+                        </div>
+                        <i class="far fa-times closeicon"></i>
                     </div>
     
                     <div class="settingslist">
@@ -1202,19 +1815,19 @@
                                     <i></i>
                                 </label>
                             </div>
+                            <div class="setting clickable" data-setting="sounds">
+                                <div class="icon" style="background-color: rgb(238, 154, 28);">
+                                    <i class="fas fa-volume icon"></i>
+                                </div>
+                                <p class="label">{{sounds}}</p>
+                                <i class="fas fa-chevron-right button"></i>
+                            </div>
                             <div class="setting">
                                 <div class="icon" style="background-color: rgb(221, 192, 27);">
                                     <i class="fas fa-adjust icon"></i>
                                 </div>
                                 <p class="label">{{brightness}}</p>
-                                <input class="slider" type="range" min="20" max="100" id="brightness">
-                            </div>
-                            <div class="setting">
-                                <div class="icon" style="background-color: red;">
-                                    <i class="fas fa-volume icon" style="font-size: 0.7vw;"></i>
-                                </div>
-                                <p class="label">{{sounds}}</p>
-                                <input class="slider" type="range" min="0" max="100" id="sounds">
+                                <input class="slider" instantupdate="true" type="range" min="20" max="100" id="brightness">
                             </div>
                             <div class="setting">
                                 <div class="icon" style="background-color: rgb(113, 37, 255);">
@@ -1244,12 +1857,12 @@
                                 </label>
                             </div>
                             <div class="setting">
-                                <div class="icon" style="background-color: rgb(51, 51, 51);">
-                                    <i class="fad fa-user-secret icon"></i>
+                                <div class="icon" style="background-color: rgb(48, 83, 53);">
+                                    <i class="fas fa-eye-slash icon" style="font-size: 0.5vw"></i>
                                 </div>
-                                <p class="label">{{anonymous_call}}</p>
+                                <p class="label">{{private_number}}</p>
                                 <label class="form-switch">
-                                    <input type="checkbox" id="anonymous">
+                                    <input type="checkbox" id="privatenumber">
                                     <i></i>
                                 </label>
                             </div>
@@ -1271,23 +1884,21 @@
                                     <i class="fas fa-image icon"></i>
                                 </div>
                                 <p class="label">{{background}}</p>
-                                <div class="button"><i class="fas fa-chevron-right"></i></div>
+                                <i class="fas fa-chevron-right button"></i>
                             </div>
                             <div class="setting clickable" data-setting="lockbackground">
                                 <div class="icon" style="background-color: rgb(243, 40, 182);">
                                     <i class="fas fa-image icon"></i>
                                 </div>
                                 <p class="label">{{lock_background}}</p>
-                                <div class="button"><i class="fas fa-chevron-right"></i></div>
-                            </div>
-                            <div class="setting clickable" data-setting="ringtone">
-                                <div class="icon" style="background-color: rgb(238, 154, 28);">
-                                    <i class="fas fa-music-alt icon"></i>
-                                </div>
-                                <p class="label">{{ringtones}}</p>
-                                <div class="button"><i class="fas fa-chevron-right"></i></div>
+                                <i class="fas fa-chevron-right button"></i>
                             </div>
                         </div>
+                    </div>
+                </div>
+
+                <div class="list">
+                    <div class="settingslist">
                     </div>
                 </div>
 
@@ -1303,7 +1914,7 @@
                     </div>
                 </div>
 
-                <div class="ringtones">
+                <div class="sounds">
                     
                 </div>
 
@@ -1377,7 +1988,9 @@
                         </div>
                     </div>
                     <div class="photo" id="take-photo"></div>
-                    <img class="rotate" id="rotate-camera" src="media/icons/rotate.png">
+                    <div class="rotate" id="rotate-camera">
+                        <i class="far fa-sync-alt"></i>
+                    </div>
                 </div>
 
                 <div class="preview" style="display: none;">
@@ -1435,6 +2048,9 @@
                             <i class="far fa-search searchicon"></i>
                             <i class="far fa-times closeicon"></i>
                         </div>
+                        <div class="newnote">
+                            <i class="fal fa-plus icon"></i>
+                        </div>
                     </div>
                     <div class="noteheader">
                         <div class="back">
@@ -1448,6 +2064,10 @@
                 </div>
 
                 <div class="main">
+                    <p class="title">{{reminders}}</p>
+                    <div class="reminderslist">
+                    </div>
+                    <p class="title">{{notes}}</p>
                     <div class="noteslist">
                     </div>
 
@@ -1455,19 +2075,50 @@
                         <p class="title">{{no_results}}</p>
                         <p class="description"></p>
                     </div>
-
-                    <div class="newnote">
-                        <i class="fal fa-plus icon"></i>
-                    </div>
                 </div>
 
                 <div class="notescreen">
                     <div class="title">
-                        <input id="notecolor" type="text" data-coloris value="#fff">
+                        <input id="notecolor" type="text" data-coloris spellcheck="false" value="#fff">
                         <input class="title">
                     </div>
                     <p class="timestamp"></p>
                     <textarea class="content"></textarea>
+                </div>
+                
+                <div class="reminderscreen">
+                    <p class="title">{{{new_reminder_title}}}</p>
+                    <p class="description">{{new_reminder_description}}</p>
+
+                    <i class="fal fa-times closereminderscreen"></i>
+
+                    <form class="inputs" name="newreminder">
+                        <label class="input">{{new_reminder_date}}<span style="color: red">*</span></label>
+                        <div class="calendarwrapper"></div>
+                        <p class="reminded">{{{new_reminder_scheduled}}}</p>
+
+                        <input name="title" type="text" spellcheck="false" style="border-radius: 0.5vw 0.5vw 0 0;margin-top:1.5vw" maxlength="30" placeholder="{{reminder_title}}">
+                        <input name="description" type="text" spellcheck="false" style="border-radius: 0 0 0.5vw 0.5vw;background:rgba(255,255,255,0.07);margin-bottom:0.4vw" maxlength="128" placeholder="{{reminder_description}}">
+
+                        <label class="input">{{new_reminder_alarm}}</label>
+                        <div class="alarms">
+                            <div class="sound" data-id="1">
+                                <div class="play-pause">
+                                    <i class="fas fa-play"></i>
+                                </div>
+                                <div class="info">
+                                    <p class="title">Despacito</p>
+                                    <p class="description">Blues</p>
+                                </div>
+                                <p class="length">98s</p>
+                                <div class="progress">
+                                    <div></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button class="fill" id="createreminder">{{new_reminder_create}}</button>
+                    </form>
                 </div>
 
                 <div class="bottomline">
@@ -1511,15 +2162,28 @@
                         <div class="container">
                             <p class="title">{{darkchat_newgroup_title}}</p>
                             <form class="inputs" name="newdarkgroup">
-                                <label>{{darkchat_newgroup_name}}</label>
-                                <input name="name" type="text" spellcheck="false" maxlength="30" placeholder="{{darkchat_group_name}}">
-                                <label>{{darkchat_newgroup_members}}</label>
-                                <input name="members" type="number" spellcheck="false" maxlength="10" placeholder="{{darkchat_group_members}}">
+                                <div class="flex">
+                                    <div class="input" style="flex-basis: 60%;">
+                                        <label>{{darkchat_newgroup_name}}</label>
+                                        <input name="name" type="text" spellcheck="false" maxlength="50" placeholder="{{darkchat_group_name}}">
+                                    </div>
+                                    <div class="input" style="flex-basis: 40%;">
+                                        <label>{{darkchat_newgroup_members}}</label>
+                                        <input name="members" type="number" spellcheck="false" maxlength="10" placeholder="{{darkchat_group_members}}">
+                                    </div>
+                                </div>
                                 <label>{{darkchat_newgroup_photo}}</label>
                                 <div class="image">
                                     <input name="photo" style="padding-left: 2vw;" type="text" spellcheck="false" maxlength="512" placeholder="{{image_url}}">
                                     <div class="upload" data-open="false">
                                         <i class="far fa-plus icon"></i>
+                                    </div>
+                                </div>
+                                <label>{{darkchat_newgroup_invitecode}}</label>
+                                <div class="invitecode">
+                                    <input name="invitecode" type="text" spellcheck="false" maxlength="50" placeholder="{{darkchat_group_invitecode}}">
+                                    <div class="generate">
+                                        <i class="far fa-sync-alt"></i>
                                     </div>
                                 </div>
                             </form>
@@ -1550,28 +2214,22 @@
                         </div>
                         <div class="bottom">
                             <div class="line"></div>
-                            <div class="attachments" style="display: none;"></div>
+                            <div class="attachments"></div>
                             <div class="content">
-                                <div class="more">
-                                    <div class="more-items">
-                                        <div class="icon" data-action="takephoto">
-                                            <i class="fas fa-camera icon"></i>
-                                        </div>
-                                        <div class="icon" data-action="selectphoto">
-                                            <i class="fas fa-image icon"></i>
-                                        </div>
-                                        <div class="icon" data-action="sendcoords">
-                                            <i class="fas fa-map-marker-alt icon"></i>
-                                        </div>
-                                        <div class="icon" data-action="openemojimenu">
-                                            <span class="icon">😃</span>
-                                        </div>
-                                        <div class="open-more">
-                                            <div class="icon">
-                                                <i class="far fa-plus"></i>
-                                            </div>
-                                        </div>
+                                <div class="more-tools">
+                                    <div class="icon" style="transform: translate3d(-0.3vw, -1.7vw, 0);transition-delay:0.1s, 0.1s, 0s;" data-action="openemojimenu">
+                                        <span class="icon">😃</span>
                                     </div>
+                                    <div class="icon" style="transform: translate3d(1.3vw, -1.3vw, 0);transition-delay:0.15s, 0.15s, 0s;" data-action="sendcoords">
+                                        <i class="fas fa-map-marker-alt icon"></i>
+                                    </div>
+                                    <div class="icon" style="transform: translate3d(1.7vw, 0.3vw, 0)" data-action="takephoto">
+                                        <i class="fas fa-camera icon"></i>
+                                    </div>
+                                    <div class="icon" style="transform: translate3d(2.8vw, -0.9vw, 0) scale(0.9); transition-delay:0.25s, 0.25s, 0s;" data-action="selectphoto">
+                                        <i class="fas fa-image icon"></i>
+                                    </div>
+                                    <i class="far fa-plus"></i>
                                 </div>
                                 <input class="text" spellcheck="false" maxlength="500" placeholder="{{chat_message}}">
                                 <div class="send"><i class="fas fa-location-arrow"></i></div>
@@ -1681,6 +2339,35 @@
                 </form>
             </div>
 
+            <!-- SELECT CONTACTS -->
+            <div class="selectcontacts">
+                <!-- CONTACTS LIST -->
+                <div class="header">
+                    <div class="menu" id="closeselectcontacts">
+                        <span class="icon">&#10229;</span>
+                    </div>
+                    <div class="left">
+                        <p class="title">{{select_contacts_title}}</p>
+                    </div>
+                </div>
+
+                <div class="search">
+                    <i class="far fa-search input-icon"></i>
+                    <input class="searchcontacts" type="text" spellcheck="false" maxlength="255" placeholder="{{search_contacts}}">
+                </div>
+
+                <div class="contactlist">
+
+                </div>
+
+                <div class="noresults" style="display: none;">
+                    <p class="title">{{no_results}}</p>
+                    <p class="description"></p>
+                </div>
+
+                <button class="select">{{select}}</button>
+            </div>
+
             <!-- NEW MESSAGE -->
             <div class="newchat">
                 <div class="header">
@@ -1694,48 +2381,44 @@
 
                 <form class="inputs" name="newmessage">
                     <label>{{new_message_name}}</label>
-                    <input name="name" type="text" spellcheck="false" maxlength="30" style="z-index: 99999;" placeholder="{{name_surname}}">
-
-                    <div id="searchname">
-                        <i class="fal fa-search name" id="searchname"></i>
+                    <div class="name">
+                        <input name="name" type="text" spellcheck="false" maxlength="30" style="z-index: 99999;" placeholder="{{name_surname}}">
+                        <i class="far fa-search" id="searchname"></i>
                     </div>
+
                     <div class="namesearch">
                     </div>
 
                     <label>{{new_message_phone}}</label>
-                    <input name="number" type="text" spellcheck="false" maxlength="20" style="z-index: 9999;" placeholder="{{number_example}}">
-
-                    <div id="searchnumber">
-                        <i class="fal fa-search number" id="searchnumber"></i>
+                    <div class="number">
+                        <input name="number" type="text" spellcheck="false" maxlength="20" style="z-index: 9999;" placeholder="{{number_example}}">
+                        <i class="fas fa-address-book" id="selectnewchatcontacts"></i>
+                        <i class="far fa-search" id="searchnumber"></i>
                     </div>
+
                     <div class="numbersearch">
                     </div>
 
                     <label>{{new_message_content}}</label>
                     <div class="content">
-                        <div class="attachments" style="display: none;">
+                        <div class="attachments">
                         </div>
-                        <textarea name="content" type="text" spellcheck="false" maxlength="200" placeholder="{{message_content}}"></textarea>
-                        <div class="more">
-                            <div class="more-items">
-                                <div class="icon" data-action="takephoto">
-                                    <i class="fas fa-camera icon"></i>
-                                </div>
-                                <div class="icon" data-action="selectphoto">
-                                    <i class="fas fa-image icon"></i>
-                                </div>
-                                <div class="icon" data-action="sendcoords">
-                                    <i class="fas fa-map-marker-alt icon"></i>
-                                </div>
-                                <div class="icon" data-action="openemojimenu">
-                                    <span class="icon">😃</span>
-                                </div>
-                                <div class="open-more">
-                                    <div class="icon">
-                                        <i class="far fa-plus"></i>
-                                    </div>
-                                </div>
+                        <textarea name="content" type="text" spellcheck="false" maxlength="500" placeholder="{{message_content}}"></textarea>
+                        <p class="leftcharacters"></p>
+                        <div class="more-tools">
+                            <div class="icon" style="transform: translate3d(-0.3vw, -1.7vw, 0);transition-delay:0.1s, 0.1s, 0s;" data-action="openemojimenu">
+                                <span class="icon">😃</span>
                             </div>
+                            <div class="icon" style="transform: translate3d(1.3vw, -1.3vw, 0);transition-delay:0.15s, 0.15s, 0s;" data-action="sendcoords">
+                                <i class="fas fa-map-marker-alt icon"></i>
+                            </div>
+                            <div class="icon" style="transform: translate3d(1.7vw, 0.3vw, 0)" data-action="takephoto">
+                                <i class="fas fa-camera icon"></i>
+                            </div>
+                            <div class="icon" style="transform: translate3d(2.8vw, -0.9vw, 0) scale(0.9); transition-delay:0.25s, 0.25s, 0s;" data-action="selectphoto">
+                                <i class="fas fa-image icon"></i>
+                            </div>
+                            <i class="far fa-plus"></i>
                         </div>
                     </div>
                     <button class="fill" style="margin-top: 1.5vw" id="sendnewmessage">{{new_message_send}}</button>
@@ -1743,22 +2426,25 @@
             </div>
         </div>
     </div>
-	
-    <script type="module" src="js/gameview.js"></script>
-    <script type="text/javascript" src="js/color.js"></script>
-    <script type="module">import{EmojiButton}from"https://cdn.jsdelivr.net/npm/@joeattardi/emoji-button@4.6.2/dist/index.min.js";window.picker=new EmojiButton({showCategoryButtons:!1,showSearch:!1,showPreview:!1,position: 'right',emojiSize:"0.9vw",emojisPerRow:6,styleProperties:{"--hover-color":"#31a8df82", "--font-size":"0.75vw", "backdrop-filter": "blur(0.5vw)", "--border-color": "rgba(0, 0, 0, 0.0)", "--background-color":"rgba(0, 0, 0, 0.3)", "--secondary-text-color":"rgb(210, 210, 210)"}});ESX.Phone.functions.pickerHandler(window.picker);</script>
-    <!-- Configurations + Locales -->
-    <script type="text/javascript" src="js/config.js"></script>
-    <script type="text/javascript" src="js/locales/en.js"></script>
 
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/Tadehz/high-phone@1.6.26/main.js"></script>
-	
-	<!-- Modified xSound | https://github.com/Xogy/xsound -->
+    <svg class="masks">
+        <mask id="chat-status-mask" maskContentUnits="objectBoundingBox"><circle fill="white" cx="0.5" cy="0.5" r="0.5"></circle><circle fill="black" cx="0.85" cy="0.85" r="0.15"></circle></mask>
+        <mask id="contacts-status-mask" maskContentUnits="objectBoundingBox"><circle fill="white" cx="0.5" cy="0.5" r="0.5"></circle><circle fill="black" cx="0.85" cy="0.85" r="0.15"></circle></mask>
+        <mask id="contact-status-mask" maskContentUnits="objectBoundingBox"><circle fill="white" cx="0.5" cy="0.5" r="0.5"></circle><circle fill="black" cx="0.85" cy="0.85" r="0.2"></circle></mask>    
+    </svg>
+
+    <script type="text/javascript" src="js/color.js"></script>
+    <script type="module">import{EmojiButton}from"./js/emojipicker.min.js";window.picker=new EmojiButton({showCategoryButtons:!1,showSearch:!1,showPreview:!1,position: 'right',emojiSize:"calc(0.9vw * var(--phone-size))",emojisPerRow:6,styleProperties:{"--hover-color":"#31a8df82", "--font-size":"calc(0.75vw * var(--phone-size))", "backdrop-filter": "blur(0.5vw)", "--border-color": "rgba(0, 0, 0, 0.0)", "--background-color":"rgba(0, 0, 0, 0.3)", "--secondary-text-color":"rgb(210, 210, 210)"}});HR.Phone.functions.pickerLoaded(picker)</script>
+    <!-- Configurations + Locales -->
+    <script type="text/javascript" src="../config.js"></script>
+    <script type="text/javascript" src="../locales/en.js"></script>
+
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/Tadehz/high-phone-v2@0.0.4/main.js"></script>
+
+    <!-- Modified xSound | https://github.com/Xogy/xsound -->
 	<script src="js/xsound/config.js" type="text/javascript"></script>
 	<script src="js/xsound/listener.js" type="text/javascript"></script>
 	<script src="js/xsound/functions.js" type="text/javascript"></script>
 	<script src="js/xsound/SoundPlayer.js" type="text/javascript"></script>
-    <script type="text/javascript" src="nui://cs-video-call/client/hooks/core.js"></script>
-    <script type="text/javascript" src="nui://cs-stories/client/hooks/core.js"></script>
 </body>
 </html>

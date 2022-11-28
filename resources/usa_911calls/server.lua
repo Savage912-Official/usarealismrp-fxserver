@@ -461,9 +461,10 @@ AddEventHandler('911:PlayerCall', function(x, y, z, street, text)
 end)
 
 AddEventHandler('911:LocalCall', function(x, y, z, street, text)
+    local usource = source
     local time = math.random(1000, 3000)
     Citizen.Wait(time)
-    local string = '^1^*|^r ^*Location:^r '..street..' ^1^*|^r ^*Call Info: '.. (text or "")
+    local string = '^4^*Caller ID:^r ['..usource..'] ^1^*|^r ^*Location:^r '..street..' ^1^*|^r ^*Call Info: '.. (text or "")
     Send911Notification({'sheriff', 'corrections', 'ems'}, string, x, y, z, 'Call for service')
 end)
 

@@ -9,6 +9,7 @@ Config.EnableUpdateNotifications = true -- Enable messages informing about new u
 Config.TwitterWebhooks = false -- Set to false if you do not want to send webhooks on discord for every new tweet.
 Config.TweetWebhook = ""
 Config.TweetReportWebhook = "" -- Where will reported tweets be posted?
+Config.TweetUserReportWebhook = "" -- Where will reported twitter users be posted?
 
 Config.AdWebhooks = false -- Set to false if you do not want to send webhooks on discord for every new advertisment.
 Config.AdWebhook = ""
@@ -23,12 +24,21 @@ Config.TransactionWebhook = ""
 -- Keep in mind that your server takes responsibility for this, not the resource creator. If the database gets leaked and you didn't use hashed passwords, thats on your server, and the creators of it.
 Config.HashPasswords = true
 
--- Column/tables data
-Config.PhoneNumberColumn = "phone"
-Config.EnableBankNumbersGeneration = true -- Set to false if you're using another banking script that generates the iban numbers
-Config.BankNumberColumn = "iban"
+-- Auto old data deleter
+Config.DeleteOldTweets = true -- Delete old tweets?
+Config.OldTweetsAge = 72 -- In hours, e.g. if you want the script to delete tweets 7 days after they're posted put 168. Default is 3 days.
+Config.DeleteOldAds = true -- Delete old ads?
+Config.OldAdsAge = 72 -- In hours, e.g. if you want the script to delete ads 7 days after they're posted put 168. Default is 3 days.
+Config.DeleteOldMail = true -- Delete old mail conversations?
+Config.DeleteUnopenedOldMail = true -- Delete unopened mail conversations?
+Config.OldMailAge = 168 -- In hours, e.g. if you want the script to delete mail 7 days after it's sent put 168. Default is 3 days.
 
--- If you know LUA, you can make your own number generation format, isn't too hard even if you don't know LUA with a few google searches.
+-- Column/tables data
+Config.PhoneNumberColumn = "phone" -- With our phone this is by default "phone", but if you used a phone such as gcphone and you want to keep old phone numbers, change this to "phone_number"
+Config.EnableBankNumbersGeneration = true -- Set to false if you're using another banking script that generates the iban numbers
+Config.BankNumberColumn = "iban" -- If you have old bank account numbers and want to keep them, change this.
+
+-- If you know LUA, you can make your own number/bank number generation format, it's not that hard even if you don't know LUA with a few google searches.
 Config.GenerateRandomNumber = function(source)
   math.randomseed(source + os.time()) -- Do not touch this
 
@@ -47,31 +57,22 @@ Config.GenerateRandomIBAN = function(source)
   return iban
 end
 
-Config.SendWebhook = function(url, title, description, color, image, footer)
-  local embeds = {{
-      ["title"] = title,
-      ["description"] = description,
-      ["color"] = color,
-      ["image"] = {
-          url = image
-      },
-      ["footer"] = {
-          text = footer
-      }
-  }}
-
+-- Change this function only if you know what you're doing!
+Config.SendWebhook = function(url, embeds)
   PerformHttpRequest(url, function(err, text, headers) end, 'POST', json.encode({username = "", embeds = embeds}), { ['Content-Type'] = 'application/json' })
 end
 
 -- Admin groups/aces, that can use /settwitterrank command, and in the future maybe other admin commands
 Config.AdminGroups = {
   "owner",
+  "god",
   "superadmin",
   "admin",
   "mod"
 }
 
 Config.AdminAces = {
+  "group.god",
   "group.admin",
   "group.moderator",
   "group.developer"

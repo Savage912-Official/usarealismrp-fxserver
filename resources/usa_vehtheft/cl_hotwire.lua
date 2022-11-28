@@ -156,7 +156,7 @@ AddEventHandler('veh:toggleEngine', function(_hasKey, _engineOn)
 end)
 
 RegisterNetEvent('veh:hotwireVehicle')
-AddEventHandler('veh:hotwireVehicle', function(callback, circles)
+AddEventHandler('veh:hotwireVehicle', function()
   local playerPed = PlayerPedId()
   if veh and GetPedInVehicleSeat(veh, -1) == playerPed and not IsPedCuffed(PlayerPedId()) then
     if not hasKeys and DoesEntityExist(playerPed) and not IsEntityDead(playerPed) then
@@ -182,7 +182,6 @@ AddEventHandler('veh:hotwireVehicle', function(callback, circles)
       end
 
       if not isHotwiring then
-        exports.globals:notify("Press the key shown on screen!")
         isHotwiring = true
         if math.random() < HOTWIRE_BREAK_CHANCE then
           TriggerServerEvent('veh:removeHotwiringKit')
@@ -190,23 +189,24 @@ AddEventHandler('veh:hotwireVehicle', function(callback, circles)
         if not IsEntityPlayingAnim(playerPed, 'veh@handler@base', 'hotwire', 3) then
           TaskPlayAnim(playerPed, 'veh@handler@base', 'hotwire', 8.0, 1.0, -1, 49, 1.0, false, false, false)
         end
-        lockpickCallback = callback
-        local seconds = math.random(8,12)
-        local circles = math.random(4,8)
-        local success = exports['usa_vehtheft']:StartHotwire(circles, seconds, success)
+        local success = lib.skillCheck({'easy', 'easy', 'medium', 'medium', 'hard'})
         if success then
           TriggerEvent('usa:notify', 'The hotwiring kit was ~g~successful~s~!')
+          isHotwiring = false
           hasKeys = true
           playerHotwiredVehicles[GetVehicleNumberPlateText(veh)] = true
           SetVehicleEngineOn(veh, true, false, false)
+          ClearPedTasks(playerPed)
           Citizen.CreateThread(function()
             local timeToWait = math.random((5 * 60000), (20 * 60000))
             Citizen.Wait(timeToWait)
             TriggerServerEvent('mdt:addTempVehicle', GetLabelText(GetDisplayNameFromVehicleModel(GetEntityModel(veh))), 'Unknown', exports.globals:trim(GetVehicleNumberPlateText(veh)), true)
-            print('flagging as stolen!')
+            --print('flagging as stolen!')
           end)
         else
           TriggerEvent('usa:notify', 'The hotwiring kit was ~y~unsuccessful~s~!')
+          ClearPedTasks(playerPed)
+          isHotwiring = false
         end
       end
     end
@@ -402,55 +402,17 @@ function IsAreaPopulated()
 end
 
 function DrawText3D(x, y, z, distance, text)
-    local onScreen,_x,_y=World3dToScreen2d(x,y,z)
-    if Vdist(GetEntityCoords(PlayerPedId()), x, y, z) < distance then
-      SetTextScale(0.35, 0.35)
-      SetTextFont(4)
-      SetTextProportional(1)
-      SetTextColour(255, 255, 255, 215)
-      SetTextEntry("STRING")
-      SetTextCentre(1)
-      AddTextComponentString(text)
-      DrawText(_x,_y)
-      local factor = (string.len(text)) / 500
-      DrawRect(_x,_y+0.0125, 0.015+factor, 0.03, 41, 11, 41, 68)
+  local onScreen,_x,_y=World3dToScreen2d(x,y,z)
+  if Vdist(GetEntityCoords(PlayerPedId()), x, y, z) < distance then
+    SetTextScale(0.35, 0.35)
+    SetTextFont(4)
+    SetTextProportional(1)
+    SetTextColour(255, 255, 255, 215)
+    SetTextEntry("STRING")
+    SetTextCentre(1)
+    AddTextComponentString(text)
+    DrawText(_x,_y)
+    local factor = (string.len(text)) / 500
+    DrawRect(_x,_y+0.0125, 0.015+factor, 0.03, 41, 11, 41, 68)
   end
 end
-
-function StartHotwire(circles, seconds, callback)
-  Result = nil
-  NUI_status = true
-  SendNUIMessage({
-    action = 'start',
-    value = circles,
-		time = seconds,
-    })
-    while NUI_status do
-      Wait(5)
-      SetNuiFocus(NUI_status, false)
-    end
-    Wait(100)
-    SetNuiFocus(false, false)
-    lockpickCallback = callback
-    return Result
-end
-
-RegisterNUICallback('fail', function()
-  isHotwiring = false
-  TriggerEvent('usa:notify', 'The hotwiring kit was ~y~unsuccessful~s~!')
-  ClearPedTasks(PlayerPedId())
-  Result = false
-  Wait(100)
-  NUI_status = false
-end)
-
-RegisterNUICallback('success', function()
-  isHotwiring = false
-  ClearPedTasks(PlayerPedId())
-	Result = true
-	Wait(100)
-	NUI_status = false
-  SetNuiFocus(false, false)
-  --print(Result)
-  return Result
-end)

@@ -8,7 +8,7 @@ RegisterNetEvent(cbEvent:format(cache.resource), function(key, ...)
 end)
 
 ---@param event string
----@param delay number prevent the event from being called for the given time
+---@param delay number | false prevent the event from being called for the given time
 local function eventTimer(event, delay)
 	if delay and type(delay) == 'number' and delay > 0 then
 		local time = GetGameTimer()
@@ -25,7 +25,7 @@ end
 
 ---@param _ any
 ---@param event string
----@param delay number
+---@param delay number | false
 ---@param cb function|false
 ---@param ... any
 ---@return unknown?
@@ -47,10 +47,12 @@ local function triggerServerCallback(_, event, delay, cb, ...)
 		events[key] = nil
 
 		if promise then
-			return promise:resolve(response or {})
+			return promise:resolve(response and { msgpack.unpack(response) } or {})
 		end
 
-		return cb and cb(table.unpack(response or {}))
+        if cb and response then
+            cb(msgpack.unpack(response))
+        end
 	end
 
 	if promise then
@@ -58,16 +60,16 @@ local function triggerServerCallback(_, event, delay, cb, ...)
 	end
 end
 
----@overload fun(event: string, delay: number, cb: function, ...)
-local callback = setmetatable({}, {
+---@overload fun(event: string, delay: number | false, cb: function, ...)
+lib.callback = setmetatable({}, {
 	__call = triggerServerCallback
 })
 
 ---@param event string
----@param delay number prevent the event from being called for the given time
+---@param delay number | false prevent the event from being called for the given time
 --- Sends an event to the server and halts the current thread until a response is returned.
-function callback.await(event, delay, ...)
-	return triggerServerCallback(_, event, delay, false, ...)
+function lib.callback.await(event, delay, ...)
+	return triggerServerCallback(nil, event, delay, false, ...)
 end
 
 local function callbackResponse(success, result, ...)
@@ -79,7 +81,7 @@ local function callbackResponse(success, result, ...)
 		return false
 	end
 
-	return { result, ... }
+	return msgpack.pack(result, ...)
 end
 
 local pcall = pcall
@@ -87,10 +89,10 @@ local pcall = pcall
 ---@param name string
 ---@param cb function
 --- Registers an event handler and callback function to respond to server requests.
-function callback.register(name, cb)
+function lib.callback.register(name, cb)
 	RegisterNetEvent(cbEvent:format(name), function(resource, key, ...)
 		TriggerServerEvent(cbEvent:format(resource), key, callbackResponse(pcall(cb, ...)))
 	end)
 end
 
-return callback
+return lib.callback

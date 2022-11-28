@@ -90,15 +90,7 @@ Citizen.CreateThread(function()
     for _, info in pairs(locations) do
 			if type(info["jobs"]) == "nil" then
 				if not info['noBlip'] then
-					info.blip = AddBlipForCoord(info['x'], info['y'], info['z'])
-					SetBlipSprite(info.blip, 357)
-					SetBlipDisplay(info.blip, 4)
-					SetBlipScale(info.blip, info['blipScale'] or 0.7)
-					SetBlipAsShortRange(info.blip, true)
-					SetBlipColour(info.blip, 18)
-					BeginTextCommandSetBlipName("STRING")
-					AddTextComponentString("Garage")
-					EndTextCommandSetBlipName(info.blip)
+					TriggerEvent("usa_map_blips:addMapBlip", {info['x'], info['y'], info['z']}, 357, 4, info['blipScale'] or 0.7, 18, true, 'Garage', 'parking_garages') --coords, sprite, display, scale, color, shortRange, name, groupName)
 				end
 			end
     end

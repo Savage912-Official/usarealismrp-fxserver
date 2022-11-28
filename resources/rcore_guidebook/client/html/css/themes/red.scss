@@ -1,0 +1,16 @@
+// Color themes
+$color-white:      #fff;
+$color-black:      #000;
+$color-primary:    #1D2228;
+$color-bg:         #bb2030;
+$color-accent:     #ac0b00;
+$color-text:       #E1E2E2;
+$color-text-body:  $color-text;
+$color-icon:       lighten($color-text, 10);
+$color-icon-body:  #e9afaa;
+$color-success:    #4ad395;
+$color-error:      #833030;
+$color-info-box-text:  $color-text-body;
+$shadow-primary:    darken($color-bg, 15);
+$shadow-secondary: lighten($color-bg, 10);
+$color-save-btn-text:    $color-success;

@@ -1,0 +1,74 @@
+//Quill editor
+.ql-html-popupContainer {
+  color: $color-text;
+}
+
+.ql-html-textContainer {
+  background-color: $color-primary;
+}
+
+.ql-editor {
+  background-color: $color-bg;
+  color: $color-text-body;
+  font-size: 16px;
+
+  .btn--icon-q {
+    margin: $spacing-md;
+    pointer-events: none;
+  }
+}
+
+.ql-snow,
+.ql-editor {
+  blockquote {
+    border-left: 3px solid $color-text-body !important;
+    margin-bottom: 5px;
+    margin-top: 5px;
+    padding-left: 16px;
+  }
+}
+
+.ql-tooltip {
+  left: 0 !important;
+}
+
+img {
+  max-width: 100%;
+}
+
+.ql-html-buttonCancel,
+.ql-html-buttonOk {
+  color: $color-text;
+  transition: color $t;
+
+  &:hover {
+    color: $color-accent;
+  }
+}
+
+.ql-toolbar,
+.ql-toolbar.ql-snow {
+  background-color: $color-white;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  top: -40px;
+  position: sticky;
+  z-index: 1;
+}
+
+.ql-editor,
+.ql-container {
+  min-height: 200px;
+  border-radius: $radius;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.page__content.ql-editor {
+  padding: 0;
+  overflow: initial;
+
+  .btn--icon-q {
+    pointer-events: all;
+  }
+}

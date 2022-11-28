@@ -28,10 +28,12 @@ local function triggerClientCallback(_, event, playerId, cb, ...)
 		events[key] = nil
 
 		if promise then
-			return promise:resolve(response or {})
+			return promise:resolve(response and { msgpack.unpack(response) } or {})
 		end
 
-		return cb and cb(table.unpack(response or {}))
+        if cb and response then
+            cb(msgpack.unpack(response))
+        end
 	end
 
 	if promise then
@@ -40,15 +42,15 @@ local function triggerClientCallback(_, event, playerId, cb, ...)
 end
 
 ---@overload fun(event: string, playerId: number, cb: function, ...)
-local callback = setmetatable({}, {
+lib.callback = setmetatable({}, {
 	__call = triggerClientCallback
 })
 
 ---@param event string
 ---@param playerId number
 --- Sends an event to a client and halts the current thread until a response is returned.
-function callback.await(event, playerId, ...)
-	return triggerClientCallback(_, event, playerId, false, ...)
+function lib.callback.await(event, playerId, ...)
+	return triggerClientCallback(nil, event, playerId, false, ...)
 end
 
 local function callbackResponse(success, result, ...)
@@ -60,7 +62,7 @@ local function callbackResponse(success, result, ...)
 		return false
 	end
 
-	return { result, ... }
+	return msgpack.pack(result, ...)
 end
 
 local pcall = pcall
@@ -68,10 +70,12 @@ local pcall = pcall
 ---@param name string
 ---@param cb function
 --- Registers an event handler and callback function to respond to client requests.
-function callback.register(name, cb)
+function lib.callback.register(name, cb)
 	RegisterNetEvent(cbEvent:format(name), function(resource, key, ...)
 		TriggerClientEvent(cbEvent:format(resource), source, key, callbackResponse(pcall(cb, source, ...)))
 	end)
 end
 
-return callback
+return lib.callback
+
+

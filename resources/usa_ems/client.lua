@@ -98,16 +98,7 @@ AddEventHandler("emsstation2:setciv", function(character, playerWeapons)
 			end
 		end
 		-- add any tattoos if they have any --
-		if character.tattoos then
-			--print("applying tattoos!")
-			for i = 1, #character.tattoos do
-				ApplyPedOverlay(GetPlayerPed(-1), GetHashKey(character.tattoos[i].category), GetHashKey(character.tattoos[i].hash_name))
-			end
-		else
-			--print("no tattoos!!!")
-		end
-		-- add any barber shop customizations if any --
-		TriggerServerEvent("barber:loadCustomizations")
+		TriggerServerEvent("spawn:loadCustomizations")
 		-- give weapons
 		if playerWeapons then
 			for i = 1, #playerWeapons do

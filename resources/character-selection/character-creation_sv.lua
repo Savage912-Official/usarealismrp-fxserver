@@ -23,6 +23,12 @@ AddEventHandler("character:getCharactersAndOpenMenu", function(menu, src)
 	end)
 end)
 
+RegisterServerEvent("character:swapCharSetJob")
+AddEventHandler("character:swapCharSetJob", function()
+	exports["globals"]:setJob(source, "civ")
+	TriggerEvent("high_callback:drop", source)
+end)
+
 -- Creating a new character
 RegisterServerEvent("character:new")
 AddEventHandler("character:new", function(data)
@@ -127,6 +133,27 @@ end
 RegisterServerEvent('spawn:setCharLastLocation')
 AddEventHandler('spawn:setCharLastLocation', function(coords)
 	SaveLastLocationWithRetry(source, coords)
+end)
+
+RegisterServerEvent("spawn:loadCustomizations")
+AddEventHandler("spawn:loadCustomizations", function(tats)
+	local usource = source
+	local char = exports["usa-characters"]:GetCharacter(usource)
+	TriggerEvent("es:exposeDBFunctions", function(db)
+		db.getDocumentById("character-appearance", char.get("_id"), function(doc)
+			if doc ~= false then
+				local customizations = {
+					headBlend = doc.headBlend,
+					faceFeatures = doc.faceFeatures,
+					headOverlays = doc.headOverlays,
+					hair = doc.hair,
+					eyeColor = doc.eyeColor,
+					tattoos = doc.tattoos
+				}
+				TriggerClientEvent("spawn:loadCustomizations", usource, customizations, false)
+			end
+		end)
+	end)
 end)
 
 function DeleteCharacterById(id, rev, cb)

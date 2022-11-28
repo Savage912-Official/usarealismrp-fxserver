@@ -98,15 +98,7 @@ AddEventHandler("doc:setciv", function(character, playerWeapons)
                 SetPedPropIndex(GetPlayerPed(-1), tonumber(key), value, character["propstexture"][key], true)
             end
         end
-        -- add any tattoos if they have any --
-        if character.tattoos then
-            --print("applying tattoos!")
-            for i = 1, #character.tattoos do
-                ApplyPedOverlay(GetPlayerPed(-1), GetHashKey(character.tattoos[i].category), GetHashKey(character.tattoos[i].hash_name))
-            end
-        end
-        -- add any barber shop customizations if any --
-        TriggerServerEvent("barber:loadCustomizations")
+        TriggerServerEvent("spawn:loadCustomizations")
         -- give weapons
         if playerWeapons then
             for i = 1, #playerWeapons do

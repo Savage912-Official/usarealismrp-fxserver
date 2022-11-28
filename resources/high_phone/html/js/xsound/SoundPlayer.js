@@ -114,7 +114,6 @@ class SoundPlayer
                 volume: 0.0,
                 onend: function(event){
                     ended(null);
-                    console.log("ended blet")
                 },
                 onplay: function(){
                     isReady("nothing", true);
@@ -271,7 +270,7 @@ class SoundPlayer
         {
             this.audioPlayer.seek(time);
         }
-        else if(this.audioPlayer)
+        else if(this.isYoutube)
         {
             this.yPlayer.seekTo(time);
         }

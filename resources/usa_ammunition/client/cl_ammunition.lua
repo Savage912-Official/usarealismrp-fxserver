@@ -56,7 +56,7 @@ end)
 
 RegisterNetEvent("ammo:reloadMag")
 AddEventHandler("ammo:reloadMag", function(data)
-    if not exports["usa_stretcher"]:IsInStretcher() and not exports["usa_trains"]:checkIsPassanger() then
+    if not exports["usa_stretcher"]:IsInStretcher() and not isTrainPassanger() then
         local myped = PlayerPedId()
         local currentWeaponHash = GetSelectedPedWeapon(myped)
         local ammoCountToUse = nil
@@ -233,6 +233,16 @@ function playAnimation(dict, name, duration, flag, timerBarText)
         end
         TriggerEvent("interaction:setBusy", false)
     end)
+end
+
+local isPassanger = false
+
+AddEventHandler("usa_trains:setExportPassager", function(bool)
+  isPassanger = bool
+end)
+
+function isTrainPassanger()
+  return isPassanger
 end
 
 Citizen.CreateThread(function()

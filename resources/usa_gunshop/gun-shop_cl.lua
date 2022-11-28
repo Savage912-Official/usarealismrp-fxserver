@@ -45,15 +45,7 @@ end)
 
 -- create map blips --
 for i = 1, #locations do
-  local blip = AddBlipForCoord(locations[i].x, locations[i].y, locations[i].z)
-  SetBlipSprite(blip, 119)
-  SetBlipDisplay(blip, 4)
-  SetBlipScale(blip, 0.8)
-  SetBlipColour(blip, 50)
-  SetBlipAsShortRange(blip, true)
-  BeginTextCommandSetBlipName("STRING")
-  AddTextComponentString('Gun Store')
-  EndTextCommandSetBlipName(blip)
+	TriggerEvent("usa_map_blips:addMapBlip", {locations[i].x, locations[i].y, locations[i].z}, 119, 4, 0.8, 50, true, 'Gun Store', 'gun_stores') --coords, sprite, display, scale, color, shortRange, name, groupName)
 end
 
 -------------------

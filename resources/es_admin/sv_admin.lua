@@ -504,6 +504,16 @@ end, {
 	}
 })
 
+TriggerEvent('es:addCommand', 'fix', function(source, args, char)
+	local group = exports["essentialmode"]:getPlayerFromId(source).getGroup()
+	if group ~= "user" or char.get("job") == "eventPlanner" then 
+		TriggerClientEvent('es_admin:fix', source)
+		TriggerEvent("usa:notifyStaff", '^2^*[STAFF]^r^0 Player ^2'..GetPlayerName(source)..' ['..source..'] ^0 has requested to fix their vehicle')
+	end
+end, {
+	help = "Fix/Clean Car (not to be abused, we are watching..)",
+})
+
 TriggerEvent('es:addGroupCommand', 'spectate', 'mod', function(source, args, char)
 	local userSource = tonumber(source)
 	local targetSrc = tonumber(args[2])
@@ -961,7 +971,6 @@ AddEventHandler('rconCommand', function(commandName, args)
 	elseif commandName == "stafflist" then
 		printStaffList(true, 0)
 	end
-	CancelEvent()
 end)
 
 --------------- BAN MANAGEMENT: -------------------

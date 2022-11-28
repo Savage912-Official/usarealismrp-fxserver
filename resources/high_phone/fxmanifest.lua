@@ -1,9 +1,9 @@
-fx_version 'adamant'
+fx_version 'cerulean'
 game 'gta5'
 
 author 'highrider#2873'
 description 'High-Phone'
-version '1.6.25'
+version '2.0.2'
 lua54 'yes'
 
 ui_page 'html/index.html'
@@ -24,33 +24,26 @@ client_scripts {
     'client/*.lua',
     -- https://github.com/Xogy/xsound
     'client/xsound/*.lua',
-    'client/xsound/**/*.lua',
-    '@cs-video-call/client/hooks/core.lua',
-    '@cs-stories/client/hooks/core.lua'
+    'client/xsound/**/*.lua'
 }
 
 server_scripts {
     '@mysql-async/lib/MySQL.lua', -- IF YOU RUN OXMYSQL REMOVE THIS LINE & FOLLOW STEP BELOW
+    -- '@oxmysql/lib/MySQL.lua', -- REMOVE THE -- IN FRONT OF '@oxmysql/lib/MySQL.lua' THIS IF YOU RUN OXMYSQL
     'sv_config.lua',
     'utils/server.lua',
     'locales/*.lua',
-    'server/*.lua',
-    '@cs-video-call/server/hooks/core.lua',
-    '@cs-stories/server/hooks/core.lua'
+    'server/*.lua'
 }
 
 files {
+    'config.js',
+    'locales/*.js',
     'html/*.*',
     'html/css/*.css',
     'html/js/*.js',
-    'html/js/locales/*.js',
-    'html/js/modules/*.js',
-    'html/js/modules/**/*.js',
-    'html/js/modules/**/**/*.js',
-    'html/js/modules/**/**/**/*.js',
     'html/js/xsound/*.js',
-    'html/fonts/*.ttf',
-    'html/fonts/*.otf',
+    'html/fonts/*.*',
     'html/media/*.*',
     'html/media/**/*.*'
 }
@@ -60,6 +53,7 @@ escrow_ignore {
     'sv_config.lua',
     'sh_config.lua',
     'sh_config_QB.lua',
+    'qb_items.lua',
     'locales/*.lua',
     -- https://github.com/Xogy/xsound
     'client/xsound/*.lua',

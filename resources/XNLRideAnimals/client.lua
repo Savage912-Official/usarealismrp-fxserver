@@ -444,14 +444,14 @@ Citizen.CreateThread(function()
 
 end)
 
+RegisterCommand("rideanimal", function()
+	Animal.Ride()
+end)
+RegisterKeyMapping('rideanimal', 'Ride Animal', 'keyboard', 'E')
+
 Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(0)
-
-		-- This is (BY DEFAULT HOWEVER!) the [E] key
-		if IsControlJustPressed(1, 51) then
-			Animal.Ride()
-		end
 
 		if XNL_IsRidingAnimal then
 			local Ped = PlayerPedId()

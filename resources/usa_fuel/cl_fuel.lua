@@ -382,62 +382,24 @@ end
 function CreateMapBlips(type)
 	if type == 'Gasoline' then
 		for i = 1, #fuelStations['Gasoline'].locations do
-			local x, y, z = table.unpack(fuelStations['Gasoline'].locations[i])
-	      	local blip = AddBlipForCoord(x, y, z)
-	      	local blipItem = {
-				handle = blip,
-				type = 'Gasoline'
-			}
-	        SetBlipSprite(blip, 361)
-	        SetBlipDisplay(blip, 2)
-	        SetBlipScale(blip, 0.5)
-	        SetBlipAsShortRange(blip, true)
-	        BeginTextCommandSetBlipName("STRING")
-	        AddTextComponentString('Fuel Station')
-	        EndTextCommandSetBlipName(blip)
+			TriggerEvent("usa_map_blips:addMapBlip", fuelStations['Gasoline'].locations[i], 361, 2, 0.5, 0, true, 'Fuel Station', 'gas_stations') --coords, sprite, display, scale, color, shortRange, name, groupName)
 	    end
 	elseif type == 'Watercraft' then
 	    for i = 1, #fuelStations['Watercraft'].locations do
-			local x, y, z = table.unpack(fuelStations['Watercraft'].locations[i])
-	      	local blip = AddBlipForCoord(x, y, z)
-	      	local blipItem = {
-				handle = blip,
-				type = 'Watercraft'
-			}
-	        SetBlipSprite(blip, 361)
-	        SetBlipDisplay(blip, 2)
-	        SetBlipScale(blip, 0.5)
-	        SetBlipColour(blip, 21)
-	        SetBlipAsShortRange(blip, true)
-	        BeginTextCommandSetBlipName("STRING")
-	        AddTextComponentString('Watercraft Fuel')
-	        EndTextCommandSetBlipName(blip)
+	    TriggerEvent("usa_map_blips:addMapBlip", fuelStations['Watercraft'].locations[i], 361, 2, 0.5, 21, true, 'Watercraft Fuel', 'boat_fuel') --coords, sprite, display, scale, color, shortRange, name, groupName)
 	    end
 	elseif type == 'Aircraft' then
 	    for i = 1, #fuelStations['Aircraft'].locations do
-			local x, y, z = table.unpack(fuelStations['Aircraft'].locations[i])
-			if x ~= 449.48 and x ~= 351.42 then
-		      	local blip = AddBlipForCoord(x, y, z)
-		      	local blipItem = {
-					handle = blip,
-					type = 'Aircraft'
-				}
-		        SetBlipSprite(blip, 361)
-		        SetBlipDisplay(blip, 2)
-		        SetBlipScale(blip, 0.5)
-		        SetBlipColour(blip, 21)
-		        SetBlipAsShortRange(blip, true)
-		        BeginTextCommandSetBlipName("STRING")
-		        AddTextComponentString('Aircraft Fuel')
-		        EndTextCommandSetBlipName(blip)
-		    end
+	    	TriggerEvent("usa_map_blips:addMapBlip", fuelStations['Aircraft'].locations[i], 361, 2, 0.5, 21, true, 'Aircraft Fuel', 'aircraft_fuel') --coords, sprite, display, scale, color, shortRange, name, groupName)
 	    end
 	end
 end
 
-CreateMapBlips('Gasoline')
-CreateMapBlips('Watercraft')
-CreateMapBlips('Aircraft')
+Citizen.CreateThread(function()
+	CreateMapBlips('Gasoline')
+	CreateMapBlips('Watercraft')
+	CreateMapBlips('Aircraft')
+end)
 
 --[[
 local JERRY_CAN_LOCATIONS = {

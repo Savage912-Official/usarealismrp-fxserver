@@ -1,0 +1,792 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="./js/lib/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="./css/dist/quill.snow.css">
+    <link rel="stylesheet" href="./css/notif.css">
+
+    <!-- Color themes
+    // Available themes: dark, light, green, red, purple, gold
+    // To change a theme, simply replace "dark" in the line below with any style above and restart your script. -->
+
+    <link rel="stylesheet" href="./css/dist/dark.css">
+
+    <!-- ////////////////////////////////////////////// -->
+
+    <title>rcore_guidebook</title>
+</head>
+
+<body>
+    <div id="app">
+        <section class="notif-box js-notif"></section>
+        <div class="guide" v-if="visible">
+
+            <!-- Guidebook sidebar -->
+            <div
+                :class="['guide__sidebar', adminData.showAdmin ? 'guide__sidebar--small' : '', isSidebarHidden ? 'guide__sidebar--hidden' : '']"
+                v-if="!useCustomContentLayout"
+            >
+                <header class="header">
+                    <svg class="header__logo">
+                        <use xlink:href="img/logo.svg#logo" />
+                    </svg>
+                    
+                    <h1 v-if="!adminData.showAdmin" class="header__title">{{ trans.general.guide_title }}</h1>
+                    <h1 v-else class="header__title">
+                        {{ trans.general.guide_title }}
+                        <sup class="header__title--small"> ADMIN</sup>
+                    </h1>
+                </header>
+
+                <!-- User -->
+                <ul v-if="!adminData.showAdmin" class="guide__nav">
+
+                    <!-- Nav categories-->
+                    <li v-for="category in categories" v-if="category.is_enabled || category.key == tempVisibleCategory" :class="[category.default_expand || category.key == tempVisibleCategory ? 'category js-cat js-cat-open' : 'category js-cat']">
+                        <div class="category__header" @click="toggleCat">
+                            <h3 class="category__title">
+                                <i v-if="!category.is_enabled">{{ category.label }}</i>
+                                <span v-else>{{ category.label }}</span>
+                            </h3>
+                            <svg :class="[category.default_expand || category.key == tempVisibleCategory ? 'category__arrow js-cat-arrow' : 'category__arrow a-flip-y js-cat-arrow']">
+                                <use xlink:href="img/chevron-up.svg#arrow" />
+                            </svg>
+                        </div>
+
+                        <!-- Nav pages in category -->
+                        <ul v-if="category.pages && category.pages.length" :class="[category.default_expand || category.key == tempVisibleCategory ? 'nav-pages js-pages' : 'nav-pages d-none js-pages']">
+                            <li v-for="pageLink in category.pages" v-if="pageLink.is_enabled || category.key == tempVisibleCategory" :data-key="pageLink.key" :class="{'nav-pages__page--active' : page.key === pageLink.key }" class="nav-pages__page js-nav-page">
+                                <div class="nav-pages__page-label" @click="pageClick(pageLink)">{{ pageLink.label }}</div>
+
+                                <div v-if="adminData.isAdmin" class="nav-pages__page-controls">
+                                    <button class="a-btn" @click="editPage(pageLink, true)">
+                                        <svg><use xlink:href="img/edit.svg#edit" /></svg>
+                                    </button>
+                                    <button class="a-btn" @click="copyKey(pageLink.key)">
+                                        <svg><use xlink:href="img/key.svg#key" /></svg>
+                                    </button>
+                                </div>
+                            </li>
+                        </ul>
+                        <ul v-else :class="[category.default_expand || category.key == tempVisibleCategory ? 'nav-pages js-pages' : 'nav-pages d-none js-pages']">
+                            <li class="nav-pages__page nav-pages__page--empty">
+                                <div class="nav-pages__page-label"><i>{{ trans.category.category_empty }}</i></div>
+
+                                <div v-if="adminData.isAdmin" class="nav-pages__page-controls">
+                                    <button class="a-btn" @click="addPage(true); adminData.editedPage.category_key = category.key">
+                                        <svg><use xlink:href="img/add.svg#add" /></svg>
+                                    </button>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+
+                </ul>
+
+                <!-- Admin -->
+                <ul v-else class="guide__nav a-nav">
+                    <li class="a-nav__item">
+                        <div class="a-nav__title" @click="listCategory()">
+                            <svg class="a-nav__item-icon">
+                                <use xlink:href="img/category.svg#category" />
+                            </svg>                        
+                            <span>{{ trans.category.categories }}</sp>
+                        </div>
+                        <div>
+                            <button class="a-btn" @click="listCategory()">
+                                <svg><use xlink:href="img/list.svg#list" /></svg>
+                            </button>
+                            <button class="a-btn" @click="addCategory()">
+                                <svg><use xlink:href="img/add.svg#add" /></svg>
+                            </button>
+                        </div>
+                    </li>
+
+                    <li class="a-nav__item">
+                        <div class="a-nav__title" @click="pageList()">
+                            <svg class="a-nav__item-icon">
+                                <use xlink:href="img/page.svg#page" />
+                            </svg>                        
+                            <span>{{ trans.page.pages }}</sp>
+                        </div>
+                        <div>
+                            <button class="a-btn" @click="pageList()">
+                                <svg><use xlink:href="img/list.svg#list" /></svg>
+                            </button>
+                            <button class="a-btn" @click="addPage()">
+                                <svg><use xlink:href="img/add.svg#add" /></svg>
+                            </button>
+                        </div>
+                    </li>
+
+                    <li class="a-nav__item">
+                        <div class="a-nav__title" @click="listPoints()">
+                            <svg class="a-nav__item-icon">
+                                <use xlink:href="img/teleport.svg#teleport" />
+                            </svg>                        
+                            <span>{{ trans.point.point_help }}</sp>
+                        </div>
+                        <div>
+                            <button class="a-btn" @click="listPoints()">
+                                <svg><use xlink:href="img/list.svg#list" /></svg>
+                            </button>
+                            <button class="a-btn" @click="addPoint()">
+                                <svg><use xlink:href="img/add.svg#add" /></svg>
+                            </button>
+                        </div>
+                    </li>
+                </ul>
+                <button v-if="adminData.showAdmin" class="a-btn a-btn--round a-btn--goto" @click="goTo('USER')">
+                    <svg class="a-flip-x"><use xlink:href="img/logout.svg#logout" /></svg>
+                </button>
+                <button v-if="adminData.isAdmin && !adminData.showAdmin" class="a-btn a-btn--round a-btn--goto" @click="goTo('ADMIN')">
+                    <svg class="a-flip-x"><use xlink:href="img/settings.svg#settings" /></svg>
+                </button>
+            </div>
+
+            <!-- Guidebook Content -->
+            <div :class="['guide__body', isSidebarHidden ? 'guide__body--wide' : '']">
+                <button 
+                    :class="['guide__hide-arrow', isSidebarHidden ? 'guide__hide-arrow--flip' : '']" @click="isSidebarHidden = !isSidebarHidden"
+                    v-if="!useCustomContentLayout"
+                >
+                    <svg><use xlink:href="img/chevron-up.svg#arrow" /></svg>
+                </button>
+                <div v-if="loading" class="guide__loading">
+                    <svg class="a-spin"><use xlink:href="img/spinner.svg#spinner" /></svg>
+                </div>
+
+                <!-- User -->
+                <div v-if="!adminData.showAdmin && !loading && page" v-html="page.content" class="page__content ql-editor"></div>
+
+                <!-- Admin -->
+                <div v-if="adminData.showAdmin && !loading" class="page__content">
+                    <div class="page__extra" v-if="!adminData.page">
+                        <svg><use xlink:href="img/admin.svg#admin" /></svg>
+                        <div v-html="trans.page_template.admin_welcome"></div>
+                    </div>
+
+                    <!-- Category list -->
+                    <div v-if="adminData.page == 'categoryList'" class="a-block">
+                        <h2>{{ trans.category.categories }}</h2>
+                        <ul class="a-block__body a-list">
+                            <li v-for="category in categories" class="a-list__item">
+                                <div class="a-list__data">
+                                    <div class="a-list__info">
+                                        <svg><use xlink:href="img/label.svg#label" /></svg>
+                                        <b>{{ category.label }}</b>
+                                    </div>
+                                    <div class="a-list__info">
+                                        <svg><use xlink:href="img/key.svg#key" /></svg>
+                                        <span>{{ category.key }}</span>
+                                    </div>
+                                    <div class="a-list__info">
+                                        <svg><use xlink:href="img/order.svg#order" /></svg>
+                                        <span>{{ category.order_number }}</span>
+                                    </div>
+                                    <div class="a-list__info">
+                                        <svg><use xlink:href="img/enabled.svg#enabled" /></svg>
+                                        <span>{{ category.is_enabled ? trans.inputs.enabled : trans.inputs.disabled }}</span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <button class="a-btn" @click="adminData.page = 'categoryEdit'; deepCopyCategory(category);">
+                                        <svg><use xlink:href="img/edit.svg#edit" /></svg>
+                                    </button>
+                                    <button class="a-btn" @click="adminData.confirmData.key = category.key; adminData.confirmData.type = 'CATEGORY'; adminData.confirmData.text = trans.general.lost_pages">
+                                        <svg><use xlink:href="img/delete.svg#delete" /></svg>
+                                    </button>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Category edit/add -->
+                    <div v-if="adminData.page == 'categoryEdit' || adminData.page == 'categoryAdd'" class="a-block">
+                        <div class="a-block__header">
+                            <h2 v-if="adminData.page == 'categoryEdit'">{{ trans.category.category_editing }}</h2>
+                            <h2 v-if="adminData.page == 'categoryAdd'">{{ trans.category.category_creating }}</h2>
+
+                            <button class="a-btn a-btn--round" @click="adminData.page = 'categoryList'; adminData.editedCategory = {};">
+                                <svg class="a-rotate-l"><use xlink:href="img/chevron-up.svg#arrow" /></svg>
+                            </button>
+                        </div>
+                        <div class="a-block__body js-category-edit">
+                            <div class="a-block__errors" v-if="errors.length">
+                                <p v-for="error in errors" v-html="error"></p>
+                            </div>
+                            <div class="a-input__row">
+                                <div class="a-input">
+                                    <label>{{ trans.inputs.label }}</label>
+                                    <input class="js-validate" name="label" type="text" v-model="adminData.editedCategory.label" :placeholder="trans.placeholders.category_label" @change="generateKeyOnInput('CATEGORY')">
+                                </div>
+                                <div class="a-input">
+                                    <label class="tooltip__wrap">
+                                        {{ trans.inputs.key }}
+                                        <span class="tooltip">
+                                            <svg class="tooltip__icon"><use xlink:href="img/tooltip.svg#tooltip" /></svg>
+                                            <span class="tooltip__info tooltip__info--top">{{ trans.tooltip.key }}</span>
+                                        </span>
+                                    </label>
+                                    <div class="a-input__row a-input__row--btn">
+                                        <input ref="key" class="js-validate" name="key" type="text" v-model="adminData.editedCategory.key" :disabled="adminData.page == 'categoryEdit'" :placeholder="trans.placeholders.category_key">
+                                        <button v-if="adminData.page != 'categoryEdit'" class="a-btn a-btn--input" @click="generateKey('CATEGORY')">
+                                            <svg><use xlink:href="img/generate.svg#generate" /></svg>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="a-input">
+                                <label class="tooltip__wrap">
+                                    {{ trans.inputs.order_number }}
+                                    <span class="tooltip">
+                                        <svg class="tooltip__icon"><use xlink:href="img/tooltip.svg#tooltip" /></svg>
+                                        <span class="tooltip__info tooltip__info--top">{{ trans.tooltip.order_number }}</span>
+                                    </span>
+                                </label>
+                                <input class="js-validate" name="order_number" min="0" type="number" v-model="adminData.editedCategory.order_number">
+                            </div>
+                            <div class="a-input a-input--inline">
+                                <label class="tooltip__wrap">
+                                    <span class="tooltip">
+                                        <svg class="tooltip__icon"><use xlink:href="img/tooltip.svg#tooltip" /></svg>
+                                        <span class="tooltip__info tooltip__info--top">{{ trans.tooltip.enabled }}</span>
+                                    </span>
+                                    {{ trans.inputs.enabled }}
+                                    <input class="js-validate" name="is_enabled" type="checkbox" v-model="adminData.editedCategory.is_enabled">
+                                </label>
+                            </div>
+                            <div class="a-input a-input--inline">
+                                <label>{{ trans.inputs.expanded }}
+                                    <input class="js-validate" name="default_expand" type="checkbox" v-model="adminData.editedCategory.default_expand">
+                                </label>
+                            </div>
+                        </div>
+
+                        <button v-if="adminData.page == 'categoryEdit'" class="btn btn--save btn--icon u-align-right" @click="saveForm('CATEGORY')">
+                            <svg><use xlink:href="img/save.svg#save" /></svg>
+                            {{ trans.inputs.save }}
+                        </button>
+                        <button v-if="adminData.page == 'categoryAdd'" class="btn btn--save btn--icon u-align-right" @click="saveForm('CATEGORY')">
+                            <svg><use xlink:href="img/save.svg#save" /></svg>
+                            {{ trans.inputs.create }}
+                        </button>
+                    </div>
+
+                    <!-- Page list -->
+                    <div v-if="adminData.page == 'pageList'" class="a-block">
+                        <h2>{{ trans.page.pages }}</h2>
+                        <ul class="a-block__body">
+                            <li v-for="category in categories" class="a-pages__category">
+                                <h3>{{ category.label }}</h3>
+                                <hr class="a-pages__line">
+                                
+                                <ul v-if="category.pages.length" class="a-list">
+                                    <li v-for="page in category.pages" class="a-list__item">
+                                        <div class="a-list__data">
+                                            <div class="a-list__info">
+                                                <svg><use xlink:href="img/label.svg#label" /></svg>
+                                                <b>{{ page.label }}</b>
+                                            </div>
+                                            <div class="a-list__info">
+                                                <svg><use xlink:href="img/key.svg#key" /></svg>
+                                                <span>{{ page.key }}</span>
+                                            </div>
+                                            <div class="a-list__info">
+                                                <svg><use xlink:href="img/category.svg#category" /></svg>
+                                                <span>{{ page.category_key }}</span>
+                                            </div>
+                                            <div class="a-list__info">
+                                                <svg><use xlink:href="img/order.svg#order" /></svg>
+                                                <span>{{ page.order_number }}</span>
+                                            </div>
+                                            <div class="a-list__info">
+                                                <svg><use xlink:href="img/enabled.svg#enabled" /></svg>
+                                                <span>{{ page.is_enabled ? trans.inputs.enabled : trans.inputs.disabled }}</span>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <button class="a-btn" @click="editPage(page)">
+                                                <svg><use xlink:href="img/edit.svg#edit" /></svg>
+                                            </button>
+                                            <button class="a-btn" @click="adminData.confirmData.key = page.key; adminData.confirmData.type = 'PAGE'; adminData.confirmData.text = false;">
+                                                <svg><use xlink:href="img/delete.svg#delete" /></svg>
+                                            </button>
+                                        </div>
+                                    </li>
+                                </ul>
+
+                                <span v-else>{{ trans.category.category_empty }}</span>
+
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Page edit/add -->
+                    <div v-if="adminData.page == 'pageEdit' || adminData.page == 'pageAdd'" class="a-block">
+                        <div class="a-block__header">
+                            <h2 v-if="adminData.page == 'pageEdit'">{{ trans.page.page_editing }}</h2>
+                            <h2 v-if="adminData.page == 'pageAdd'">{{ trans.page.page_creating }}</h2>
+
+                            <button class="a-btn a-btn--round" @click="pageList()">
+                                <svg class="a-rotate-l"><use xlink:href="img/chevron-up.svg#arrow" /></svg>
+                            </button>
+                        </div>
+
+                        <div class="a-block__body js-page-edit">
+                            <div class="a-block__errors" v-if="errors.length">
+                                <p v-for="error in errors" v-html="error"></p>
+                            </div>
+                            <div class="a-input">
+                                <label>{{ trans.category.category }}</label>
+                                <select class="js-validate" v-model="adminData.editedPage.category_key" name="category_key">
+                                    <option v-for="category in categories" v-bind:value="category.key">{{ category.label }}</option>
+                                </select>
+                            </div>
+                            <div class="a-input__row">
+                                <div class="a-input">
+                                    <label>{{ trans.inputs.label }}</label>
+                                    <input class="js-validate" name="label" type="text" v-model="adminData.editedPage.label" :placeholder="trans.placeholders.page_label" @change="generateKeyOnInput('PAGE')">
+                                </div>
+                                <div class="a-input">
+                                    <label class="tooltip__wrap">
+                                        {{ trans.inputs.key }}
+                                        <span class="tooltip">
+                                            <svg class="tooltip__icon"><use xlink:href="img/tooltip.svg#tooltip" /></svg>
+                                            <span class="tooltip__info tooltip__info--top">{{ trans.tooltip.key }}</span>
+                                        </span>
+                                    </label>
+                                    <div class="a-input__row a-input__row--btn">
+                                        <input ref="key" class="js-validate" name="key" type="text" v-model="adminData.editedPage.key" :disabled="adminData.page == 'pageEdit'" :placeholder="trans.placeholders.page_key">
+                                        <button v-if="adminData.page != 'pageEdit'" class="a-btn a-btn--input" @click="generateKey('PAGE')">
+                                            <svg><use xlink:href="img/generate.svg#generate" /></svg>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="a-input">
+                                <label class="tooltip__wrap">
+                                    {{ trans.inputs.order_number }}
+                                    <span class="tooltip">
+                                        <svg class="tooltip__icon"><use xlink:href="img/tooltip.svg#tooltip" /></svg>
+                                        <span class="tooltip__info tooltip__info--top">{{ trans.tooltip.order_number }}</span>
+                                    </span>
+                                </label>
+                                <input class="js-validate" name="order_number" min="0" type="number" v-model="adminData.editedPage.order_number">
+                            </div>
+                            <div class="a-input a-input--inline">
+                                <label class="tooltip__wrap">
+                                    <span class="tooltip">
+                                        <svg class="tooltip__icon"><use xlink:href="img/tooltip.svg#tooltip" /></svg>
+                                        <span class="tooltip__info tooltip__info--top">{{ trans.tooltip.enabled }}</span>
+                                    </span>
+                                    {{ trans.inputs.enabled }}
+                                    <input class="js-validate" name="is_enabled" type="checkbox" v-model="adminData.editedPage.is_enabled">
+                                </label>
+                            </div>
+
+                            <!-- Page editor -->
+                            <div class="u-mt-lg">
+                                <h4>{{ trans.inputs.content }}</h4>
+                                <p>{{ trans.tooltip.resize }}</p>
+
+                                <quill-editor
+                                        ref="quillEditor"
+                                        class="editor"
+                                        v-model="adminData.editedPage.content"
+                                        :options="editorOptions"
+                                />
+                            </div>
+                        </div>
+                        <button v-if="adminData.page == 'pageEdit'" class="btn btn--save btn--icon u-align-right" @click="saveForm('PAGE')">
+                            <svg><use xlink:href="img/save.svg#save" /></svg>
+                            {{ trans.inputs.save }}
+                        </button>
+                        <button v-if="adminData.page == 'pageAdd'" class="btn btn--save btn--icon u-align-right" @click="saveForm('PAGE')">
+                            <svg><use xlink:href="img/save.svg#save" /></svg>
+                            {{ trans.inputs.create }}
+                        </button>
+                    </div>
+
+                    <!-- Point list -->
+                    <div v-if="adminData.page == 'pointList'" class="a-block">
+                        <h2 class="title">{{ trans.point.points }}</h2>
+                        <h5 class="subtitle">{{ trans.point.points_help }}</h5>
+                        <div class="a-block__body">
+                            <ul v-if="points.length" class="a-list">
+                                <li v-for="point in points" class="a-list__item">
+                                    <div class="a-list__data">
+                                        <div class="a-list__info">
+                                            <svg><use xlink:href="img/label.svg#label" /></svg>
+                                            <b>{{ point.label }}</b>
+                                        </div>
+                                        <div class="a-list__info">
+                                            <svg><use xlink:href="img/key.svg#key" /></svg>
+                                            <span>{{ point.key }}</span>
+                                        </div>
+                                        <div class="a-list__info" v-if="point.help_key && point.help_key !== ''">
+                                            <svg><use xlink:href="img/category.svg#category" /></svg>
+                                            <span>{{ point.help_key }}</span>
+                                        </div>
+                                        <div class="a-list__info">
+                                            <svg><use xlink:href="img/enabled.svg#enabled" /></svg>
+                                            <span>{{ point.is_enabled ? trans.inputs.enabled : trans.inputs.disabled }}</span>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <button title="Edit point" class="a-btn" @click="editPoint(point)">
+                                            <svg><use xlink:href="img/edit.svg#edit" /></svg>
+                                        </button>
+                                        <button title="Teleport to point" class="a-btn" @click="showTeleportDialog(point)">
+                                            <svg><use xlink:href="img/teleport.svg#teleport" /></svg>
+                                        </button>
+                                        <button title="Delete point" class="a-btn" @click="adminData.confirmData.key = point.key; adminData.confirmData.type = 'POINT'; adminData.confirmData.text = false;">
+                                            <svg><use xlink:href="img/delete.svg#delete" /></svg>
+                                        </button>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Point edit/add -->
+                    <div v-if="adminData.page == 'pointAdd' || adminData.page == 'pointEdit'" class="a-block">
+                        <div class="a-block__header">
+                            <h2 v-if="adminData.page == 'pointEdit'">{{ trans.point.editing_point }}</h2>
+                            <h2 v-if="adminData.page == 'pointAdd'">{{ trans.point.add_point }}</h2>
+
+                            <button class="a-btn a-btn--round" @click="listPoints()">
+                                <svg class="a-rotate-l"><use xlink:href="img/chevron-up.svg#arrow" /></svg>
+                            </button>
+                        </div>
+
+                        <h5 v-if="adminData.page == 'pointAdd'" class="subtitle">
+                            {{ trans.point.add_point_help }} <br><br>
+                            <span v-html="trans.tooltip.arrow_inputs"></span>
+                        </h5>
+                        <div class="a-block__body js-point-edit">
+                            <div class="a-block__errors" v-if="errors.length">
+                                <p v-for="error in errors" v-html="error"></p>
+                            </div>
+                            <div class="a-input__row">
+                                <div class="a-input">
+                                    <label class="tooltip__wrap">
+                                        {{ trans.inputs.label }}
+                                        <span class="tooltip">
+                                            <svg class="tooltip__icon"><use xlink:href="img/tooltip.svg#tooltip" /></svg>
+                                            <span class="tooltip__info tooltip__info--top">{{ trans.tooltip.new_line }}</span>
+                                        </span>
+                                    </label>
+                                    <input class="js-validate" name="label" type="text" v-model="adminData.editedPoint.label" :placeholder="trans.placeholders.point_label" @change="generateKeyOnInput('POINT')">
+                                </div>
+                                <div class="a-input">
+                                    <label class="tooltip__wrap">
+                                        {{ trans.inputs.key }}
+                                        <span class="tooltip">
+                                            <svg class="tooltip__icon"><use xlink:href="img/tooltip.svg#tooltip" /></svg>
+                                            <span class="tooltip__info tooltip__info--top">{{ trans.tooltip.key }}</span>
+                                        </span>
+                                    </label>
+                                    <div class="a-input__row a-input__row--btn">
+                                        <input ref="key" class="js-validate" name="key" type="text" v-model="adminData.editedPoint.key" :disabled="adminData.page == 'pointEdit'" :placeholder="trans.placeholders.point_key">
+                                        <button v-if="adminData.page != 'pointEdit'" class="a-btn a-btn--input" @click="generateKey('POINT')">
+                                            <svg><use xlink:href="img/generate.svg#generate" /></svg>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="a-input__row">
+                                <div class="a-input a-input--inline a-input--inline-rev u-mt-md">
+                                    <label>{{ trans.inputs.size }}
+                                        <input name="size" type="range" min="0.1" max="5.0" step="0.1" v-model="adminData.editedPoint.size">
+                                        {{ adminData.editedPoint.size }}
+                                    </label>
+                                </div>
+
+                                <div class="a-input a-input--inline a-input--inline-rev u-mt-md">
+                                    <label>{{ trans.inputs.draw_distance }}
+                                        <input name="draw_distance" type="range" min="1" max="200" step="1" v-model="adminData.editedPoint.draw_distance">
+                                        {{ adminData.editedPoint.draw_distance }}
+                                    </label>
+                                </div>
+
+                                <div class="a-input a-input--inline a-input--inline-rev u-mt-md">
+                                    <label>{{ trans.inputs.color }}
+                                        <input style="min-width: 50px;" name="color" type="color" v-model="adminData.editedPoint.color">
+                                    </label>
+                                </div>
+                            </div>
+
+
+                            <div class="a-input u-mt-md">
+                                <label class="tooltip__wrap">
+                                    {{ trans.inputs.open_page }}
+                                    <span class="tooltip">
+                                        <svg class="tooltip__icon"><use xlink:href="img/tooltip.svg#tooltip" /></svg>
+                                        <span class="tooltip__info tooltip__info--top">{{ trans.tooltip.open_page }}</span>
+                                    </span>
+                                </label>
+                                <select v-model="adminData.editedPoint.help_key" name="help_key">
+                                    <option value="custom_content">{{ trans.inputs.custom_content }}</option>
+                                    <template v-for="category in categories">
+                                        <option value="" disabled>-------{{ category.label }}-------</option>
+                                        <option v-for="page in category.pages" v-bind:value="page.key">{{ page.label }} ({{ page.key }})</option>
+                                    </template>
+                                </select>
+                            </div>
+
+                            <div class="u-mt-lg" v-if="adminData.editedPoint.help_key == 'custom_content'">
+                                <h4>{{ trans.inputs.content }}</h4>
+                                <quill-editor
+                                        ref="quillEditor"
+                                        class="editor"
+                                        v-model="adminData.editedPoint.content"
+                                        :options="editorOptions"
+                                />
+                            </div>
+                            
+                            <!-- Blip -->
+                            <div class="a-input a-input--inline u-mt-lg">
+                                <label>{{ trans.inputs.blip_enabled }}
+                                    <input name="blip_enabled" type="checkbox" v-model="adminData.editedPoint.blip_enabled">
+                                </label>
+                            </div>
+                            <div class="a-input__block" v-if="adminData.editedPoint.blip_enabled">
+                                <div class="a-input__row">
+                                    <div class="a-input">
+                                        <label>{{ trans.inputs.blip_sprite }}</label>
+                                        <input v-if="game === FIVEM" name="blip_sprite" min="0" type="number" v-model="adminData.editedPoint.blip_sprite">
+                                        <input v-if="game === REDM" name="blip_sprite" type="text" v-model="adminData.editedPoint.blip_sprite">
+                                    </div>
+                                    <div class="a-input" v-if="game === FIVEM">
+                                        <label>{{ trans.inputs.blip_display_type }}</label>
+                                        <input name="blip_display_type" min="1" max="8" type="number" v-model="adminData.editedPoint.blip_display_type">
+                                    </div>
+                                    <div class="a-input" v-if="game === FIVEM">
+                                        <label>{{ trans.inputs.blip_color }}</label>
+                                        <input name="blip_color" min="0" max="85" type="number" v-model="adminData.editedPoint.blip_color">
+                                    </div>
+                                </div>
+
+                                <div class="a-input a-input--inline a-input--inline-rev u-mt-md">
+                                    <label>{{ trans.inputs.blip_size }}
+                                        <input name="size" type="range" min="0.1" max="3.0" step="0.1" v-model="adminData.editedPoint.blip_size">
+                                        {{ adminData.editedPoint.blip_size }}
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- Marker -->
+                            <div class="a-input a-input--inline u-mt-lg">
+                                <label>{{ trans.inputs.marker_enabled }}
+                                    <input name="marker_enabled" type="checkbox" v-model="adminData.editedPoint.marker_enabled">
+                                </label>
+                            </div>
+                            <div class="a-input__block" v-if="adminData.editedPoint.marker_enabled">
+                                <div class="a-input__row">
+                                    <div v-if="game === FIVEM" class="a-input a-input--inline a-input--inline-rev u-mt-md">
+                                        <label>{{ trans.inputs.marker_type }}
+                                            <input name="marker_type" min="0" max="43" type="number" v-model="adminData.editedPoint.marker_type">
+                                        </label>
+                                    </div>
+                                    <div v-if="game === REDM" class="a-input a-input--inline a-input--inline-rev u-mt-md">
+                                        <label>
+                                            {{ trans.inputs.marker_type }}
+                                            <select v-model="adminData.editedPoint.marker_type">
+                                                <option v-bind:value="type" v-for="(type, index) in REDM_MARKER_TYPES">{{index}}</option>
+                                            </select>
+                                        </label>
+                                    </div>
+
+                                    <div class="a-input a-input--inline a-input--inline-rev u-mt-md">
+                                        <label>{{ trans.inputs.marker_color }}
+                                            <input style="min-width: 50px;" name="marker_color" type="color" v-model="adminData.editedPoint.marker_color">
+                                        </label>
+                                    </div>
+                                </div>
+    
+                                <div class="a-input a-input--inline a-input--inline-rev u-mt-md">
+                                    <label>{{ trans.inputs.marker_draw_distance }}
+                                        <input name="marker_draw_distance" type="range" min="1" max="200" step="1" v-model="adminData.editedPoint.marker_draw_distance">
+                                        {{ adminData.editedPoint.marker_draw_distance }}
+                                    </label>
+                                </div>
+
+                                <div class="a-input u-mt-lg">
+                                    <label>{{ trans.inputs.marker_size }}</label>
+                                    <div class="a-input__row a-input__row--pos">
+                                        <label>
+                                            X
+                                            <input class="js-validate" name="marker_size.x" step="0.1" type="number" v-model="adminData.editedPoint.marker_size.x" :placeholder="1">
+                                            Y
+                                            <input class="js-validate" name="marker_size.y" step="0.1" type="number" v-model="adminData.editedPoint.marker_size.y" :placeholder="1">
+                                            Z
+                                            <input class="js-validate" name="marker_size.z" step="0.1" type="number" v-model="adminData.editedPoint.marker_size.z" :placeholder="1">
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- WIP Dates
+                            <div class="a-input__row u-mt-lg">
+                                <div class="a-input">
+                                    <label>{{ trans.inputs.start_date }}</label>
+                                    <input name="show_date" min="0" type="datetime-local" v-model="adminData.editedPoint.show_date">
+                                </div>
+                                <div class="a-input">
+                                    <label>{{ trans.inputs.end_date }}</label>
+                                    <input name="hide_date" min="0" type="datetime-local" v-model="adminData.editedPoint.hide_date">
+                                </div>
+                            </div>-->
+
+                            <div class="a-input u-mt-lg">
+                                <label>{{ trans.inputs.position }}</label>
+                                <div class="a-input__row a-input__row--pos">
+                                    <label>
+                                        X
+                                        <input class="js-validate" name="position.x" type="number" v-model="adminData.editedPoint.position.x" :placeholder="0">
+                                        Y
+                                        <input class="js-validate" name="position.y" type="number" v-model="adminData.editedPoint.position.y" :placeholder="0">
+                                        Z
+                                        <input class="js-validate" name="position.z" type="number" v-model="adminData.editedPoint.position.z" :placeholder="0">
+
+                                        <button style="padding: 10px;margin-left: 25px;" @click="fillCurrentCoords('POINT')" class="btn btn--accent">
+                                            <svg height="16" width="16"><use xlink:href="img/teleport.svg#teleport" /></svg>
+                                        </button>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- Checkboxes -->
+                            <div class="a-input a-input--inline u-mt-lg">
+                                <label>{{ trans.inputs.enabled }}
+                                    <input name="is_enabled" type="checkbox" v-model="adminData.editedPoint.is_enabled">
+                                </label>
+                            </div>
+
+                            <div class="a-input a-input--inline">
+                                <label class="tooltip__wrap">
+                                    <span class="tooltip">
+                                        <svg class="tooltip__icon"><use xlink:href="img/tooltip.svg#tooltip" /></svg>
+                                        <span class="tooltip__info tooltip__info--top">{{ trans.tooltip.can_navigate }}</span>
+                                    </span>
+                                    {{ trans.inputs.can_navigate }}
+                                    <input name="can_navigate" type="checkbox" v-model="adminData.editedPoint.can_navigate">
+                                </label>
+                            </div>
+                        </div>
+                        <button v-if="adminData.page == 'pointEdit'" class="btn btn--save btn--icon u-align-right" @click="saveForm('POINT')">
+                            <svg><use xlink:href="img/save.svg#save" /></svg>
+                            {{ trans.inputs.save }}
+                        </button>
+                        <button v-if="adminData.page == 'pointAdd'" class="btn btn--save btn--icon u-align-right" @click="saveForm('POINT')">
+                            <svg><use xlink:href="img/save.svg#save" /></svg>
+                            {{ trans.inputs.create }}
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div v-if="adminData.confirmData.key" class="a-modal">
+                <div class="a-modal__content">
+                    <h3>{{ trans.general.are_you_sure }}</h3>
+                    
+                    <p v-html="trans.inputs.deleting + ' <i>' + adminData.confirmData.key +'</i>'"></p>
+                    <p v-if="adminData.confirmData.text" v-html="adminData.confirmData.text"></p>
+
+                    <span v-html="trans.general.irreversible"></span>
+
+                    <div class="a-modal__btns">
+                        <button class="btn u-mt-md" @click="adminData.confirmData.key = false">{{ trans.inputs.cancel }}</button>
+                        <button class="btn btn--delete u-mt-md" @click="deleteData()">{{ trans.inputs.delete }}</button>
+                    </div>
+
+                    <div class="a-block__errors u-mt-md" v-if="errors.length">
+                        <p v-for="error in errors" v-html="error"></p>
+                    </div>
+                </div>
+            </div>
+
+            <div v-if="adminData.confirmDataTeleport.key" class="a-modal">
+                <div class="a-modal__content">
+                    <h3>{{ trans.general.are_you_sure }}</h3>
+
+                    <p>{{trans.point.teleport}}</p>
+
+                    <div class="a-modal__btns">
+                        <button class="btn u-mt-md" @click="adminData.confirmDataTeleport.key = false">{{ trans.inputs.cancel }}</button>
+                        <button class="btn btn--delete u-mt-md" @click="teleportToPoint()">{{ trans.point.teleportNow }}</button>
+                    </div>
+
+                    <div class="a-block__errors u-mt-md" v-if="errors.length">
+                        <p v-for="error in errors" v-html="error"></p>
+                    </div>
+                </div>
+            </div>
+
+            <div v-if="adminData.customGpsBtn.show" class="a-modal">
+                <div class="a-modal__content js-gps-btn-form">
+                    <h3>{{ trans.inputs.nav_btn }}</h3>
+
+                    <div class="a-input">
+                        <label>{{ trans.inputs.label }}</label>
+                        <input class="js-validate" name="label" type="text" v-model="adminData.customGpsBtn.label" :placeholder="trans.placeholders.nav_btn_label">
+                    </div>
+
+                    <div class="a-input u-mt-lg">
+                        <label>{{ trans.inputs.position }}</label>
+                        <div class="a-input__row a-input__row--pos">
+                            <label>
+                                X
+                                <input class="js-validate" name="customGpsBtn.pos.x" type="number" v-model="adminData.customGpsBtn.pos.x" :placeholder="1">
+                                Y
+                                <input class="js-validate" name="customGpsBtn.pos.y" type="number" v-model="adminData.customGpsBtn.pos.y" :placeholder="1">
+
+                                <button style="padding: 10px;margin-left: 25px;" @click="fillCurrentCoords('GPS_BTN')" class="btn btn--accent">
+                                    <svg height="16" width="16"><use xlink:href="img/teleport.svg#teleport" /></svg>
+                                </button>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="a-modal__btns">
+                        <button class="btn u-mt-md" @click="adminData.customGpsBtn.show = false; resetGpsBtnData();">{{ trans.inputs.cancel }}</button>
+                        <button class="btn btn--save btn--icon u-mt-md js-gps-btn-save" @click="saveGpsBtn()">
+                            <svg><use xlink:href="img/save.svg#save" /></svg>
+                            {{ trans.inputs.create }}
+                        </button>
+                    </div>
+
+                    <div class="a-block__errors u-mt-md" v-if="errors.length">
+                        <p v-for="error in errors" v-html="error"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="./js/lib/punycode.min.js"></script>
+    <script src="./js/lib/quill.min.js"></script>
+    <script src="./js/lib/vue-quill-editor.js"></script>
+    <script src="./js/lib/quill-resize-module.min.js"></script>
+    <script src="./js/components/quillNavBtn.js"></script>
+    <script src="./js/lib/imagedrop.js"></script> <!--Modified version of https://github.com/chenjuneking/quill-image-drop-and-paste-->
+    
+    <!-- Direct HTML Edit button for content editor toolbar - !!! WORK IN PROGRESS !!!
+        - use on your own risk, this feature is unstable and in development, can be enabled by removing comment block
+        - two other comments need to be also removed in script.js if you want to use it
+    <script src="https://unpkg.com/quill-html-edit-button@2.2.7/dist/quill.htmlEditButton.min.js"></script>
+    -->
+
+    <script src="./js/lib/vue.min.js"></script>
+    <script src="./locales/en.js"></script>
+    <script src="./js/components/notif.js"></script>
+    <script src="./js/script.js"></script>
+</body>
+
+</html>

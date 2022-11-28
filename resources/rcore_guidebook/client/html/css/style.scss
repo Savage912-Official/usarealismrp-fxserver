@@ -1,0 +1,838 @@
+//// Color themes \\\\
+// Only the uncommented (without //) theme will be used.
+// Leave only one uncommented otherwise last one without comment block will be used
+
+// @import './themes/light';
+@import './themes/dark';
+// @import './themes/gold';
+// @import './themes/green';
+// @import './themes/purple';
+// @import './themes/red';
+
+//////////////////////////////////////////////////
+
+$spacing-xs: 5px;
+$spacing-sm: 10px;
+$spacing-md: 20px;
+$spacing-lg: 40px;
+$spacing-xl: 80px;
+
+$shadow-sm: 0 0 10px 0 rgba(0, 0, 0, 0.05);
+$shadow-md: 0 0 15px 0 rgba(0, 0, 0, 0.1);
+$shadow-lg: 0 0 20px 0 rgba(0, 0, 0, 0.2);
+
+$n-shadow: -5px 5px 10px $shadow-primary,
+5px -5px 10px $shadow-secondary;
+$n-shadow-hover: -9px 9px 18px $shadow-primary,
+9px -9px 18px $shadow-secondary;
+
+$t: 0.2s;
+$radius: 10px;
+
+// Quill wysiwyg editor
+@import './quill';
+
+
+// General (default rules, initial resets)
+html,
+body {
+  background: transparent;
+  overflow: hidden;
+  accent-color: $color-accent;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+  border-radius: $radius;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba($color-accent, 0.2);
+  border-radius: $radius;
+  transition: background-color $t;
+
+  &:hover {
+    background-color: $color-accent;
+  }
+}
+
+::-webkit-scrollbar-track {
+  display: none;
+}
+
+a {
+  color: $color-text-body;
+  text-decoration: none;
+}
+
+ul,
+h2,
+h3 {
+  margin: 0;
+  padding: 0;
+}
+
+button {
+  all: unset;
+  cursor: pointer;
+}
+
+input {
+  outline: none;
+  background-image: none;
+  background-color: transparent;
+  box-shadow: none;
+  margin: 0;
+  padding: 0;
+}
+
+select,
+textarea {
+  outline: none;
+}
+
+input,
+select,
+textarea,
+.a-btn--input {
+  border: 1px solid darken($color-bg, 10);
+  border-radius: 6px;
+  background: lighten($color-bg, 10);
+  color: $color-text;
+}
+
+svg {
+  width: inherit;
+  height: inherit;
+}
+
+body {
+  overflow: hidden;
+  background: transparent;
+  color: $color-text-body;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+kbd {
+  margin: 0 2px;
+  padding: 1px 6px;
+  border-radius: 3px;
+  border: 1px solid rgb(204, 204, 204);
+  color: rgb(51, 51, 51);
+  font-size: 14px;
+  display: inline-block;
+  box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.2), inset 0px 0px 0px 2px #ffffff;
+  background-color: rgb(247, 247, 247);
+  text-shadow: 0 1px 0 #fff;
+}
+
+// Guidebook components
+
+.guide {
+  display: flex;
+  max-height: 80vh;
+  max-width: 1340px;
+  height: 80vh;
+  width: 100%;
+  margin: 0 auto;
+  margin-top: 5%;
+  background-color: $color-primary;
+  border-radius: $radius;
+
+  &__sidebar {
+    display: flex;
+    flex-direction: column;
+    flex: 0 0 30%;
+    background-color: transparent;
+    overflow-x: hidden;
+    transition-property: flex-basis, opacity, width;
+    transition-duration: $t;
+
+    *::selection {
+      background-color: unset;
+    }
+
+    &--small {
+      flex: 0 0 25%;
+    }
+
+    &--hidden {
+      opacity: 0.2;
+      pointer-events: none;
+    }
+  }
+
+  &__nav {
+    padding: 0 $spacing-md $spacing-md;
+    list-style: none;
+    margin: 0;
+    overflow-y: auto;
+    flex: 1;
+  }
+
+  &__body {
+    background-color: $color-bg;
+    padding: $spacing-lg;
+    flex: 1;
+    overflow-y: auto;
+    color: $color-text-body;
+    margin: $spacing-lg - $spacing-sm;
+    border-radius: $radius;
+    box-shadow: $shadow-md;
+    z-index: 1;
+    transition: margin-left $t;
+
+    &--wide {
+      margin-left: -20%;
+    }
+  }
+
+  &__loading {
+    display: flex;
+    width: 100%;
+    height: 100%;
+
+    svg {
+      width: 50px;
+      height: 50px;
+      color: $color-text;
+      display: block;
+      margin: auto;
+    }
+  }
+
+  &__hide-arrow {
+    position: absolute;
+    margin-left: -60px;
+    box-shadow: none;
+    background-color: $color-bg;
+    transform: rotate(-90deg);
+    padding: $spacing-sm;
+    border-radius: 20px;
+    height: 20px;
+    width: 20px;
+    transition: transform $t;
+
+    &--flip {
+      transform: rotate(-90deg) scaleY(-1);
+    }
+  }
+}
+
+.btn {
+  padding: $spacing-sm $spacing-md;
+  transition: box-shadow $t;
+  color: $color-text-body;
+  border-radius: $radius;
+  font-weight: 600;
+  box-shadow: $n-shadow;
+  background-color: $color-bg;
+
+  &:hover {
+    box-shadow: $n-shadow-hover;
+  }
+
+  &--icon {
+    color: $color-text-body;
+    display: inline-flex;
+    align-items: center;
+    column-gap: $spacing-sm;
+
+    svg {
+      margin-left: -$spacing-sm;
+      width: 16px;
+      height: 14px;
+    }
+  }
+
+  &--icon-q {
+    span {
+      color: $color-text-body;
+      display: inline-flex;
+      align-items: center;
+      column-gap: $spacing-sm;
+      pointer-events: none;
+
+      svg {
+        margin-left: -$spacing-sm;
+        width: 16px;
+        height: 14px;
+      }
+    }
+  }
+
+  &--save {
+    color: $color-save-btn-text;
+  }
+
+  &--delete {
+    background-color: $color-error;
+    color: $color-white;
+  }
+
+  &--accent {
+    color: $color-accent;
+  }
+}
+
+.header {
+  display: flex;
+  padding: $spacing-md;
+  align-items: center;
+  column-gap: 10px;
+  color: $color-text;
+
+  &__title {
+    font-size: 1.5rem;
+    font-weight: 600;
+
+    &--small {
+      font-size: 0.5rem;
+      color: $color-icon;
+      animation: fadeIn $t;
+    }
+  }
+
+  &__logo {
+    flex: 1 0 30px;
+    max-height: 30px;
+    max-width: 30px;
+  }
+}
+
+.category {
+  margin: $spacing-sm 0;
+  background-color: $color-bg;
+  padding: $spacing-md;
+  border-radius: $radius;
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    margin-bottom: 0;
+  }
+
+  &__arrow {
+    width: 19px;
+    height: 19px;
+    color: $color-text;
+    transition: transform $t;
+  }
+
+  &__title {
+    font-size: 18px;
+  }
+}
+
+.nav-pages {
+  $npgs: &;
+  list-style: none;
+  color: $color-text;
+
+  &__page {
+    margin: $spacing-xs 0;
+    cursor: pointer;
+    transition-property: color, padding-left, background-color, border-color, border-radius;
+    transition-duration: $t;
+    background-color: darken($color-bg, 5);
+    border-radius: 6px;
+    border-left: 3px solid transparent;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-right: $spacing-sm;
+
+    &-label {
+      padding: $spacing-sm;
+      flex: 1;
+    }
+
+    &:first-of-type {
+      margin-top: $spacing-sm;
+    }
+
+    &:hover {
+      background-color: lighten($color-primary, 5);
+
+      #{$npgs}__page-controls {
+        visibility: visible;
+        opacity: 1;
+      }
+    }
+
+    &--active {
+      font-weight: 600;
+      background-color: darken($color-bg, 7);
+      border-left: 3px solid $color-accent;
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+    }
+
+    &--empty {
+      cursor: default;
+    }
+  }
+
+  &__page-controls {
+    visibility: hidden;
+    opacity: 0;
+    transition-property: opacity, visibility;
+    transition-duration: $t;
+
+    .a-btn {
+      padding: 8px;
+      margin: 0;
+
+    }
+  }
+}
+
+.page {
+  &__content {
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    list-style-position: inside;
+
+    a {
+      color: $color-accent
+    }
+  }
+
+  &__extra {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    text-align: center;
+    padding: 0 15%;
+  }
+}
+
+.tooltip {
+  $tip: &;
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+
+  &__wrap {
+    display: inline-flex;
+    column-gap: $spacing-sm;
+  }
+
+  &__icon {
+    height: 16px;
+    width: 16px;
+  }
+
+  &__info {
+    position: absolute;
+    visibility: hidden;
+    opacity: 0;
+    padding: $spacing-xs $spacing-sm;
+    margin-left: $spacing-md;
+    transition-property: visibility, opacity;
+    transition-duration: $t;
+    border: 1px solid darken($color-bg, 10);
+    background: lighten($color-bg, 15);
+    color: $color-text;
+    border-radius: $radius;
+    font-size: 15px;
+    max-width: 25vw;
+    width: max-content;
+    text-transform: none;
+    z-index: 9999;
+
+    &--left {
+      right: calc(50% + 16px);
+    }
+  }
+
+  &:hover {
+    #{$tip}__info {
+      visibility: visible;
+      opacity: 1;
+    }
+  }
+}
+
+// Admin components
+
+.a-modal {
+  display: flex;
+  position: fixed;
+  z-index: 999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  animation: fadeIn $t;
+  text-align: center;
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: auto;
+    padding: $spacing-lg $spacing-xl;
+    border-radius: $radius;
+    background-color: lighten($color-bg, 3);
+    box-shadow: $shadow-lg;
+  }
+
+  &__btns {
+    display: flex;
+    column-gap: $spacing-md;
+  }
+}
+
+.a-btn {
+  width: 20px;
+  height: 20px;
+  padding: $spacing-md;
+  margin: -$spacing-sm;
+  transition: color $t;
+  color: inherit;
+
+  &--round {
+    padding: $spacing-sm;
+    margin: -$spacing-xs;
+    border-radius: 50px;
+    transition: color $t, box-shadow $t;
+    box-shadow: $n-shadow;
+
+    &:hover {
+      box-shadow: $n-shadow-hover;
+    }
+  }
+
+  &--input {
+    padding: 8px 7px 7px;
+    border-radius: 6px;
+    border-left: none;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+
+  &--goto {
+    margin: $spacing-md;
+    padding: 13px;
+  }
+
+  &:hover {
+    color: $color-accent;
+  }
+}
+
+.a-input {
+  display: flex;
+  flex-direction: column;
+  row-gap: $spacing-xs;
+  margin-top: $spacing-md;
+
+  label {
+    text-transform: capitalize;
+  }
+
+  input,
+  select,
+  textarea {
+    padding: $spacing-sm;
+    width: fit-content;
+  }
+
+  textarea {
+    resize: vertical;
+    width: 70%;
+  }
+
+  select {
+    width: 50%;
+  }
+
+  input {
+    &[type=text] {}
+
+    &[type=number] {}
+
+    &[type=checkbox] {
+      display: block;
+      width: 20px;
+      height: 20px;
+      cursor: pointer;
+    }
+
+    &[type=range] {
+      padding: 0;
+    }
+  }
+
+  input:disabled {
+    font-style: italic;
+    color: lighten($color-text, 50);
+    cursor: not-allowed;
+  }
+
+  &__row {
+    display: flex;
+    column-gap: $spacing-lg;
+    flex-direction: row;
+    align-items: center;
+
+    &--pos {
+      label {
+        text-transform: none;
+        font-size: 14px;
+        color: lighten($color-text, 50);
+      }
+
+      label::selection {
+        background-color: transparent;
+      }
+
+      input {
+        width: 15%;
+      }
+    }
+
+    &--btn {
+      column-gap: 0;
+
+      input {
+        padding-right: $spacing-md;
+      }
+    }
+  }
+
+  &__block {
+    margin-top: $spacing-sm;
+    background-color: lighten($color-bg, 2);
+    padding: 0 $spacing-md $spacing-md;
+    width: fit-content;
+    border-radius: $radius;
+  }
+
+  &--error {
+    border-color: $color-error;
+    background-color: mix(lighten($color-primary, 10), red, 95%);
+  }
+
+  &--inline {
+    flex-direction: row-reverse;
+    column-gap: $spacing-sm;
+    align-items: center;
+    justify-content: flex-end;
+
+    label {
+      display: flex;
+      flex-direction: row-reverse;
+      column-gap: $spacing-sm;
+      align-items: center;
+    }
+  }
+
+  &--inline-rev label {
+    flex-direction: row;
+  }
+}
+
+.a-nav {
+  &__item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: $spacing-sm;
+    transition: background-color $t;
+    border-radius: $radius;
+    margin: $spacing-xs 0;
+    cursor: pointer;
+    column-gap: $spacing-sm;
+    color: $color-text;
+
+    &:hover {
+      background-color: lighten($color-primary, 3);
+      box-shadow: $shadow-sm;
+    }
+  }
+
+  &__item-icon {
+    width: 20px;
+    height: 20px;
+    pointer-events: none;
+    color: $color-icon;
+  }
+
+  &__title {
+    display: flex;
+    align-items: center;
+    column-gap: $spacing-sm;
+    flex: 1;
+    font-weight: 600;
+    font-size: 18px;
+    padding: 15px;
+    margin: -15px;
+  }
+}
+
+.a-block {
+  flex: 1;
+  padding-bottom: $spacing-lg;
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__body {
+    margin-top: $spacing-lg;
+    padding-bottom: $spacing-lg;
+  }
+
+  &__errors {
+    padding: $spacing-sm;
+    border: 1px solid $color-error;
+    background-color: mix(lighten($color-primary, 10), red, 95%);
+    animation: fadeIn $t;
+    position: sticky;
+    top: 0;
+    border-radius: $radius;
+    z-index: 100;
+  }
+}
+
+.a-list {
+  &__item {
+    background-color: lighten($color-bg, 3);
+    border-radius: $radius;
+    padding: $spacing-md;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: $spacing-sm 0;
+    cursor: default;
+    transition: background-color $t;
+    column-gap: $spacing-lg;
+
+    &:hover {
+      background-color: lighten($color-bg, 5);
+    }
+  }
+
+  &__data {
+    display: flex;
+    flex: 1 1;
+    flex-wrap: wrap;
+    column-gap: $spacing-md;
+    row-gap: $spacing-md;
+  }
+
+  &__info {
+    display: flex;
+    align-items: center;
+    column-gap: $spacing-sm;
+    color: $color-info-box-text;
+
+    &:first-of-type {
+      flex-basis: auto;
+    }
+
+    svg {
+      height: 15px;
+      width: 15px;
+      color: $color-icon-body;
+    }
+
+    span,
+    b {
+      padding-left: $spacing-xs;
+      word-break: break-word;
+      flex: 1;
+    }
+  }
+}
+
+.a-pages {
+  &__category {
+    list-style: none;
+    margin-top: $spacing-lg;
+  }
+
+  &__page-list {
+    display: flex;
+    column-gap: $spacing-md;
+    row-gap: $spacing-md;
+    flex-wrap: wrap;
+
+    >* {
+      min-width: 250px;
+    }
+  }
+
+  &__line {
+    width: 60%;
+    margin: $spacing-sm 0 $spacing-md;
+    opacity: 0.2;
+  }
+}
+
+// Utilities
+
+.d-none {
+  display: none;
+}
+
+.u-align-right {
+  display: flex;
+  margin-left: auto;
+}
+
+.u-mt-md {
+  margin-top: $spacing-md;
+}
+
+.u-mt-lg {
+  margin-top: $spacing-lg;
+}
+
+
+// Animations
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.a-spin {
+  animation: rotate 2s infinite linear;
+}
+
+.a-flip-y {
+  transform: scaleY(-1);
+}
+
+.a-flip-x {
+  transform: scaleX(-1);
+}
+
+.a-rotate-l {
+  transform: rotate(-90deg);
+}

@@ -517,6 +517,7 @@ var itemImages = {
     "Roller Skates": "https://i.imgur.com/ZnhiWZv.png",
     "Ice Skates": "https://i.imgur.com/azeoyEp.png",
     "Casino Dongle": "https://i.imgur.com/phtNjqM.png",
+    "RGB Controller": "https://i.imgur.com/bALMezu.png",
 }
 
 var menuItems = [{

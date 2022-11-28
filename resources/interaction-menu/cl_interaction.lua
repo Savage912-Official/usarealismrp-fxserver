@@ -1038,9 +1038,6 @@ function interactionMenuUse(index, itemName, wholeItem)
 			if GetVehicleDoorLockStatus(veh) ~= 1 then
 				-- prevent using /e to hide animation --
 				isLockpicking = true
-				-- start picking --
-				local start_time = GetGameTimer()
-				local duration = 30000
 				-- play animation:
 				local anim = {
 					dict = "veh@break_in@0h@p_m_one@",
@@ -1067,7 +1064,7 @@ function interactionMenuUse(index, itemName, wholeItem)
 				end
 
 				if not IsEntityPlayingAnim(playerPed, anim.dict, anim.name, 3) then
-					TaskPlayAnim(playerPed, anim.dict, anim.name, 8.0, 1.0, -1, 11, 1.0, false, false, false)
+					TaskPlayAnim(playerPed, anim.dict, anim.name, 8.0, 1.0, -1, 31, 1.0, false, false, false)
 				end
 
 				local success = lib.skillCheck({'easy', 'easy', 'medium', 'medium'})

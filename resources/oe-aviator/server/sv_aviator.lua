@@ -19,8 +19,12 @@ AddEventHandler('oe-aviator:removeMoneyCallBack', function(data)
 end)
 
 RegisterServerEvent('oe-aviator:addMoneyCallBack')
-AddEventHandler('oe-aviator:addMoneyCallBack', function(data)
+AddEventHandler('oe-aviator:addMoneyCallBack', function(data, securityToken)
 	local char = exports["usa-characters"]:GetCharacter(source)
+
+	if not exports['salty_tokenizer']:secureServerEvent(GetCurrentResourceName(), source, securityToken) then
+		return false
+	end
 
 	if char == nil then
 		--print("Player loading in")

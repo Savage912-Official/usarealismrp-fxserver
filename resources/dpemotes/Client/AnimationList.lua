@@ -2,6 +2,8 @@ DP = {}
 
 DP.Expressions = {
    ["Angry"] = {"Expression", "mood_angry_1"},
+   ["Burning"] = {"Expression", "burning_1"},
+   ["Crying"] = {"Expression", "console_wasnt_fun_end_loop_floyd_facial"},
    ["Drunk"] = {"Expression", "mood_drunk_1"},
    ["Dumb"] = {"Expression", "pose_injured_1"},
    ["Electrocuted"] = {"Expression", "electrocuted_1"},
@@ -31,6 +33,10 @@ DP.Walks = {
   ["Alien"] = {"move_m@alien"},
   ["Armored"] = {"anim_group_move_ballistic"},
   ["Arrogant"] = {"move_f@arrogant@a"},
+  ["Butch"] = {"move_m@hurry_butch@a"},
+  ["Butch2"] = {"move_m@hurry_butch@b"},
+  ["Butch3"] = {"move_m@hurry_butch@c"},
+  ["Buzzed"] = {"move_m@buzzed"},
   ["Brave"] = {"move_m@brave"},
   ["Casual"] = {"move_m@casual@a"},
   ["Casual2"] = {"move_m@casual@b"},
@@ -43,24 +49,37 @@ DP.Walks = {
   ["Cop"] = {"move_m@business@a"},
   ["Cop2"] = {"move_m@business@b"},
   ["Cop3"] = {"move_m@business@c"},
+  ["Chubbymale"] = {"move_chubby"},
+  ["Chubbyfemale"] = {"move_f@chubby@a"},
   ["Default Female"] = {"move_f@multiplayer"},
   ["Default Male"] = {"move_m@multiplayer"},
+  ["Depressed"] = {"move_m@depressed@a"},
+  ["Depressed2"] = {"move_m@depressed@b"},
+  ["Depressed3"] = {"move_f@depressed@a"},
   ["Drunk"] = {"move_m@drunk@a"},
   ["Drunk"] = {"move_m@drunk@slightlydrunk"},
-  ["Drunk2"] = {"move_m@buzzed"},
-  ["Drunk3"] = {"move_m@drunk@verydrunk"},
+  ["Drunk2"] = {"move_m@drunk@slightlydrunk"},
+  ["Drunk3"] = {"move_m@buzzed"},
+  ["Drunk4"] = {"move_m@drunk@moderatedrunk"},
+  ["Drunk5"] = {"move_m@drunk@verydrunk"},
+  ["Fat"] = {"move_m@fat@a"},
+  ["Fat2"] = {"move_f@fat@a"},
+  ["Fat3"] = {"move_m@fat@bulky"},
   ["Femme"] = {"move_f@femme@"},
   ["Fire"] = {"move_characters@franklin@fire"},
   ["Fire2"] = {"move_characters@michael@fire"},
   ["Fire3"] = {"move_m@fire"},
---   ["Flee"] = {"move_f@flee@a"},
+-- ["Flee"] = {"move_f@flee@a"},
   ["Franklin"] = {"move_p_m_one"},
   ["Gangster"] = {"move_m@gangster@generic"},
   ["Gangster2"] = {"move_m@gangster@ng"},
   ["Gangster3"] = {"move_m@gangster@var_e"},
   ["Gangster4"] = {"move_m@gangster@var_f"},
   ["Gangster5"] = {"move_m@gangster@var_i"},
+  ["Genenric"] = {"move_m@generic"},
+  ["Genenric2"] = {"move_f@generic"},
   ["Grooving"] = {"anim@move_m@grooving@"},
+  ["Grooving2"] = {"anim@move_f@grooving@"},
   ["Guard"] = {"move_m@prison_gaurd"},
   ["Handcuffs"] = {"move_m@prisoner_cuffed"},
   ["Heels"] = {"move_f@heels@c"},
@@ -68,12 +87,14 @@ DP.Walks = {
   ["Hiking"] = {"move_m@hiking"},
   ["Hipster"] = {"move_m@hipster@a"},
   ["Hobo"] = {"move_m@hobo@a"},
+  ["Hobo2"] = {"move_m@hobo@b"},
   ["Hurry"] = {"move_f@hurry@a"},
+  ["Hurry2"] = {"move_f@hurry@a"},
   ["Injured"] = {"move_injured_generic"},
   ["Janitor"] = {"move_p_m_zero_janitor"},
   ["Janitor2"] = {"move_p_m_zero_slow"},
   ["Jog"] = {"move_m@jog@"},
-  ["Lemar"] = {"anim_group_move_lemar_alley"},
+  ["Lamar"] = {"anim_group_move_lemar_alley"},
   ["Lester"] = {"move_heist_lester"},
   ["Lester2"] = {"move_lester_caneup"},
   ["Maneater"] = {"move_f@maneater"},
@@ -85,6 +106,7 @@ DP.Walks = {
   ["Quick"] = {"move_m@quick"},
   ["Runner"] = {"female_fast_runner"},
   ["Sad"] = {"move_m@sad@a"},
+  ["Sad2"] = {"move_f@sad@a"},
   ["Sassy"] = {"move_m@sassy"},
   ["Sassy2"] = {"move_f@sassy"},
   ["Scared"] = {"move_f@scared"},
@@ -98,7 +120,10 @@ DP.Walks = {
   ["Trash2"] = {"missfbi4prepp1_garbageman"},
   ["Trevor"] = {"move_p_m_two"},
   ["Wide"] = {"move_m@bag"},
-  ["Lean Forward"] = {"move_characters@franklin@fire"}
+  ["Lean Forward"] = {"move_characters@franklin@fire"},
+  ["Toolbelt"] = {"move_m@tool_belt@a"},
+  ["Toolbelt2"] = {"move_f@tool_belt@a"},
+
   -- I cant get these to work for some reason, if anyone knows a fix lmk
   --["Caution"] = {"move_m@caution"},
   --["Chubby"] = {"anim@move_m@chubby@a"},
@@ -1922,6 +1947,36 @@ DP.Emotes = {
         EmoteMoving = false,
         EmoteLoop = false,
     }},
+    ["layncry"] = {"anim@amb@nightclub@lazlow@lo_sofa@", "lowsofa_dlg_fuckedup_laz", "Lay & Cry", AnimationOptions = 
+    {
+        EmoteLoop = true,
+        EmoteMoving = false,
+    }},
+	["layncry2"] = {"anim@amb@nightclub@lazlow@lo_sofa@", "lowsofa_base_laz", "Lay & Cry 2", AnimationOptions = 
+    {
+        EmoteLoop = true,
+        EmoteMoving = false,
+    }},
+	["layncry3"] = {"anim@amb@nightclub@lazlow@lo_sofa@", "lowsofa_dlg_notagain_laz", "Lay & Cry 3", AnimationOptions = 
+    {
+        EmoteLoop = true,
+        EmoteMoving = false,
+    }},
+	["layncry4"] = {"anim@amb@nightclub@lazlow@lo_sofa@", "lowsofa_dlg_notagain_laz", "Lay & Cry 4", AnimationOptions = 
+    {
+        EmoteLoop = true,
+        EmoteMoving = false,
+    }},
+	["layncry5"] = {"anim@amb@nightclub@lazlow@lo_sofa@", "lowsofa_dlg_shit2strong_laz", "Lay & Cry 5", AnimationOptions = 
+    {
+        EmoteLoop = true,
+        EmoteMoving = false,
+    }},
+	["layncry6"] = {"misschinese2_crystalmaze", "2int_loop_a_taocheng", "Lay & Cry 6", AnimationOptions = 
+    {
+        EmoteLoop = true,
+        EmoteMoving = false,
+    }},
 -----------------------------------------------------------------------------------------------------------
 ------ These are Scenarios, some of these dont work on women and some other issues, but still good to have.
 -----------------------------------------------------------------------------------------------------------
@@ -2041,6 +2096,26 @@ DP.Emotes = {
    {
        EmoteMoving = false,
        EmoteLoop = false
+   }},
+   ["airforce1"] = {"airforce@at_ease", "base", "Airforce - At Ease", AnimationOptions = 
+   {
+       EmoteLoop = true,
+       EmoteMoving = false,
+   }},
+   ["airforce2"] = {"airforce@attention", "base", "Airforce - Attention", AnimationOptions = 
+   {
+       EmoteLoop = true,
+       EmoteMoving = false,
+   }},
+   ["airforce3"] = {"airforce@parade_rest", "base", "Airforce - Parade Rest", AnimationOptions = 
+   {
+       EmoteLoop = true,
+       EmoteMoving = false,
+   }},
+   ["airforce4"] = {"airforce@salute", "base", "Airforce - Salute", AnimationOptions = 
+   {
+       EmoteLoop = true,
+       EmoteMoving = false,
    }},
 }
 
@@ -3705,4 +3780,38 @@ DP.PropEmotes = {
         PropPlacement = {0.2890, 0.4110, 0.0020, -44.0174, 88.6103, -1.4385},
         EmoteLoop = true,
     }},
+    ["selfiewine"] = {"holding_wine@taking_selfie", "base", "Selfie Wine", AnimationOptions = 
+    {
+        Prop = 'p_wine_glass_s',
+        PropBone = 28422,
+        PropPlacement = {0.0420, -0.0700, -0.0440, -82.6657, 1.2898, -19.9222},
+        SecondProp = 'prop_phone_ing',
+        SecondPropBone = 4090,
+        SecondPropPlacement = {0.0250, -0.0080, -0.0050, -140.5541, -24.7476, 13.7795},
+        EmoteLoop = true,
+        EmoteMoving = true,
+        PtfxAsset = "scr_tn_meet",
+        PtfxName = "scr_tn_meet_phone_camera_flash",
+        PtfxPlacement = {-0.015, 0.0, 0.041, 0.0, 0.0, 0.0, 1.0},
+        PtfxInfo = Config.Languages[Config.MenuLanguage]['camera'],
+        PtfxWait = 200,
+    }},
+    ["desert"] = {"mp_player_inteat@burger", "mp_player_int_eat_burger", "Eat dessert", AnimationOptions = 
+    {
+        Prop = 'bzzz_food_dessert_a',
+        PropBone = 18905,
+        PropPlacement = {0.15, 0.03, 0.03, -42.0, -36.0, 0.0},
+        EmoteMoving = true,
+    }},
+    ["crackhead"] = {"special_ped@zombie@base", "base", "Crack Head", AnimationOptions = 
+    {
+        Prop = 'prop_cs_bowie_knife', 
+        PropBone = 28422, 
+        PropPlacement = {-0.1280, -0.0220, 0.0210, -150.0005, 179.9989, -30.0105},
+        SecondProp = 'ng_proc_cigpak01a',
+        SecondPropBone = 26614,
+        SecondPropPlacement = {0.010, -0.0190, 0.0920, -82.4073, 178.6009, 29.9195},
+        EmoteLoop = true,
+        EmoteMoving = true,
+    }}
 }

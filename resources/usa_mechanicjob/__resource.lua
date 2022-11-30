@@ -4,7 +4,8 @@ server_scripts {
     'config/UPGRADES.lua',
     'classes/MechanicHelper_sv.lua',
     'mechanic_sv.lua',
-    '@salty_tokenizer/init.lua'
+    '@salty_tokenizer/init.lua',
+    'sv_wheelfitment.lua'
 }
 
 client_scripts {
@@ -12,10 +13,12 @@ client_scripts {
     'mechanic_cl.lua',
     'menus/cl_truckSpawnMenu.lua',
     'menus/parts/*.lua',
-    '@salty_tokenizer/init.lua'
+    '@salty_tokenizer/init.lua',
+    'cl_wheelfitment.lua'
 }
 
 shared_scripts {
+    '@pmc-callbacks/import.lua',
     'config/PARTS.lua'
 }
 

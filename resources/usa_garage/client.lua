@@ -239,6 +239,9 @@ AddEventHandler("garage:spawn", function(vehicle)
 		SetVehicleHasBeenOwnedByPlayer(vehicle, true)
 		SetVehicleExplodesOnHighExplosionDamage(vehicle, false)
 
+		-- Vehicle Wheel Fitment
+		exports['ae-fitment']:GetWheelFitment(vehicle, playerVehicle.plate)
+
 		-- car customizations
 		if playerVehicle.customizations then
 			TriggerEvent("customs:applyCustomizations", playerVehicle.customizations)

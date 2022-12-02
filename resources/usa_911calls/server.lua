@@ -513,12 +513,10 @@ AddEventHandler('911:Burglary', function(x, y, z, street, isMale)
     end
 end)
 
-AddEventHandler('911:BankTruck', function(x, y, z)
-    if not recentCalls["Bank Truck"] then
-        recentCalls["Bank Truck"] = true
-        local string = '^*Armored Truck Alarm^r: Attack on a armored money truck in progress.'
-        Send911Notification({'sheriff', 'corrections'}, string, x, y, z, 'Bank Truck')
-    end
+AddEventHandler('911:BankTruck', function(x, y, z, delay, message, title, bliptext)
+    Citizen.Wait(delay)
+    local string = '^*'..title..'^r: '..message..'.'
+    Send911Notification({'sheriff', 'corrections'}, string, x, y, z, bliptext)
 end)
 
 AddEventHandler('911:VehicleBoosting', function(x, y, z, street, plate, vehclass)

@@ -502,6 +502,8 @@ var itemImages = {
     "Megaphone": "https://i.imgur.com/C4ksHnA.png",
     "Crumpled Paper": "https://i.imgur.com/DpUUSZ8.png",
     "Bank Laptop": "https://i.imgur.com/5gefEBK.png",
+    "Armed Truck Bomb": "https://i.imgur.com/2blJKw0.png",
+    "Blackhat USB Drive": "https://i.imgur.com/JH9R9Nz.png",
     "Metal Scraps": "https://i.imgur.com/08oQInE.png",
     "Plasma Pistol": "https://i.imgur.com/a3D4tsI.png",
     "Ceramic Pistol": "https://i.imgur.com/zhZJdBq.png",

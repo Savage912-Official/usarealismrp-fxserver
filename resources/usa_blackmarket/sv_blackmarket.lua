@@ -64,7 +64,7 @@ local markets = {
       { name = "Empty 9mm Mag [12]", type = "magazine", legality = "legal", price = 70, weight = 5, receives = "9mm", MAX_CAPACITY = 12, currentCapacity = 0, objectModel = "w_pi_combatpistol_mag1" },
       { name = "Katana", hash = GetHashKey("WEAPON_KATANAS"), type = "weapon", legality = "illegal", price = 650, weight = 10, quantity = 1, stock = math.random(1,4), objectModel = "w_me_katana_lr"},
       { name = "Bank Laptop", type = "misc",  quantity = 1,  legality = "legal", notStackable = true,  weight = 10, stock = math.random(2,4), price = tonumber(tostring(math.random(8, 12)) .. "000"), objectModel = "imp_prop_impexp_tablet" },
-
+      { name = "Armed Truck Bomb", type = "misc", quantity = 1, legality = "illegal", notStackable = true, weight = 10, objectModel = "prop_ld_bomb", stock = math.random(4,7), price = tonumber(tostring(math.random(5, 9)) .. "000")}
     },
     ["pedHash"] = -1773333796
   },

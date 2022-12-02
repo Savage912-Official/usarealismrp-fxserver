@@ -1200,7 +1200,9 @@ function interactionMenuUse(index, itemName, wholeItem)
 	elseif itemName == "Roller Skates" then
 		TriggerEvent("skating:roller", wholeItem)
 	elseif itemName == "Ice Skates" then
-		TriggerEvent("skating:iceroller", wholeItem)
+		TriggerEvent("skating:iceroller", wholeItem)	
+	elseif itemName == "Armed Truck Bomb" then 
+		TriggerEvent("usa:notify", "Hmm... No use here... Maybe use it on an armored truck?")
 	elseif itemName == "RGB Controller" then
 		ExecuteCommand("rgbcontrolleritemlol")
 	else

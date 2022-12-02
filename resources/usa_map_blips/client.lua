@@ -45,7 +45,6 @@ end)
 
 RegisterNetEvent("usa_map_blips:showAllBips")
 AddEventHandler("usa_map_blips:showAllBips", function()
-	
 	for key,group in pairs(mapBlips) do
 		for index,blip in ipairs(group) do
 			SetBlipDisplay(blip.blip, blip.display)
@@ -57,6 +56,19 @@ RegisterNetEvent("usa_map_blips:listBlipGroups")
 AddEventHandler("usa_map_blips:listBlipGroups", function(groups)
 	TriggerEvent("chatMessage", "", {}, "You can hide/show the following groups with /hideblips and /showblips:")
 	TriggerEvent("chatMessage", "", {}, groups)
+end)
+
+RegisterNetEvent("usa_map_blips:loadBlipSettings")
+AddEventHandler("usa_map_blips:loadBlipSettings", function(settings)
+	for key,group in pairs(mapBlips) do
+		for i,v in ipairs(settings.hidden) do
+			if v == key then
+				for index,blip in ipairs(group) do
+					SetBlipDisplay(blip.blip, 0)
+				end
+			end
+		end
+	end
 end)
 
 -- Old Blip Stuff

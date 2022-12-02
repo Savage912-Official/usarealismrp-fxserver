@@ -401,6 +401,7 @@ local vehicleShopItems = {
         		{make = "Trailer", model = "Closed", price = 80000, hash = "ctrailer", storage_capacity = 400.0},
 			{make = "Trailer", model = "Car Hauler (Gooseneck)", price = 60000, hash = "godzhauler", storage_capacity = 400.0},
 			{make = "Trailer", model = "42ft Yellow Fin Trailer", price = 30000, hash = "yftrailer", storage_capacity = 200.0},
+			{make = "Trailer", model = "2020 24ft Bloomer", price = 45000, hash = "bcbloomer", storage_capacity = 500.0},
 		},
 		["Electric"] = {
 			{make = "Coil", model = "Raider", price = 50000, hash = "raiden", storage_capacity = 150.0},
@@ -443,6 +444,7 @@ local vehicleShopItems = {
 			{make = "Cadillac", model = "Escalade (2021)", price = 130000, hash = "21escalade", storage_capacity = 280.0},
 			--
 			{make = "Chevrolet", model = "C-10 Stepside Custom", price = 90000, hash = "c10custom", storage_capacity = 190.0},
+			{make = "Chevrolet", model = "C-10", price = 85000, hash = "bcc10c", storage_capacity = 300.0},
 			{make = "Chevrolet", model = "Camaro (2002)", price = 50000, hash = "camaro02", storage_capacity = 165.0},
 			{make = "Chevrolet", model = "Camaro (2017)", price = 160000, hash = "zl12017", storage_capacity = 130.0},
 			{make = "Chevrolet", model = "Camaro (2021)", price = 150000, hash = "21camaro", storage_capacity = 160.0},
@@ -475,6 +477,9 @@ local vehicleShopItems = {
 			{make = "Dodge", model = "Ram Donk (2019)", price = 160000, hash = "19ramdonk", storage_capacity = 300.0},
 			{make = "Dodge", model = "Ram SRT-10", price = 140000, hash = "ramsrt10", storage_capacity = 400.0},
 			{make = "Dodge", model = "Ram TRX", price = 190000, hash = "dodgetrx", storage_capacity = 400.0},
+			{make = "Dodge", model = "Ram 3500", price = 150000, hash = "bcys", storage_capacity = 400.0},
+			{make = "Dodge", model = "Ram 3500 HD", price = 160000, hash = "bc203500hd", storage_capacity = 400.0},
+			{make = "Dodge", model = "Ram 2500", price = 150000, hash = "bcbruiser", storage_capacity = 400.0},
 			{make = "Dodge", model = "Viper (1999)", price = 250000, hash = "99viper", storage_capacity = 170.0},
 			--
 			{make = "Ducati", model = "Panigale", price = 90000, hash = "panigale", storage_capacity = 20.0},

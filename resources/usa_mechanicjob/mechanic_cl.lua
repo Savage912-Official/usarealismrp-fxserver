@@ -286,6 +286,24 @@ locations = {
 			disable_blip = true
 		}
 	},
+	["Luxury Auto"] = {
+		duty = {
+			x = -1248.69,
+			y = -350.80,
+			z = 36.92
+		},
+		truck_spawn = {
+			x = -1266.36,
+			y = -301.59,
+			z = 39.68,
+			heading = 206.31
+		},
+		impound = nil,
+		ped = nil, 
+		show_blip = {
+			disable_blip = true
+		}
+	}
 }
 	
 -- S P A W N  J O B  P E D S

@@ -203,6 +203,9 @@ local ITEMS = {
     { name = "7.62mm Shell Casing", legality = "legal", quantity = 2, type = "misc", weight = 0.2 },
     { name = "5.56mm Shell Casing", legality = "legal", quantity = 2, type = "misc", weight = 0.2 },
     { name = "9x18mm Shell Casing", legality = "legal", quantity = 2, type = "misc", weight = 0.2 },
+    { name = "Bank Laptop", type = "misc", quantity = 1, legality = "legal", notStackable = true, weight = 10, objectModel = "imp_prop_impexp_tablet"},
+    { name = "Blackhat USB Drive", type = "misc", quantity = 1, legality = "illegal", notStackable = true, weight = 1, objectModel = "hei_prop_hst_usb_drive"},
+    { name = "Armed Truck Bomb", type = "misc", quantity = 1, legality = "illegal", notStackable = true, weight = 10, objectModel = "prop_ld_bomb"},
     {
         name = "Wheelchair",
         price = 200,
@@ -223,6 +226,7 @@ local ITEMS = {
         objectModel = "prop_ld_binbag_01",
         invisibleWhenDropped = true
     }
+
 }
 
 

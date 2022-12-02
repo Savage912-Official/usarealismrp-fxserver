@@ -62,7 +62,7 @@ export const SharedConfig = {
     },
     Loot: {
         EggPricePerBox: { min: Math.floor(200 * priceMultiplier), max: Math.floor(250 * priceMultiplier) },
-        MealPricePerBox: { min: Math.floor(8800 * priceMultiplier), max: Math.floor(10000 * priceMultiplier) },
+        MealPricePerBox: { min: Math.floor(5000 * priceMultiplier), max: Math.floor(8500 * priceMultiplier) },
         MilkPricePerBox: { min: Math.floor(350 * priceMultiplier), max: Math.floor(425 * priceMultiplier) }
     },
     Tickers: { // Increasing / Reducing these interval timers, can cause or gain performance for your server performance if you need.

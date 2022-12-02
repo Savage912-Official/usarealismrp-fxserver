@@ -579,6 +579,10 @@ supportedVehicles = {
     { name = "Dodge Ram 1500 Custom", model = "gcram1500", class = "B" },
     { name = "Spyker C8", model = "spyker", class = "B" },
     { name = "Pontiac G8", model = "pontiacg8", class = "B" },
+    { name = "Dodge 2500", model = "bcbruiser", class = "B" },
+    { name = "Dodge 3500", model = "bcys", class = "B" },
+    { name = "Dodge 3500 HD", model = "bc203500hd", class = "B"},
+    { name = "Chevrolet C10", model = "bcc10c", class = "B"},
     -- C CLASS
     { name = "Dinka Blista Compact", model = "blista2", class = "C" },
     { name = "Karin Asterope", model = "asterope", class = "C" },

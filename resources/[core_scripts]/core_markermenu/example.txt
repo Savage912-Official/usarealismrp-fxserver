@@ -1,0 +1,11 @@
+How to use this resource
+
+This event starts the marker sending the text and returning the marker id.
+
+TriggerEvent("CORE_MARKERMENU:ShowMarker_c","This is the text",function(_id) 
+    markerid = _id 
+end)
+
+This event stops the marker and you need to send the id.
+
+TriggerEvent("CORE_MARKERMENU:StopMarker_c",markerid)

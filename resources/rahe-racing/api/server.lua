@@ -202,7 +202,7 @@ supportedVehicles = {
     { name = "Lamborghini Murcielago LP-670", model = "lp670", class = "S" },
     { name = "Lamborghini Murcielago LP-670 LW", model = "lwlp670", class = "S" },
     { name = "Ferrari 458 LW", model = "lw458s", class = "S" },
-    { name = "Jaguar C-X75", model = "cx75", class = "S" },
+    { name = "Jaguar CX-75", model = "cx75", class = "S" },
     { name = "Lamborghini Essenza", model = "rmodessenza", class = "S" },
     { name = "Mercedes SLR Stirling Moss", model = "moss", class = "S" },
     { name = "Ford GT500" , model = "shelby20", class = "S" },

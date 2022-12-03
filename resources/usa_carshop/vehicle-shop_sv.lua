@@ -539,7 +539,7 @@ local vehicleShopItems = {
 			--
 			{make = "Italdesign", model = "GTR50", price = 2000000, hash = "rmodgtr50", storage_capacity = 130.0},
 			--
-			{make = "Jaguar", model = "C-X75", price = 1100000, hash = "cx75", storage_capacity = 130.0},
+			{make = "Jaguar", model = "CX-75", price = 1100000, hash = "cx75", storage_capacity = 130.0},
 			--
 			{make = "Jeep", model = "Gladiator", price = 70000, hash = "jeepg", storage_capacity = 280.0},
 			{make = "Jeep", model = "SRT8", price = 100000, hash = "srt8", storage_capacity = 185.0},

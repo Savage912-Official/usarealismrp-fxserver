@@ -9,6 +9,22 @@ TriggerEvent('es:addCommand', 'swap', function(source, args, user)
 	TriggerClientEvent("character:swap--check-distance", source)
 end, { help = "Swap to another character (Must be at the clothing store)." })
 
+
+RegisterServerEvent("character:swapChar")
+AddEventHandler("character:swapChar", function()
+	local usource = source
+	local char = exports["usa-characters"]:GetCharacter(usource)
+	char.set("lastRecordedLocation", GetEntityCoords(GetPlayerPed(usource)))
+	char.set("job", "civ")
+	TriggerEvent("high_callback:drop", usource)
+	exports["usa-characters"]:SaveCurrentCharacter(usource, function()
+		local steamID = GetPlayerIdentifiers(usource)[1]
+		exports["usa-characters"]:LoadCharactersForSelection(steamID, function(characters)
+			TriggerClientEvent("character:open", usource, 'home', characters)
+		end)
+	end)
+end)
+
 RegisterServerEvent("character:getCharactersAndOpenMenu")
 AddEventHandler("character:getCharactersAndOpenMenu", function(menu, src)
 	local usource = source
@@ -21,12 +37,6 @@ AddEventHandler("character:getCharactersAndOpenMenu", function(menu, src)
 			TriggerClientEvent("character:open", usource, menu, characters)
 		end)
 	end)
-end)
-
-RegisterServerEvent("character:swapCharSetJob")
-AddEventHandler("character:swapCharSetJob", function()
-	exports["globals"]:setJob(source, "civ")
-	TriggerEvent("high_callback:drop", source)
 end)
 
 -- Creating a new character

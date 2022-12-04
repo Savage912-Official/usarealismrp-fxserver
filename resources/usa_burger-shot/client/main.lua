@@ -9,7 +9,7 @@ local quitWork = standardPress .. "Quit work"
 local NPC_PED_MODEL = "csb_burgerdrug"
 local NPC_COORDS = {-1190.24, -897.37, 14.0}
 
-local JOB_START_TEXT_DIST = 3
+local JOB_START_TEXT_DIST = 1.5
 
 local STATIONARY_TIME_KICK_MINS = 10
 local MAX_TIME_BEFORE_STRIKE_ISSUED = 600 * 1000

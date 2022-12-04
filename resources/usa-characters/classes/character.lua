@@ -93,6 +93,25 @@ function CreateCharacter(data)
     self.bank = self.bank - tonumber(amount)
   end
 
+  rTable.removeMoneyOrBank = function(amount)
+    amount = math.abs(amount)
+    if self.money >= amount then
+      self.money = self.money - amount
+    elseif self.bank >= amount then
+      self.bank = self.bank - amount
+    end
+  end
+
+  rTable.hasEnoughMoneyOrBank = function(amount)
+    if self.money >= amount then
+      return true
+    elseif self.bank >= amount then
+      return true
+    else
+      return false
+    end
+  end
+
   rTable.getName = function()
     return self.name.first .. " " .. self.name.last
   end

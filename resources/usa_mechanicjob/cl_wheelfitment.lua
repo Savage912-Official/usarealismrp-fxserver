@@ -4,7 +4,10 @@ veh_fitmentZones = {
 	{536.11303710938, -188.32655334473, 53.665603637695}, -- Auto Exotic Elgin Ave
 	{-1423.9577636719, -449.70217895508, 35.02954864502}, -- Hayes Autos Blvd Del Perro
 	{-222.36390686035, -1329.4844970703, 30.406702041626}, -- Southside Bennys Alta St
-	{1182.6217041016, 2639.2448730469, 37.311477661133} -- Harmony Repairs Route 68
+	{1182.6217041016, 2639.2448730469, 37.311477661133}, -- Harmony Repairs Route 68
+	{928.7614, -959.3999, 38.56202}, -- ACG Vespucci Blvd
+	{-774.0516, -234.1788, 36.20964}, -- RPG Mad Wayne Thunder Drive
+	{124.7456, -3047.19, 7.040889} -- Rezitto's Shop
 }
 
 local locationsData = {}

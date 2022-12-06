@@ -119,3 +119,29 @@ AddEventHandler("CORE_ROB_TRUCK:PoliceNotification_c", function(data)
 		exports['core_dispach']:addCall(dispatch[1],dispatch[2],dispatch[3],dispatch[4],dispatch[5],dispatch[6],dispatch[7],dispatch[8])
 	end
 end)
+
+RegisterNetEvent("core_rob_truck:hint")
+AddEventHandler("core_rob_truck:hint", function()
+	local CasinoHint = "^0[^5Terminal At Risk^0] The upper exterior level of the Casino. The terminal company is BLICK and is located [^9REDACTED^0]"
+	local HawickBankHint = "^0[^5Terminal At Risk^0] The exterior of the Bank at Hawick Ave. & Meteor St. The terminal company is BLICK and is located [^9REDACTED^0]"
+	local GreatOceanHint = "^0[^5Terminal At Risk^0] The exterior of the Bank at Great Ocean Highway. The terminal company is BLICK and is located [^9REDACTED^0]"
+
+	TriggerEvent("chatMessage", '', {0,0,0}, "^0[^3Technician Report^0] Vulnerabilities found in terminals across the city. [^9REDACTED^0] Exposes active bank truck locations. [^9REDACTED^0]")
+	Wait(3000)
+	TriggerEvent("chatMessage", '', {0,0,0}, "^0[^3Risk Analysis^0] Security Software is outdated and contains a vulnerability that can be used by hackers to expose precise GPS locations of trucks.")
+	Wait(3000)
+	local chance = math.random()
+	if chance <= 0.35 then
+		TriggerEvent("chatMessage", '', {0,0,0}, CasinoHint)
+	elseif chance >= 0.65 then
+		TriggerEvent("chatMessage", '', {0,0,0}, HawickBankHint)
+	else
+		TriggerEvent("chatMessage", '', {0,0,0}, GreatOceanHint)
+	end
+	Wait(4500)
+	TriggerEvent("chatMessage", '', {0,0,0}, "^0[^2Hint^0] You'll definitely need a bag to store a laptop and the money. A USB Drive will also be required to enter the cyber criminal world.")
+	Wait(1000)
+	TriggerEvent("chatMessage", '', {0,0,0}, "^0[^2Hint^0] Lastly, you'll also need a specific type of explosive for the bank truck. Check the blackmarket or maybe you can craft it...")
+	Wait(1000)
+	TriggerEvent("chatMessage", '', {0,0,0}, "^0[^2Hint^0] Once you hack a terminal with a laptop, you'll get a live location.")
+end)

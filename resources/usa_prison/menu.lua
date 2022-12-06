@@ -33,7 +33,8 @@ local vehicles = {
   { name = "Bearcat", hash = GetHashKey("bearcatrb") },
   { name = "Armored Suburban", hash = GetHashKey("suvrb14") },
   { name = "Prison Bus", hash = GetHashKey("pbus") },
-  { name = "Transport Van", hash = GetHashKey("policet") }
+  { name = "Transport Van", hash = GetHashKey("policet") },
+  { name = "Unmarked Stainer", hash = GetHashKey("police4") }
 }
 
 local PRISON_GUARD_SIGN_IN_LOCATIONS = {

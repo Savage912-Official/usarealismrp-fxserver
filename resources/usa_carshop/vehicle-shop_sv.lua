@@ -547,6 +547,10 @@ local vehicleShopItems = {
 			{make = "Kawasaki", model = "H2R (NOT ROAD LEGAL)", price = 200000, hash = "ninjah2", storage_capacity = 20.0},
 			{make = "Kawasaki", model = "Z1000", price = 70000, hash = "z1000", storage_capacity = 20.0},
 			--
+			{make = "Karin", model = "Ariant", price = 40000, hash = "ariant", storage_capacity = 220.0},
+			{make = "Karin", model = "Asterope RS", price = 60000, hash = "asteropers", storage_capacity = 220.0},
+			{make = "Karin", model = "Rebel Custom", price = 60000, hash = "rebeld", storage_capacity = 200.0},
+			--
 			{make = "Koenigsegg", model = "Agera RS (2017)", price = 3700000, hash = "agerars", storage_capacity = 120.0},
 			{make = "Koenigsegg", model = "Jesko", price = 4500000, hash = "rmodjesko", storage_capacity = 130.0},
 			--
@@ -601,6 +605,8 @@ local vehicleShopItems = {
 			{make = "Nissan", model = "R35 GTR", price = 275000, hash = "gtr", storage_capacity = 130.0},
 			{make = "Nissan", model = "Silvia S15 (DRIFT)", price = 80000, hash = "s15yoshio", storage_capacity = 220.0},
 			--
+			{make = "Pegassi", model = "Monroe Custom", price = 275000, hash = "monroec", storage_capacity = 120.0},
+			--
 			{make = "Peugeot", model = "206 GTi", price = 30000, hash = "peugeot206", storage_capacity = 175.0},
 			--
 			{make = "Pontiac", model = "G8", price = 80000, hash = "pontiacg8", storage_capacity = 165.0},
@@ -638,6 +644,8 @@ local vehicleShopItems = {
 			{make = "Tesla", model = "Model S (Prior Design)", price = 155000, hash = "teslapd", storage_capacity = 190.0},
 			{make = "Tesla", model = "Model X", price = 160000, hash = "teslax", storage_capacity = 220.0},
 			{make = "Tesla", model = "Roadster", price = 420000, hash = "tesroad20", storage_capacity = 120.0},
+			--
+			{make = "Ubermach", model = "Sentinel Custom (DRIFT)", price = 70000, hash = "sentineldm", storage_capacity = 180.0},
 			--
 			{make = "Volkswagon", model = "Golf GTI", price = 90000, hash = "golfgti", storage_capacity = 175.0},
 			{make = "Volkswagon", model = "Golf (MK3)", price = 60000, hash = "mk3", storage_capacity = 200.0},

@@ -60,10 +60,10 @@ AddEventHandler("prison-janitor:toggleJob", function(targetSrc)
                 payment = payment + PAY_RATES[currentlyCleaningTaskName[src]]
             end
         end
-        char.set("jailTime", time)
+        char.set("jailTime", math.max(0, time))
         char.giveBank(payment)
         TriggerClientEvent("usa:notify", src, "You've been paid: $" .. exports.globals:comma_value(payment))
-        TriggerClientEvent("usa:notify", src, "Reduced Prison Time, New Time: " .. time)
+	TriggerClientEvent("usa:notify", src, "Reduced Prison Time, New Time: " .. time)
         -- record stoppage
         currentlyCleaning[src] = nil
         currentlyCleaningTaskName[src] = nil

@@ -371,14 +371,6 @@ BUSINESSES = {
 		lastRobbedTime = 0,
 		price = 4500
 	},
-	["Auto Repair (Voodoo Place)"] = {
-		position = {125.19500732422, -3009.8500976563, 7.0408892631531},
-		cameraID = 'store51',
-		isBeingRobbed = false,
-		lastRobbedTime = 0,
-		price = 10500,
-		notRobbable = true
-	},
 	["Otto's Auto Repair (Popular St.)"] = {
 		position = {832.59692382813, -826.30114746094, 26.332597732544},
 		cameraID = 'store50',
@@ -401,6 +393,31 @@ BUSINESSES = {
 		lastRobbedTime = 0,
 		price = 10000,
 		purchasePercentage = 0.05
+	},
+	["RPG Repair"] = {
+		position = {-782.98, -232.65, 37.08},
+		cameraID = 'store54',
+		isBeingRobbed = false,
+		lastRobbedTime = 0,
+		price = 10000,
+		purchasePercentage = 0.05,
+		notRobbable = true
+	},
+	["Triple R Auto Repair"] = {
+		position = {122.30, -3029.67, 7.04},
+		cameraID = 'store55',
+		isBeingRobbed = false,
+		lastRobbedTime = 0,
+		price = 10000,
+		notRobbable = true
+	},
+	["The Cookie Jar"] = {
+		position = {-21.77, -1053.07, 32.4},
+		cameraID = 'store56',
+		isBeingRobbed = false,
+		lastRobbedTime = 0,
+		price = 10000,
+		notRobbable = true
 	},
 }
 

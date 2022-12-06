@@ -439,3 +439,20 @@ AddEventHandler("CORE_ROB_TRUCK:Log_s",function(type,player,data)
 	end
 end)
 function split(str,sep) local array = {} local reg = string.format("([^%s]+)",sep) for mem in string.gmatch(str,reg) do table.insert(array,mem) end return array end
+
+-- Testing Phase
+-- TriggerEvent('es:addCommand', 'testingitems', function(source, args, char)
+--     local char = exports["usa-characters"]:GetCharacter(source)
+--     local itemOne = { name = "Bank Laptop", type = "misc",  quantity = 1,  legality = "legal", notStackable = true,  weight = 10,  objectModel = "imp_prop_impexp_tablet" }
+--     local itemTwo = { name = "Sticky Bomb", type = "weapon", hash = GetHashKey("WEAPON_STICKYBOMB"), quantity = 1, weight = 25, objectModel = "prop_bomb_01_s" }
+-- 	local itemThree = { name = "Crumpled Paper", type = "misc", quantity = 1, legality = "legal", notStackable = true, weight = 1, objectModel = "prop_paper_ball"}
+--     char.giveItem(itemOne)
+--     char.giveItem(itemTwo)
+-- 	char.giveItem(itemThree)
+-- end, { help = "For bank truck" })
+
+-- TriggerEvent('es:addCommand', 'getweed', function(source, args, char)
+--     local char = exports["usa-characters"]:GetCharacter(source)
+--     local drug = {name = "Packaged Weed", quantity = 10, weight = 1.0, type = "drug", legality = "illegal", objectModel = "bkr_prop_weed_bag_01a"}
+--     char.giveItem(drug)
+-- end, { help = "For hints" }) 

@@ -4,6 +4,17 @@ Credits - MythicalBro - modified by Minipunch for USARRP
 /////License/////
 Do not reupload/re release any part of this script without my permission
 ]]
+-- [1] = LS Customs (Eastborne Way)
+-- [2] = LS Customs (Popular Street)
+-- [3] = LS Customs (Airport)
+-- [4] = LS Customs (Harmony)
+-- [5] = LS Customs (Paleto)
+-- [6] = Bennys Motorsports
+-- [7] = Triple R Race and Repair
+-- [8] = Mcdougal Auto Care 
+-- [9] = Auto Exotic 
+-- [10] = The Cookie Jar
+
 local inside = false
 local currentpos = nil
 local currentgarage = 0
@@ -15,7 +26,11 @@ local garages = {
 	[3] = { locked = false, camera = {x = -1154.902, y = -2011.438, z = 13.18, heading = 95.49}, driveout = {x = -1150.379,y = -1995.845, z = 12.465, heading = 313.594}, drivein = {x = -1150.26,y = -1995.642, z = 12.266, heading = 136.859}, outside = {x = -1140.352,y = -1985.89, z = 12.45, heading = 314.406}, inside = {x = -1155.077,y = -2006.61, z = 12.465, heading = 162.58}},
 	[4] = { locked = false, camera = {x = 1177.98, y = 2636.059, z = 37.754, heading = 37.082}, driveout = {x = 1175.003,y = 2642.175, z = 37.045, heading = 0.759}, drivein = {x = 1174.701,y = 2643.764, z = 36.7, heading = 178.119}, outside = {x = 1175.565,y = 2652.819, z = 37.941, heading = 351.579}, inside = {x = 1174.823,y = 2637.807, z = 37.045, heading = 181.19}},
 	[5] = { locked = false, camera = {x = 105.825, y = 6627.562, z = 31.787, heading = 266.692}, driveout = {x = 112.326,y = 6625.148, z = 31.073, heading = 224.641}, drivein = {x = 112.738,y = 6624.644, z = 30.9, heading = 44.262}, outside = {x = 118.493,y = 6618.897, z = 31.13, heading = 224.701}, inside = {x = 108.842,y = 6628.447, z = 31.072, heading = 45.504}},
-	[6]= { locked = false, camera = {x = -215.518, y = -1329.135, z = 30.89, heading = 329.092}, driveout = {x = -205.935,y = -1316.642, z = 30.176, heading = 356.495}, drivein = {x = -205.626,y = -1314.99, z = 30.0, heading = 179.395}, outside = {x = -205.594,y = -1304.085, z = 30.614, heading = 359.792}, inside = {x = -212.368,y = -1325.486, z = 30.176, heading = 141.107} }
+	[6]= { locked = false, camera = {x = -215.518, y = -1329.135, z = 30.89, heading = 329.092}, driveout = {x = -205.935,y = -1316.642, z = 30.176, heading = 356.495}, drivein = {x = -205.626,y = -1314.99, z = 30.0, heading = 179.395}, outside = {x = -205.594,y = -1304.085, z = 30.614, heading = 359.792}, inside = {x = -212.368,y = -1325.486, z = 30.176, heading = 141.107} },
+	[7]= { locked = false, camera = {x = 132.42, y = -3035.56, z = 6.2, heading = 326.2}, driveout = {x = 136.1, y = -3030.37, z = 6.2, heading = 180.53}, drivein = {x = 136.1, y = -3030.37, z = 6.2, heading = 180.53}, outside = {x = 136.1, y = -3030.37, z = 6.2, heading = 180.53}, inside = {x = 136.1, y = -3030.37, z = 6.2, heading = 180.53} },
+    [8]= { locked = false, camera = {x = 919.62, y = -986.43, z = 40.53, heading = 338.69}, driveout = {x = 921.35, y = -981.01, z = 39.09, heading = 2.02}, drivein = {x = 921.35, y = -981.01, z = 38.52, heading = 181.42}, outside = {x = 921.35, y = -981.01, z = 39.09, heading = 2.02}, inside = {x = 921.35, y = -981.01, z = 39.09, heading = 181.42} },
+	[9]= { locked = false, camera = {x = 540.54, y = -167.73, z = 54.49, heading = 116.27}, driveout = {x = 537.24, y = -169.29, z = 54.08, heading = 178.49}, drivein = {x = 537.24, y = -169.29, z = 53.50, heading = 358.49}, outside = {x = 537.24, y = -169.29, z = 54.08, heading = 358.49}, inside = {x = 537.24, y = -169.29, z = 54.08, heading = 358.49} },
+	[10]= { locked = false, camera = {x = -28.89, y = -1059.17, z = 29.5, heading = 37.14}, driveout = {x = -33.35, y = -1053.48, z = 27.7, heading = 212.54}, drivein = {x = -33.35, y = -1053.48, z = 27.45, heading = 212.54}, outside = {x = -33.35, y = -1053.48, z = 27.7, heading = 212.54}, inside = {x = -33.35, y = -1053.48, z = 26.5, heading = 212.54} }
 }
 
 function getLocations()

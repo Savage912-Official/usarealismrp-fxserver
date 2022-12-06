@@ -355,6 +355,7 @@ supportedVehicles = {
     { name = "Honda Civic (EG6)", model = "eg6", class = "S" },
     { name = "Honda Civic (EK9)", model = "spoonek", class = "S" },
     { name = "1993 Honda Civic (FnF)", model = "fnfcivic", class = "S" },
+    { name = "Pegassi Monroe Custom", model = "monroec", class = "S" },
     -- A CLASS
     { name = "Sultan RS", model = "sultanrs", class = "A" },
     { name = "Annis Elegy Retro", model = "elegy", class = "A" },
@@ -448,6 +449,7 @@ supportedVehicles = {
     { name = "Dodge Durango Hellephant", model = "hellephantdurango", class = "A" },
     { name = "1977 Ford Mustang Boss", model = "rr70bosswide", class = "A" },
     { name = "Lexus RC-F", model = "rrrcf", class = "A" },
+    { name = "Karin Rebel Custom", model = "rebeld", class = "A" },
     -- B CLASS
     { name = "Bravado Gauntlet Hellfire", model = "gauntlet4", class = "B" },
     { name = "Declasse Hotring Sabre", model = "hotring", class = "B" },
@@ -583,6 +585,8 @@ supportedVehicles = {
     { name = "Dodge 3500", model = "bcys", class = "B" },
     { name = "Dodge 3500 HD", model = "bc203500hd", class = "B"},
     { name = "Chevrolet C10", model = "bcc10c", class = "B"},
+    { name = "Karin Ariant", model = "ariant", class = "B"},
+    { name = "Karin Asterope RS", model = "asteropers", class = "B"},
     -- C CLASS
     { name = "Dinka Blista Compact", model = "blista2", class = "C" },
     { name = "Karin Asterope", model = "asterope", class = "C" },

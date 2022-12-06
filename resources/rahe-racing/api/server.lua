@@ -212,6 +212,7 @@ supportedVehicles = {
     { name = "Honda Civic (EG6)", model = "eg6", class = "S" },
     { name = "Honda Civic (EK9)", model = "spoonek", class = "S" },
     { name = "1993 Honda Civic (FnF)", model = "fnfcivic", class = "S" },
+    { name = "Pegassi Monroe Custom", model = "monroec", class = "S" },
     -- A Class:**
     { name = "Sultan RS", model = "sultanrs", class = "A" },
     { name = "Annis Elegy Retro", model = "elegy", class = "A" },
@@ -332,6 +333,7 @@ supportedVehicles = {
     { name = "Dodge Hellephant Durango", model = "hellephantdurango", class = "A"},
     { name = "1977 Ford Mustang Boss", model = "rr70bosswide", class = "A" },
     { name = "Lexus RC-F", model = "rrrcf", class = "A" },
+    { name = "Karin Rebel Custom", model = "rebeld", class = "A" },
     -- B Class:**
     { name = "Bravado Gauntlet Hellfire", model = "gauntlet4", class = "B" },
     { name = "Declasse Hotring Sabre", model = "hotring", class = "B" },
@@ -529,6 +531,12 @@ supportedVehicles = {
     { name = "Spyker C8", model = "spyker", class = "B" },
     { name = "Pontiac G8", model = "pontiacg8", class = "B" },
     { name = "Xpeng P7", model = "x3p720", class = "E" }, -- ELECTRIC
+    { name = "Dodge 2500", model = "bcbruiser", class = "B" },
+    { name = "Dodge 3500", model = "bcys", class = "B" },
+    { name = "Dodge 3500 HD", model = "bc203500hd", class = "B"},
+    { name = "Chevrolet C10", model = "bcc10c", class = "B"},
+    { name = "Karin Ariant", model = "ariant", class = "B"},
+    { name = "Karin Asteropers", model = "asteropers", class = "B"},
     -- C Class:**
     { name = "Declasse Yosemite Rancher", model = "yosemite3", class = "C" },
     { name = "Dinka Blista Compact", model = "blista2", class = "C" },

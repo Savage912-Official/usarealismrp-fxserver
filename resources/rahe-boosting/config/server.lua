@@ -198,7 +198,7 @@ svConfig = {
         ['nospacka'] = {
             cashRequired = 6000,
             cryptoRequired = 100,
-            availablePerRestart = 10,
+            availablePerRestart = math.random(5,10),
             isSoldOut = false,
             title = "Nitrous oxide (Stage 1)",
             description = "When you need that extra bit of boost.",
@@ -210,7 +210,7 @@ svConfig = {
         ['nospackb'] = {
             cashRequired = 17500,
             cryptoRequired = 210,
-            availablePerRestart = 5,
+            availablePerRestart = math.random(3,7),
             isSoldOut = false,
             title = "Nitrous oxide (Stage 1 & 2)",
             description = "When you need that extra bit of boost.",
@@ -221,9 +221,9 @@ svConfig = {
             }
         },
         ['lockpick'] = {
-            cashRequired = 950,
-            cryptoRequired = 10,
-            availablePerRestart = 10,
+            cashRequired = 150 * math.random(3,6),
+            cryptoRequired = math.random(2,5),
+            availablePerRestart = math.random(5,10),
             isSoldOut = false,
             title = "Lockpick",
             description = "A low-quality lockpick which will get the job done.",
@@ -235,13 +235,25 @@ svConfig = {
         ['repairkit'] = {
             cashRequired = 1500,
             cryptoRequired = 20,
-            availablePerRestart = 5,
+            availablePerRestart = math.random(3,7),
             isSoldOut = false,
             title = "Repair kit (LW)",
             description = "Will get your car moving when you break down. Light Weight Edition",
             iconFile = 'repair-kit.png',
             receiveItemIds = {
                 [1] = 'Repair Kit'
+            }
+        },
+        ['hotwiringkit'] = {
+            cashRequired = 350 * math.random(2,4), -- Blackmarket price multiplied by a rand number BECAUSE INFLATION MY BOYS
+            cryptoRequired = math.random(2,5),
+            availablePerRestart = math.random(7,15),
+            isSoldOut = false,
+            title = "Hotwiring Kit",
+            description = "Get a fancy kit to help you hotwire a vehicle that you're going to 'borrow'.",
+            iconFile = 'hotwiring-kit.png',
+            receiveItemIds = {
+                [1] = 'Hotwiring Kit'
             }
         },
         ['racingdongle'] = {
@@ -259,7 +271,7 @@ svConfig = {
         ['laptop'] = {
             cashRequired = 5750,
             cryptoRequired = 30,
-            availablePerRestart = 15,
+            availablePerRestart = math.random(5,10),
             isSoldOut = false,
             title = "Bank Laptop",
             description = "Time for a world of hacker man himself.",

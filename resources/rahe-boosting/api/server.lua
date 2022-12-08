@@ -107,6 +107,11 @@ function giveItem(playerId, itemId, amount)
             item.notStackable = true
             item.weight = 10
             item.objectModel = "imp_prop_impexp_tablet"
+        elseif itemId == "Hotwiring Kit" then
+            item.type = "misc"
+            item.legality = "illegal"
+            item.notStackable = true
+            item.weight = 10
         end
         char.giveItem(item)
         TriggerClientEvent("usa:notify", "You have picked up your item!")
@@ -159,7 +164,7 @@ AddEventHandler('rahe-boosting:server:vinScratchSuccessful', function(playerId, 
         hash = vehInfo.hash,
         plate = licensePlate,
         stored = true,
-        price = vehInfo.price,
+        price = vehInfo.price * 0.05,
         inventory = exports["usa_vehinv"]:NewInventory(vehInfo.storage_capacity),
         storage_capacity = vehInfo.storage_capacity,
         isVinScratched = true
@@ -173,6 +178,7 @@ AddEventHandler('rahe-boosting:server:vinScratchSuccessful', function(playerId, 
         model = vehInfo.model,
         plate = licensePlate
     }
+    -- print("The total sell price of this vehicle will be "..vehicle.price) -- DEBUG STUFF FOR WEEPY
     -- add vehicle to database
     exports.usa_carshop:AddVehicleToDB(vehicle)
     -- add vehicle to player's list of owned vehicles

@@ -38,6 +38,7 @@ files {
     'tablet/nui/img/racingtablet.png',
     'tablet/nui/img/repair-kit.png',
     'tablet/nui/img/laptop.png',
+    'tablet/nui/img/hotwiring-kit.png',
 
     'tablet/nui/img/boost_icon.png',
 }

@@ -1205,6 +1205,8 @@ function interactionMenuUse(index, itemName, wholeItem)
 		TriggerEvent("usa:notify", "Hmm... No use here... Maybe use it on an armored truck?")
 	elseif itemName == "RGB Controller" then
 		ExecuteCommand("rgbcontrolleritemlol")
+	elseif itemName == "Basketball Hoop" then
+		ExecuteCommand("placehoop")
 	else
 		TriggerEvent("interaction:notify", "There is no use action for that item!")
 	end

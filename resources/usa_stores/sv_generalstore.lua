@@ -123,7 +123,8 @@ local HARDWARE_STORE_ITEMS = {
     { name = "Rag", price = 200, type = "misc", quantity = 1, legality = "legal", weight = 5, objectModel = "prop_shower_towel"},
     { name = "Sign Kit", price = 200, type = "misc", quantity = 1, legality = "legal", weight = 5, objectModel = "prop_cd_paper_pile1"},
     { name = "Drill", price = 2000, legality = "legal", quantity = 1, type = "misc", weight = 10, objectModel = "hei_prop_heist_drill" },
-    { name = "Beer Pong Kit", price = 300, type = "misc", quantity = 1, legality = "legal", weight = 5, objectModel = "apa_prop_cs_plastic_cup_01"}
+    { name = "Beer Pong Kit", price = 300, type = "misc", quantity = 1, legality = "legal", weight = 5, objectModel = "apa_prop_cs_plastic_cup_01"},
+    { name = "Basketball Hoop", price = 1500, type = "misc", quantity = 1, legality = "legal", weight = 10, objectModel = "prop_basketball_net2"}
   }
 }
 

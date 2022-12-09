@@ -489,6 +489,7 @@ local vehicleShopItems = {
 			{make = "Ferrari", model = "F8 Tributo", price = 850000, hash = "f8t", storage_capacity = 130.0},
 			{make = "Ferrari", model = "F12", price = 850000, hash = "rmodf12tdf", storage_capacity = 130.0},
 			{make = "Ferrari", model = "F40", price = 1200000, hash = "rmodf40", storage_capacity = 130.0},
+			{make = "Ferrari", model = "FXXK (NOT ROAD LEGAL)", price = 2400000, hash = "fxxk", storage_capacity = 120.0},
 			--
 			{make = "Ford", model = "Bronco (1980)", price = 50000, hash = "80bronco", storage_capacity = 300.0},
 			{make = "Ford", model = "Bronco Wildtrak (2021)", price = 140000, hash = "wildtrak", storage_capacity = 300.0},
@@ -585,6 +586,8 @@ local vehicleShopItems = {
 			--
 			{make = "Mclaren", model = "600LT", price = 500000, hash = "600lt", storage_capacity = 145.0},
 			{make = "Mclaren", model = "Elva", price = 2300000, hash = "elva", storage_capacity = 145.0},
+			{make = "Mclaren", model = "Senna", price = 2000000, hash = "sennas", storage_capacity = 125.0},
+			{make = "Mclaren", model = "Senna GTR (NOT ROAD LEGAL)", price = 2200000, hash = "sennasgtr", storage_capacity = 120.0},
 			--
 			{make = "Mercedes-Benz", model = "300 SL", price = 700000, hash = "mb300sl", storage_capacity = 165.0},
 			{make = "Mercedes-Benz", model = "C63 AMG", price = 175000, hash = "C63AMG", storage_capacity = 175.0},
@@ -595,6 +598,7 @@ local vehicleShopItems = {
 			{make = "Mercedes-Benz", model = "S63 AMG Cabriolet (2017)", price = 190000, hash = "mers63c", storage_capacity = 185.0},
      		 	{make = "Mercedes-Benz", model = "S650 Maybach (2019)", price = 220000, hash = "19S650", storage_capacity = 220.0},
 			{make = "Mercedes-Benz", model = "SLR Stirling Moss", price = 800000, hash = "moss", storage_capacity = 130.0},
+			{make = "Mercedes-Benz", model = "CLK LM (NOT ROAD LEGAL)", price = 2600000, hash = "clklm", storage_capacity = 130.0},
 			--
 			{make = "Mitsubishi", model = "EVO IX (DRIFT)", price = 85000, hash = "evoix", storage_capacity = 160.0},
 			--
@@ -604,6 +608,8 @@ local vehicleShopItems = {
 			{make = "Nissan", model = "R34 GTR", price = 170000, hash = "skyline", storage_capacity = 175.0},
 			{make = "Nissan", model = "R35 GTR", price = 275000, hash = "gtr", storage_capacity = 130.0},
 			{make = "Nissan", model = "Silvia S15 (DRIFT)", price = 80000, hash = "s15yoshio", storage_capacity = 220.0},
+			--
+			{make = "Pagani", model = "Zonda R (NOT ROAD LEGAL)", price = 3000000, hash = "zondar", storage_capacity = 120.0},
 			--
 			{make = "Pegassi", model = "Monroe Custom", price = 275000, hash = "monroec", storage_capacity = 120.0},
 			--
@@ -638,6 +644,7 @@ local vehicleShopItems = {
 			{make = "Toyota", model = "Sprinter Trueno GT Apex (AE86) (1985) (DRIFT)", price = 78000, hash = "ae86", storage_capacity = 160.0},
 			{make = "Toyota", model = "Supra Mk4", price = 100000, hash = "supra2", storage_capacity = 150.0},
 			{make = "Toyota", model = "Supra MK5", price = 95000, hash = "rmodsuprapandem", storage_capacity = 160.0},
+			{make = "Toyota", model = "Supra (Castrol) (NOT ROAD LEGAL)", price = 800000, hash = "castrolsupra", storage_capacity = 120.0},
 			--
 			--{make = "Tesla", model = "Model S", price = 140000, hash = "models", storage_capacity = 170.0},
 			{make = "Tesla", model = "Model S", price = 125000, hash = "teslamodels", storage_capacity = 190.0},

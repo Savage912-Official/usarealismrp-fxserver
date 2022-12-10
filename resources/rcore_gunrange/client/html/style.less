@@ -1,0 +1,56 @@
+html,body{
+  background:transparent!important;
+  overflow: hidden;
+}
+
+.target {
+  background:url("bgcover.png") no-repeat;
+  background-size: cover;
+  width: 350px;
+  height: 600px;
+}
+
+.bullet{
+  width: 10px;
+  height: 10px;
+  background: red;
+  border-radius: 5px;
+  position: absolute;
+  //Center top 400px left 170px
+}
+
+.menu{
+  width: 20%;
+  position: absolute;
+
+  .menu-header{
+    background: #34495e;
+    color: white;
+    border-bottom: 5px solid #2c3e50;
+    font-size: 24px;
+    padding: 5px;
+  }
+
+  .menu-body{
+    .menu-item{
+      cursor: pointer;
+      padding: 5px;
+      font-size: 18px;
+      background: #ecebeb;
+    }
+    .menu-item:hover{
+      background: #d2d2d2;
+    }
+
+    .menu-item.active{
+      background: #515050;
+      color:white;
+    }
+  }
+}
+
+.menu.middle-right{
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+}

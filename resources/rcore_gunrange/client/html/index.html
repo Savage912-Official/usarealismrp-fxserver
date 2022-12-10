@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/css/select2.min.css">
+    <script src="nui://game/ui/jquery.js"></script>
+    <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/js/select2.full.min.js"></script>
+    <script src="https://kit.fontawesome.com/07db3c916b.js" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app" v-if="visible">
+        <div>
+            <div v-if="page == 'range'" style="color:white; width: 410px; background: #34495e; border-right: 15px solid #2c3e50; min-height: 1600px;" >
+                <div style="background: #2980b9; padding-top:50px; padding-bottom: 50px; padding-left: 20px;">
+                    <h1>
+                        {{locales.title}}
+                        <h3 style="color: #ecf0f1;">{{locales.subtitle}}</h3>
+                    </h1>
+                </div>
+                <div class="target" style="margin-top: 50px; margin-left: 20px;">
+                    <div class="points" style="padding: 10px;">
+                        <h4>{{locales.points}}: {{points}}</h4>
+                    </div>
+                    <div class="bullets" style="position: absolute; top: 600px;left: 193px;">
+                        <div v-for="bullet in bullets" class="bullet" v-bind:style="{top: (bullet.coords.y*515)*-1+'px', left: (bullet.coords.x*515)*-1+'px'}"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div v-if="page == 'menu'">
+            <div class="menu" v-bind:class="menuPosition">
+                <div class="menu-header">
+                    {{ menu.label }}
+                </div>
+                <div class="menu-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class = "items_container">
+                                <div v-html="menuItem.label" class="menu-item" @click="select(index)" v-bind:class="{ 'active': selectedMenuItemIndex === index }" v-for="(menuItem, index) in menuItems"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="btn-group menu-buttons text-right">
+                        <button v-html="button.label" type="button" @click="selectButton(button)" v-for="button in menuButton" v-bind:class="buttonStyle(button)">
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

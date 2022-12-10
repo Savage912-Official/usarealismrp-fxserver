@@ -1154,3 +1154,45 @@ CreateThread(function()
     end
   end
 end)
+
+-- Remove Props At a certain coord --
+local PropInfo = {
+  { -- pd targets
+    Coords = vector3(478.07559204102, -1005.5838623047, 30.689582824707),
+    Props = {
+      {Hash = `gabz_mrpd_shooting_target`, Range = 12.0},
+    }
+  },
+  { -- legion ammunation targets
+    Coords = vector3(18.08592, -1088.539, 29.79719),
+    Props = {
+      {Hash = `gr_prop_gr_target_05c`, Range = 12.0},
+    }
+  },
+  { -- legion ammunation target arms
+    Coords = vector3(18.08592, -1088.539, 29.79719),
+    Props = {
+      {Hash = `prop_target_arm_b`, Range = 12.0},
+    }
+  },
+  { -- docks ammunation targets
+    Coords = vector3(820.2431, -2173.661, 29.61917),
+    Props = {
+      {Hash = `gr_prop_gr_target_05c`, Range = 12.0},
+    }
+  },
+  { -- docks ammunation target arms
+    Coords = vector3(820.2431, -2173.661, 29.61917),
+    Props = {
+      {Hash = `prop_target_arm_b`, Range = 12.0},
+    }
+  },
+}
+
+Citizen.CreateThread(function()
+  for k,v in ipairs(PropInfo) do
+    for k2,v2 in ipairs(v.Props) do
+      CreateModelHideExcludingScriptObjects(v.Coords, v2.Range or 0.0, v2.Hash, true)
+    end
+  end
+end)

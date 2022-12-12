@@ -543,6 +543,16 @@ SecurityCamConfig.Locations = {
         }
     },
     {
+        camBox = {label = "Benefactor Dealership", id = 'store98'},
+        cameras = {
+            {label = "Office", x = -49.8976, y = 76.88705, z = 74.25, r = {x = -35.0, y = 0.0, z = 122.2}},
+            {label = "Lobby", x = -55.66073, y = 61.70781, z = 74.25, r = {x = -35.0, y = 0.0, z = 30.4}},
+            {label = "Exterior", x = -86.21973, y = 101.0255, z = 81.43, r = {x = -35.0, y = 0.0, z = 201.0}},
+            {label = "Exterior Spanish Ave. #1", x = -83.29576, y = 72.05306, z = 75.11826, r = {x = -35.0, y = 0.0, z = 204.5}},
+            {label = "Exterior Spanish Ave. #2", x = -60.05685, y = 26.20024, z = 75.11826, r = {x = -25.0, y = 0.0, z = 24.52344}},
+        }
+    },
+    {
         camBox = {label = "Pillbox Medical Center", id = 'pillbox'},
         cameras = {
             {label = "Front Door", x = 301.9279, y = -576.0494, z = 46.0002, r = {x = -25.0, y = 0.0, z = 110.0}},

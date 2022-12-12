@@ -53,8 +53,7 @@ BUSINESSES = {
 		isBeingRobbed = false,
 		lastRobbedTime = 0,
 		price = 30000,
-		purchasePercentage = 0.10,
-		notRobbable = true
+		purchasePercentage = 0.10
 	},
 	["Car Dealership (Harmony)"] = {
 		position = {1234.0, 2737.2, 38.0},

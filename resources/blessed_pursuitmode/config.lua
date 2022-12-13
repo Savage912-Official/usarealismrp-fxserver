@@ -19,8 +19,8 @@ Config.NonPursuit = {
 
 Config.BoostPower = {
 	["A"] = 0.0,
-	["A+"] = 8.0,
-	["S"] = 10.0,
+	["A+"] = 10.0,
+	["S"] = 12.0,
 	["S+"] = 35.0
 }
 

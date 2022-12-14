@@ -24,82 +24,37 @@ end)
 
 RegisterServerEvent("vehicle:getInventory")
 AddEventHandler("vehicle:getInventory", function(target_plate_number)
-  local userSource = tonumber(source)
-  GetVehicleInventory(target_plate_number, function(inv)
-      TriggerClientEvent("vehicle:loadedInventory", userSource, inv)
-  end)
-end)
-
--- store an item in a vehicle
--- note: assumes that the quantity provided is <= item.quantiy
-RegisterServerEvent("vehicle:storeItem")
-AddEventHandler("vehicle:storeItem", function(src, vehicle_plate, item, quantity, slot, cb)
-    if type(source) == "number" then -- restrict to server side to prevent lua injection
-        return
-    end
-    quantity = math.floor(quantity)
-    local usource = tonumber(src)
-    GetVehicleInventory(vehicle_plate, function(inv)
-        if quantity <= 0 then
-            cb(false, inv)
-            return
-        end
-        item.quantity = quantity
-        if VehInventoryManager.canHoldItem(inv, item) then
-            local char = exports["usa-characters"]:GetCharacter(usource)
-            if not char.hasItem(item) then -- prevents 'lag switch' item dupe exploit when storing items
-                cb(false, inv)
-                return
-            end
-            VehInventoryManager.putItemInSlot(vehicle_plate, inv, item, slot, function(success, msg)
-                if success == true then
-                    if item.type == "weapon" then
-                        TriggerClientEvent("interaction:equipWeapon", usource, item, false) -- remove weapon
-                    end
-                    if item.name:find("Radio") then
-                        TriggerClientEvent("Radio.Set", usource, false, {})
-                    end
-                    TriggerClientEvent("usa:playAnimation", usource, "anim@move_m@trash", "pickup", -8, 1, -1, 53, 0, 0, 0, 0, 3)
-                end
-                if msg then
-                    TriggerClientEvent("usa:notify", usource, msg)
-                end
-                cb(success, inv)
-            end)
-        else
-            TriggerClientEvent("usa:notify", usource, "Vehicle inventory full!")
-            cb(false, inv)
-        end
-    end)
+    local userSource = tonumber(source)
+    local inv = GetVehicleInventory(target_plate_number)
+    TriggerClientEvent("vehicle:loadedInventory", userSource, inv)
 end)
 
 RegisterServerEvent("vehicle:storeItemInFirstFreeSlot")
 AddEventHandler("vehicle:storeItemInFirstFreeSlot", function(src, vehicle_plate, item, notifyIfFull, cb)
     local usource = tonumber(src)
-    GetVehicleInventory(vehicle_plate, function(inv)
-        if VehInventoryManager.canHoldItem(inv, item) then
-            VehInventoryManager.putItemInFirstFreeSlot(vehicle_plate, inv, item, function(success, msg)
-                if success == true then
-                    if item.type == "weapon" then
-                        TriggerClientEvent("interaction:equipWeapon", usource, item, false) -- remove weapon
-                    end
-                    if item.name:find("Radio") then
-                        TriggerClientEvent("Radio.Set", usource, false, {})
-                    end
-                    TriggerClientEvent("usa:playAnimation", usource, "anim@move_m@trash", "pickup", -8, 1, -1, 53, 0, 0, 0, 0, 3)
+    local inv = GetVehicleInventory(vehicle_plate)
+    if VehInventoryManager.canHoldItem(inv, item) then
+        VehInventoryManager.putItemInFirstFreeSlot(vehicle_plate, inv, item, function(success, msg)
+            if success == true then
+                if item.type == "weapon" then
+                    TriggerClientEvent("interaction:equipWeapon", usource, item, false) -- remove weapon
                 end
-                if msg then
-                    TriggerClientEvent("usa:notify", usource, msg)
+                if item.name:find("Radio") then
+                    TriggerClientEvent("Radio.Set", usource, false, {})
                 end
-                cb(success, inv)
-            end)
-        else
-            if notifyIfFull then
-                TriggerClientEvent("usa:notify", usource, "Vehicle inventory full!")
+                TriggerClientEvent("usa:playAnimation", usource, "anim@move_m@trash", "pickup", -8, 1, -1, 53, 0, 0, 0, 0, 3)
             end
-            cb(false, inv)
+            if msg then
+                TriggerClientEvent("usa:notify", usource, msg)
+            end
+            cb(success, inv)
+        end)
+    else
+        if notifyIfFull then
+            TriggerClientEvent("usa:notify", usource, "Vehicle inventory full!")
         end
-    end)
+        cb(false, inv)
+    end
 end)
 
 function canBypassItemMovePermCheck(char)
@@ -120,59 +75,57 @@ RegisterServerEvent("vehicle:moveItemToPlayerInv")
 AddEventHandler("vehicle:moveItemToPlayerInv", function(src, plate, fromSlot, toSlot, quantity, char, cb)
     quantity = math.floor(quantity)
     local usource = tonumber(src)
-    GetVehicleInventory(plate, function(inv)
-        local item = inv.items[tostring(fromSlot)]
-        -- validate item move --
-        if item and quantity > item.quantity or quantity <= 0 then
+    local inv = GetVehicleInventory(plate)
+    local item = inv.items[tostring(fromSlot)]
+    -- validate item move --
+    if item and quantity > item.quantity or quantity <= 0 then
+        exports["usa_vehinv"]:removeVehicleBusy(plate)
+        return
+    end
+    if item and item.type and item.type == "license" then
+        TriggerClientEvent("usa:notify", src, "Can't move licenses!")
+        -- todo: send msg to NUI to give some UI feedback for failed move
+        exports["usa_vehinv"]:removeVehicleBusy(plate)
+        return
+    end
+    if item and (item.serviceWeapon or item.restrictedToThisOwner) then
+        if item.serviceWeapon and not canBypassItemMovePermCheck(char) then
+            TriggerClientEvent("usa:notify", src, "Can't take that")
             exports["usa_vehinv"]:removeVehicleBusy(plate)
             return
-        end
-        if item and item.type and item.type == "license" then
-            TriggerClientEvent("usa:notify", src, "Can't move licenses!")
-            -- todo: send msg to NUI to give some UI feedback for failed move
-            exports["usa_vehinv"]:removeVehicleBusy(plate)
-            return
-        end
-        if item and (item.serviceWeapon or item.restrictedToThisOwner) then
-            if item.serviceWeapon and not canBypassItemMovePermCheck(char) then
+        elseif item.restrictedToThisOwner then
+            local player = exports.essentialmode:getPlayerFromId(src)
+            if player.getIdentifier() ~= item.restrictedToThisOwner then
                 TriggerClientEvent("usa:notify", src, "Can't take that")
                 exports["usa_vehinv"]:removeVehicleBusy(plate)
                 return
-            elseif item.restrictedToThisOwner then
-                local player = exports.essentialmode:getPlayerFromId(src)
-                if player.getIdentifier() ~= item.restrictedToThisOwner then
-                    TriggerClientEvent("usa:notify", src, "Can't take that")
+            end
+        end
+    end
+    -- move item --
+    if item then
+        if char.canHoldItem(item, quantity) then
+            char.putItemInSlot(item, toSlot, quantity, function(success)
+                if success == true then
+                    TriggerClientEvent("usa:playAnimation", usource, "anim@move_m@trash", "pickup", -8, 1, -1, 53, 0, 0, 0, 0, 3)
+                    VehInventoryManager.removeItemInSlot(plate, inv, fromSlot, quantity)
+                    cb(inv)
+                else
                     exports["usa_vehinv"]:removeVehicleBusy(plate)
-                    return
                 end
-            end
+            end)
+        else
+            TriggerClientEvent("usa:notify", usource, "Inventory full!")
+            exports["usa_vehinv"]:removeVehicleBusy(plate)
         end
-        -- move item --
-        if item then
-            if char.canHoldItem(item, quantity) then
-                char.putItemInSlot(item, toSlot, quantity, function(success)
-                    if success == true then
-                        TriggerClientEvent("usa:playAnimation", usource, "anim@move_m@trash", "pickup", -8, 1, -1, 53, 0, 0, 0, 0, 3)
-                        VehInventoryManager.removeItemInSlot(plate, inv, fromSlot, quantity)
-                        cb(inv)
-                    else
-                        exports["usa_vehinv"]:removeVehicleBusy(plate)
-                    end
-                end)
-            else
-                TriggerClientEvent("usa:notify", usource, "Inventory full!")
-                exports["usa_vehinv"]:removeVehicleBusy(plate)
-            end
-        end
-    end)
+    end
 end)
 
 RegisterServerEvent("vehicle:moveInventorySlots")
 AddEventHandler("vehicle:moveInventorySlots", function(plate, fromSlot, toSlot, cb)
-    GetVehicleInventory(plate, function(inv)
-        VehInventoryManager.moveItemSlots(plate, inv, fromSlot, toSlot)
-        cb(inv)
-    end)
+    local inv = GetVehicleInventory(plate)
+    VehInventoryManager.moveItemSlots(plate, inv, fromSlot, toSlot)
+    cb(inv)
 end)
 
 RegisterServerEvent("vehicle:removeAllIllegalItems")
@@ -180,9 +133,8 @@ AddEventHandler("vehicle:removeAllIllegalItems", function(plate)
   local usource = tonumber(source)
   local charJob = exports["usa-characters"]:GetCharacterField(usource, "job")
   if charJob == "sheriff" or charJob == "corrections" then
-    GetVehicleInventory(plate, function(inv)
-        VehInventoryManager.removeAllIllegalItems(usource, plate, inv, true)
-    end)
+    local inv = GetVehicleInventory(plate)
+    VehInventoryManager.removeAllIllegalItems(usource, plate, inv, true)
   else
     DropPlayer(usource, "Exploiting. If you feel this was wrongfully done, please contact staff.")
   end
@@ -193,15 +145,15 @@ AddEventHandler("vehicle:seizeVeh", function(plate, arg)
   local usource = tonumber(source)
   local charJob = exports["usa-characters"]:GetCharacterField(usource, "job")
   if charJob == "sheriff" or charJob == "corrections" then
-    GetVehicleInventory(plate, function(inv)
-        VehInventoryManager.seizeVeh(usource, plate, inv, true, arg)
-    end)
+    local inv = GetVehicleInventory(plate)
+    VehInventoryManager.seizeVeh(usource, plate, inv, true, arg)
   else
     DropPlayer(usource, "Exploiting. If you feel this was wrongfully done, please contact staff.")
   end
 end)
 
-function GetVehicleInventory(plate, cb)
+function GetVehicleInventory(plate)
+    local ret = nil
     -- query for the information needed from each vehicle --
     local endpoint = "/vehicles/_design/vehicleFilters/_view/getVehicleInventoryByPlate"
     local url = "http://" .. exports["essentialmode"]:getIP() .. ":" .. exports["essentialmode"]:getPort() .. endpoint
@@ -219,12 +171,16 @@ function GetVehicleInventory(plate, cb)
                     inventory = VehInventoryManager:newTempVehInv(plate)
                 end
             end
-            cb(inventory)
+            ret = inventory
         end
     end, "POST", json.encode({
         keys = { plate }
         --keys = { "86CSH075" }
     }), { ["Content-Type"] = 'application/json', ['Authorization'] = "Basic " .. exports["essentialmode"]:getAuth() })
+    while ret == nil do
+        Wait(1)
+    end
+    return ret
 end
 
 function GetVehicleInventoryAndCapacity(plate, cb)
@@ -263,3 +219,43 @@ end
 function NewInventory(capacity)
     return VehInventoryManager:NewInventory(capacity)
 end
+
+-- store an item in a vehicle
+-- note: assumes that the quantity provided is <= item.quantiy
+function storeItem(src, vehicle_plate, item, quantity, slot)
+    if type(source) == "number" then -- restrict to server side to prevent lua injection
+        return
+    end
+    quantity = math.floor(quantity)
+    local usource = tonumber(src)
+    local inv = GetVehicleInventory(vehicle_plate)
+    if quantity <= 0 then
+        return false, inv
+    end
+    item.quantity = quantity
+    if VehInventoryManager.canHoldItem(inv, item) then
+        local char = exports["usa-characters"]:GetCharacter(usource)
+        if not char.hasItem(item) then -- prevents 'lag switch' item dupe exploit when storing items
+            return false, inv
+        end
+        local success, msg = VehInventoryManager.putItemInSlot(vehicle_plate, inv, item, slot)
+        if success == true then
+            if item.type == "weapon" then
+                TriggerClientEvent("interaction:equipWeapon", usource, item, false) -- remove weapon
+            end
+            if item.name:find("Radio") then
+                TriggerClientEvent("Radio.Set", usource, false, {})
+            end
+            TriggerClientEvent("usa:playAnimation", usource, "anim@move_m@trash", "pickup", -8, 1, -1, 53, 0, 0, 0, 0, 3)
+        end
+        if msg then
+            TriggerClientEvent("usa:notify", usource, msg)
+        end
+        return success, GetVehicleInventory(vehicle_plate)
+    else
+        TriggerClientEvent("usa:notify", usource, "Vehicle inventory full!")
+        return false, inv
+    end
+end
+
+exports("storeItem", storeItem)

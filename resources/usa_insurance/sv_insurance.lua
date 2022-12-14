@@ -35,20 +35,19 @@ AddEventHandler("insurance:fileClaim", function(vehicle_to_claim)
 			local CLAIM_PROCESSING_FEE = math.floor(BASE_FEE + (PERCENTAGE * vehicle_to_claim.price))
 			if CLAIM_PROCESSING_FEE <= bank then
 				TriggerEvent('es:exposeDBFunctions', function(couchdb)
-					exports["usa_vehinv"]:GetVehicleInventory(vehicle_to_claim.plate, function(inv)
-						inv.items = {}
-						couchdb.updateDocument("vehicles", vehicle_to_claim.plate, {{inventory = inv}, stored = true, impounded = false}, function() end)
-						char.removeBank(CLAIM_PROCESSING_FEE)
-						if vehicle_to_claim.make and vehicle_to_claim.model then
-							TriggerClientEvent("usa:notify", _source, "Filed an insurance claim for your " .. vehicle_to_claim.make .. " " .. vehicle_to_claim.model .. ".\n~y~Fee:~w~ $" .. CLAIM_PROCESSING_FEE)
-						else
-							TriggerClientEvent("usa:notify", _source, "Filed an insurance claim for your " .. vehicle_to_claim.model .. ".\n~y~Fee:~w~ $" .. CLAIM_PROCESSING_FEE)
-						end
-						TriggerClientEvent("garage:removeDamages", _source, vehicle_to_claim.plate)
-						if business then
-							exports["usa-businesses"]:GiveBusinessCashPercent(business, CLAIM_PROCESSING_FEE)
-						end
-					end)
+					local inv = exports["usa_vehinv"]:GetVehicleInventory(vehicle_to_claim.plate)
+					inv.items = {}
+					couchdb.updateDocument("vehicles", vehicle_to_claim.plate, {{inventory = inv}, stored = true, impounded = false}, function() end)
+					char.removeBank(CLAIM_PROCESSING_FEE)
+					if vehicle_to_claim.make and vehicle_to_claim.model then
+						TriggerClientEvent("usa:notify", _source, "Filed an insurance claim for your " .. vehicle_to_claim.make .. " " .. vehicle_to_claim.model .. ".\n~y~Fee:~w~ $" .. CLAIM_PROCESSING_FEE)
+					else
+						TriggerClientEvent("usa:notify", _source, "Filed an insurance claim for your " .. vehicle_to_claim.model .. ".\n~y~Fee:~w~ $" .. CLAIM_PROCESSING_FEE)
+					end
+					TriggerClientEvent("garage:removeDamages", _source, vehicle_to_claim.plate)
+					if business then
+						exports["usa-businesses"]:GiveBusinessCashPercent(business, CLAIM_PROCESSING_FEE)
+					end
 				end)
 			else
 				TriggerClientEvent("usa:notify", _source, "You don't have enough money in the bank to make a claim on that vehicle.")

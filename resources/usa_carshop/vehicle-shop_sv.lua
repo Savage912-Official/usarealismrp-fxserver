@@ -4,9 +4,16 @@
 
 -- PERFORM FIRST TIME DB CHECK --
 exports["globals"]:PerformDBCheck("vehicle-shop", "vehicles", nil)
+exports["globals"]:PerformDBCheck("vehicle-shop", "test-drive-strikes", nil)
 
 local price, vehicleName, hash, plate
 local MAX_PLAYER_VEHICLES = 500
+
+local testDrivers = {}
+local stolenVehicles = {}
+local lastStolenPlate = nil
+local warnMinutes = 10 -- minutes until warning
+local finalMinutes = 15 -- minutes until 911/seize
 
 local vehicleShopItems = {
 	["vehicles"] = {
@@ -686,33 +693,198 @@ AddEventHandler("vehicle-shop:loadItems", function()
 	TriggerClientEvent("vehicle-shop:loadItems", source, vehicleShopItems)
 end)
 
-RegisterServerEvent("mini:checkVehicleMoney")
-AddEventHandler("mini:checkVehicleMoney", function(vehicle, business)
-	local playerIdentifier = GetPlayerIdentifiers(source)[1]
-	local char = exports["usa-characters"]:GetCharacter(source)
+-- TODO: Add Return Point for Vehicles
+
+function addStrike(char)
+	local done = false
+	TriggerEvent("es:exposeDBFunctions", function(db)
+        db.getDocumentById("test-drive-strikes", char.get("_id"), function(doc)
+            if doc then
+                local strikes = doc.strikes + 1
+               	if strikes >= 3 then
+               		local timestamp = os.time()
+               		db.updateDocument("test-drive-strikes", char.get("_id"), {strikes = strikes, banned = timestamp}, function()
+	            		done = true
+	            	end)
+               	else
+	                db.updateDocument("test-drive-strikes", char.get("_id"), {strikes = strikes, banned = false}, function()
+	            		done = true
+	            	end)
+               	end
+            else
+                db.createDocumentWithId("test-drive-strikes",{strikes = 1, banned = false},char.get("_id"), function(success)
+	                if success then
+	                	print("created doc for char "..char.get("_id"))
+	                else
+	                	print("error creating doc for char "..char.get("_id"))
+	                end
+            		done = true
+                end)
+            end
+        end)
+    end)
+    while not done do
+    	Wait(0)
+    end
+    return
+end
+
+function round(num, numDecimalPlaces)
+  local mult = 10^(numDecimalPlaces or 0)
+  return math.floor(num * mult + 0.5) / mult
+end
+
+function getStrikes(char)
+	local strikes = 0
+	local done = false
+	local bannedFor = false
+	TriggerEvent("es:exposeDBFunctions", function(db)
+        db.getDocumentById("test-drive-strikes", char.get("_id"), function(doc)
+            if doc then
+            	if doc.banned ~= false then
+            		local now = os.time()
+            		local banned_days = 30
+            		if now - doc.banned > banned_days*86400 then
+            			db.updateDocument("test-drive-strikes", char.get("_id"), {strikes = 0, banned = false}, function()
+		            		done = true
+		            	end)
+            		else
+            			bannedFor = round(banned_days - ((now - doc.banned) / 86400),0)
+            			strikes = doc.strikes
+            		end
+            	else
+            		strikes = doc.strikes
+            	end
+            end
+            done = true
+        end)
+    end)
+    while not done do
+    	Wait(0)
+    end
+    return strikes, bannedFor
+end
+
+Citizen.CreateThread(function()
+	while true do
+        local lastCheck = GetGameTimer()
+		while GetGameTimer() - lastCheck < 5000 do
+		  Wait(1)
+		end
+		for k,v in pairs(stolenVehicles) do
+			local ent = NetworkGetEntityFromNetworkId(v.netID)
+			if not DoesEntityExist(ent) or GetEntityModel(ent) ~= v.hash then
+				for i,source in ipairs(v.trackedBy) do
+					TriggerClientEvent("vehShop:stopTrackStolenVeh", source)
+					TriggerClientEvent("usa:notify", source, "Lost Tracker Connection! Vehicle might have been destroyed, lost or impounded", "^3INFO: ^0Lost Tracker Connection! Vehicle might have been destroyed, lost or impounded")
+				end
+				stolenVehicles[k] = nil
+			else
+				v.coords = GetEntityCoords(ent)
+				for i,source in ipairs(v.trackedBy) do
+					TriggerClientEvent("vehShop:trackStolenVeh", source, v.coords)
+				end
+			end
+		end
+	end
+end)
+
+TriggerEvent('es:addJobCommand', 'trackveh', {'sheriff', 'corrections'}, function(source, args, char)
+	local plate = nil
+	if args[2] ~= nil then
+		plate = string.upper(args[2])
+	else
+		TriggerClientEvent("usa:notify", source, "No plate provided using last 911")
+		plate = lastStolenPlate
+	end
+	if stolenVehicles[plate] ~= nil then
+		TriggerClientEvent("vehShop:trackStolenVeh", source, stolenVehicles[plate].coords)
+		table.insert(stolenVehicles[plate].trackedBy, source)
+	else
+		TriggerClientEvent("usa:notify", source, "Invalid Plate! Vehicle might be destroyed, lost or impounded!")
+	end
+end, {
+	help = "Track a stolen vehicle.",
+	params = {
+		{ name = "Plate", help = "The plate of the tracker fitted vehicle, if not provided will use plate from last 911" }
+	}
+})
+
+TriggerEvent('es:addJobCommand', 'endtrack', {'sheriff', 'corrections'}, function(source, args, char)
+	TriggerClientEvent("vehShop:stopTrackStolenVeh", source)
+	for k,v in pairs(stolenVehicles) do
+		for i,s in ipairs(v.trackedBy) do
+			if source == s then
+				table.remove(v.trackedBy, i)
+			end
+		end
+	end
+end, {
+	help = "Stops tracking a stolen vehicle.",
+	params = {
+	}
+})
+
+Citizen.CreateThread(function()
+	while true do
+		local lastCheck = GetGameTimer()
+		while GetGameTimer() - lastCheck < 5000 do
+			Wait(1)
+		end
+		for k,v in pairs(testDrivers) do
+			local ent = NetworkGetEntityFromNetworkId(v.netID)
+			local char = exports["usa-characters"]:GetCharacter(v.source)
+			if v.netID ~= nil and (not DoesEntityExist(ent) or GetEntityModel(ent) ~= v.hash) then
+				addStrike(char)
+				local strikes, bannedFor = getStrikes(char)
+				TriggerClientEvent("usa:notify", v.source, "Your loaned car was destroyed or lost! "..strikes.."/3 strikes!", "^3INFO: ^0Your loaned car was destroyed or lost! "..strikes.."/3 strikes!")
+				TriggerClientEvent("vehShop:endTestDrive",v.source)
+				testDrivers[k] = nil
+			else
+				local diff = GetGameTimer() - v.timestamp
+				if diff > warnMinutes * 60 * 1000 and testDrivers[k].warned == false then
+					testDrivers[k].warned = true
+					TriggerClientEvent("usa:notify", v.source, "You have driven the car for " .. tostring(warnMinutes) .. " minutes, return to the dealership immediatly!", "^3INFO: ^0You have driven the car for " .. tostring(warnMinutes) .. " minutes, return to the dealership immediatly!")
+				end
+				if diff > finalMinutes * 60 * 1000 then
+					exports.globals:getNumCops(function(numCops)
+						if numCops > 3 then
+							addStrike(char)
+							local strikes, bannedFor = getStrikes(char)
+							TriggerClientEvent("usa:notify", v.source, "You did not return to the dealership, the emergency services have been called! "..strikes.."/3 strikes!", "^3INFO: ^0You did not return to the dealership, the emergency services have been called! "..strikes.."/3 strikes!")
+							lastStolenPlate = v.plate
+							TriggerEvent("mdt:markTestDriveVehicleStolen", v.plate)
+							TriggerEvent('911:StolenTestDriveVehicle', GetEntityCoords(ent), v.plate, char.getFullName())
+							stolenVehicles[v.plate] = {netID = v.netID, coords = GetEntityCoords(ent), hash = GetEntityModel(ent), stolenAt = GetGameTimer(), trackedBy = {}}
+						else
+							addStrike(char)
+							local strikes, bannedFor = getStrikes(char)
+							TriggerClientEvent("usa:notify", v.source, "You did not return to the dealership, the vehicle has been taken back! "..strikes.."/3 strikes!", "^3INFO: ^0You did not return to the dealership, the vehicle has been taken back! "..strikes.."/3 strikes!")
+							DeleteEntity(ent)
+						end
+						testDrivers[k] = nil
+						TriggerClientEvent("vehShop:endTestDrive",v.source)
+					end)
+				end
+			end
+		end
+	end
+end)
+
+RegisterServerEvent("mini:checkPlayerTestDrive")
+AddEventHandler("mini:checkPlayerTestDrive", function(vehicle,business)
+	local usource = source
+	local char = exports["usa-characters"]:GetCharacter(usource)
 	local license = char.getItem("Driver's License")
-	local vehicles = char.get("vehicles")
-	local money = char.get("bank")
+	local ident = char.get("_id")
 	local owner_name = char.getFullName()
 	if license and license.status == "valid" then
-		local hash = vehicle.hash
-		local price = tonumber(GetVehiclePrice(vehicle))
-		if price <= money then
-			local plate = generate_random_number_plate()
-			if vehicles then
-				char.removeBank(price)
-				local vehicle = {
-					owner = owner_name,
-					make = vehicle.make,
-					model = vehicle.model,
-					hash = hash,
-					plate = plate,
-					stored = false,
-					price = price,
-					inventory = exports["usa_vehinv"]:NewInventory(vehicle.storage_capacity),
-					storage_capacity = vehicle.storage_capacity
-				}
-
+		if testDrivers[ident] == nil then
+			local strikes, bannedFor = getStrikes(char)
+			if strikes < 3 then
+				local plate = generate_random_number_plate()
+				local hash = vehicle.hash
+				local price = tonumber(GetVehiclePrice(vehicle))
 				local vehicle_key = {
 					name = "Key -- " .. plate,
 					quantity = 1,
@@ -722,25 +894,105 @@ AddEventHandler("mini:checkVehicleMoney", function(vehicle, business)
 					model = vehicle.model,
 					plate = plate
 				}
-
-				table.insert(vehicles, vehicle.plate)
-				char.set("vehicles", vehicles)
+				TriggerEvent("lock:addPlate", plate)
+				TriggerEvent("mdt:addTestDriveVehicle", vehicle.make .. " " .. vehicle.model, business, owner_name, plate)
+				TriggerClientEvent("vehShop:spawnPlayersVehicle", usource, hash, plate, true)
+				testDrivers[ident] = { timestamp = GetGameTimer(), plate = plate, source = usource, netID = nil, hash = hash, warned = false}
 				char.giveItem(vehicle_key, 1)
-				AddVehicleToDB(vehicle)
-
-				TriggerEvent("lock:addPlate", vehicle.plate)
-				TriggerClientEvent("usa:notify", source, "Here are the keys! Thanks for your business!", "Purchased a " .. vehicle.make .. " " .. vehicle.model .. " for $" .. exports.globals:comma_value(vehicle.price))
-				TriggerClientEvent("vehShop:spawnPlayersVehicle", source, hash, plate)
-
-				if business then
-					exports["usa-businesses"]:GiveBusinessCashPercent(business, price)
-				end
+				TriggerClientEvent("usa:notify", usource, "You have " .. tostring(warnMinutes) .. " minutes to test drive the car! Don't run off with it or you'll be in big trouble!", "^3INFO: ^0You have " .. tostring(warnMinutes) .. " minutes to test drive the car! Don't run off with it or you'll be in big trouble!")
+			else
+				TriggerClientEvent("usa:notify", usource, "You have three strikes you are banned for ".. tostring(bannedFor) .." days from this dealership!")
 			end
 		else
-			TriggerClientEvent("usa:notify", source, "Not enough money in bank to purchase!")
+			TriggerClientEvent("usa:notify", usource, "You already have a vehicle out for a test drive!")
 		end
 	else
-		TriggerClientEvent("usa:notify", source, "Come back when you have a valid driver's license!")
+		TriggerClientEvent("usa:notify", usource, "You do not hold a valid license!")
+	end
+end)
+
+RegisterServerEvent("vehShop:spawnTestDriveCallback")
+AddEventHandler("vehShop:spawnTestDriveCallback", function(plate,vehNetID)
+	local char = exports["usa-characters"]:GetCharacter(source)
+	local ident = char.get("_id")
+	testDrivers[ident].netID = vehNetID
+end)
+
+RegisterServerEvent("vehShop:returnVehicle")
+AddEventHandler("vehShop:returnVehicle", function(plate, model)
+	local char = exports["usa-characters"]:GetCharacter(source)
+	local ident = char.get("_id")
+
+	if testDrivers[ident].plate == plate and testDrivers[ident].hash == model then
+		local ent = NetworkGetEntityFromNetworkId(testDrivers[ident].netID)
+		DeleteEntity(ent)
+		testDrivers[ident] = nil
+		TriggerClientEvent("vehShop:endTestDrive",source)
+		char.removeItem("Key -- " .. plate, 1)
+	end
+end)
+
+RegisterServerEvent("mini:checkVehicleMoney")
+AddEventHandler("mini:checkVehicleMoney", function(vehicle, business)
+	local usource = source
+	local playerIdentifier = GetPlayerIdentifiers(usource)[1]
+	local char = exports["usa-characters"]:GetCharacter(usource)
+	local license = char.getItem("Driver's License")
+	local vehicles = char.get("vehicles")
+	local money = char.get("bank")
+	local owner_name = char.getFullName()
+	if license and license.status == "valid" then
+		local strikes, bannedFor = getStrikes(char)
+		if strikes < 3 then
+			local hash = vehicle.hash
+			local price = tonumber(GetVehiclePrice(vehicle))
+			if price <= money then
+				local plate = generate_random_number_plate()
+				if vehicles then
+					char.removeBank(price)
+					local vehicle = {
+						owner = owner_name,
+						make = vehicle.make,
+						model = vehicle.model,
+						hash = hash,
+						plate = plate,
+						stored = false,
+						price = price,
+						inventory = exports["usa_vehinv"]:NewInventory(vehicle.storage_capacity),
+						storage_capacity = vehicle.storage_capacity
+					}
+
+					local vehicle_key = {
+						name = "Key -- " .. plate,
+						quantity = 1,
+						type = "key",
+						owner = owner_name,
+						make = vehicle.make,
+						model = vehicle.model,
+						plate = plate
+					}
+
+					table.insert(vehicles, vehicle.plate)
+					char.set("vehicles", vehicles)
+					char.giveItem(vehicle_key, 1)
+					AddVehicleToDB(vehicle)
+
+					TriggerEvent("lock:addPlate", vehicle.plate)
+					TriggerClientEvent("usa:notify", usource, "Here are the keys! Thanks for your business!", "Purchased a " .. vehicle.make .. " " .. vehicle.model .. " for $" .. exports.globals:comma_value(vehicle.price))
+					TriggerClientEvent("vehShop:spawnPlayersVehicle", usource, hash, plate)
+
+					if business then
+						exports["usa-businesses"]:GiveBusinessCashPercent(business, price)
+					end
+				end
+			else
+				TriggerClientEvent("usa:notify", usource, "Not enough money in bank to purchase!")
+			end
+		else
+			TriggerClientEvent("usa:notify", usource, "You have three strikes you are banned for ".. tostring(bannedFor) .." days from this dealership!")
+		end
+	else
+		TriggerClientEvent("usa:notify", usource, "Come back when you have a valid driver's license!")
 	end
 end)
 

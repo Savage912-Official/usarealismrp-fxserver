@@ -1,6 +1,6 @@
 local inventoriesBeingAccessed = {}
 
-local lastInvMovTimeStamp = GetGameTimer()
+local lastInvMovTimeStamps = {}
 
 local LAG_SWTICH_THRESHOLD_MS = 300 -- 300 ms per move action would prob be too fast for any human to do naturally
 
@@ -163,121 +163,123 @@ end)
 
 RegisterServerEvent("inventory:moveItem")
 AddEventHandler("inventory:moveItem", function(data)
-	if GetGameTimer() - lastInvMovTimeStamp > LAG_SWTICH_THRESHOLD_MS then
-		lastInvMovTimeStamp = GetGameTimer()
-		local usource = source
-		local char = exports["usa-characters"]:GetCharacter(usource)
-		local quantity = tonumber(data.quantity) or 1
-		if data.fromType == "primary" and data.toType == "primary" then
-			char.moveItemSlots(data.fromSlot, data.toSlot)
-			TriggerClientEvent("interaction:sendNUIMessage", usource, { type = "inventoryLoaded", inventory = char.get("inventory")})
-		elseif data.fromType == "primary" and data.toType == "secondary" then
-			if data.secondaryInventoryType ~= "person" and data.secondaryInventoryType ~= "property" then
-				-- get item being moved --
-				local item = char.getItemByIndex(data.fromSlot)
-				-- validate item move --
-				if quantity <= 0 or quantity > item.quantity then
-					return
+	if lastInvMovTimeStamps[source] then
+		if GetGameTimer() - lastInvMovTimeStamps[source] <= LAG_SWTICH_THRESHOLD_MS then
+			print("sus inventory move detected (lag switch dupe attempt?) from #" .. source .. " / " .. GetPlayerName(source))
+			return
+		end
+	end
+	lastInvMovTimeStamps[source] = GetGameTimer()
+	local usource = source
+	local char = exports["usa-characters"]:GetCharacter(usource)
+	local quantity = tonumber(data.quantity) or 1
+	if data.fromType == "primary" and data.toType == "primary" then
+		char.moveItemSlots(data.fromSlot, data.toSlot)
+		TriggerClientEvent("interaction:sendNUIMessage", usource, { type = "inventoryLoaded", inventory = char.get("inventory")})
+	elseif data.fromType == "primary" and data.toType == "secondary" then
+		if data.secondaryInventoryType ~= "person" and data.secondaryInventoryType ~= "property" then
+			-- get item being moved --
+			local item = char.getItemByIndex(data.fromSlot)
+			-- validate item move --
+			if quantity <= 0 or quantity > item.quantity then
+				return
+			end
+			if item.type and item.type == "license" then
+				TriggerClientEvent("usa:notify", usource, "Can't move licenses!")
+				-- todo: send msg to NUI to give some UI feedback for failed move
+				return
+			end
+			-- perform move --
+			if item then
+				local success, inv = exports.usa_vehinv:storeItem(usource, data.plate, item, quantity, data.toSlot)
+				if success then
+					char.removeItemByIndex(data.fromSlot, quantity)
+					TriggerClientEvent("interaction:sendNUIMessage", usource, { type = "updateBothInventories", inventory = { primary = char.get("inventory"), secondary = inv}})
+					--TriggerClientEvent("interaction:sendNUIMessage", usource, { type = "inventoryLoaded", inventory = char.get("inventory")})
+					TriggerEvent("vehicle:updateForOthers", data.plate, inv)
 				end
-				if item.type and item.type == "license" then
-					TriggerClientEvent("usa:notify", usource, "Can't move licenses!")
-					-- todo: send msg to NUI to give some UI feedback for failed move
-					return
-				end
+			end
+		elseif data.secondaryInventoryType == "property" then
+			TriggerEvent("properties-og:moveItemToPropertyStorage", usource, data)
+		end
+	elseif data.fromType == "secondary" and data.toType == "primary" then
+		if data.secondaryInventoryType == "vehicle" then
+			if not exports["usa_vehinv"]:getVehicleBusy(data.plate) then
+				exports["usa_vehinv"]:setVehicleBusy(data.plate)
 				-- perform move --
-				if item then
-					local success, inv = exports.usa_vehinv:storeItem(usource, data.plate, item, quantity, data.toSlot)
-					if success then
-						char.removeItemByIndex(data.fromSlot, quantity)
+				TriggerEvent("vehicle:moveItemToPlayerInv", usource, data.plate, data.fromSlot, data.toSlot, quantity, char, function(inv)
+					if inv then
 						TriggerClientEvent("interaction:sendNUIMessage", usource, { type = "updateBothInventories", inventory = { primary = char.get("inventory"), secondary = inv}})
 						--TriggerClientEvent("interaction:sendNUIMessage", usource, { type = "inventoryLoaded", inventory = char.get("inventory")})
 						TriggerEvent("vehicle:updateForOthers", data.plate, inv)
 					end
-				end
-			elseif data.secondaryInventoryType == "property" then
-				TriggerEvent("properties-og:moveItemToPropertyStorage", usource, data)
+				end)
+			else
+				TriggerClientEvent("usa:notify", usource, "Please wait a moment!")
 			end
-		elseif data.fromType == "secondary" and data.toType == "primary" then
-			if data.secondaryInventoryType == "vehicle" then
-				if not exports["usa_vehinv"]:getVehicleBusy(data.plate) then
-					exports["usa_vehinv"]:setVehicleBusy(data.plate)
-					-- perform move --
-					TriggerEvent("vehicle:moveItemToPlayerInv", usource, data.plate, data.fromSlot, data.toSlot, quantity, char, function(inv)
-						if inv then
-							TriggerClientEvent("interaction:sendNUIMessage", usource, { type = "updateBothInventories", inventory = { primary = char.get("inventory"), secondary = inv}})
-							--TriggerClientEvent("interaction:sendNUIMessage", usource, { type = "inventoryLoaded", inventory = char.get("inventory")})
-							TriggerEvent("vehicle:updateForOthers", data.plate, inv)
-						end
-					end)
-				else
-					TriggerClientEvent("usa:notify", usource, "Please wait a moment!")
+		elseif data.secondaryInventoryType == "person" then
+			print("taking item from person with id: " .. tostring(data.searchedPersonSource))
+			if isPlayerActive(data.searchedPersonSource) then
+				local fromChar = exports["usa-characters"]:GetCharacter(data.searchedPersonSource)
+				local item = fromChar.getItemByIndex(data.fromSlot)
+				if item.serviceWeapon or (item.restrictedToThisOwner and item.restrictedToThisOwner ~= exports.essentialmode:getPlayerFromId(usource).getIdentifier()) then
+					TriggerClientEvent("usa:notify", usource, "Can't take that")
+					return
 				end
-			elseif data.secondaryInventoryType == "person" then
-				print("taking item from person with id: " .. tostring(data.searchedPersonSource))
-				if isPlayerActive(data.searchedPersonSource) then
-					local fromChar = exports["usa-characters"]:GetCharacter(data.searchedPersonSource)
-					local item = fromChar.getItemByIndex(data.fromSlot)
-					if item.serviceWeapon or (item.restrictedToThisOwner and item.restrictedToThisOwner ~= exports.essentialmode:getPlayerFromId(usource).getIdentifier()) then
-						TriggerClientEvent("usa:notify", usource, "Can't take that")
+				if not item then
+					TriggerClientEvent("usa:notify", usource, "Invalid item move")
+					return
+				end
+				if data.quantity and item.quantity then
+					data.quantity = tonumber(data.quantity)
+					if data.quantity > item.quantity or data.quantity < 0 then
+						TriggerClientEvent("usa:notify", usource, "Invalid item quantity")
 						return
 					end
-					if not item then
-						TriggerClientEvent("usa:notify", usource, "Invalid item move")
-						return
-					end
-					if data.quantity and item.quantity then
-						data.quantity = tonumber(data.quantity)
-						if data.quantity > item.quantity or data.quantity < 0 then
-							TriggerClientEvent("usa:notify", usource, "Invalid item quantity")
-							return
-						end
-					end
-					if item.type and item.type == "license" then
-						TriggerClientEvent("usa:notify", usource, "Can't move licenses!")
-						return
-					end
-					if char.canHoldItem(item) then
-						char.putItemInSlot(item, data.toSlot, (data.quantity or item.quantity), function(success)
-							if success then
-								fromChar.removeItemByIndex(data.fromSlot, (data.quantity or item.quantity))
-								TriggerClientEvent("interaction:sendNUIMessage", usource, { type = "inventoryLoaded", inventory = char.get("inventory") })
-								TriggerEvent("inventory:updateForOthers", data.searchedPersonSource, fromChar.get("inventory"))
-								TriggerClientEvent("interaction:sendNUIMessage", data.searchedPersonSource, { type = "inventoryLoaded", inventory = fromChar.get("inventory") })
-								TriggerClientEvent("usa:playAnimation", usource, "anim@move_m@trash", "pickup", -8, 1, -1, 53, 0, 0, 0, 0, 2)
-								if item.type and item.type == "weapon" then
-									TriggerClientEvent("interaction:equipWeapon", data.searchedPersonSource, item, false)
-									TriggerClientEvent("interaction:equipWeapon", usource, item, true, ((item.magazine and item.magazine.currentCapacity) or 0), false, false)
-								end
-							else
-								TriggerClientEvent("usa:notify", usource, "Invalid slot!")
+				end
+				if item.type and item.type == "license" then
+					TriggerClientEvent("usa:notify", usource, "Can't move licenses!")
+					return
+				end
+				if char.canHoldItem(item) then
+					char.putItemInSlot(item, data.toSlot, (data.quantity or item.quantity), function(success)
+						if success then
+							fromChar.removeItemByIndex(data.fromSlot, (data.quantity or item.quantity))
+							TriggerClientEvent("interaction:sendNUIMessage", usource, { type = "inventoryLoaded", inventory = char.get("inventory") })
+							TriggerEvent("inventory:updateForOthers", data.searchedPersonSource, fromChar.get("inventory"))
+							TriggerClientEvent("interaction:sendNUIMessage", data.searchedPersonSource, { type = "inventoryLoaded", inventory = fromChar.get("inventory") })
+							TriggerClientEvent("usa:playAnimation", usource, "anim@move_m@trash", "pickup", -8, 1, -1, 53, 0, 0, 0, 0, 2)
+							if item.type and item.type == "weapon" then
+								TriggerClientEvent("interaction:equipWeapon", data.searchedPersonSource, item, false)
+								TriggerClientEvent("interaction:equipWeapon", usource, item, true, ((item.magazine and item.magazine.currentCapacity) or 0), false, false)
 							end
-						end)
-					else
-						TriggerClientEvent("usa:notify", usource, "Inventory full!")	
-					end
-				else
-					TriggerClientEvent("usa:notify", usource, "Person not found")
-				end
-			elseif data.secondaryInventoryType == "property" then
-				TriggerEvent("properties-og:moveItemFromProperty", usource, data)
-			end
-		elseif data.fromType == "secondary" and data.toType == "secondary" then
-			if data.secondaryInventoryType == "vehicle" then
-				if not exports["usa_vehinv"]:getVehicleBusy(data.plate) then
-					exports["usa_vehinv"]:setVehicleBusy(data.plate)
-					TriggerEvent("vehicle:moveInventorySlots", data.plate, data.fromSlot, data.toSlot, function(inv)
-						local isLocked = exports["_locksystem"]:isLocked(data.plate)
-						TriggerEvent("vehicle:updateForOthers", data.plate, inv, isLocked)
+						else
+							TriggerClientEvent("usa:notify", usource, "Invalid slot!")
+						end
 					end)
 				else
-					TriggerClientEvent("usa:notify", usource, "Please wait a moment!")
+					TriggerClientEvent("usa:notify", usource, "Inventory full!")	
 				end
-			elseif data.secondaryInventoryType == "property" then
-				TriggerEvent("properties-og:moveItemWithinPropertyStorage", usource, data)
+			else
+				TriggerClientEvent("usa:notify", usource, "Person not found")
 			end
+		elseif data.secondaryInventoryType == "property" then
+			TriggerEvent("properties-og:moveItemFromProperty", usource, data)
 		end
-	else
-		print("sus inventory move detected (lag switch dupe attempt?) from #" .. source .. " / " .. GetPlayerName(source))
+	elseif data.fromType == "secondary" and data.toType == "secondary" then
+		if data.secondaryInventoryType == "vehicle" then
+			if not exports["usa_vehinv"]:getVehicleBusy(data.plate) then
+				exports["usa_vehinv"]:setVehicleBusy(data.plate)
+				TriggerEvent("vehicle:moveInventorySlots", data.plate, data.fromSlot, data.toSlot, function(inv)
+					local isLocked = exports["_locksystem"]:isLocked(data.plate)
+					TriggerEvent("vehicle:updateForOthers", data.plate, inv, isLocked)
+				end)
+			else
+				TriggerClientEvent("usa:notify", usource, "Please wait a moment!")
+			end
+		elseif data.secondaryInventoryType == "property" then
+			TriggerEvent("properties-og:moveItemWithinPropertyStorage", usource, data)
+		end
 	end
 end)
 
@@ -361,5 +363,11 @@ AddEventHandler("civ:handsDown", function()
 	for id, isAccessing in pairs(inventoriesBeingAccessed[source]) do
 		TriggerClientEvent("interaction:sendNUIMessage", id, { type = "close" })
 		inventoriesBeingAccessed[source] = nil
+	end
+end)
+
+AddEventHandler('playerDropped', function(reason)
+	if lastInvMovTimeStamps[source] then
+		lastInvMovTimeStamps[source] = nil
 	end
 end)

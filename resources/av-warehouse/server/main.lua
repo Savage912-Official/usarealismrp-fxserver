@@ -174,8 +174,7 @@ AddEventHandler('av_warehouse:loot', function(a, crateIndex, securityToken)
 	local loot = math.random(1, #Config.Rewards)
 	local caja = Config.Rewards[loot]	
 	if caja.type == 'items' then		
-		for i = 1, #caja.reward do
-			item = caja.reward[i]
+		for _, item in pairs(caja.reward) do
 			item.coords = GetEntityCoords(GetPlayerPed(src))
 			local newCoords = {
 				x = item.coords.x,
@@ -196,8 +195,7 @@ AddEventHandler('av_warehouse:loot', function(a, crateIndex, securityToken)
 			TriggerClientEvent("usa:notify", src, Config.Lang['you_stole']..''..item.quantity..'x '..item.name)
 		end		
 	elseif caja.type == 'weapons' then
-		for i = 1, #caja.reward do
-			wp = caja.reward[i]
+		for _, wp in pairs(caja.reward) do
 			wp.coords = GetEntityCoords(GetPlayerPed(src))
 			local newCoords = {
 				x = wp.coords.x,
@@ -212,8 +210,7 @@ AddEventHandler('av_warehouse:loot', function(a, crateIndex, securityToken)
 			TriggerClientEvent("usa:notify", src, Config.Lang['you_stole']..'1x '..wp.name)
 		end
 	elseif caja.type == 'money' then
-		for i = 1, #caja.reward do
-			money = caja.reward[i]
+		for _, money in pairs(caja.reward) do
 			local toGiveAmount = math.floor(money.amount + (math.random() * 6000))
 			char.giveMoney(toGiveAmount)
 			TriggerClientEvent("usa:notify", src, Config.Lang['you_stole']..'$'..exports.globals:comma_value(toGiveAmount))

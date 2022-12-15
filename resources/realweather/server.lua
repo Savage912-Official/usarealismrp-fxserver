@@ -25,7 +25,8 @@ local cityName = "Los+Angeles"
 local apikey = "fac7afd04fe5b0747a2b7da0c8b4e2f2"
 local GetWeather = "http://api.openweathermap.org/data/2.5/weather?q="..cityName.."&lang=fr&units=metric&APPID="..apikey
 
-local MINUTES_PER_CHECK = 15
+local MINUTES_PER_CHECK = 15 -- minutes between weather checks
+local SNOW_TIMEOUT = 3 -- hours between snow random check
 
 local DO_SEND_DISCORD_MSG = false
 
@@ -65,6 +66,7 @@ function checkMeteo(err,response)
     local tempmini = math.floor(data.main.temp_min)
     local tempmaxi = math.floor(data.main.temp_max)
     local emoji = ":white_sun_small_cloud:"
+    
     if type == "Thunderstorm" then
         meteo = "THUNDER"
         emoji = ":cloud_lightning:"
@@ -98,7 +100,7 @@ function checkMeteo(err,response)
             meteo = "XMAS"
         end
     end
-    
+
     local doOverride = false
 
     if Data and Data["Override"] then
@@ -127,11 +129,42 @@ function checkMeteo(err,response)
     SetTimeout(MINUTES_PER_CHECK*60*1000, checkMeteoHTTPRequest)
 end
 
+function checkForSnow()
+    local random = math.random(0,1) -- 50% chance of snow on a set interval (SNOW_TIMEOUT, default 3 hours)
+    if random == 1 then
+        random = math.random(0,2) -- 33% chance of no ground snow and 66% chance of ground snow
+        local type = "XMAS"
+        if random == 2 then
+            type = "SNOW"
+        end
+        if not Data then Data = {} end
+        Data["Override"] = {
+            start = os.time(),
+            length = 90 -- snow will last for 1.5 hours
+        }
+        Data["Meteo"] = type:upper()
+        TriggerClientEvent("meteo:actu", -1, Data)
+    end
+    SetTimeout(SNOW_TIMEOUT*60*60*1000, randomWinterSnow)
+end
+
 function checkMeteoHTTPRequest()
     PerformHttpRequest(GetWeather, checkMeteo, "GET")
 end
 
-checkMeteoHTTPRequest()
+function randomWinterSnow()
+    local timestamp = os.date("*t")
+    local month = timestamp.month
+    if month == 12 then
+        checkForSnow()
+    end
+end
+
+Citizen.CreateThread(function()
+    checkMeteoHTTPRequest()
+    Citizen.Wait(1000)
+    randomWinterSnow()
+end)
 
 RegisterServerEvent("meteo:sync")
 AddEventHandler("meteo:sync",function(delay)

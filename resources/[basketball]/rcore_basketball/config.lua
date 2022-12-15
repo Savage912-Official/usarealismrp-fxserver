@@ -201,6 +201,7 @@ BasketballHoops = {
 		threePointFwdDist = 0.0,
 		threePointSideDist = 0.0,
 		threePointRadius = 30.35,
+		hideBlip = true,
 	},
 	{
 		pos = vector3(-213.765, -1523.489, 30.60864), 
@@ -361,6 +362,7 @@ BasketballHoops = {
 		threePointFwdDist = 0.0,
 		threePointSideDist = 0.0,
 		threePointRadius = 30.35,
+		hideBlip = true,
 	},
 	{
 		pos = vector3(-463.3439, 697.6946, 152.0661), 
@@ -371,6 +373,7 @@ BasketballHoops = {
 		threePointFwdDist = 0.0,
 		threePointSideDist = 0.0,
 		threePointRadius = 30.35,
+		hideBlip = true,
 	},
 	{
 		pos = vector3(-1103.956, 547.2898, 101.6781), 
@@ -381,6 +384,7 @@ BasketballHoops = {
 		threePointFwdDist = 0.0,
 		threePointSideDist = 0.0,
 		threePointRadius = 30.35,
+		hideBlip = true,
 	},
 	{
 		pos = vector3(-1938.21, 3288.614, 31.94385), 
@@ -435,6 +439,7 @@ BasketballHoops = {
 		threePointFwdDist = 0.0,
 		threePointSideDist = 0.0,
 		threePointRadius = 30.35,
+		hideBlip = true,
 	},
 		
 }

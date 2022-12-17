@@ -14,7 +14,19 @@ RegisterCommand('coords', function(source, args, rawCommand)
         SendNUIMessage({
             coords = '' .. heading
         })
+    elseif args[1] == "xyz" then
+        SendNUIMessage({
+            coords = "x = " .. coords.x .. ", y = " .. coords.y ..", z = " .. coords.z
+        })
+    elseif args[1] == "[xyz]" then
+        SendNUIMessage({
+            coords = "['x'] = " .. coords.x .. ", ['y'] = " .. coords.y ..", ['z'] = " .. coords.z
+        })
+    elseif args[1] == "help" then
+        print("Coords Help | Formats: ( vector3, vector4, heading, xyz, [xyz] )")
     elseif args[1] == nil then
-        print("Please specify a valid type. (vector3, vector4, heading)")
+        SendNUIMessage({
+            coords = coords.x .. ", " .. coords.y ..", " .. coords.z
+        })
     end
 end)

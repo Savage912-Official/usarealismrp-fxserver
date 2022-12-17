@@ -135,7 +135,7 @@ function checkForSnow()
         random = math.random(0,2) -- 33% chance of no ground snow and 66% chance of ground snow
         local type = "XMAS"
         if random == 2 then
-            type = "SNOW"
+            type = "SNOWLIGHT"
         end
         if not Data then Data = {} end
         Data["Override"] = {

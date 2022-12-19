@@ -11,8 +11,8 @@ Do not reupload/re release any part of this script without my permission
 -- [5] = LS Customs (Paleto)
 -- [6] = Bennys Motorsports
 -- [7] = Triple R Race and Repair
--- [8] = Mcdougal Auto Care 
--- [9] = Auto Exotic 
+-- [8] = Mcdougal Auto Care
+-- [9] = Auto Exotic
 -- [10] = The Cookie Jar
 
 local inside = false
@@ -30,7 +30,7 @@ local garages = {
 	[7]= { locked = false, camera = {x = 132.42, y = -3035.56, z = 6.2, heading = 326.2}, driveout = {x = 136.1, y = -3030.37, z = 6.2, heading = 180.53}, drivein = {x = 136.1, y = -3030.37, z = 6.2, heading = 180.53}, outside = {x = 136.1, y = -3030.37, z = 6.2, heading = 180.53}, inside = {x = 136.1, y = -3030.37, z = 6.2, heading = 180.53} },
     [8]= { locked = false, camera = {x = 919.62, y = -986.43, z = 40.53, heading = 338.69}, driveout = {x = 921.35, y = -981.01, z = 39.09, heading = 2.02}, drivein = {x = 921.35, y = -981.01, z = 38.52, heading = 181.42}, outside = {x = 921.35, y = -981.01, z = 39.09, heading = 2.02}, inside = {x = 921.35, y = -981.01, z = 39.09, heading = 181.42} },
 	[9]= { locked = false, camera = {x = 540.54, y = -167.73, z = 54.49, heading = 116.27}, driveout = {x = 537.24, y = -169.29, z = 54.08, heading = 178.49}, drivein = {x = 537.24, y = -169.29, z = 53.50, heading = 358.49}, outside = {x = 537.24, y = -169.29, z = 54.08, heading = 358.49}, inside = {x = 537.24, y = -169.29, z = 54.08, heading = 358.49} },
-	[10]= { locked = false, camera = {x = -28.89, y = -1059.17, z = 29.5, heading = 37.14}, driveout = {x = -33.35, y = -1053.48, z = 27.7, heading = 212.54}, drivein = {x = -33.35, y = -1053.48, z = 27.45, heading = 212.54}, outside = {x = -33.35, y = -1053.48, z = 27.7, heading = 212.54}, inside = {x = -33.35, y = -1053.48, z = 26.5, heading = 212.54} }
+	[10]= { locked = false, camera = {x = -28.89, y = -1059.17, z = 29.5, heading = 37.14}, driveout = {x = -38.1, y = -1045.71, z = 27.9, heading = 69.5}, drivein = {x = -41.52, y = -1044.57, z = 27.59, heading = 248.71}, outside = {x = -44.64, y = -1043.27, z = 28.23, heading = 69.5}, inside = {x = -33.54, y = -1053.52, z = 28.39, heading =  217.46} }
 }
 
 function getLocations()
@@ -733,7 +733,7 @@ local function DriveInGarage()
 				extraBtn.price = 500
 			end
 		end
-				
+
 		Citizen.CreateThread(function()
 			--NetworkFadeOutEntity(veh, 1,1)
 			--FadeOutLocalPlayer(1)

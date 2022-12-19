@@ -195,7 +195,7 @@ supportedVehicles = {
     { name = "2020 Tesla Roadster", model = "tesroad20", class = "S" },
     { name = "Lamborghini Terzo Millennio", model = "ocnlamtmc", class = "E" }, -- ELECTRIC
     { name = "Lotus Evija", model = "evija", class = "E" }, -- ELECTRIC
-    { name = "Acura NSX Aimgain", model = "aimgainnsx", class = "S" },
+    { name = "2016 Honda NSX", model = "aimgainnsx", class = "S" },
     { name = "McLaren Elva", model = "elva", class = "S" },
     { name = "Lamborghini Huracan Evo 2", model = "evo2", class = "S" },
     { name = "Lamborghini Gallardo LW", model = "gallardolw", class = "S" },
@@ -220,6 +220,10 @@ supportedVehicles = {
     { name = "Ferrari FXXK", model = "fxxk", class = "S" },
     { name = "Mercedes-Benz CLK LM", model = "clklm", class = "S" },
     { name = "Toyota Supra (Castrol)", model = "castrolsupra", class = "S" },
+    { name = "Nissan Skyline GT-R (R34)", model = "skyline", class = "S" },
+    { name = "Nissan Skyline GT-R V-Spec (R33)", model = "r33vspec", class = "S" },
+    { name = "Nissan Skyline GT-R (R32)", model = "r32", class = "S" },
+    { name = "1992 Honda NSX", model = "na1", class = "S" },
     -- A Class:**
     { name = "Sultan RS", model = "sultanrs", class = "A" },
     { name = "Annis Elegy Retro", model = "elegy", class = "A" },
@@ -262,6 +266,7 @@ supportedVehicles = {
     { name = "Enus Cognoscenti Cabrio", model = "cogcabrio", class = "A" },
     { name = "Ocelot F620", model = "f620", class = "A" },
     { name = "Lampadati Felon GT", model = "felon2", class = "A" },
+    { name = "Obey Tailgater A", model = "tailgater2", class = "B" },
     { name = "Ubermacht Zion", model = "zion", class = "A" },
     { name = "Ubermacht Zion Cabrio", model = "zion2", class = "A" },
     { name = "Enus Paragon", model = "paragon", class = "A" },
@@ -273,6 +278,7 @@ supportedVehicles = {
     { name = "Vapid Dominator ASP", model = "dominator7", class = "A" },
     { name = "Vapid Dominator GTT", model = "dominator8", class = "A" },
     { name = "Bravado Gauntlet", model = "gauntlet", class = "A" },
+    { name = "Bravado Gauntlet Hellfire", model = "gauntlet4", class = "A" },
     { name = "Declasse Vigero ZX", model = "vigero2", class = "A" },
     { name = "Enus Stafford", model = "stafford", class = "A" },
     { name = "Vapid Blade", model = "blade", class = "A" },
@@ -322,7 +328,6 @@ supportedVehicles = {
     { name = "2016 BMW S1000RR", model = "BMWS1000RR", class = "A" },
     { name = "2017 Subaru WRX STI", model = "sti17", class = "A" },
     { name = "Toyota Supra Mk4", model = "supra2", class = "A" },
-    { name = "Nissan Skyline (R34)", model = "skyline", class = "A" },
     { name = "2016 Maserati GranTurismo", model = "stradale18", class = "A" },
     { name = "Tesla Model S Prior Design", model = "teslapd", class = "E" }, -- ELECTRIC
     { name = "Tesla Model S", model = "models", class = "E" }, -- ELECTRIC
@@ -342,7 +347,6 @@ supportedVehicles = {
     { name = "Lexus RC-F", model = "rrrcf", class = "A" },
     { name = "Karin Rebel Custom", model = "rebeld", class = "A" },
     -- B Class:**
-    { name = "Bravado Gauntlet Hellfire", model = "gauntlet4", class = "B" },
     { name = "Declasse Hotring Sabre", model = "hotring", class = "B" },
     { name = "Imponte Beater Dukes", model = "dukes3", class = "B" },
     { name = "Pegassi Monroe", model = "monroe", class = "B" },

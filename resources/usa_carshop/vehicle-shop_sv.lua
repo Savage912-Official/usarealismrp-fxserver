@@ -421,7 +421,6 @@ local vehicleShopItems = {
 			{make = "Obey", model = "Omnis e-GT", price = 100000, hash = "omnisegt", storage_capacity = 135.0},
 		},
 		["Custom"] = {
-			{make = "Acura", model = "NSX (Aimgain)", price = 350000, hash = "aimgainnsx", storage_capacity = 120.0},
 			{make = "Acura", model = "RSX (2004)", price = 70000, hash = "dc5", storage_capacity = 160.0},
 			--
 			{make = "Audi", model = "A6 (2020)", price = 130000, hash = "a6", storage_capacity = 220.0},
@@ -540,6 +539,8 @@ local vehicleShopItems = {
 			{make = "Honda", model = "Civic (EG6)", price = 100000, hash = "eg6", storage_capacity = 160.0},
 			{make = "Honda", model = "Civic (EK9)", price = 105000, hash = "spoonek", storage_capacity = 160.0},
 			{make = "Honda", model = "Civic (FnF) (1993)", price = 110000, hash = "fnfcivic", storage_capacity = 160.0},
+			{make = "Honda", model = "NSX (1992)", price = 170000, hash = "na1", storage_capacity = 160.0},
+			{make = "Honda", model = "NSX (2016)", price = 350000, hash = "aimgainnsx", storage_capacity = 120.0},
 			--
 			{make = "Hummer", model = "H2", price = 110000, hash = "h2", storage_capacity = 300.0},
 			--
@@ -612,6 +613,8 @@ local vehicleShopItems = {
 			{make = "Nissan", model = "240SX (DRIFT)", price = 70000, hash = "rmod240sx", storage_capacity = 150.0},
 			{make = "Nissan", model = "240SX (s14) (DRIFT)", price = 75000, hash = "silvia3", storage_capacity = 150.0},
 			{make = "Nissan", model = "370Z Nismo", price = 110000, hash = "370z", storage_capacity = 130.0},
+			{make = "Nissan", model = "R32 GTR", price = 160000, hash = "r32", storage_capacity = 175.0},
+			{make = "Nissan", model = "R33 GTR", price = 165000, hash = "r33vspec", storage_capacity = 175.0},
 			{make = "Nissan", model = "R34 GTR", price = 170000, hash = "skyline", storage_capacity = 175.0},
 			{make = "Nissan", model = "R35 GTR", price = 275000, hash = "gtr", storage_capacity = 130.0},
 			{make = "Nissan", model = "Silvia S15 (DRIFT)", price = 80000, hash = "s15yoshio", storage_capacity = 220.0},

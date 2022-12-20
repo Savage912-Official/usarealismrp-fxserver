@@ -10,7 +10,7 @@ local lastNuiUnfocusedTime = GetGameTimer()
 Citizen.CreateThread(function()
     while true do
         Wait(0)
-        if IsControlPressed(0, OPEN_KEY) then
+        if IsControlPressed(0, OPEN_KEY) and GetLastInputMethod(0) then
             if not listOn then
                 listOn = true
                 SendNUIMessage({ text = "" })

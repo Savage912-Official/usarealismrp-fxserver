@@ -15,21 +15,50 @@ Config.Weapons.Reticle = {
 	[`WEAPON_MARKSMANRIFLE_MK2`] = true
 }
 
+local aiming = false
+local crosshairEnabled = false
+
 Citizen.CreateThread(function()
 	while true do
-		Citizen.Wait(0)
+		Citizen.Wait(1)
 
 		-- If weapon does not require reticle, remove reticle
-		if not Config.Crosshair.Enabled and not Config.Weapons.Reticle[GetSelectedPedWeapon(PlayerPedId())] and not IsPedInAnyVehicle(PlayerPedId(), true) then
-			HideHudComponentThisFrame(14)
+		if not Config.Crosshair.Enabled and not Config.Weapons.Reticle[GetSelectedPedWeapon(PlayerPedId())] and not IsPedInAnyVehicle(PlayerPedId(), true) or not aiming and crosshairEnabled then
+			SendNUIMessage("crosshairHide")
+			crosshairEnabled = false
 		end
 
+		if Config.Crosshair.Enabled and aiming and not Config.Weapons.Reticle[GetSelectedPedWeapon(PlayerPedId())] and not IsPedInAnyVehicle(PlayerPedId(), true) and not crosshairEnabled then
+			SendNUIMessage("crosshairShow")
+			crosshairEnabled = true
+		end
+
+		-- Hide Reticle
+		HideHudComponentThisFrame(14)
 		-- Hide weapon icon
 		HideHudComponentThisFrame(2)
 		-- Hide weapon wheel stats
 		HideHudComponentThisFrame(20)
 		-- Hide hud weapons
 		HideHudComponentThisFrame(22)
+	end
+end)
+
+CreateThread(function()
+	while true do
+		Wait(0)
+		if IsPedArmed(PlayerPedId(), 6) then
+			if (IsPlayerFreeAiming(PlayerId())) then
+				aiming = true
+				Wait(100)
+			else
+				aiming = false
+				Wait(100)
+			end
+		else
+			aiming = false
+			Wait(100)
+		end
 	end
 end)
 

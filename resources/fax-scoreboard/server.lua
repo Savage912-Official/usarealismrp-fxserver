@@ -5,8 +5,11 @@ RegisterServerCallback {
         local ret = {}
         local players = GetPlayers()
         for i = 1, #players do
-            table.insert(ret, { serverId = players[i], identifier = GetPlayerIdentifiers(source)[1]})
+            table.insert(ret, { serverId = players[i], identifier = GetPlayerIdentifiers(players[i])[1]})
         end
+        table.sort(ret, function(a, b)
+            return tonumber(a.serverId) < tonumber(b.serverId)
+        end)
         return ret
     end
 }

@@ -7,6 +7,8 @@ local nuiFocusOn = false
 local fetchingData = false
 local lastNuiUnfocusedTime = GetGameTimer()
 
+local viewDistance = 40
+
 Citizen.CreateThread(function()
     while true do
         Wait(0)
@@ -53,7 +55,6 @@ function sanitize(txt)
 end
 
 function ShowIds()
-	local viewDistance = 40
 	local myCoords = GetEntityCoords(PlayerPedId())
     for id = 0, 255 do
         local playerPed = GetPlayerPed(id)
@@ -129,4 +130,9 @@ RegisterNUICallback('removeNuiFocus', function(data, cb)
     SetNuiFocus(false, false)
     nuiFocusOn = false
     lastNuiUnfocusedTime = GetGameTimer()
+end)
+
+RegisterNetEvent("playerlist:setViewDistance")
+AddEventHandler("playerlist:setViewDistance", function(dist)
+    viewDistance = dist
 end)

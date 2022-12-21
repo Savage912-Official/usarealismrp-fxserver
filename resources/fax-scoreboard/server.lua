@@ -13,3 +13,12 @@ RegisterServerCallback {
         return ret
     end
 }
+
+AddEventHandler('es:playerLoaded', function(src, user)
+    local isStaff = user.getGroup() ~= "user"
+    if isStaff then
+        TriggerClientEvent("playerlist:setViewDistance", src, 40)
+    else
+        TriggerClientEvent("playerlist:setViewDistance", src, 10)
+    end
+end)

@@ -1210,6 +1210,8 @@ function interactionMenuUse(index, itemName, wholeItem)
 		ExecuteCommand("rgbcontrolleritemlol")
 	elseif itemName == "Basketball Hoop" then
 		ExecuteCommand("placehoop")
+	elseif itemName == "Skateboard" then
+		TriggerEvent('usa_skateboard:PlaceDown')
 	else
 		TriggerEvent("interaction:notify", "There is no use action for that item!")
 	end

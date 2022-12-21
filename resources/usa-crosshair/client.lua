@@ -34,7 +34,9 @@ Citizen.CreateThread(function()
 		end
 
 		-- Hide Reticle
-		HideHudComponentThisFrame(14)
+		if not Config.Weapons.Reticle[GetSelectedPedWeapon(PlayerPedId())] then
+			HideHudComponentThisFrame(14)
+		end
 		-- Hide weapon icon
 		HideHudComponentThisFrame(2)
 		-- Hide weapon wheel stats

@@ -28,7 +28,7 @@ Citizen.CreateThread(function()
 			crosshairEnabled = false
 		end
 
-		if Config.Crosshair.Enabled and aiming and not Config.Weapons.Reticle[GetSelectedPedWeapon(PlayerPedId())] and not IsPedInAnyVehicle(PlayerPedId(), true) and not crosshairEnabled then
+		if Config.Crosshair.Enabled and aiming and not Config.Weapons.Reticle[GetSelectedPedWeapon(PlayerPedId())] and not crosshairEnabled then
 			SendNUIMessage("crosshairShow")
 			crosshairEnabled = true
 		end

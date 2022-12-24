@@ -455,59 +455,6 @@ AddEventHandler("civ:resetWalkStyle", function()
   SetClipset(currentWalkstyle)
 end)
 
-local lastVehicle = {
-  handle = 0,
-  enabled = false,
-  underglow = {}
-}
-
-RegisterNetEvent("civ:toggleUnderglow")
-AddEventHandler("civ:toggleUnderglow", function()
-  --print('underglow!')
-  local playerPed = PlayerPedId()
-  local playerVeh = GetVehiclePedIsIn(playerPed)
-  if GetPedInVehicleSeat(playerVeh, -1) == playerPed then
-    --print('is driver')
-    if playerVeh == lastVehicle.handle then
-      --print('player in old vehicle!')
-      if not lastVehicle.enabled then
-        --print('enabling!')
-        for i = 1, #lastVehicle.underglow do
-          local index = lastVehicle.underglow[i]
-          SetVehicleNeonLightEnabled(playerVeh, index, true)
-        end
-        lastVehicle.enabled = true
-      else
-        --print('disabling!')
-        for i = 0, 3 do
-          SetVehicleNeonLightEnabled(playerVeh, i, false)
-        end
-        lastVehicle.enabled = false
-      end
-    else
-      --print('player is in a new vehicle')
-      if lastVehicle.handle ~= 0 then
-        SetVehicleNeonLightsColour(lastVehicle.handle, r, g, b)
-        for i = 1, #lastVehicle.underglow do
-          local index = lastVehicle.underglow[i]
-          SetVehicleNeonLightEnabled(lastVehicle.handle, index, true)
-        end
-      end
-      for i = 0, 3 do
-        if IsVehicleNeonLightEnabled(playerVeh, i) then
-          table.insert(lastVehicle.underglow, i)
-          lastVehicle.enabled = true
-        end
-      end
-      lastVehicle.handle = playerVeh
-      TriggerEvent('civ:toggleUnderglow')
-      --print('new vehicle added!')
-    end
-  else
-    TriggerEvent('usa:notify', 'You must be the driver to do this!')
-  end
-end)
-
 -- trading/selling vehicles --
 RegisterNetEvent("vehicle:confirmSell")
 AddEventHandler("vehicle:confirmSell", function(details)

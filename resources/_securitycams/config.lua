@@ -543,6 +543,32 @@ SecurityCamConfig.Locations = {
         }
     },
     {
+        camBox = {label = "General Store (Great Ocean Highway)", id = 'store54'},
+        cameras = {
+            {label = "Interior Front Entrance Cam", x = -2065.9235839844, y = -334.76452636719, z = 15.11, r = {x = -35.0, y = 0.0, z = 32.4}},
+            {label = "Interior Main Cam", x = -2071.5056152344, y = -321.58117675781, z = 15.11, r = {x = -35.0, y = 0.0, z = 213.7}},
+            {label = "Back Counter Cam", x = -2060.3234863281, y = -335.60525512695, z = 15.11, r = {x = -35.0, y = 0.0, z = 51.8}},
+            {label = "Exterior Front Cam", x = -2073.8540039063, y = -328.76358032227, z = 15.75, r = {x = -25.0, y = 0.0, z = 51.5}},
+            {label = "Exterior Front Cam 2", x = -2074.9392089844, y = -342.50302124023, z = 15.75, r = {x = -25.0, y = 0.0, z = 51.5}},
+        }
+    },
+    {
+        camBox = {label = "General Store (Route 68 / Great Ocean)", id = 'store55'},
+        cameras = {
+            {label = "Exterior Camera 1", x = -2522.9992675781, y = 2317.861328125, z = 35.21, r = {x = -25.0, y = 0.0, z = 63.8}},
+            {label = "Exterior Camera 2", x = -2565.4580078125, y = 2314.99609375, z = 35.21, r = {x = -25.0, y = 0.0, z = 295.1}},
+        }
+    },
+    {
+        camBox = {label = "General Store (Paleto Bay)", id = 'store56'},
+        cameras = {
+            {label = "Camera 1", x = 170.1900177002, y = 6637.89453125, z = 33.50, r = {x = -35.0, y = 0.0, z = 77.8}},
+            {label = "Camera 2", x = 159.43927001953, y = 6640.6181640625, z = 33.50, r = {x = -35.0, y = 0.0, z = 270.8}},
+            {label = "Backroom Camera", x = 171.70150756836, y = 6643.1928710938, z = 33.50, r = {x = -35.0, y = 0.0, z = 85.9}},
+            {label = "Exterior Front Cam", x = 145.52572631836, y = 6646.3784179688, z = 43.37, r = {x = -35.0, y = 0.0, z = 209.7}}
+        }
+    },
+    {
         camBox = {label = "Benefactor Dealership", id = 'store98'},
         cameras = {
             {label = "Office", x = -49.8976, y = 76.88705, z = 74.25, r = {x = -35.0, y = 0.0, z = 122.2}},

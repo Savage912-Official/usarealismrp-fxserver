@@ -1,4 +1,5 @@
 function WalkMenuStart(name)
+  TriggerEvent("stance:resetToStand")
   RequestWalking(name)
   SetPedMovementClipset(PlayerPedId(), name, 0.2)
   RemoveAnimSet(name)
@@ -25,6 +26,7 @@ function WalkCommandStart(source, args)
   local name = firstToUpper(fullName)
   if name == "Reset" then
       ResetPedMovementClipset(PlayerPedId())
+      TriggerEvent("stance:resetToStand")
   else
     --TriggerServerEvent("dpemotes:walkstyleCheck", name)
     if DP.Walks[name] ~= nil then

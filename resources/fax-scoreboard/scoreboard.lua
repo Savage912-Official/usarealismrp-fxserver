@@ -13,28 +13,31 @@ Citizen.CreateThread(function()
     while true do
         Wait(0)
         if IsControlPressed(0, OPEN_KEY) and GetLastInputMethod(0) then
-            if not listOn then
-                listOn = true
-                SendNUIMessage({ text = "" })
-                fetchPlayerListData()
-                while listOn do
-                    ShowIds()
-                    Wait(0)
-                    if not IsNuiFocused() and not IsControlPressed(0, OPEN_KEY) and GetGameTimer() - lastNuiUnfocusedTime > 1000 then
-                        listOn = false
-                        SendNUIMessage({
-                            meta = 'close'
-                        })
-                        SetNuiFocus(false, false)
-                        nuiFocusOn = false
-                        break
-                    elseif IsControlJustPressed(0, NUI_FOCUS_KEY) then
-                        nuiFocusOn = not nuiFocusOn
-                        SetNuiFocus(nuiFocusOn, nuiFocusOn)
-                    end
+            Wait(100)
+            if IsControlPressed(0, OPEN_KEY) and GetLastInputMethod(0) then
+                if not listOn then
+                    listOn = true
+                    SendNUIMessage({ text = "" })
+                    fetchPlayerListData()
+                    while listOn do
+                        Wait(0)
+                        ShowIds()
+                        if not IsNuiFocused() and not IsControlPressed(0, OPEN_KEY) and GetGameTimer() - lastNuiUnfocusedTime > 1000 then
+                            listOn = false
+                            SendNUIMessage({
+                                meta = 'close'
+                            })
+                            SetNuiFocus(false, false)
+                            nuiFocusOn = false
+                            break
+                        elseif IsControlJustPressed(0, NUI_FOCUS_KEY) then
+                            nuiFocusOn = not nuiFocusOn
+                            SetNuiFocus(nuiFocusOn, nuiFocusOn)
+                        end
 
-                    if nuiFocusOn then
-                        disableMovementControls(true)
+                        if nuiFocusOn then
+                            disableMovementControls(true)
+                        end
                     end
                 end
             end

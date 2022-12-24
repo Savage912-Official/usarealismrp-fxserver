@@ -60,6 +60,19 @@ Citizen.CreateThread( function()
 	end
 end)
 
+RegisterNetEvent("stance:resetToStand")
+AddEventHandler("stance:resetToStand", function()
+	if crouched then
+		ClearPedTasksImmediately(ped)
+		ResetPedMovementClipset(ped)
+		ResetPedStrafeClipset(ped)
+		TriggerEvent('civ:resetWalkStyle')
+		proned = false
+		crouched = false
+		standing = true
+	end
+end)
+
 function SetProned()
 	ped = PlayerPedId()
 	ClearPedTasksImmediately(ped)

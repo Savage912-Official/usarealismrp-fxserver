@@ -73,29 +73,36 @@ RegisterNetEvent("crafting:beginCrafting")
 AddEventHandler("crafting:beginCrafting", function(recipe)
     if not alreadyCrafting then
         alreadyCrafting = true
-        FreezeEntityPosition(PlayerPedId(), true)
         TriggerEvent("dpemotes:command", 'e', GetPlayerServerId(PlayerId()), {"weld"})
         ToggleGui()
-        CancellableProgress(
-                (recipe.craftDurationSeconds or Config.DEFAULT_CRAFT_DURATION_SECONDS) * 1000, 
-                'amb@world_human_welding@male@idle_a', 
-                'idle_a',
-                16,
-                function() -- finished
-                    while securityToken == nil do
-                        Wait(1)
-                    end
-                    TriggerServerEvent("crafting:finishedCrafting", recipe, securityToken)
-                    TriggerEvent("dpemotes:command", 'e', GetPlayerServerId(PlayerId()), {"c"})
-                    FreezeEntityPosition(PlayerPedId(), false)
-                    alreadyCrafting = false
-                end,
-                function() -- cancel
-                    TriggerEvent("dpemotes:command", 'e', GetPlayerServerId(PlayerId()), {"c"})
-                    FreezeEntityPosition(PlayerPedId(), false)
-                    alreadyCrafting = false
-                end
-            )
+
+        if lib.progressCircle({
+            duration = recipe.craftDurationSeconds or Config.DEFAULT_CRAFT_DURATION_SECONDS * 1000,
+            label = 'Crafting...',
+            position = 'bottom',
+            useWhileDead = false,
+            canCancel = true,
+            disable = {
+                car = true,
+                move = true,
+                combat = true,
+            },
+            anim = {
+                dict = 'amb@world_human_welding@male@idle_a',
+                clip = 'idle_a'
+            },
+        }) then 
+            while securityToken == nil do
+                Wait(1)
+            end
+            TriggerServerEvent("crafting:finishedCrafting", recipe, securityToken)
+            TriggerEvent("dpemotes:command", 'e', GetPlayerServerId(PlayerId()), {"c"})
+            alreadyCrafting = false
+        else 
+            TriggerEvent("dpemotes:command", 'e', GetPlayerServerId(PlayerId()), {"c"})
+            alreadyCrafting = false
+        end
+
     else
        exports.globals:notify("Already crafting") 
     end

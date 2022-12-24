@@ -225,8 +225,26 @@ local ITEMS = {
         weight = 40,
         objectModel = "prop_ld_binbag_01",
         invisibleWhenDropped = true
-    }
-
+    },
+    { name = "Magic Potion", type = "magicPotion", quantity = 1, weight = 5},
+    { name = "Hawk Potion", type = "magicPotion", quantity = 1, weight = 5, model = "a_c_chickenhawk"},
+    { name = "Chimp Potion", type = "magicPotion", quantity = 1, weight = 5, model = "a_c_chimp"},
+    { name = "Cormorant Potion", type = "magicPotion", quantity = 1, weight = 5, model = "a_c_cormorant"},
+    { name = "Cow Potion", type = "magicPotion", quantity = 1, weight = 5, model = "a_c_cow"},
+    { name = "Coyote Potion", type = "magicPotion", quantity = 1, weight = 5, model = "a_c_coyote"},
+    { name = "Crow Potion", type = "magicPotion", quantity = 1, weight = 5, model = "a_c_crow"},
+    { name = "Deer Potion", type = "magicPotion", quantity = 1, weight = 5, model = "a_c_deer"},
+    { name = "Hen Potion", type = "magicPotion", quantity = 1, weight = 5, model = "a_c_hen"},
+    { name = "Cat Potion", type = "magicPotion", quantity = 1, weight = 5, model = "a_c_cat_01"},
+    { name = "Boar Potion", type = "magicPotion", quantity = 1, weight = 5, model = "a_c_boar"},
+    { name = "Pig Potion", type = "magicPotion", quantity = 1, weight = 5, model = "a_c_pig"},
+    { name = "Pigeon Potion", type = "magicPotion", quantity = 1, weight = 5, model = "a_c_pigeon"},
+    { name = "Poodle Potion", type = "magicPotion", quantity = 1, weight = 5, model = "a_c_poodle"},
+    { name = "Pug Potion", type = "magicPotion", quantity = 1, weight = 5, model = "a_c_pug"},
+    { name = "Rabbit Potion", type = "magicPotion", quantity = 1, weight = 5, model = "a_c_rabbit_01"},
+    { name = "Rat Potion", type = "magicPotion", quantity = 1, weight = 5, model = "a_c_rat"},
+    { name = "Seagull Potion", type = "magicPotion", quantity = 1, weight = 5, model = "a_c_seagull"},
+    { name = "Westy Potion", type = "magicPotion", quantity = 1, weight = 5, model = "a_c_westy"},
 }
 
 

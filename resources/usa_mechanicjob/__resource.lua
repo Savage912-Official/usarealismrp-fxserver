@@ -1,4 +1,5 @@
 resource_manifest_version '44febabe-d386-4d18-afbe-5e627f4af937'
+lua54 'yes'
 
 server_scripts {
     'config/UPGRADES.lua',
@@ -19,6 +20,7 @@ client_scripts {
 
 shared_scripts {
     '@pmc-callbacks/import.lua',
+    '@ox_lib/init.lua',
     'config/PARTS.lua'
 }
 

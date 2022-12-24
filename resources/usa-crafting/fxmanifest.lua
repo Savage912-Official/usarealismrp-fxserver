@@ -1,9 +1,11 @@
 fx_version 'bodacious'
 game 'gta5'
+lua54 'yes'
 
 description 'Simple and standalone item crafting by minipunch (initially for USA REALISM RP - https://usarrp.gg)'
 
 shared_scripts {
+    "@ox_lib/init.lua",
     "config.lua"
 }
 

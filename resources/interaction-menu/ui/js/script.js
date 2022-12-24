@@ -521,6 +521,7 @@ var itemImages = {
     "RGB Controller": "https://i.imgur.com/bALMezu.png",
     "Basketball Hoop": "https://i.imgur.com/R1PCP2d.png",
     "Skateboard": "https://i.imgur.com/lkKiOo4.png",
+    "Potion": "https://i.imgur.com/KLnPEd3.png",
 }
 
 var menuItems = [{
@@ -920,6 +921,8 @@ var interactionMenu = new Vue({
             } else if (itemImages[name]) {
                 return itemImages[name];
             
+            } else if (name.includes(" Potion")) {
+                return itemImages.Potion
             } else {
                 return DEFAULT_ITEM_IMAGE;
             }

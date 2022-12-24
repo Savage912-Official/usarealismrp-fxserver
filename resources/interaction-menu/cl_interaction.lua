@@ -1212,6 +1212,8 @@ function interactionMenuUse(index, itemName, wholeItem)
 		ExecuteCommand("placehoop")
 	elseif itemName == "Skateboard" then
 		TriggerEvent('usa_skateboard:PlaceDown')
+	elseif wholeItem.type == "magicPotion" then
+		TriggerServerEvent("magicPotion:used", wholeItem)
 	else
 		TriggerEvent("interaction:notify", "There is no use action for that item!")
 	end

@@ -393,9 +393,30 @@ BUSINESSES = {
 		price = 10000,
 		purchasePercentage = 0.05
 	},
+	["General Store (Great Ocean Highway)"] = {
+		position = {-2067.5854492188, -333.97616577148, 13.315826416016},
+		cameraID = 'store54',
+		isBeingRobbed = false,
+		price = 2400,
+		purchasePercentage = 0.05
+	},
+	["General Store (Route 68 (GOH)"] = {
+		position = {-2539.0610351563, 2310.4838867188, 33.221008300781},
+		cameraID = 'store55',
+		isBeingRobbed = false,
+		price = 2400,
+		purchasePercentage = 0.05
+	},
+	["General Store (Paleto Bay)"] = {
+		position = {162.92617797852, 6643.9150390625, 31.687068939209},
+		cameraID = 'store56',
+		isBeingRobbed = false,
+		price = 2400,
+		purchasePercentage = 0.05
+	},
 	["RPG Repair"] = {
 		position = {-782.98, -232.65, 37.08},
-		cameraID = 'store54',
+		cameraID = 'store57',
 		isBeingRobbed = false,
 		lastRobbedTime = 0,
 		price = 10000,
@@ -404,7 +425,7 @@ BUSINESSES = {
 	},
 	["Triple R Auto Repair"] = {
 		position = {122.30, -3029.67, 7.04},
-		cameraID = 'store55',
+		cameraID = 'store58',
 		isBeingRobbed = false,
 		lastRobbedTime = 0,
 		price = 10000,
@@ -412,7 +433,7 @@ BUSINESSES = {
 	},
 	["The Cookie Jar"] = {
 		position = {-21.77, -1053.07, 32.4},
-		cameraID = 'store56',
+		cameraID = 'store59',
 		isBeingRobbed = false,
 		lastRobbedTime = 0,
 		price = 10000,

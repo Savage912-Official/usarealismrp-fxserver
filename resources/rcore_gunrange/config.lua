@@ -631,13 +631,6 @@ Config.Gunranges = {
         }
     },
     {
-        blip = { --Ammunation
-            pos = vector3(827.09, -2164.2034, 29.66),
-            color = 27,
-            sprite = 110,
-            shortRange = true,
-            name = 'Gunrange'
-        },
         menu = {
             {
                 valueIndex = 1,
@@ -861,13 +854,6 @@ Config.Gunranges = {
         }
     },
     {
-        blip = { --Ammunation
-            pos = vector3(8.835543, -1095.069, 29.79719),
-            color = 27,
-            sprite = 110,
-            shortRange = true,
-            name = 'Gunrange'
-        },
         menu = {
             {
                 valueIndex = 1,

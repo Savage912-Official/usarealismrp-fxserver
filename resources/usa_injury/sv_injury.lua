@@ -121,6 +121,11 @@ end, {
 })
 
 TriggerEvent('es:addJobCommand', 'bandage', {'ems', 'doctor', 'sheriff', 'corrections'}, function(source, args, char)
+	if not char.hasItem("First Aid Kit") then
+		TriggerClientEvent("usa:notify", source, "No first aid kit")
+		return
+	end
+	char.removeItem("First Aid Kit", 1)
 	local _source = source
 	local targetSource = tonumber(args[2])
 	if targetSource and GetPlayerName(targetSource) then

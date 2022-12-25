@@ -89,7 +89,8 @@ AddEventHandler("crafting:beginCrafting", function(recipe)
             },
             anim = {
                 dict = 'amb@world_human_welding@male@idle_a',
-                clip = 'idle_a'
+                clip = 'idle_a',
+                flag = 39,
             },
         }) then 
             while securityToken == nil do

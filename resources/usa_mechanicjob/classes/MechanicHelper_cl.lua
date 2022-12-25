@@ -66,7 +66,8 @@ MechanicHelper.repairVehicle = function(veh, repairCount, cb)
             },
             anim = {
                 dict = MechanicHelper.animations.repair.dict,
-                clip = MechanicHelper.animations.repair.name
+                clip = MechanicHelper.animations.repair.name,
+                flag = 39,
             },
         }) then 
             local failChance = 0.5 - (0.005 * repairCount) -- larger successful repair count = smaller fail chance
@@ -109,7 +110,8 @@ MechanicHelper.installUpgrade = function(veh, upgrade, cb)
         },
         anim = {
             dict = MechanicHelper.animations.repair.dict,
-            clip = MechanicHelper.animations.repair.name
+            clip = MechanicHelper.animations.repair.name,
+            flag = 39,
         },
     }) then 
         if MechanicHelper.UPGRADE_FUNC_MAP[upgrade.id] then

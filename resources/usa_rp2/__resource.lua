@@ -36,7 +36,8 @@ server_scripts {
   'sv_police.lua',
   'sv_ems.lua',
   'sv_civ.lua',
-  'sv_judge.lua'
+  'sv_judge.lua',
+  'server/*.lua'
 }
 
 exports {

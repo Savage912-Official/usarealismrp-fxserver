@@ -1214,6 +1214,8 @@ function interactionMenuUse(index, itemName, wholeItem)
 		TriggerEvent('usa_skateboard:PlaceDown')
 	elseif wholeItem.type == "magicPotion" then
 		TriggerServerEvent("magicPotion:used", wholeItem)
+	elseif itemName == "Christmas Present" then
+		TriggerServerEvent("usa:openChristmasPresent", wholeItem)
 	else
 		TriggerEvent("interaction:notify", "There is no use action for that item!")
 	end
@@ -1415,7 +1417,7 @@ AddEventHandler("interaction:toggleWeapon", function(item, skipAnim)
 		if THROWABLES[item.name] then
 			toGiveAmmo = 1
 		end
-		if item.name:find("Fire Extinguisher") or item.name:find("Jerry Can") then
+		if item.name:find("Fire Extinguisher") or item.name:find("Jerry Can") or item.name:find("Noel Launcher") or item.name:find("Olaf Minigun") then
 			toGiveAmmo = 1000
 		end
 		TriggerEvent("interaction:equipWeapon", item, true, toGiveAmmo, (not skipAnim))

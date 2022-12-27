@@ -1,4 +1,10 @@
 local ITEMS = {
+    { name = "Christmas Present", type = "misc", price = 10000, legality = "legal", quantity = 1, weight = 15, objectModel = "hei_prop_heist_box" },
+    { name = "Olaf Minigun", type = "weapon", hash = GetHashKey("WEAPON_OLAFMINIGUN"), weight = 30.0, quantity = 1, christmasPresent2022 = true},
+    { name = "Noel Launcher", type = "weapon", hash = GetHashKey("WEAPON_NOELLAUNCHER"), weight = 30.0, quantity = 1, christmasPresent2022 = true},
+    { name = "Candycrow", type = "weapon", hash = GetHashKey("WEAPON_CANDYCROW"), weight = 15.0, quantity = 1, christmasPresent2022 = true},
+    { name = "Batxmas", type = "weapon", hash = GetHashKey("WEAPON_BATXMAS"), weight = 15.0, quantity = 1, christmasPresent2022 = true},
+    { name = "Snowhammer", type = "weapon", hash = GetHashKey("WEAPON_SNOWHAMMER"), weight = 25.0, quantity = 1, christmasPresent2022 = true},
     { name = "Up-N-Atomizer", type = "weapon", hash = GetHashKey("WEAPON_RAYPISTOL"), weight = 15.0, quantity = 1},
     { name = "Carbine", type = "weapon", hash = -2084633992, price = tonumber(tostring(math.random(30, 60)) .. "000"), legality = "illegal", quantity = 1, weight = 45, stock = math.random(0, 2), objectModel = "w_ar_carbinerifle" },
     { name = "AP Pistol", type = "weapon", hash = 0x22D8FE39, price = 20000, legality = "illegal", quantity = 1, weight = 15, stock = math.random(0, 2), objectModel = "w_pi_appistol" },
@@ -226,7 +232,7 @@ local ITEMS = {
         objectModel = "prop_ld_binbag_01",
         invisibleWhenDropped = true
     },
-    { name = "Magic Potion", type = "magicPotion", quantity = 1, weight = 5},
+    { name = "Magic Potion", type = "magicPotion", quantity = 1, weight = 5, christmasPresent2022 = true},
     { name = "Hawk Potion", type = "magicPotion", quantity = 1, weight = 5, model = "a_c_chickenhawk"},
     { name = "Chimp Potion", type = "magicPotion", quantity = 1, weight = 5, model = "a_c_chimp"},
     { name = "Cormorant Potion", type = "magicPotion", quantity = 1, weight = 5, model = "a_c_cormorant"},

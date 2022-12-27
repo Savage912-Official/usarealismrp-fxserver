@@ -522,6 +522,12 @@ var itemImages = {
     "Basketball Hoop": "https://i.imgur.com/R1PCP2d.png",
     "Skateboard": "https://i.imgur.com/lkKiOo4.png",
     "Potion": "https://i.imgur.com/KLnPEd3.png",
+    "Christmas Present": "https://i.imgur.com/T9qmba7.png",
+    "Noel Launcher": "https://i.imgur.com/Wo8XMlu.png",
+    "Olaf Minigun": "https://i.imgur.com/rvgg4V9.png",
+    "Candycrow": "https://i.imgur.com/FBXMz6q.png",
+    "Batxmas": "https://i.imgur.com/nJpSAic.png",
+    "Snowhammer": "https://i.imgur.com/qgBfs19.png"
 }
 
 var menuItems = [{

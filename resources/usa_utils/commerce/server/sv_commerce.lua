@@ -136,6 +136,21 @@ TriggerEvent("es:addCommand", "claimreward", function(src, args, char, location)
                 TriggerEvent("interaction:addDroppedItem", item)
             end
         end
+    elseif args[2] and args[2] == "xmas2022" then
+        local user = exports.essentialmode:getPlayerFromId(src)
+        local doc = exports.essentialmode:getDocument("xmas-2022-rewards", user.getIdentifier())
+        if doc then
+            TriggerClientEvent("usa:notify", src, "Already claimed xmas 2022 reward!")            
+            return
+        end
+        local ok = exports.essentialmode:createDocumentWithId("xmas-2022-rewards", user.getIdentifier(), { claimed = true, claimTime = os.time() })
+        if ok then
+            TriggerClientEvent("usa:notify", src, "Claimed Xmas 2022 Reward!", "^3INFO: ^0Claimed Christmas 2022 Present + $10k in the bank!")
+            char.giveItem(exports.usa_rp2:getItem("Christmas Present"), 1)
+            char.giveBank(10000)
+        else
+            TriggerClientEvent("usa:notify", src, "Something went wrong")    
+        end
     else
         TriggerClientEvent("usa:notify", src, "Invalid reward code")
     end
@@ -148,3 +163,4 @@ end, {
 
 exports["globals"]:PerformDBCheck("usa_utils", "tebex-transaction-ids", nil)
 exports["globals"]:PerformDBCheck("usa_utils", "july-4th-rewards", nil)
+exports["globals"]:PerformDBCheck("usa_utils", "xmas-2022-rewards", nil)

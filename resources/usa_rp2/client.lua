@@ -1196,3 +1196,16 @@ Citizen.CreateThread(function()
     end
   end
 end)
+
+-- prevent auto shuffle in vehicle
+Citizen.CreateThread(function()
+  local lastPedWeSetConfigFor = 0
+  while true do
+    local me = PlayerPedId()
+    if me ~= lastPedWeSetConfigFor then
+        SetPedConfigFlag(me, 184, true)
+        lastPedWeSetConfigFor = me
+    end
+    Wait(1)
+  end
+end)

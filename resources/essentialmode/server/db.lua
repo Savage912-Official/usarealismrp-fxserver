@@ -588,3 +588,23 @@ exports("getDocumentsByRows", function(db, rowsAndValues)
 	end
 	return retVal
 end)
+
+exports("createDocumentWithId", function(db, id, doc)
+	local ret = nil
+	PerformHttpRequest("http://" .. ip .. ":" .. port .. "/" .. db .. "/" .. id, function(err, rText, headers)
+		if rText then
+			rText = json.decode(rText)
+			if rText.ok then
+				ret = true
+			else
+				ret = false
+			end
+		else
+			ret = false
+		end
+	end, "PUT", json.encode(doc), {["Content-Type"] = 'application/json', Authorization = "Basic " .. auth})
+	while ret == nil do
+		Wait(1)
+	end
+	return ret
+end)

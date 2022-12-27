@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<CWeaponModelInfo__InitDataList>
+	<InitDatas>
+	
+		
+		<Item>
+			<modelName>w_mg_miniolaf</modelName>
+			<txdName>w_mg_miniolaf</txdName>
+			<ptfxAssetName>weap_xs_weapons</ptfxAssetName>
+			<lodDist value="50"/>
+		</Item>
+		
+	</InitDatas>
+</CWeaponModelInfo__InitDataList>

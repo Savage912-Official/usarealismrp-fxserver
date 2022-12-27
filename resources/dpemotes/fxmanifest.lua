@@ -1,7 +1,11 @@
 fx_version 'adamant'
 game 'gta5'
+lua54 'yes'
 
-shared_script '@pmc-callbacks/import.lua'
+shared_scripts {
+	'@ox_lib/init.lua',
+	'@pmc-callbacks/import.lua'
+}
 
 client_scripts {
 	'NativeUI.lua',

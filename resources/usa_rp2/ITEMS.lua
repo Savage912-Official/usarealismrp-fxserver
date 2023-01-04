@@ -1,4 +1,6 @@
 local ITEMS = {
+    { name = "Akorus", type = "weapon", hash = GetHashKey("WEAPON_AKORUS"), weight = 25.0, quantity = 1 },
+    { name = "Revolver Ultra", type = "weapon", hash = GetHashKey("WEAPON_REVOLVERULTRA"), weight = 25.0, quantity = 1 },
     { name = "Christmas Present", type = "misc", price = 10000, legality = "legal", quantity = 1, weight = 15, objectModel = "hei_prop_heist_box" },
     { name = "Olaf Minigun", type = "weapon", hash = GetHashKey("WEAPON_OLAFMINIGUN"), weight = 30.0, quantity = 1, christmasPresent2022 = true},
     { name = "Noel Launcher", type = "weapon", hash = GetHashKey("WEAPON_NOELLAUNCHER"), weight = 30.0, quantity = 1, christmasPresent2022 = true},

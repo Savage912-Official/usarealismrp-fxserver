@@ -291,7 +291,20 @@ local warp_locations = {
     },
     job_access = 'civ',
     skipSound = true,
+  },
+  ['Banner Hotel Roof'] = {
+    entrance = {
+      coords = {-1661.89453125, -533.62445068359, 35.964946746826},
+      heading = 168.8225
+    },
+    exit = {
+      coords = {-1634.5906982422, -497.16424560547, 80.981536865234},
+      heading = -180.0
+    },
+    job_access = 'civ',
+    skipSound = true,
   }
+
 }
 
 Citizen.CreateThread(function()

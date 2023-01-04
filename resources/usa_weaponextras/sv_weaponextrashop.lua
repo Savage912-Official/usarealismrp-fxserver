@@ -73,6 +73,9 @@ local ITEMS = {
                 { name = "Empty Pistol Extended Mag", quantity = 1, type = "magazine", price = 300, weight = 7, receives = "9mm", MAX_CAPACITY = 16, currentCapacity = 0, legality = "illegal", notStackable = true, magComponent = "COMPONENT_PISTOL_CLIP_02", compatibleWeapon = GetHashKey("WEAPON_PISTOL") },
                 {name = "Suppressor", value = "COMPONENT_AT_PI_SUPP_02", price = 1500, weapon_hash = 453432689}
             },
+            ["Revolver Ultra"] = {
+                {name = "Suppressor", value = "COMPONENT_AT_REVOLVERLEOSHOP_SUPP", price = 3500, weapon_hash = GetHashKey("WEAPON_REVOLVERULTRA")}
+            },
             ["SNS Pistol"] = {
                 { name = "Empty SNS Pistol Extended Mag", quantity = 1, type = "magazine", price = 200, weight = 6, receives = ".45", MAX_CAPACITY = 12, currentCapacity = 0, legality = "illegal", notStackable = true, magComponent = "COMPONENT_SNSPISTOL_CLIP_02", compatibleWeapon = GetHashKey("WEAPON_SNSPISTOL") },
             },
@@ -146,6 +149,12 @@ local ITEMS = {
                 {name = "Grip", value = "COMPONENT_AT_AR_AFGRIP", price = 1500, weapon_hash = -1074790547},
                 {name = "Flashlight", value = "COMPONENT_AT_AR_FLSH", price = 900, weapon_hash = -1074790547},
                 {name = "Yusuf Amir Luxury Finish", value = "COMPONENT_ASSAULTRIFLE_VARMOD_LUXE", price = 6500, weapon_hash = -1074790547}
+            },
+            ["Akorus"] = {
+                {name = "Empty Akorus Extended Mag", quantity = 1, type = "magazine", price = 900, weight = 7, receives = "7.62mm", MAX_CAPACITY = 60, currentCapacity = 0, notStackable = true, magComponent = "COMPONENT_AKORUS_CLIP_02", compatibleWeapon = GetHashKey("WEAPON_AKORUS") },
+                {name = "Empty Akorus Box Mag", quantity = 1, type = "magazine", price = 900, weight = 12, receives = "7.62mm", MAX_CAPACITY = 140, currentCapacity = 0, notStackable = true, magComponent = "COMPONENT_AKORUS_CLIP_03", compatibleWeapon = GetHashKey("WEAPON_AKORUS") },
+                {name = "Suppressor", value = "COMPONENT_AT_AKORUS_SUPP_02", price = 5000, weapon_hash = GetHashKey("WEAPON_AKORUS")},
+                {name = "Grip", value = "COMPONENT_AT_AKORUS_AFGRIP", price = 3000, weapon_hash = GetHashKey("WEAPON_AKORUS")},
             },
             ["Carbine Rifle"] = {
                 { name = "Empty Carbine Extended Mag", quantity = 1, type = "magazine", price = 500, weight = 7, receives = "5.56mm", MAX_CAPACITY = 60, currentCapacity = 0, legality = "illegal", notStackable = true, magComponent = "COMPONENT_CARBINERIFLE_CLIP_02", compatibleWeapon = GetHashKey("WEAPON_CARBINERIFLE") },

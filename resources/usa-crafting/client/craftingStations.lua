@@ -34,29 +34,24 @@ Citizen.CreateThread(function()
     local craftStationObjectHandles = {}
     while true do
         local mycoords = GetEntityCoords(PlayerPedId())
-        for stationType, locations in pairs(Config.craftingLocations) do
-            for i = 1, #locations do
-                local station = locations[i]
-                local dist = #(mycoords - station.coords)
-                if dist < Config.CRAFT_STATION_OBJECT_DISTANCE then
-                    if not craftStationObjectHandles[i] then
-                        craftStationObjectHandles[i] = spawnCraftingStation(station)
+        for i = #Config.craftingLocations, 1, -1 do
+            local station = Config.craftingLocations[i]
+            local dist = #(mycoords - station.coords)
+            if dist < Config.CRAFT_STATION_OBJECT_DISTANCE then
+                if not craftStationObjectHandles[i] and station.object then
+                    craftStationObjectHandles[i] = spawnCraftingStation(station)
+                end
+                if dist < Config.CRAFT_INTERACT_DISTANCE then
+                    exports.globals:DrawText3D(station.coords.x, station.coords.y, station.coords.z + 1.0, "[E] - Craft")
+                    if IsControlJustPressed(0, Config.CRAFT_KEY) then
+                        ToggleGui()
                     end
-                    if dist < Config.CRAFT_INTERACT_DISTANCE then
-                        exports.globals:DrawText3D(station.coords.x, station.coords.y, station.coords.z + 1.0, "[E] - Craft")
-                        if IsControlJustPressed(0, Config.CRAFT_KEY) then
-                            ToggleGui()
-                        end
-                    end
-                else
-                    -- delete object if exists
-                    if not craftStationObjectHandles[stationType] then
-                        craftStationObjectHandles[stationType] = {}
-                    end
-                    if craftStationObjectHandles[stationType][i] then
-                        DeleteObject(craftStationObjectHandles[stationType][i])
-                        craftStationObjectHandles[stationType][i] = nil
-                    end
+                end
+            else
+                -- delete object if exists
+                if craftStationObjectHandles[i] then
+                    DeleteObject(craftStationObjectHandles[i])
+                    craftStationObjectHandles[i] = nil
                 end
             end
         end

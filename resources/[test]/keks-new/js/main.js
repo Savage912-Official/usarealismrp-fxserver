@@ -7,7 +7,8 @@
     const LOADSCREEN_VIDEOS = [
       "img/loadscreen-video.mp4",
       "img/loadscreen-video-2.mp4",
-      "img/loadscreen-video-3.mp4"
+      "img/loadscreen-video-3.mp4",
+      "img/loadscreen-video-4.mp4",
     ]
     let chosenVideo = LOADSCREEN_VIDEOS[Math.floor(Math.random() * LOADSCREEN_VIDEOS.length)];
     $("video").attr("src", chosenVideo)

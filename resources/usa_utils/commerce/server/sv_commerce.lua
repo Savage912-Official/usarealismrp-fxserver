@@ -137,6 +137,11 @@ TriggerEvent("es:addCommand", "claimreward", function(src, args, char, location)
             end
         end
     elseif args[2] and args[2] == "xmas2022" then
+        local currentDate = os.date("*t")
+        if currentDate.month ~= 12 or currentDate.year ~= 2022 then
+            TriggerClientEvent("usa:notify", src, "Reward has expired")
+            return
+        end
         local user = exports.essentialmode:getPlayerFromId(src)
         local doc = exports.essentialmode:getDocument("xmas-2022-rewards", user.getIdentifier())
         if doc then

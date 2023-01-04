@@ -22,6 +22,7 @@ local WEPS_WITH_MAGS = {
     -- assault rifles --
     [GetHashKey("WEAPON_ASSAULTRIFLE")] = { accepts = "7.62mm", magAmmoCounts = {30, 60, 100} },
     [GetHashKey("WEAPON_ASSAULTRIFLE_MK2")] = { accepts = "7.62mm", magAmmoCounts = {20, 30, 60} },
+    [GetHashKey("WEAPON_AKORUS")] = { accepts = "7.62mm", magAmmoCounts = {30, 60, 140} },
     [GetHashKey("WEAPON_CARBINERIFLE")] = { accepts = "5.56mm", magAmmoCounts = {30, 60, 100} },
     [GetHashKey("WEAPON_CARBINERIFLE_MK2")] = { accepts = "5.56mm", magAmmoCounts = {20, 30, 60} },
     [GetHashKey("WEAPON_ADVANCEDRIFLE")] = { accepts = "5.56mm", magAmmoCounts = {30, 60} },
@@ -75,6 +76,10 @@ local WEPS_NO_MAGS = {
         MAX_CAPACITY = 6
     },
     [GetHashKey("WEAPON_NAVYREVOLVER")] = {
+        AMMO_NAME = ".45",
+        MAX_CAPACITY = 6
+    },
+    [GetHashKey("WEAPON_REVOLVERULTRA")] = {
         AMMO_NAME = ".45",
         MAX_CAPACITY = 6
     },

@@ -1640,3 +1640,14 @@ TriggerEvent('es:addGroupCommand', 'amenu', 'mod', function(source, args, char)
 end, {
 	help = "Open the txAdmin staff menu!"
 })
+
+
+TriggerEvent('es:addGroupCommand', 'removeitem', 'owner', function(source, args, user)
+	local char = exports["usa-characters"]:GetCharacter(source)
+	table.remove(args, 1)
+	local itemName = table.concat(args, " ")
+	local item = char.getItem(itemName)
+	char.removeItem(itemName, item.quantity)
+end, {
+	help = "Remove an item from your inventory"
+})

@@ -14,6 +14,7 @@ AddEventHandler("usa:openChristmasPresent", function(item)
             chosen.quantity = 1
             char.giveItem(chosen)
             TriggerClientEvent("usa:notify", source, "Claimed: " .. chosen.name .. "!", "^3INFO: ^0Claimed a " .. chosen.name .. "!")
+            -- TriggerClientEvent('InteractSound_CL:PlayOnOne', source, "loot-box-open", 1.0) -- not sure why this won't work...
         end
         -- remove
         char.removeItemByUUID(item.uuid)

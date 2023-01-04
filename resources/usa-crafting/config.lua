@@ -1,37 +1,43 @@
 Config = {}
 
 Config.craftingLocations = {
-    weapons = {
-        {
-            coords = vector3(-505.67352294922, -1759.0928955078, 17.644302368164), -- LS
-            object = {
-                model = "gr_prop_gr_bench_02b",
-                heading = 160.0
-            }
+    {
+        coords = vector3(-505.67352294922, -1759.0928955078, 17.644302368164), -- LS
+        object = {
+            model = "gr_prop_gr_bench_02b",
+            heading = 160.0
         },
-        {
-            coords = vector3(-21.198345565796, 6662.040625, 30.004909515381), -- paleto
-            object = {
-                model = "gr_prop_gr_bench_02b",
-                heading = 201.0
-            }
+        type = "weapons"
+    },
+    {
+        coords = vector3(-21.198345565796, 6662.040625, 30.004909515381), -- paleto
+        object = {
+            model = "gr_prop_gr_bench_02b",
+            heading = 201.0
         },
-        {
-            coords = vector3(14.64, -2694.64, 5.01), -- Docks Bench
-            object = {
-                model = "prop_tool_bench02",
-                heading = 0.0
-            }
+        type = "weapons"
+    },
+    {
+        coords = vector3(14.64, -2694.64, 5.01), -- Docks Bench
+        object = {
+            model = "prop_tool_bench02",
+            heading = 0.0
         },
-        {
-            coords = vector3(2332.44, 3027.11, 47.16), -- Sandy Bench
-            object = {
-                model = "prop_toolchest_05",
-                heading = 181.16
-        
-            }   
-        }
-    } 
+        type = "weapons"
+    },
+    {
+        coords = vector3(2332.44, 3027.11, 47.16), -- Sandy Bench
+        object = {
+            model = "prop_toolchest_05",
+            heading = 181.16
+    
+        },
+        type = "weapons"
+    },
+    {
+        coords = vector3(1110.321, -2006.447, 29.90479), -- refinery in LS
+        type = "refineryGoods"
+    }
 }
 
 Config.recipes = {
@@ -821,6 +827,125 @@ Config.recipes = {
             requiredCraftingLevel = 1,
             type = "magazine",
             craftDurationSeconds = 1.5 * 60
+        },
+        { 
+            name = "Akorus",
+            image = "https://i.imgur.com/5KYTXGp.png",
+            requires = {
+                { name = "Akorus Gun Cast", quantity = 1 },
+                { name = "Spring", quantity = 2 },
+                { name = "Wood", quantity = 2 },
+                { name = "Refined Gold", quantity = 2 },
+                { name = "Knife", quantity = 1 }
+            },
+            produces = {
+                {
+                    name = "Akorus",
+                    hash = GetHashKey("WEAPON_AKORUS"),
+                    quantity = 1,
+                    type = "weapon",
+                    weight = 25,
+                    objectModel = "w_ar_carbinerifle",
+                    notStackable = true
+                }
+            },
+            requiredCraftingLevel = 3,
+            type = "weapons"
+        },
+        { 
+            name = "Revolver Ultra",
+            image = "https://i.imgur.com/QK4SEq3.png",
+            requires = {
+                { name = "Revolver Ultra Gun Cast", quantity = 1 },
+                { name = "Spring", quantity = 1 },
+                { name = "Wood", quantity = 1 },
+                { name = "Refined Gold", quantity = 1 }
+            },
+            produces = {
+                {
+                    name = "Revolver Ultra",
+                    hash = GetHashKey("WEAPON_REVOLVERULTRA"),
+                    quantity = 1,
+                    type = "weapon",
+                    weight = 15,
+                    objectModel = "w_pi_pistol",
+                    notStackable = true
+                }
+            },
+            requiredCraftingLevel = 3,
+            type = "weapons"
+        },  
+    },
+    refineryGoods = {
+        { 
+            name = "Akorus Gun Cast",
+            image = "https://i.imgur.com/3kvY24m.png",
+            requires = {
+                { name = "Steel", quantity = 3 },
+                { name = "Refined Gold", quantity = 2 }
+            },
+            produces = {
+                {
+                    name = "Akorus Gun Cast",
+                    quantity = 1,
+                    type = "misc",
+                    weight = 10
+                }
+            },
+            requiredCraftingLevel = 1,
+            type = "refineryGoods"
+        },
+        { 
+            name = "Revolver Ultra Gun Cast",
+            image = "https://i.imgur.com/l1nvTAE.png",
+            requires = {
+                { name = "Steel", quantity = 2 },
+                { name = "Refined Gold", quantity = 1 }
+            },
+            produces = {
+                {
+                    name = "Revolver Ultra Gun Cast",
+                    quantity = 1,
+                    type = "misc",
+                    weight = 10
+                }
+            },
+            requiredCraftingLevel = 1,
+            type = "refineryGoods"
+        },
+        { 
+            name = "Steel",
+            image = "https://i.imgur.com/o4sROlT.png",
+            requires = {
+                { name = "Iron", quantity = 5 },
+            },
+            produces = {
+                {
+                    name = "Steel",
+                    quantity = 1,
+                    type = "misc",
+                    weight = 15
+                }
+            },
+            requiredCraftingLevel = 1,
+            type = "refineryGoods"
+        },
+        { 
+            name = "Refined Gold",
+            image = "https://i.imgur.com/QYthPRN.png",
+            requires = {
+                { name = "Gold", quantity = 5 },
+            },
+            produces = {
+                {
+                    name = "Refined Gold",
+                    quantity = 1,
+                    type = "misc",
+                    weight = 15
+                }
+            },
+            requiredCraftingLevel = 1,
+            type = "refineryGoods"
         },
     }
 }

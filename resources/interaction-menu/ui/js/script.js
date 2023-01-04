@@ -40,6 +40,11 @@ NO_TOOLTIP_WEAPONS.add("Ninja Star 2");
 NO_TOOLTIP_WEAPONS.add("Megaphone");
 NO_TOOLTIP_WEAPONS.add("Mace");
 NO_TOOLTIP_WEAPONS.add("Plasma Pistol");
+NO_TOOLTIP_WEAPONS.add("Snowhammer");
+NO_TOOLTIP_WEAPONS.add("Batxmas");
+NO_TOOLTIP_WEAPONS.add("Olaf Minigun");
+NO_TOOLTIP_WEAPONS.add("Noel Launcher");
+NO_TOOLTIP_WEAPONS.add("Candycrow");
 
 var itemImages = {
     "Driver's License": "https://i.imgur.com/dy0SpFh.png",
@@ -527,7 +532,11 @@ var itemImages = {
     "Olaf Minigun": "https://i.imgur.com/rvgg4V9.png",
     "Candycrow": "https://i.imgur.com/FBXMz6q.png",
     "Batxmas": "https://i.imgur.com/nJpSAic.png",
-    "Snowhammer": "https://i.imgur.com/qgBfs19.png"
+    "Snowhammer": "https://i.imgur.com/qgBfs19.png",
+    "Akorus Gun Cast": "https://i.imgur.com/3kvY24m.png",
+    "Steel": "https://i.imgur.com/o4sROlT.png",
+    "Akorus": "https://i.imgur.com/5KYTXGp.png",
+    "Revolver Ultra": "https://i.imgur.com/QK4SEq3.png"
 }
 
 var menuItems = [{

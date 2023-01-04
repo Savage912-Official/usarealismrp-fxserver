@@ -39,6 +39,8 @@ prohibitedWeapons["shotsFired"][`WEAPON_NINJASTAR2`] = true
 prohibitedWeapons["shotsFired"][`WEAPON_THROWINGSHOEBLACK`] = true
 prohibitedWeapons["shotsFired"][`WEAPON_THROWINGSHOEBLUE`] = true
 prohibitedWeapons["shotsFired"][`WEAPON_THROWINGSHOERED`] = true
+prohibitedWeapons["shotsFired"][`WEAPON_NOELLAUNCHER`] = true
+prohibitedWeapons["shotsFired"][`WEAPON_OLAFMINIGUN`] = true
 
 Citizen.CreateThread(function()
 	while true do

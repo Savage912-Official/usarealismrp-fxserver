@@ -101,7 +101,7 @@ local HARDWARE_STORE_ITEMS = {
     { name = "Bag", price = 100, type = "misc", quantity = 1, legality = "legal", weight = 15, objectModel = "prop_paper_bag_01"},
     { name = "Ludde's Lube", price = 10, type = "misc", quantity = 1, legality = "legal", weight = 7, objectModel = "v_res_d_lube"},
     { name = "Tent", price = 200, type = "misc", quantity = 1, legality = "legal", weight = 50, objectModel = "prop_cs_box_step"},
-    { name = "Wood", price = 200, type = "misc", quantity = 1, legality = "legal", weight = 25, objectModel = "prop_cs_box_step"},
+    { name = "Wood", price = 200, type = "misc", quantity = 1, legality = "legal", weight = 15, objectModel = "prop_cs_box_step"},
     { name = "Chair", price = 100, type = "misc", quantity = 1, legality = "legal", weight = 60, objectModel = "prop_cs_box_step"},
     { name = "Vortex Optics Binoculars", price = 150, type = "misc", quantity = 1, legality = "legal", weight = 10, objectModel = "prop_binoc_01"},
     { name = "Shovel", price = 75, type = "misc", quantity = 1, legality = "legal", weight = 30, objectModel = "prop_tool_shovel"},

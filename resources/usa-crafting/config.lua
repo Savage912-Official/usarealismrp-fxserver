@@ -30,7 +30,7 @@ Config.craftingLocations = {
         object = {
             model = "prop_toolchest_05",
             heading = 181.16
-    
+
         },
         type = "weapons"
     },
@@ -42,7 +42,7 @@ Config.craftingLocations = {
 
 Config.recipes = {
     weapons = {
-        { 
+        {
             name = "Ninja Star",
             image = "https://i.imgur.com/4O5FjCK.png",
             requires = {
@@ -60,7 +60,7 @@ Config.recipes = {
             requiredCraftingLevel = 1,
             type = "weapons"
         },
-        { 
+        {
             name = "Ninja Star 2",
             image = "https://i.imgur.com/KjU5asW.png",
             requires = {
@@ -78,7 +78,7 @@ Config.recipes = {
             requiredCraftingLevel = 1,
             type = "weapons"
         },
-        { 
+        {
             name = "Glock",
             image = "https://i.imgur.com/UjZeF6e.png",
             requires = {
@@ -98,7 +98,7 @@ Config.recipes = {
             requiredCraftingLevel = 1,
             type = "weapons"
         },
-        { 
+        {
             name = "Ceramic Pistol",
             image = "https://i.imgur.com/zhZJdBq.png",
             requires = {
@@ -118,7 +118,7 @@ Config.recipes = {
             requiredCraftingLevel = 1,
             type = "weapons"
         },
-        { 
+        {
             name = "SNS Pistol",
             image = "https://vignette.wikia.nocookie.net/gtawiki/images/f/f5/SNSPistol-GTAV-SocialClub.png/revision/latest/scale-to-width-down/185?cb=20180202170333",
             requires = {
@@ -138,7 +138,26 @@ Config.recipes = {
             requiredCraftingLevel = 1,
             type = "weapons"
         },
-        { 
+        {
+            name = "Hotwiring Kit",
+            image = "https://i.imgur.com/JZtZKoP.png",
+            requires = {
+                { name = "Plastic", quantity = 3 },
+                { name = "Copper Wire", quantity = 6 }
+            },
+            produces = {
+                {
+                    name = "Hotwiring Kit",
+                    quantity = 1,
+                    type = "misc",
+                    weight = 10,
+                }
+            },
+            requiredCraftingLevel = 1,
+            type = "misc",
+            craftDurationSeconds = 3 * 60
+        },
+        {
             name = "SNS Pistol Mk2",
             image = "https://i.imgur.com/kEiTXLt.png",
             requires = {
@@ -158,7 +177,7 @@ Config.recipes = {
             requiredCraftingLevel = 2,
             type = "weapons"
         },
-        { 
+        {
             name = "Pistol",
             image = "https://steamuserimages-a.akamaihd.net/ugc/29613457985625199/0D5453A0ADC32EDBADEACF8D5CBE1EF129FCA5DC/",
             requires = {
@@ -178,7 +197,7 @@ Config.recipes = {
             requiredCraftingLevel = 1,
             type = "weapons"
         },
-        { 
+        {
             name = "Vintage Pistol",
             image = "https://i.pinimg.com/originals/3e/5b/09/3e5b09796cb124639c5f2232e5f32d9b.png",
             requires = {
@@ -198,7 +217,7 @@ Config.recipes = {
             requiredCraftingLevel = 1,
             type = "weapons"
         },
-        { 
+        {
             name = "Heavy Pistol",
             image = "https://i.imgur.com/weWweWG.png",
             requires = {
@@ -218,7 +237,7 @@ Config.recipes = {
             requiredCraftingLevel = 1,
             type = "weapons"
         },
-        { 
+        {
             name = "Pistol .50",
             image = "https://i.imgur.com/W9sFoxi.png",
             requires = {
@@ -238,7 +257,7 @@ Config.recipes = {
             requiredCraftingLevel = 1,
             type = "weapons"
         },
-        { 
+        {
             name = "Double Action Revolver",
             image = "https://i.imgur.com/zwIXqO3.png",
             requires = {
@@ -258,7 +277,7 @@ Config.recipes = {
             requiredCraftingLevel = 1,
             type = "weapons"
         },
-        { 
+        {
             name = "Navy Revolver",
             image = "https://i.imgur.com/VSqkAPp.png",
             requires = {
@@ -277,8 +296,8 @@ Config.recipes = {
             },
             requiredCraftingLevel = 1,
             type = "weapons"
-        },  
-        { 
+        },
+        {
             name = "Revolver",
             image = "https://i.imgur.com/h1xuFdn.png",
             requires = {
@@ -298,7 +317,7 @@ Config.recipes = {
             requiredCraftingLevel = 1,
             type = "weapons"
         },
-        { 
+        {
             name = "Revolver Mk2",
             image = "https://i.imgur.com/GGjioEw.png",
             requires = {
@@ -318,7 +337,7 @@ Config.recipes = {
             requiredCraftingLevel = 2,
             type = "weapons"
         },
-        { 
+        {
             name = "Marksman Pistol",
             image = "https://i.imgur.com/dIR4duM.png",
             requires = {
@@ -358,7 +377,7 @@ Config.recipes = {
             requiredCraftingLevel = 2,
             type = "weapons"
         },
-        { 
+        {
             name = "Sawn-off",
             image = "https://i.imgur.com/iJsQmRs.png",
             requires = {
@@ -378,7 +397,7 @@ Config.recipes = {
             requiredCraftingLevel = 2,
             type = "weapons"
         },
-        { 
+        {
             name = "Heavy Shotgun",
             image = "https://i.imgur.com/JRP4gPv.png",
             requires = {
@@ -398,7 +417,7 @@ Config.recipes = {
             requiredCraftingLevel = 2,
             type = "weapons"
         },
-        { 
+        {
             name = "Double Barrel Shotgun",
             image = "https://i.imgur.com/cSRrM0R.png",
             requires = {
@@ -418,7 +437,7 @@ Config.recipes = {
             requiredCraftingLevel = 2,
             type = "weapons"
         },
-        { 
+        {
             name = "AP Pistol",
             image = "https://i.pinimg.com/originals/3e/5b/09/3e5b09796cb124639c5f2232e5f32d9b.png",
             requires = {
@@ -438,7 +457,7 @@ Config.recipes = {
             requiredCraftingLevel = 2,
             type = "weapons"
         },
-        { 
+        {
             name = "Micro SMG",
             image = "https://i.imgur.com/yGbb2l5.png",
             requires = {
@@ -458,7 +477,7 @@ Config.recipes = {
             requiredCraftingLevel = 3,
             type = "weapons"
         },
-        { 
+        {
             name = "SMG",
             image = "https://i.imgur.com/bWKE4O6.png",
             requires = {
@@ -478,7 +497,7 @@ Config.recipes = {
             requiredCraftingLevel = 3,
             type = "weapons"
         },
-        { 
+        {
             name = "Assault SMG",
             image = "https://i.imgur.com/XbTVfAB.png",
             requires = {
@@ -498,7 +517,7 @@ Config.recipes = {
             requiredCraftingLevel = 3,
             type = "weapons"
         },
-        { 
+        {
             name = "Combat PDW",
             image = "https://i.imgur.com/wHbb0V4.png",
             requires = {
@@ -518,7 +537,7 @@ Config.recipes = {
             requiredCraftingLevel = 3,
             type = "weapons"
         },
-        { 
+        {
             name = "Tommy Gun",
             image = "https://www.gtabase.com/images/gta-5/weapons/machine-guns/gusenberg-sweeper.png",
             requires = {
@@ -538,7 +557,7 @@ Config.recipes = {
             requiredCraftingLevel = 3,
             type = "weapons"
         },
-        { 
+        {
             name = "AK-47",
             image = "http://www.transparentpng.com/thumb/ak-47/icon-clipart-ak-47-12.png",
             requires = {
@@ -558,7 +577,7 @@ Config.recipes = {
             requiredCraftingLevel = 3,
             type = "weapons"
         },
-        { 
+        {
             name = "Carbine",
             image = "http://www.gaksharpshooters.com/images/ar15.gif",
             requires = {
@@ -578,7 +597,7 @@ Config.recipes = {
             requiredCraftingLevel = 3,
             type = "weapons"
         },
-        { 
+        {
             name = "Tactical Carbine",
             image = "https://i.imgur.com/Z1OFXtU.png",
             requires = {
@@ -598,7 +617,7 @@ Config.recipes = {
             requiredCraftingLevel = 3,
             type = "weapons"
         },
-        { 
+        {
             name = "Military Rifle",
             image = "https://i.imgur.com/5dInslW.png",
             requires = {
@@ -618,7 +637,7 @@ Config.recipes = {
             requiredCraftingLevel = 3,
             type = "weapons"
         },
-        { 
+        {
             name = "Compact Rifle",
             image = "https://i.imgur.com/38RjuhX.png",
             requires = {
@@ -637,7 +656,7 @@ Config.recipes = {
             requiredCraftingLevel = 3,
             type = "weapons"
         },
-        { 
+        {
             name = "Machine Pistol",
             image = "https://i.pinimg.com/originals/19/38/54/193854f15e38f4e13174e815c92de4e4.png",
             requires = {
@@ -657,7 +676,7 @@ Config.recipes = {
             requiredCraftingLevel = 2,
             type = "weapons"
         },
-        { 
+        {
             name = "Hand Grenade",
             image = "https://static.wikia.nocookie.net/gtawiki/images/5/52/Grenade-GTAV.png/revision/latest?cb=20190809090848",
             requires = {
@@ -678,7 +697,7 @@ Config.recipes = {
             requiredCraftingLevel = 4,
             type = "weapons"
         },
-        { 
+        {
             name = "Mace",
             image = "https://i.imgur.com/EJoWdJ8.png",
             requires = {
@@ -699,7 +718,7 @@ Config.recipes = {
             requiredCraftingLevel = 1,
             type = "weapons"
         },
-        { 
+        {
             name = "(10x) 7.62mm Bullets",
             image = "https://i.imgur.com/twK3t2s.png",
             requires = {
@@ -719,7 +738,7 @@ Config.recipes = {
             type = "ammo",
             craftDurationSeconds = 3 * 60
         },
-        { 
+        {
             name = "(10x) 5.56mm Bullets",
             image = "https://i.imgur.com/ivr2Jcg.png",
             requires = {
@@ -739,7 +758,7 @@ Config.recipes = {
             type = "ammo",
             craftDurationSeconds = 3 * 60
         },
-        { 
+        {
             name = "(10x) 9x18mm Bullets",
             image = "https://i.imgur.com/TFW3q4q.png",
             requires = {
@@ -759,7 +778,7 @@ Config.recipes = {
             type = "ammo",
             craftDurationSeconds = 3 * 60
         },
-        { 
+        {
             name = "30 round Magazine (7.62mm)",
             image = "https://i.imgur.com/2AOnIid.png",
             requires = {
@@ -775,14 +794,14 @@ Config.recipes = {
                     receives = "7.62mm",
                     MAX_CAPACITY = 30,
                     currentCapacity = 0,
-                    objectModel = "w_ar_carbinerifle_mag1" 
+                    objectModel = "w_ar_carbinerifle_mag1"
                 }
             },
             requiredCraftingLevel = 1,
             type = "magazine",
             craftDurationSeconds = 2 * 60
         },
-        { 
+        {
             name = "30 round Magazine (5.56mm)",
             image = "https://i.imgur.com/9tK7cKI.png",
             requires = {
@@ -805,7 +824,7 @@ Config.recipes = {
             type = "magazine",
             craftDurationSeconds = 2 * 60
         },
-        { 
+        {
             name = "18 round Magazine (9x18mm)",
             image = "https://i.imgur.com/brGIZW0.png",
             requires = {
@@ -828,12 +847,12 @@ Config.recipes = {
             type = "magazine",
             craftDurationSeconds = 1.5 * 60
         },
-        { 
+        {
             name = "Akorus",
             image = "https://i.imgur.com/5KYTXGp.png",
             requires = {
                 { name = "Akorus Gun Cast", quantity = 1 },
-                { name = "Spring", quantity = 2 },
+                { name = "Metal Spring", quantity = 2 },
                 { name = "Wood", quantity = 2 },
                 { name = "Refined Gold", quantity = 2 },
                 { name = "Knife", quantity = 1 }
@@ -852,12 +871,12 @@ Config.recipes = {
             requiredCraftingLevel = 3,
             type = "weapons"
         },
-        { 
+        {
             name = "Revolver Ultra",
             image = "https://i.imgur.com/QK4SEq3.png",
             requires = {
                 { name = "Revolver Ultra Gun Cast", quantity = 1 },
-                { name = "Spring", quantity = 1 },
+                { name = "Metal Spring", quantity = 1 },
                 { name = "Wood", quantity = 1 },
                 { name = "Refined Gold", quantity = 1 }
             },
@@ -874,10 +893,10 @@ Config.recipes = {
             },
             requiredCraftingLevel = 3,
             type = "weapons"
-        },  
+        },
     },
     refineryGoods = {
-        { 
+        {
             name = "Akorus Gun Cast",
             image = "https://i.imgur.com/3kvY24m.png",
             requires = {
@@ -895,7 +914,7 @@ Config.recipes = {
             requiredCraftingLevel = 1,
             type = "refineryGoods"
         },
-        { 
+        {
             name = "Revolver Ultra Gun Cast",
             image = "https://i.imgur.com/l1nvTAE.png",
             requires = {
@@ -913,7 +932,7 @@ Config.recipes = {
             requiredCraftingLevel = 1,
             type = "refineryGoods"
         },
-        { 
+        {
             name = "Steel",
             image = "https://i.imgur.com/o4sROlT.png",
             requires = {
@@ -930,7 +949,7 @@ Config.recipes = {
             requiredCraftingLevel = 1,
             type = "refineryGoods"
         },
-        { 
+        {
             name = "Refined Gold",
             image = "https://i.imgur.com/QYthPRN.png",
             requires = {
@@ -946,6 +965,42 @@ Config.recipes = {
             },
             requiredCraftingLevel = 1,
             type = "refineryGoods"
+        },
+        {
+            name = "Plastic",
+            image = "https://imgur.com/2LLDroM.png",
+            requires = {
+                { name = "Crude Oil", quantity = 1 },
+            },
+            produces = {
+                {
+                    name = "Plastic",
+                    quantity = 1,
+                    type = "misc",
+                    weight = 2
+                }
+            },
+            requiredCraftingLevel = 1,
+            type = "refineryGoods",
+            craftDurationSeconds = 3 * 60
+        },
+        {
+            name = "Copper Wire",
+            image = "https://i.imgur.com/aVnjUSE.png",
+            requires = {
+                { name = "Copper", quantity = 2 },
+            },
+            produces = {
+                {
+                    name = "Copper Wire",
+                    quantity = 1,
+                    type = "misc",
+                    weight = 3
+                }
+            },
+            requiredCraftingLevel = 1,
+            type = "refineryGoods",
+            craftDurationSeconds = 3 * 60
         },
     }
 }

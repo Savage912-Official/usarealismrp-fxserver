@@ -10,6 +10,7 @@ local common = {
 local rare = {
     {name = "Diamond", type = "misc", price = 950, legality = "legal", quantity = 1, weight = 15.0},
     {name = "Gold", type = "misc", price = 750, legality = "legal", quantity = 1, weight = 15.0},
+    {name = "Crude Oil", type = "misc", price = 450, legality = "legal", quantity = 1, weight = 15.0},
 }
 
 RegisterServerEvent('mining:doesUserHaveCorrectItems')
@@ -33,7 +34,7 @@ AddEventHandler('mining:giveUserMiningGoods', function(securityToken)
         local gotARareItem = math.random() <= 0.25
         if gotARareItem then
             giveCharItem(char, source, "rare")
-        else 
+        else
             giveCharItem(char, source, "common")
         end
     else

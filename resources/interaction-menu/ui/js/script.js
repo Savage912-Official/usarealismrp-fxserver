@@ -313,6 +313,9 @@ var itemImages = {
     "7.62mm Shell Casing": "https://i.imgur.com/JdD8Lf8.png",
     "5.56mm Shell Casing": "https://i.imgur.com/JdD8Lf8.png",
     "9x18mm Shell Casing": "https://i.imgur.com/pza2fXR.png",
+    "Crude Oil": "https://i.imgur.com/e4AsFbA.png",
+    "Plastic": "https://imgur.com/2LLDroM.png",
+    "Copper Wire": "https://i.imgur.com/aVnjUSE.png",
     // begin card images
     "Narlee": "https://i.imgur.com/KrPw4gk.png",
     "Red Eyes B. Dragon": "https://i.imgur.com/tKEcju1.png",
@@ -535,8 +538,10 @@ var itemImages = {
     "Snowhammer": "https://i.imgur.com/qgBfs19.png",
     "Akorus Gun Cast": "https://i.imgur.com/3kvY24m.png",
     "Steel": "https://i.imgur.com/o4sROlT.png",
+    "Refined Gold": "https://i.imgur.com/QYthPRN.png",
     "Akorus": "https://i.imgur.com/5KYTXGp.png",
     "Revolver Ultra": "https://i.imgur.com/QK4SEq3.png"
+    "Revolver Gun Cast": "https://i.imgur.com/l1nvTAE.png"
 }
 
 var menuItems = [{
@@ -935,7 +940,7 @@ var interactionMenu = new Vue({
                 return itemImages["Key"];
             } else if (itemImages[name]) {
                 return itemImages[name];
-            
+
             } else if (name.includes(" Potion")) {
                 return itemImages.Potion
             } else {

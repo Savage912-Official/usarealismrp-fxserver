@@ -72,7 +72,7 @@ AddEventHandler("crafting:beginCrafting", function(recipe)
         ToggleGui()
 
         if lib.progressCircle({
-            duration = recipe.craftDurationSeconds or Config.DEFAULT_CRAFT_DURATION_SECONDS * 1000,
+            duration = (recipe.craftDurationSeconds or Config.DEFAULT_CRAFT_DURATION_SECONDS) * 1000,
             label = 'Crafting...',
             position = 'bottom',
             useWhileDead = false,
@@ -87,19 +87,19 @@ AddEventHandler("crafting:beginCrafting", function(recipe)
                 clip = 'idle_a',
                 flag = 39,
             },
-        }) then 
+        }) then
             while securityToken == nil do
                 Wait(1)
             end
             TriggerServerEvent("crafting:finishedCrafting", recipe, securityToken)
             TriggerEvent("dpemotes:command", 'e', GetPlayerServerId(PlayerId()), {"c"})
             alreadyCrafting = false
-        else 
+        else
             TriggerEvent("dpemotes:command", 'e', GetPlayerServerId(PlayerId()), {"c"})
             alreadyCrafting = false
         end
 
     else
-       exports.globals:notify("Already crafting") 
+       exports.globals:notify("Already crafting")
     end
 end)

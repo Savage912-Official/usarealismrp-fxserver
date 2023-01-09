@@ -81,7 +81,8 @@ locations = {
 	{x = -935.0384, y = -2316.2700, z =  6.7091, noBlip = true}, -- metro Clock in
 	{x = -2315.1484375, y = 283.1760559082, z = 169.46704101563, noBlip = true}, -- plasma kart 
 	{x = 897.21588134766, y = -1019.8331298828, z = 34.966979980469, noBlip = true}, -- Auto Repair Place
-	{x = -1669.1839599609, y = -541.4306640625, z = 35.10620880127, noBlip = true}
+	{x = -1669.1839599609, y = -541.4306640625, z = 35.10620880127, noBlip = true},
+	{x = 471.7410, y = -1873.5828, z = 26.8678, noBlip = true} -- Atomic Autos
 }
 
 local VEHICLE_DAMAGES = {}

@@ -269,7 +269,12 @@ local DOORS = {
   {name = "LaMesa PD / Back Entrance (BreakRoom)", x = 829.6385, y = -1310.128, z = 28.37117, model = -1246730733, locked = true, offset = {0.0, 1.25, 0.0}, heading = 180.0, _dist = 1.5, allowedJobs = {'sheriff', 'corrections'}},
   {name = "LaMesa PD / Gate", x = 817.50970458984, y = -1320.8515625, z = 26.078126907349, model = -1372582968, locked = true, offset = {0.0, 4.5, 2.0}, gate = true, lockedCoords = {816.9862, -1325.258, 25.09328}, heading = 270.0, _dist = 8.0, allowedJobs = {'sheriff', 'corrections'}},
   {name = "LaMesa PD / Front Fence Door", x = 835.9445, y = -1292.193, z = 27.78268, model = -147896569, locked = true, offset = {0.0, -0.58, 0.5}, heading = 270.0, _dist = 1.5, allowedJobs = {'sheriff', 'corrections'}},
-
+  -- Hawick / San-Vitus Fleeca
+  {name = "Hawick / SV Fleeca Door 1", x = -353.39779663086, y = -54.196060180664, z = 49.037128448486, model = -1591004109, locked = true, offset ={0.0, -1.5, 0.0}, heading = 250.0, _dist = 1.0, advancedlockpickable = true, allowedJobs = {'sheriff', "corrections"}},
+  {name = "Hawick / SV Fleeca Door 2", x = -351.04098510742, y = -56.051750183105, z = 49.014827728271, model = -1591004109, locked = true, offset ={0.0, -1.5, 0.0}, heading = 160.0, _dist = 1.0, advancedlockpickable = true, allowedJobs = {'sheriff', "corrections"}},
+  -- Hawick / Meteor Fleeca
+  {name = "Hawick / Meteor Fleeca Door 1", x = 311.77792358398, y = -283.369140625, z = 54.164772033691, model = -1591004109, locked = true, offset ={0.0, -1.5, 0.0}, heading = 250.0, _dist = 1.0, advancedlockpickable = true, allowedJobs = {'sheriff', "corrections"}},
+  {name = "Hawick / Meteor Fleeca Door 2", x = 313.99398803711, y = -285.25039672852, z = 54.143054962158, model = -1591004109, locked = true, offset ={0.0, -1.5, 0.0}, heading = 160.0, _dist = 1.0, advancedlockpickable = true, allowedJobs = {'sheriff', "corrections"}},
 
 }
 

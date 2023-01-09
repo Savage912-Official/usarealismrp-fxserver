@@ -56,7 +56,7 @@
 
   #logo-container {
     text-align: center;
-    margin-top: 13em;
+    margin-top: 25em;
   }
 
   .progress-bar-wrap {
@@ -94,10 +94,6 @@
       width: 650px;
       margin-left: -300px;
   	}
-    #logo-container {
-      text-align: center;
-      margin-top: 1em;
-    }
     img {
       width: 40em;
     }

@@ -303,6 +303,24 @@ locations = {
 		show_blip = {
 			disable_blip = true
 		}
+	},
+	["Atomic Auto"] = {
+		duty = {
+			x = 478.21,
+			y = -1876.95,
+			z = 26.09
+		},
+		truck_spawn = {
+			x = 476.67,
+			y = -1868.62,
+			z = 26.89,
+			heading = 299.0
+		},
+		impound = nil,
+		ped = nil, 
+		show_blip = {
+			disable_blip = true
+		}
 	}
 }
 	

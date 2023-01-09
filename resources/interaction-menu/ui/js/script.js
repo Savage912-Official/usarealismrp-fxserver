@@ -540,7 +540,7 @@ var itemImages = {
     "Steel": "https://i.imgur.com/o4sROlT.png",
     "Refined Gold": "https://i.imgur.com/QYthPRN.png",
     "Akorus": "https://i.imgur.com/5KYTXGp.png",
-    "Revolver Ultra": "https://i.imgur.com/QK4SEq3.png"
+    "Revolver Ultra": "https://i.imgur.com/QK4SEq3.png",
     "Revolver Gun Cast": "https://i.imgur.com/l1nvTAE.png"
 }
 

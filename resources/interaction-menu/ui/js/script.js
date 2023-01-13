@@ -541,7 +541,10 @@ var itemImages = {
     "Refined Gold": "https://i.imgur.com/QYthPRN.png",
     "Akorus": "https://i.imgur.com/5KYTXGp.png",
     "Revolver Ultra": "https://i.imgur.com/QK4SEq3.png",
-    "Revolver Gun Cast": "https://i.imgur.com/l1nvTAE.png"
+    "Revolver Gun Cast": "https://i.imgur.com/l1nvTAE.png",
+    "Low Grip Tires": "https://i.imgur.com/dbnI2Fl.png",
+    "Normal Tires": "https://i.imgur.com/dbnI2Fl.png",
+    "Underglow Kit": "https://i.imgur.com/Py0qvzu.png"
 }
 
 var menuItems = [{

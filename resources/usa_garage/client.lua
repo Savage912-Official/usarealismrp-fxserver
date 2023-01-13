@@ -100,6 +100,8 @@ end)
 
 local nearbyLocations = {}
 
+local lastUnderglowColorForVeh = {}
+
 -- thread to record nearby locations as an optimization
 Citizen.CreateThread(function()
 	while true do
@@ -152,6 +154,8 @@ end)
 RegisterNetEvent("garage:storeVehicle")
 AddEventHandler("garage:storeVehicle", function()
 	local veh = GetVehiclePedIsIn(GetPlayerPed(-1), true)
+	local underglowEnabled = isUnderglowOn(veh)
+	local underglowR, underglowG, underglowB = GetVehicleNeonLightsColour(veh)
 	local plate = GetVehicleNumberPlateText(veh)
 	plate = exports.globals:trim(plate)
 	exports.globals:notify("Vehicle has been returned to the garage!")
@@ -188,6 +192,13 @@ AddEventHandler("garage:storeVehicle", function()
 		TriggerServerEvent("garage:storeKey", plate)
 		-- save fuel
 		TriggerServerEvent("fuel:save", plate)
+		if underglowEnabled then
+			if hasChangedUnderglowColor(plate, { r = underglowR, g = underglowG, b = underglowB }) then
+				-- save underglow color (cause it can be changed with the RGB controller)
+				TriggerServerEvent("mechanic:saveUnderglow", plate, underglowR, underglowG, underglowB)
+			end
+			lastUnderglowColorForVeh[plate] = nil
+		end
 	end
 end)
 
@@ -278,6 +289,16 @@ AddEventHandler("garage:spawn", function(vehicle)
 			end
 		end
 
+		-- record underglow if applicable (for optimization purposes)
+		if isUnderglowOn(vehicle) then
+			local currentR, currentG, currentB = GetVehicleNeonLightsColour(vehicle)
+			lastUnderglowColorForVeh[plateText] = {
+				r = currentR,
+				g = currentG,
+				b = currentB
+			}
+		end
+
 	end)
 
 end)
@@ -292,4 +313,26 @@ function DrawText3D(x, y, z, text)
 	DrawText(_x,_y)
 	local factor = (string.len(text)) / 470
 	DrawRect(_x,_y+0.0125, 0.015+factor, 0.03, 41, 11, 41, 68)
+end
+
+function isUnderglowOn(veh)
+	local indexes = {0, 1, 2, 3}
+	for i = 1, #indexes do
+		if IsVehicleNeonLightEnabled(veh, indexes[i]) then
+			return true
+		end
+	end
+	return false
+end
+
+function hasChangedUnderglowColor(plate, currentRgb)
+	if lastUnderglowColorForVeh[plate].r ~= currentRgb.r then
+		return true
+	elseif lastUnderglowColorForVeh[plate].g ~= currentRgb.g then
+		return true
+	elseif lastUnderglowColorForVeh[plate].b ~= currentRgb.b then
+		return true
+	else
+		return false
+	end
 end

@@ -232,9 +232,9 @@ function isConscious()
         for bone, injuries in pairs(injuredParts) do
             local boneName = parts[bone]
             for injury, data in pairs(injuredParts[bone]) do
-                local type = injuredParts[bone][injury].type
+                local injuryType = injuredParts[bone][injury].type
                 local cause = injuredParts[bone][injury].string
-                if type == 'penetrating' or type == 'laceration' or type == 'burn' then
+                if injuryType == 'penetrating' or injuryType == 'laceration' or injuryType == 'burn' then
                     if boneName == 'Head' or cause == "Explosion" then
                         seriousInjuries = seriousInjuries + 3
                     else

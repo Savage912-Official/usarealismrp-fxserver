@@ -39,12 +39,11 @@ AddEventHandler('fuel:purchaseFuel', function(amount, type)
 	if job == "sheriff" or job == "ems" or job == "fire" or job == "corrections" then
 		TriggerClientEvent("fuel:refuelAmount", source, amount)
 	else
-		local money = char.get("money")
 		local toPay = (amount or 1) * price
-		if toPay >= money then
+		if not char.hasEnoughMoneyOrBank(toPay) then
 			TriggerClientEvent("usa:notify", source, "You cannot afford this purchase! ~y~($"..toPay..')')
 		else
-			char.removeMoney(toPay)
+			char.removeMoneyOrBank(toPay)
 			TriggerClientEvent("fuel:refuelAmount", source, amount)
 		end
 	end

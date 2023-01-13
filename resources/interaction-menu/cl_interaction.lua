@@ -385,12 +385,14 @@ RegisterNUICallback('loadVehicleInventory', function(data, cb)
 end)
 
 RegisterCommand('openInventory', function()
-	local hitHandleVehicle, distance = getVehicleInsideOrInFrontOfUser()
-	local target_veh_plate = GetVehicleNumberPlateText(hitHandleVehicle)
-	local target_veh_plate = exports.globals:trim(target_veh_plate)
-	TriggerServerEvent("interaction:InvLoadHotkey", target_veh_plate)
-	if hitHandleVehicle ~= 0 and target_veh_plate then
-		TriggerServerEvent("vehicle:AddPersonToInventory", target_veh_plate)
+	if not busy then
+		local hitHandleVehicle, distance = getVehicleInsideOrInFrontOfUser()
+		local target_veh_plate = GetVehicleNumberPlateText(hitHandleVehicle)
+		local target_veh_plate = exports.globals:trim(target_veh_plate)
+		TriggerServerEvent("interaction:InvLoadHotkey", target_veh_plate)
+		if hitHandleVehicle ~= 0 and target_veh_plate then
+			TriggerServerEvent("vehicle:AddPersonToInventory", target_veh_plate)
+		end
 	end
 end)
 

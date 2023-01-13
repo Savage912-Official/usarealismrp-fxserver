@@ -17,6 +17,6 @@ AddEventHandler("magicPotion:used", function(item)
             TriggerClientEvent("magicPotion:used", source, potionItem.model)
         end
         -- remove
-        char.removeItemByUUID(potionItem.uuid)
+        char.removeItemByUUID(potionItem.uuid, 1)
     end
 end)

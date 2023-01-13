@@ -90,20 +90,11 @@ AddEventHandler("customs:applyCustomizations", function(veh)
 
 		SetVehicleColours(currentvehicle, veh.color[1], veh.color[2])
 		SetVehicleExtraColours(currentvehicle, veh.extracolor[1], veh.extracolor[2])
-		SetVehicleNeonLightsColour(currentvehicle, veh.neoncolor[1],veh.neoncolor[2],veh.neoncolor[3])
 		SetVehicleTyreSmokeColor(currentvehicle,veh.smokecolor[1],veh.smokecolor[2],veh.smokecolor[3])
 		SetVehicleNumberPlateTextIndex(currentvehicle,veh.plateindex)
 		SetVehicleWheelType(currentvehicle, veh.wheeltype)
 		SetVehicleTyresCanBurst(currentvehicle, not not veh.bulletProofTyres)
 		SetVehicleWindowTint(currentvehicle,veh.windowtint)
-		SetVehicleNeonLightEnabled(currentvehicle, 0, not not veh.neonlightenabled)
-		SetVehicleNeonLightEnabled(currentvehicle, 1, not not veh.neonlightenabled)
-		SetVehicleNeonLightEnabled(currentvehicle, 2, not not veh.neonlightenabled)
-		SetVehicleNeonLightEnabled(currentvehicle, 3, not not veh.neonlightenabled)
-
-		print("(veh.driftTiresEnabled or false): " .. tostring((veh.driftTiresEnabled or false)))
-
-		SetDriftTyresEnabled(currentvehicle, (veh.driftTiresEnabled or false))
 
 		-- set mods --
     	SetVehicleModKit(currentvehicle,0)
@@ -329,7 +320,7 @@ local function DriveInGarage()
 		myveh.model = GetDisplayNameFromVehicleModel(GetEntityModel(veh)):lower()
 		myveh.color =  table.pack(GetVehicleColours(veh))
 		myveh.extracolor = table.pack(GetVehicleExtraColours(veh))
-		myveh.neoncolor = table.pack(GetVehicleNeonLightsColour(veh))
+		--myveh.neoncolor = table.pack(GetVehicleNeonLightsColour(veh))
 		myveh.smokecolor = table.pack(GetVehicleTyreSmokeColor(veh))
 		myveh.plateindex = GetVehicleNumberPlateTextIndex(veh)
 		myveh.mods = {}
@@ -466,6 +457,7 @@ local function DriveInGarage()
 
 		local m = LSCMenu.categories:addSubMenu("LIGHTS", "Lights", "Improved night time visibility.",true)
 		AddMod(22,LSCMenu.categories.Lights,"HEADLIGHTS", "Headlights", nil, false)
+		--[[
 		if not IsThisModelABike(GetEntityModel(veh)) then
 			m = m:addSubMenu("NEON KITS", "Neon kits", nil, true)
 				m:addSubMenu("NEON LAYOUT", "Neon layout", nil, true)
@@ -479,6 +471,7 @@ local function DriveInGarage()
 					local btn = m:addPurchase(mod.name,mod.price)btn.neon = mod.neon
 				end
 		end
+		--]]
 
 
 		respray = LSCMenu.categories:addSubMenu("RESPRAY", "Respray", "Transforms vehicle appearance.",true)
@@ -1202,8 +1195,8 @@ AddEventHandler("LSC:buttonSelected", function(name, button, canpurchase)
 				SetVehicleMod(veh,24,myveh.mods[24].mod,false)
 				myveh.mods[24].variation = false
 			end
-			SetDriftTyresEnabled(veh, false)
-			myveh.driftTiresEnabled = false
+			--SetDriftTyresEnabled(veh, false)
+			--myveh.driftTiresEnabled = false
 		elseif button.name == "Custom Tires" and  (button.purchased or CanPurchase(price, canpurchase)) then
 			SetVehicleModKit(veh,0)
 			SetVehicleMod(veh,23,myveh.mods[23].mod,true)
@@ -1553,7 +1546,7 @@ function CheckPurchases(m)
 	elseif name == "wheel accessories" then
 		for i,b in pairs(m.buttons) do
 			if b.name == "Stock Tires" then
-				if GetVehicleModVariation(myveh.vehicle,23) == false and not GetDriftTyresEnabled(myveh.vehicle) then
+				if GetVehicleModVariation(myveh.vehicle,23) == false then
 					b.sprite = "garage"
 				else
 					b.sprite = nil

@@ -441,7 +441,29 @@ BasketballHoops = {
 		threePointRadius = 30.35,
 		hideBlip = true,
 	},
-		
+	-- Gabz Arena
+	{
+		pos = vector3(-313.714050, -1977.316772, 20.599644), 
+		rot = vector4(-0.000000, 0.000000, 0.909277, -0.416190),
+		State = nil,
+		Model = `prop_basketball_net`,
+		IsSubscribed = false,
+		threePointFwdDist = 0.0,
+		threePointSideDist = 0.0,
+		threePointRadius = 30.0,
+		hideBlip = true,
+	},
+	{
+		pos = vector3(-334.723541, -1959.662720, 20.599644),
+		rot = vector4(0.000000, 0.000000, 0.421332, 0.906906),
+		State = nil,
+		Model = `prop_basketball_net`,
+		IsSubscribed = false,
+		threePointFwdDist = 0.0,
+		threePointSideDist = 0.0,
+		threePointRadius = 30.0,
+		hideBlip = true,
+	},
 }
 
 STATUS_FREE = 'free'

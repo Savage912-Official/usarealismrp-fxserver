@@ -1020,7 +1020,7 @@ function LSCMenu:onSelectedIndexChanged(name, button)
 	elseif m == "license" then
 		SetVehicleNumberPlateTextIndex(veh,button.plateindex)
 	elseif m == "neon color" then
-		SetVehicleNeonLightsColour(veh,button.neon[1], button.neon[2], button.neon[3])
+		--SetVehicleNeonLightsColour(veh,button.neon[1], button.neon[2], button.neon[3])
 	elseif m == "windows" then
 		SetVehicleWindowTint(veh, button.tint)
 	else
@@ -1147,7 +1147,7 @@ AddEventHandler("LSC:buttonSelected", function(name, button, canpurchase)
 			myveh.neoncolor[2] = 255
 			myveh.neoncolor[3] = 255
 			myveh.neonlightenabled = false
-			SetVehicleNeonLightsColour(veh,255,255,255)
+			--SetVehicleNeonLightsColour(veh,255,255,255)
 		elseif button.purchased or CanPurchase(price, canpurchase) then
 			if not myveh.neoncolor[1] then
 				myveh.neoncolor[1] = 255
@@ -1155,7 +1155,7 @@ AddEventHandler("LSC:buttonSelected", function(name, button, canpurchase)
 				myveh.neoncolor[3] = 255
 			end
 			myveh.neonlightenabled = true
-			SetVehicleNeonLightsColour(veh,myveh.neoncolor[1],myveh.neoncolor[2],myveh.neoncolor[3])
+			--SetVehicleNeonLightsColour(veh,myveh.neoncolor[1],myveh.neoncolor[2],myveh.neoncolor[3])
 			SetVehicleNeonLightEnabled(veh,0,true)
 			SetVehicleNeonLightEnabled(veh,1,true)
 			SetVehicleNeonLightEnabled(veh,2,true)
@@ -1166,7 +1166,7 @@ AddEventHandler("LSC:buttonSelected", function(name, button, canpurchase)
 			myveh.neoncolor[1] = button.neon[1]
 			myveh.neoncolor[2] = button.neon[2]
 			myveh.neoncolor[3] = button.neon[3]
-			SetVehicleNeonLightsColour(veh,button.neon[1],button.neon[2],button.neon[3])
+			--SetVehicleNeonLightsColour(veh,button.neon[1],button.neon[2],button.neon[3])
 		end
 	elseif mname == "windows" then
 		if button.name == "None" or button.purchased or CanPurchase(price, canpurchase) then
@@ -1628,7 +1628,7 @@ function UnfakeVeh()
 	end
 	SetVehicleColours(veh,myveh.color[1], myveh.color[2])
 	SetVehicleExtraColours(veh,myveh.extracolor[1], myveh.extracolor[2])
-	SetVehicleNeonLightsColour(veh,myveh.neoncolor[1],myveh.neoncolor[2],myveh.neoncolor[3])
+	--SetVehicleNeonLightsColour(veh,myveh.neoncolor[1],myveh.neoncolor[2],myveh.neoncolor[3])
 	SetVehicleNumberPlateTextIndex(veh, myveh.plateindex)
 	SetVehicleWindowTint(veh, myveh.windowtint)
 end

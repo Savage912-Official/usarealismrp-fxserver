@@ -180,6 +180,8 @@ local ITEMS = {
     { name = "5.56mm Bullets", type = "ammo", price = 600, weight = 0.5, quantity = 10, legality = "legal", objectModel = "prop_ld_ammo_pack_03"  },
     { name = "Taser Cartridge", type = "ammo", price = 50, weight = 0.25, quantity = 1 },
     { name = "Stun Gun", type = "weapon", hash = 911657153, price = 400, weight = 5 },
+    { name = "Beanbag Shotgun", type = "weapon", hash = GetHashKey("WEAPON_BEANBAGSHOTGUN"), weight = 10 },
+    { name = "Beanbag Shell", type = "ammo", price = 300, weight = 0.5, quantity = 8, legality = "legal", objectModel = "prop_ld_ammo_pack_02" },
     { name = "Pistol Parts", price = 3000, type = "weaponParts", weight = 10.0, quantity = 1 },
     { name = "Revolver Kit", price = 4500, type = "weaponParts", weight = 15.0, quantity = 1 },
     { name = "Ceramic Pistol Parts", price = 3200, type = "weaponParts", weight = 10.0, quantity = 1 },

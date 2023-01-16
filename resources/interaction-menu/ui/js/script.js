@@ -528,6 +528,8 @@ var itemImages = {
     "Ice Skates": "https://i.imgur.com/azeoyEp.png",
     "RGB Controller": "https://i.imgur.com/bALMezu.png",
     "Basketball Hoop": "https://i.imgur.com/R1PCP2d.png",
+    "Beanbag Shotgun": "https://i.imgur.com/PQI0yss.png",
+    "Beanbag Shell": "https://i.imgur.com/jLxpWGu.png",
     "Skateboard": "https://i.imgur.com/lkKiOo4.png",
     "Potion": "https://i.imgur.com/KLnPEd3.png",
     "Christmas Present": "https://i.imgur.com/T9qmba7.png",

@@ -8,7 +8,7 @@ RegisterCommand('basketadmintool', function(source, args)
     if group == "owner" or group == "superadmin" or group == "admin" then
         TriggerClientEvent('rcore_basketball:admintool', source)
     end
-end, true)
+end, false)
 
 RegisterNetEvent('rcore_basketball:printConfig', function(entPos, entQuat)
     print()

@@ -1,4 +1,20 @@
 local littleTrickToSkipGettingScrambledByParser = "gameEventTriggered"
+local BEANBAG_HASH = GetHashKey("WEAPON_BEANBAGSHOTGUN")
+local TASER_HASH = GetHashKey("WEAPON_STUNGUN")
+local before_shotgun
+local before_taser
+
+function countdown_and_stop(time_ms)
+    Citizen.CreateThread(function()
+        before_shotgun = GetGameTimer()
+        while GetGameTimer() - before_shotgun < time_ms do
+            Wait(100)
+        end
+        AnimpostfxStopAll()
+        StopGameplayCamShaking(true)
+    end)
+end
+
 AddEventHandler(littleTrickToSkipGettingScrambledByParser, function(event, data)
     if event == "CEventNetworkEntityDamage" then
         victim = data[1]
@@ -8,6 +24,21 @@ AddEventHandler(littleTrickToSkipGettingScrambledByParser, function(event, data)
         isMeleeDamage = data[12]
         vehicleDamageTypeFlag = data[13]
 
+        if IsEntityAPed(victim) and IsPedAPlayer(victim) and PlayerPedId() == victim then
+            if weaponHash == BEANBAG_HASH then
+                SetPedToRagdoll(PlayerPedId(), 2500, 2500, 0, 0, 0, 0)
+                ShakeGameplayCam("FAMILY5_DRUG_TRIP_SHAKE", 1.0)
+                AnimpostfxPlay("DefaultFlash", 15000, false)
+                AnimpostfxPlay("BeastTransition", 15000, false)
+                AnimpostfxPlay("CrossLine", 15000, false)
+                countdown_and_stop(15000)
+            elseif weaponHash == TASER_HASH then
+                ShakeGameplayCam("DRUNK_SHAKE", 1.0)
+                AnimpostfxPlay("DefaultFlash", 15000, false)
+                AnimpostfxPlay("Dont_tazeme_bro", 15000, false)
+                countdown_and_stop(15000)
+            end
+        end
         if victim and attacker then
             if victimDied then
                 if IsEntityAVehicle(victim) then 

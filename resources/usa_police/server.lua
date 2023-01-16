@@ -19,7 +19,8 @@ local armoryItems = {
     { name = "MK2 Pump Shotgun", type = "weapon", hash = 1432025498, price = 700, weight = 25 },
     { name = "MK2 Carbine Rifle", type = "weapon", hash = 4208062921, price = 700, weight = 15, minRank = 2 },
     { name = "Sniper Rifle", type = "weapon", hash = 100416529, price = 2000, weight = 30, minRank = 6 },
-    { name = "Carbine Rifle", type = "weapon", hash = -2084633992, price = 1000, weight = 15, minRank = 3},
+    { name = "Carbine Rifle", type = "weapon", hash = -2084633992, price = 1000, weight = 15, minRank = 3 },
+    { name = "Beanbag Shotgun", type = "weapon", hash = GetHashKey("WEAPON_BEANBAGSHOTGUN"), price = 700, weight = 10 },
     { name = "Spike Strips", price = 700 },
     { name = "Police Radio", price = 300, type = "misc", weight = 5, notStackable = true },
     { name = "9mm Bullets", type = "ammo", price = 50, weight = 0.5, quantity = 15 },
@@ -33,6 +34,7 @@ local armoryItems = {
     { name = "5.56mm Bullets", type = "ammo", price = 50, weight = 0.5, quantity = 30 },
     { name = "Empty 5.56mm Mag [30]", type = "magazine", price = 50, weight = 3, receives = "5.56mm", MAX_CAPACITY = 30, currentCapacity = 0 },
     { name = "Taser Cartridge", type = "ammo", price = 50, weight = 0.25, quantity = 1 },
+    { name = "Beanbag Shell", type = "ammo", price = 50, weight = 0.5, quantity = 8, objectModel = "prop_ld_ammo_pack_02" },
     { name = "Flashbang", type = "weapon", hash = GetHashKey("WEAPON_FLASHBANG"), price = 150, weight = 2, minRank = 6 }
 }
 

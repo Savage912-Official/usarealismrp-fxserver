@@ -111,7 +111,11 @@ local WEPS_NO_MAGS = {
     [GetHashKey("WEAPON_DBSHOTGUN")] = {
         AMMO_NAME = "12 Gauge Shells",
         MAX_CAPACITY = 2
-    }
+    },
+    [GetHashKey("WEAPON_BEANBAGSHOTGUN")] = {
+        AMMO_NAME = "Beanbag Shell",
+        MAX_CAPACITY = 8
+    },
 }
 
 local THROWABLES = {

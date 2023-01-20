@@ -546,7 +546,8 @@ var itemImages = {
     "Revolver Gun Cast": "https://i.imgur.com/l1nvTAE.png",
     "Low Grip Tires": "https://i.imgur.com/dbnI2Fl.png",
     "Normal Tires": "https://i.imgur.com/dbnI2Fl.png",
-    "Underglow Kit": "https://i.imgur.com/Py0qvzu.png"
+    "Underglow Kit": "https://i.imgur.com/Py0qvzu.png",
+    "RC Car": "https://i.imgur.com/L7PtIAY.png",
 }
 
 var menuItems = [{

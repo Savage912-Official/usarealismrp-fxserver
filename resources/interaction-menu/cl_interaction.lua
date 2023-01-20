@@ -899,7 +899,7 @@ RegisterNUICallback("dropItem", function(data, cb)
 			finalPos = GetOffsetFromEntityInWorldCoords(myped, table.unpack(NORMAL_OBJ_SPAWN_OFFSET))
 		end
 		TriggerEvent("usa:playAnimation", "anim@move_m@trash", "pickup", -8, 1, -1, 48, 0, 0, 0, 0)
-		TriggerServerEvent("inventory:dropItem", data.itemName, data.index, finalPos.x, finalPos.y, finalPos.z)
+		TriggerServerEvent("inventory:dropItem", data.itemName, data.index, finalPos.x, finalPos.y, finalPos.z, GetEntityHeading(PlayerPedId()))
 		if data.itemName:find("Radio") then
 			TriggerEvent("Radio.Set", false, {})
 		end
@@ -1171,7 +1171,7 @@ function interactionMenuUse(index, itemName, wholeItem)
 		local myped = PlayerPedId()
 		local pos = GetOffsetFromEntityInWorldCoords(myped, table.unpack(SPIKE_STRIP_OBJ_SPAWN_OFFSET)) -- in front of player
 		TriggerEvent("usa:playAnimation", "anim@move_m@trash", "pickup", -8, 1, -1, 48, 0, 0, 0, 0)
-		TriggerServerEvent("inventory:dropItem", itemName, index, pos.x, pos.y, pos.z)
+		TriggerServerEvent("inventory:dropItem", itemName, index, pos.x, pos.y, pos.z, GetEntityHeading(PlayerPedId()))
 	elseif itemName == "Radio" or itemName == "EMS Radio" or itemName == "Police Radio" then
 		TriggerServerEvent("rp-radio:checkForRadioItem")
 	elseif itemName == "Scuba Gear" then
@@ -1218,6 +1218,8 @@ function interactionMenuUse(index, itemName, wholeItem)
 		TriggerServerEvent("magicPotion:used", wholeItem)
 	elseif itemName == "Christmas Present" then
 		TriggerServerEvent("usa:openChristmasPresent", wholeItem)
+	elseif itemName == "RC Car" then
+		TriggerEvent("rc:start")
 	else
 		TriggerEvent("interaction:notify", "There is no use action for that item!")
 	end

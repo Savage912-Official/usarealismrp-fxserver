@@ -14,7 +14,9 @@ RegisterServerEvent("character:swapChar")
 AddEventHandler("character:swapChar", function()
 	local usource = source
 	local char = exports["usa-characters"]:GetCharacter(usource)
+	local accountIdentifier = GetPlayerIdentifiers(usource)[1]
 	char.set("lastRecordedLocation", GetEntityCoords(GetPlayerPed(usource)))
+	exports["usa_rp2"]:handlePlayerDropDutyLog(char, GetPlayerName(usource), accountIdentifier)
 	char.set("job", "civ")
 	TriggerEvent("high_callback:drop", usource)
 	exports["usa-characters"]:SaveCurrentCharacter(usource, function()

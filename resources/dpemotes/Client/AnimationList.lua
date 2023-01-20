@@ -33,6 +33,7 @@ DP.Walks = {
   ["Alien"] = {"move_m@alien"},
   ["Armored"] = {"anim_group_move_ballistic"},
   ["Arrogant"] = {"move_f@arrogant@a"},
+  ["Bigfoot"] = {"move_characters@orleans@core@"},
   ["Butch"] = {"move_m@hurry_butch@a"},
   ["Butch2"] = {"move_m@hurry_butch@b"},
   ["Butch3"] = {"move_m@hurry_butch@c"},
@@ -49,8 +50,11 @@ DP.Walks = {
   ["Cop"] = {"move_m@business@a"},
   ["Cop2"] = {"move_m@business@b"},
   ["Cop3"] = {"move_m@business@c"},
+  ["Coward"] = {"move_m@coward"},
   ["Chubbymale"] = {"move_chubby"},
   ["Chubbyfemale"] = {"move_f@chubby@a"},
+  ["Crouched"] = {"move_ped_crouched",},
+  ["Dave"] = {"move_characters@dave_n"},
   ["Default Female"] = {"move_f@multiplayer"},
   ["Default Male"] = {"move_m@multiplayer"},
   ["Depressed"] = {"move_m@depressed@a"},
@@ -66,6 +70,7 @@ DP.Walks = {
   ["Fat2"] = {"move_f@fat@a"},
   ["Fat3"] = {"move_m@fat@bulky"},
   ["Femme"] = {"move_f@femme@"},
+  ["Femme2"] = {"move_m@femme@"},
   ["Fire"] = {"move_characters@franklin@fire"},
   ["Fire2"] = {"move_characters@michael@fire"},
   ["Fire3"] = {"move_m@fire"},
@@ -76,6 +81,7 @@ DP.Walks = {
   ["Gangster3"] = {"move_m@gangster@var_e"},
   ["Gangster4"] = {"move_m@gangster@var_f"},
   ["Gangster5"] = {"move_m@gangster@var_i"},
+  ["Gangster6"] = {"move_f@gangster@ng"},
   ["Genenric"] = {"move_m@generic"},
   ["Genenric2"] = {"move_f@generic"},
   ["Grooving"] = {"anim@move_m@grooving@"},
@@ -94,6 +100,7 @@ DP.Walks = {
   ["Janitor"] = {"move_p_m_zero_janitor"},
   ["Janitor2"] = {"move_p_m_zero_slow"},
   ["Jog"] = {"move_m@jog@"},
+  ["Jimmy"] = {"move_characters@jimmy"},
   ["Lamar"] = {"anim_group_move_lemar_alley"},
   ["Lester"] = {"move_heist_lester"},
   ["Lester2"] = {"move_lester_caneup"},
@@ -101,9 +108,11 @@ DP.Walks = {
   ["Michael"] = {"move_ped_bucket"},
   ["Money"] = {"move_m@money"},
   ["Muscle"] = {"move_m@muscle@a"},
+  ["Patricia"] = {"move_characters@patricia"},
   ["Posh"] = {"move_m@posh@"},
   ["Posh2"] = {"move_f@posh@"},
   ["Quick"] = {"move_m@quick"},
+  ["Ron"] = {"move_characters@ron"},
   ["Runner"] = {"female_fast_runner"},
   ["Sad"] = {"move_m@sad@a"},
   ["Sad2"] = {"move_f@sad@a"},
@@ -114,11 +123,13 @@ DP.Walks = {
   ["Shady"] = {"move_m@shadyped@a"},
   ["Slow"] = {"move_characters@jimmy@slow@"},
   ["Swagger"] = {"move_m@swagger"},
+  ["Swagger2"] = {"move_m@swagger@b"},
   ["Tough"] = {"move_m@tough_guy@"},
   ["Tough2"] = {"move_f@tough_guy@"},
   ["Trash"] = {"clipset@move@trash_fast_turn"},
   ["Trash2"] = {"missfbi4prepp1_garbageman"},
   ["Trevor"] = {"move_p_m_two"},
+  ["Veryslow"] = {"move_m@leaf_blower"},
   ["Wide"] = {"move_m@bag"},
   ["Lean Forward"] = {"move_characters@franklin@fire"},
   ["Toolbelt"] = {"move_m@tool_belt@a"},
@@ -3813,5 +3824,77 @@ DP.PropEmotes = {
         SecondPropPlacement = {0.010, -0.0190, 0.0920, -82.4073, 178.6009, 29.9195},
         EmoteLoop = true,
         EmoteMoving = true,
-    }}
+    }},
+    ["vlog"] = {"amb@world_human_mobile_film_shocking@male@base", "base", "Vlog", AnimationOptions = 
+    {
+        Prop = 'prop_ing_camera_01',
+        PropBone = 28422,
+        PropPlacement = {-0.07, -0.01, 0.0, 0.0, 0.0, 0.0},
+        EmoteLoop = true,
+        EmoteMoving = true,
+    }},
+    ["vlog2"] = {"anim@heists@humane_labs@finale@keycards", "ped_a_enter_loop", "Vlog 2", AnimationOptions = 
+    {
+        Prop = 'prop_ing_camera_01',
+        PropBone = 18905,
+        PropPlacement = {0.15, 0.03, 0.1, 280.0, 110.0, -11.0},
+        EmoteLoop = true,
+        EmoteMoving = true,
+    }},
+    ["patrolf1"] = {"amb@world_human_security_shine_torch@male@base", "base", "Patrol - On Foot", AnimationOptions = 
+    {
+        Prop = 'prop_cs_police_torch_02',
+        PropBone = 60309,
+        PropPlacement = {0.0, 0.0, 0.0, 0.0, 0.0, 80.0000},
+        EmoteLoop = true,
+        EmoteMoving = true
+    }},
+    ["patrolf2"] = {"amb@world_human_security_shine_torch@male@idle_b", "idle_e", "Patrol - On Foot 2", AnimationOptions = 
+    {
+        Prop = 'prop_cs_police_torch_02',
+        PropBone = 60309,
+        PropPlacement = {0.0, 0.0, 0.0, 0.0, 0.0, 80.0000},
+        EmoteLoop = true,
+        EmoteMoving = true
+    }},
+    ["patrolf3"] = {"amb@world_human_security_shine_torch@male@idle_a", "idle_a", "Patrol - On Foot 3", AnimationOptions = 
+    {
+        Prop = 'prop_cs_police_torch_02',
+        PropBone = 60309,
+        PropPlacement = {0.0, 0.0, 0.0, 0.0, 0.0, 80.0000},
+        EmoteLoop = true,
+        EmoteMoving = true
+    }},
+    ["patrolf4"] = {"amb@incar@male@patrol@torch@base", "base", "Patrol - On Foot 4 Over The Shoulder", AnimationOptions = 
+    {
+        Prop = 'prop_cs_police_torch_02',
+        PropBone = 28422, 
+        PropPlacement = {0.0, -0.00100, 0.0, 0.0, 0.0, 90.0},
+        SecondProp = 'prop_cs_hand_radio',
+        SecondPropBone = 60309,
+        SecondPropPlacement = {0.0560, 0.0470, 0.0110, -43.82733, 164.6747, -7.5569},
+        EmoteLoop = true,
+        EmoteMoving = true
+    }},
+    ["patrolcar"] = {"amb@incar@male@patrol@torch@base", "base", "Patrol Car - Front", AnimationOptions = 
+    {
+        Prop = 'prop_cs_police_torch_02',
+        PropBone = 28422,
+        PropPlacement = {0.0, -0.0100, -0.0100, 0.0, 0.0, 100.0000},
+        EmoteLoop = true
+    }},
+    ["patrolcarl"] = {"amb@incar@male@patrol@torch@idle_b", "idle_d", "Patrol Car - Left", AnimationOptions = 
+    {
+        Prop = 'prop_cs_police_torch_02',
+        PropBone = 28422,
+        PropPlacement = {0.0, -0.0100, -0.0100, 0.0, 0.0, 100.0000},
+        EmoteLoop = true
+    }},
+    ["patrolcarr"] = {"amb@incar@male@patrol@torch@idle_a", "idle_a", "Patrol Car - Right", AnimationOptions = 
+    {
+        Prop = 'prop_cs_police_torch_02',
+        PropBone = 28422,
+        PropPlacement = {0.0, -0.0100, -0.0100, 0.0, 0.0, 100.0000},
+        EmoteLoop = true
+    }},
 }

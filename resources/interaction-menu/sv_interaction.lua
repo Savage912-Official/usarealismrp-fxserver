@@ -284,7 +284,7 @@ AddEventHandler("inventory:moveItem", function(data)
 end)
 
 RegisterServerEvent("inventory:dropItem")
-AddEventHandler("inventory:dropItem", function(name, index, posX, posY, posZ)
+AddEventHandler("inventory:dropItem", function(name, index, posX, posY, posZ, heading)
 	--------------------
 	-- play animation --
 	--------------------
@@ -293,7 +293,8 @@ AddEventHandler("inventory:dropItem", function(name, index, posX, posY, posZ)
 	local coords = {
 		x = posX,
 		y = posY,
-		z = posZ - 0.9
+		z = posZ - 0.9,
+		h = heading
 	}
 	local char = exports["usa-characters"]:GetCharacter(source)
 	local item = char.getItemByIndex(index)

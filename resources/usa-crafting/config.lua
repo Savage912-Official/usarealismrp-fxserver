@@ -142,7 +142,7 @@ Config.recipes = {
             name = "Hotwiring Kit",
             image = "https://i.imgur.com/JZtZKoP.png",
             requires = {
-                { name = "Plastic", quantity = 3 },
+                { name = "Plastic", quantity = 2 },
                 { name = "Copper Wire", quantity = 6 }
             },
             produces = {
@@ -975,14 +975,14 @@ Config.recipes = {
             produces = {
                 {
                     name = "Plastic",
-                    quantity = 1,
+                    quantity = 2,
                     type = "misc",
                     weight = 2
                 }
             },
             requiredCraftingLevel = 1,
             type = "refineryGoods",
-            craftDurationSeconds = 3 * 60
+            craftDurationSeconds = 4 * 60
         },
         {
             name = "Copper Wire",
@@ -993,14 +993,14 @@ Config.recipes = {
             produces = {
                 {
                     name = "Copper Wire",
-                    quantity = 1,
+                    quantity = 3,
                     type = "misc",
                     weight = 3
                 }
             },
             requiredCraftingLevel = 1,
             type = "refineryGoods",
-            craftDurationSeconds = 3 * 60
+            craftDurationSeconds = 4 * 60
         },
     }
 }

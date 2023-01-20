@@ -74,11 +74,6 @@ end
 if IS_SERVER then
     ServerCallbacks = {}
 
-    AddEventHandler('playerDropped', function (reason)
-        exports["globals"]:setJob(source, "civ")
-        TriggerEvent("high_callback:drop", source)
-    end)
-
     RegisterServerEvent("high_phone:printServer")
     AddEventHandler("high_phone:printServer", function(arg)
         print(arg)

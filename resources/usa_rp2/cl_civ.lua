@@ -34,14 +34,20 @@ AddEventHandler("crim:blindfold", function(on, dont_send_message, dont_notify)
 end)
 
 RegisterNetEvent("crim:attemptToBlindfoldNearestPerson")
-AddEventHandler("crim:attemptToBlindfoldNearestPerson", function(blindfold)
-  TriggerEvent("usa:getClosestPlayer", 1.5, function(player)
-    if player.id ~= 0 and IsEntityVisible(GetPlayerPed(GetPlayerFromServerId(player.id))) then
-      TriggerServerEvent("crim:foundPlayerToBlindfold", player.id, blindfold)
-    else
-      TriggerEvent("usa:notify", "No person found to blindfold!")
+AddEventHandler("crim:attemptToBlindfoldNearestPerson", function(blindfold, playerId)
+  if playerId then
+    if IsEntityVisible(GetPlayerPed(GetPlayerFromServerId(playerId))) then
+      TriggerServerEvent("crim:foundPlayerToBlindfold", playerId, blindfold)
     end
-  end)
+  else
+    TriggerEvent("usa:getClosestPlayer", 1.5, function(player)
+      if player.id ~= 0 and IsEntityVisible(GetPlayerPed(GetPlayerFromServerId(player.id))) then
+        TriggerServerEvent("crim:foundPlayerToBlindfold", player.id, blindfold)
+      else
+        TriggerEvent("usa:notify", "No person found to blindfold!")
+      end
+    end)
+  end
 end)
 
 RegisterNetEvent("civ:robPlayerIfTiedOrDowned")
@@ -58,14 +64,20 @@ AddEventHandler("civ:robPlayerIfTiedOrDowned", function(fromSrc)
 end)
 
 RegisterNetEvent("crim:attemptToRobNearestPerson")
-AddEventHandler("crim:attemptToRobNearestPerson", function()
-  TriggerEvent("usa:getClosestPlayer", 1.5, function(player)
-    if player.id ~= 0 and IsEntityVisible(GetPlayerPed(GetPlayerFromServerId(player.id))) then
-      TriggerServerEvent("crim:foundPlayerToRob", player.id)
-    else
-      TriggerEvent("usa:notify", "No person found to rob!")
+AddEventHandler("crim:attemptToRobNearestPerson", function(playerId)
+  if playerId then
+    if IsEntityVisible(GetPlayerPed(GetPlayerFromServerId(playerId))) then
+      TriggerServerEvent("crim:foundPlayerToRob", playerId)
     end
-  end)
+  else
+    TriggerEvent("usa:getClosestPlayer", 1.5, function(player)
+      if player.id ~= 0 and IsEntityVisible(GetPlayerPed(GetPlayerFromServerId(player.id))) then
+        TriggerServerEvent("crim:foundPlayerToRob", player.id)
+      else
+        TriggerEvent("usa:notify", "No person found to rob!")
+      end
+    end)
+  end
 end)
 
 RegisterNetEvent("crim:attemptToTieNearestPerson")

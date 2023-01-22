@@ -251,7 +251,7 @@ local ACTIONS = {
 		TriggerEvent("drag:attemptToDragNearest")
 	end,
 	["Search"] = function()
-		TriggerEvent("search:attemptToSearchNearestPerson", true)
+		TriggerEvent("search:attemptToSearchNearestPerson")
 	end,
 	["Place"] = function()
 		Citizen.CreateThread(function()
@@ -1497,7 +1497,7 @@ local draggingHelper = {
 	targetId = 0
 }
 
-function EnableGui(target_vehicle_plate)
+function EnableGui(target_vehicle_plate, goToPage)
 	local me = PlayerPedId()
 	SetNuiFocus(true, true)
 	menuEnabled = true
@@ -1516,7 +1516,8 @@ function EnableGui(target_vehicle_plate)
 		voip = voipLevel,
 		target_vehicle_plate = target_vehicle_plate,
 		isInVehicle = IsPedInAnyVehicle(me, true),
-		isCuffed = IsPedCuffed(me)
+		isCuffed = IsPedCuffed(me),
+		goToPage = goToPage
 	})
 	if target_vehicle_plate then
 		TriggerServerEvent("vehicle:AddPersonToInventory", target_vehicle_plate)

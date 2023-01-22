@@ -472,8 +472,8 @@ end)
 
 local displayingInjuries = false
 RegisterNetEvent('injuries:displayInspectedInjuries') -- display the injuries of ped in front to person who executed command
-AddEventHandler('injuries:displayInspectedInjuries', function(injuriesInspected, patientName, ped)
-    TriggerEvent('chatMessage', '^6^*[INJURIES]^r^7 Inspection of '..patientName..':')
+AddEventHandler('injuries:displayInspectedInjuries', function(injuriesInspected, displayName, ped)
+    TriggerEvent('chatMessage', '^6^*[INJURIES]^r^7 Inspection of '..displayName..':')
     local ped = NetToPed(ped)
     for bone, injuries in pairs(injuriesInspected) do
         local boneName = parts[bone]

@@ -275,9 +275,60 @@ local DOORS = {
   -- Hawick / Meteor Fleeca
   {name = "Hawick / Meteor Fleeca Door 1", x = 311.77792358398, y = -283.369140625, z = 54.164772033691, model = -1591004109, locked = true, offset ={0.0, -1.5, 0.0}, heading = 250.0, _dist = 1.0, advancedlockpickable = true, allowedJobs = {'sheriff', "corrections"}},
   {name = "Hawick / Meteor Fleeca Door 2", x = 313.99398803711, y = -285.25039672852, z = 54.143054962158, model = -1591004109, locked = true, offset ={0.0, -1.5, 0.0}, heading = 160.0, _dist = 1.0, advancedlockpickable = true, allowedJobs = {'sheriff', "corrections"}},
-
+  -- Vesp PD
+  {name = "VespPD-1DoorNexttoGarage", x = -1125.04, y = -831.98, z = 13.78, model = -976663736, locked = true, offset={0.0, -1.1, 0.0}, heading=309, _dist = 1.5, allowedJobs = {'sheriff', 'corrections'}},
+  {name = 'VespPD-1Garage', x = -1116.83, y = -842.14, z = 12.26, model = -1169272867, locked = true, _dist = 8.0, gate = true, offset={-3.0, 3.5, 2.0}, lockedCoords = {-1116.83, -842.14, 12.26}, allowedJobs = {'sheriff', 'corrections'}},
+  {name = "VespPD-1GarageDoor1", x = -1122.73, y = -832.46, z = 13.81, model = -745614781, locked = true, offset={0.0, -1.0, 0.0}, heading=39, _dist = 1.5, allowedJobs = {"sheriff","corrections"}},
+  {name = "VespPD-1GarageDoor2", x = -1114.34, y = -842.73, z = 13.33, model = -1118394925, locked = true, static = true, heading=40, _dist = 1.5, allowedJobs = {"sheriff","corrections"}},
+  {name = "VespPD-1GarageDoor3", x = -1110.25, y = -822.28, z = 13.79, model = -745614781, locked = true, offset={0.0, -1.0, 0.0}, heading=39, _dist = 1.5, allowedJobs = {"sheriff","corrections"}},
+  {name = "VespPD-1GarageDoor4", x = -1104.73, y = -834.85, z = 13.33, model = -1118394925, locked = true, offset={0.0, -1.0, 0.0}, heading=40, _dist = 1.5, allowedJobs = {"sheriff","corrections"}},
+  {name = "VespPD-2DoorNextGarage", x = -1078.98, y = -855.19, z = 5.36, model = 263193286, locked = true, offset={0.0, -1.0, 0.0}, heading=217, _dist = 1.5, allowedJobs = {"sheriff","corrections"}},
+  {name = "VespPD-2OfficerOutsideDoor", x = -1058.01, y = -839.62, z = 5.36, model = 263193286, locked = true, offset={0.0, -1.0, 0.0}, heading=216, _dist = 1.5, allowedJobs = {"sheriff","corrections"}},
+  {name = "VespPD-1MechanicGarage", x = -1130.49, y = -842.2, z = 7.8, model = 864109125, locked = true, heading=128, _dist = 8.0, gate = true, offset={2.0, -2.5, 2.0}, lockedCoords = {-1130.55, -842.35, 7.8}, allowedJobs = {"sheriff","corrections"}},
+  {name = "VespPD-1MechanicDoubleDoor1", x = -1093.83, y = -832.55, z = 8.86, model = -1118394925, locked = true, offset={0.0, -1.0, 0.0}, heading=306, _dist = 1.5, allowedJobs = {"sheriff","corrections"}},
+  {name = "VespPD-1MechanicDoubleDoor2", x = -1092.43, y = -834.49, z = 8.86, model = -1118394925, locked = true, offset={0.0, -1.0, 0.0}, heading=126, _dist = 1.5, allowedJobs = {"sheriff","corrections"}},
+  {name = "VespPD-2LeftGarageDoor1", x = -1093.42, y = -845.34, z = 4.85, model = -1118394925, locked = true, offset={0.0, -1.0, 0.0}, heading=339, _dist = 1.5, allowedJobs = {"sheriff","corrections"}},
+  {name = "VespPD-2GarageGuardroomDoor1", x = -1114.72, y = -825.3, z = 5.13, model = -1256199288, locked = true, offset={0.0, -1.0, 0.0}, heading=37, _dist = 1.5, allowedJobs = {"sheriff","corrections"}},
+  {name = "VespPD-2GarageGuardroomDoor2", x = -1116.46, y = -822.99, z = 5.13, model = -1256199288, locked = true, offset={0.0, -1.0, 0.0}, heading=37, _dist = 1.5, allowedJobs = {"sheriff","corrections"}},
+  {name = "VespPD-2LeftGarageConnectDoor", x = -1091.56, y = -833.15, z = 4.85, model = -1118394925, locked = true, offset={0.0, -1.0, 0.0}, heading=306, _dist = 1.5, allowedJobs = {"sheriff","corrections"}},
+  {name = "VespPD-2RightGarageConnectDoor", x = -1084.67, y = -829.56, z = 4.85, model = -1118394925, locked = true, offset={0.0, -1.0, 0.0}, heading=127, _dist = 1.5, allowedJobs = {"sheriff","corrections"}},
+  {name = "VespPD-2RightGarageStairsDoor", x = -1081.98, y = -833.24, z = 4.85, model = -1118394925, locked = true, offset={0.0, -1.0, 0.0}, heading=125, _dist = 1.5, allowedJobs = {"sheriff","corrections"}},
+  {name = "VespPD0EmergencyExitRear", x = -1082.4, y = -846.4, z = 15.91, model = 263193286, locked = true, offset={0.0, -1.0, 0.0}, heading=216, _dist = 1.5, allowedJobs = {"sheriff","corrections"}},
+  {name = "VespPD-2RightGarageOfficeEntrance", x = -1068.63, y = -832.22, z = 4.85, model = -1118394925, locked = true, offset={0.0, -1.0, 0.0}, heading=127, _dist = 1.5, allowedJobs = {"sheriff","corrections"}},
+  {name = "VespPD-1ShootingRangeEmergencyExit", x = -1042.08, y = -827.01, z = 11.16, model = -976663736, locked = true, offset={0.0, -1.0, 0.0}, heading=318, _dist = 1.5, allowedJobs = {"sheriff","corrections"}},
+  {name = "VespPD-1RearEntranceDoubleDoor1", x = -1049.24, y = -829.54, z = 11.77, model = -1215222675, locked = true, offset={0.0, -1.0, 0.0}, heading=222, _dist = 1.5, allowedJobs = {"sheriff","corrections"}},
+  {name = "VespPD-1RearEntranceDoubleDoor2", x = -1051.18, y = -831.27, z = 11.77, model = 320433149, locked = true, offset={0.0, 1.0, 0.0}, heading=222, _dist = 1.5, allowedJobs = {"sheriff","corrections"}},
+  {name = "VespPD0PressStairwell", x = -1080.08, y = -834.93, z = 19.32, model = -1118394925, locked = true, offset={0.0, -1.0, 0.0}, heading=125, _dist = 1.5, allowedJobs = {"sheriff","corrections"}},
+  {name = "VespPD0PressCorridor", x = -1078.59, y = -831.3, z = 19.32, model = -1118394925, locked = true, offset={0.0, -1.0, 0.0}, heading=217, _dist = 1.5, allowedJobs = {"sheriff","corrections"}},
+  {name = "VespPD0PressRoom1", x = -1086.67, y = -812.82, z = 19.32, model = -1118394925, locked = true, offset={0.0, -1.0, 0.0}, heading=127, _dist = 1.5, allowedJobs = {"sheriff","corrections"}},
+  {name = "VespPD0PressRoom2", x = -1082.88, y = -817.8, z = 19.32, model = -1118394925, locked = true, offset={0.0, -1.0, 0.0}, heading=127, _dist = 1.5, allowedJobs = {"sheriff","corrections"}},
+  {name = "VespPD0PressRoom3", x = -1079.08, y = -822.79, z = 19.32, model = -1118394925, locked = true, offset={0.0, -1.0, 0.0}, heading=127, _dist = 1.5, allowedJobs = {"sheriff","corrections"}},
+  {name = "VespPD0PressRoom4", x = -1075.28, y = -827.78, z = 19.32, model = -1118394925, locked = true, offset={0.0, -1.0, 0.0}, heading=127, _dist = 1.5, allowedJobs = {"sheriff","corrections"}},
+  {name = "VespPD0ReceptionDoor", x = -1094.7, y = -832.8, z = 19.32, model = -1118394925, locked = true, offset={0.0, -1.0, 0.0}, heading=276, _dist = 1.5, allowedJobs = {"sheriff","corrections"}},
+  {name = "VespPD0LobbyStairwell", x = -1095.6, y = -844.26, z = 19.32, model = -1118394925, locked = true, offset={0.0, -1.0, 0.0}, heading=305, _dist = 1.5, allowedJobs = {"sheriff","corrections"}},
+  {name = "VespPD0LobbyDoubleDoor1", x = -1098.33, y = -821.77, z = 19.32, model = -1118394925, locked = true, offset={0.0, -1.0, 0.0}, heading=120, _dist = 1.5, allowedJobs = {"sheriff","corrections"}},
+  {name = "VespPD0LobbyDoubleDoor2", x = -1099.53, y = -819.7, z = 19.32, model = -1118394925, locked = true, offset={0.0, -1.0, 0.0}, heading=300, _dist = 1.5, allowedJobs = {"sheriff","corrections"}},
+  {name = "VespPD1LobbyBalconyStairwell", x = -1091.46, y = -836.7, z = 22.93, model = -1118394925, locked = true, offset={0.0, -1.0, 0.0}, heading=270, _dist = 1.5, allowedJobs = {"sheriff","corrections"}},
+  {name = "VespPD1ChiefOfStaffOffice", x = -1093.48, y = -826.01, z = 22.93, model = -1118394925, locked = true, offset={0.0, -1.0, 0.0}, heading=288, _dist = 1.5, allowedJobs = {"sheriff","corrections"}},
+  {name = "VespPDHelipad", x = -1107.14, y = -831.54, z = 37.73, model = -1118394925, locked = true, offset={0.0, -1.0, 0.0}, heading=216, _dist = 1.5, allowedJobs = {"sheriff","corrections"}},
+  {name = "VespPDCell1", x = -1077.99, y = -820.77, z = 13.6, model = 427300373, customDoor = { coords = {x = -1077.99, y = -820.77, z = 13.6}, model = GetHashKey("prop_ld_jail_door"), rot = 131.0}, locked = true, _dist = 2.0, cell_block = true, allowedJobs = {"sheriff","corrections"}},
+  {name = "VespPDCell2", x = -1080.08, y = -818.34, z = 13.6, model = 427300373, customDoor = { coords = {x = -1080.08, y = -818.34, z = 13.6}, model = GetHashKey("prop_ld_jail_door"), rot = 131.0}, locked = true, _dist = 2.0, cell_block = true, allowedJobs = {"sheriff","corrections"}},
+  {name = "VespPDCell3", x = -1082.17, y = -815.9, z = 13.6, model = 427300373, customDoor = { coords = {x = -1082.17, y = -815.9, z = 13.6}, model = GetHashKey("prop_ld_jail_door"), rot = 131.0}, locked = true, _dist = 2.0, cell_block = true, allowedJobs = {"sheriff","corrections"}},
+  {name = "VespPDCell4", x = -1084.26, y = -813.47, z = 13.61, model = 427300373, customDoor = { coords = {x = -1084.26, y = -813.47, z = 13.61}, model = GetHashKey("prop_ld_jail_door"), rot = 131.0}, locked = true, _dist = 2.0, cell_block = true, allowedJobs = {"sheriff","corrections"}},
+  {name = "VespPDCell5", x = -1086.35, y = -811.03, z = 13.6, model = 427300373, customDoor = { coords = {x = -1086.35, y = -811.03, z = 13.6}, model = GetHashKey("prop_ld_jail_door"), rot = 131.0}, locked = true, _dist = 2.0, cell_block = true, allowedJobs = {"sheriff","corrections"}},
+  {name = "VespPDCell6", x = -1088.56, y = -808.53, z = 13.61, model = 427300373, customDoor = { coords = {x = -1088.56, y = -808.53, z = 13.61}, model = GetHashKey("prop_ld_jail_door"), rot = 131.0}, locked = true, _dist = 2.0, cell_block = true, allowedJobs = {"sheriff","corrections"}},
+  {name = "VespPDCell7", x = -1090.54, y = -806.17, z = 13.61, model = 427300373, customDoor = { coords = {x = -1090.54, y = -806.17, z = 13.61}, model = GetHashKey("prop_ld_jail_door"), rot = 131.0}, locked = true, _dist = 2.0, cell_block = true, allowedJobs = {"sheriff","corrections"}},
+  {name = "VespPDCell8", x = -1092.63, y = -803.73, z = 13.6, model = 427300373, customDoor = { coords = {x = -1092.63, y = -803.73, z = 13.6}, model = GetHashKey("prop_ld_jail_door"), rot = 131.0}, locked = true, _dist = 2.0, cell_block = true, allowedJobs = {"sheriff","corrections"}},
+  {name = "VespPDCellEntranceRight", x = -1089.62, y = -819.32, z = 12.34, model = 427300373, customDoor = { coords = {x = -1089.62, y = -819.32, z = 12.34}, model = GetHashKey("prop_ld_jail_door"), rot = 221.0}, locked = true, _dist = 2.0, cell_block = true, allowedJobs = {"sheriff","corrections"}},
+  {name = "VespPDCellEntranceLeft", x = -1091.91, y = -816.65, z = 12.34, model = 427300373, customDoor = { coords = {x = -1091.91, y = -816.65, z = 12.34}, model = GetHashKey("prop_ld_jail_door"), rot = 221.0}, locked = true, _dist = 2.0, cell_block = true, allowedJobs = {"sheriff","corrections"}},
+  {name = "VespPDCellDirectEntrance", x = -1096.34, y = -828.31, z = 12.33, model = 427300373, customDoor = { coords = {x = -1096.34, y = -828.31, z = 12.33}, model = GetHashKey("prop_ld_jail_door"), rot = 131.0}, locked = true, _dist = 2.0, cell_block = true, allowedJobs = {"sheriff","corrections"}},
+  {name = "VespPD-1InterigationRoom1CopEntrance", x = -1096.43, y = -838.47, z = 13.33, model = -1118394925, locked = true, offset={0.0, -1.0, 0.0}, heading=41, _dist = 1.5, allowedJobs = {"sheriff","corrections"}},
+  {name = "VespPD-1InterigationRoom1CrimEntrance", x = -1100.29, y = -833.99, z = 13.33, model = -1118394925, locked = true, offset={0.0, -1.0, 0.0}, heading=41, _dist = 1.5, allowedJobs = {"sheriff","corrections"}},
+  {name = "VespPD-1InterigationRoom2CopEntrance", x = -1104.06, y = -845.01, z = 13.33, model = -1118394925, locked = true, offset={0.0, -1.0, 0.0}, heading=41, _dist = 1.5, allowedJobs = {"sheriff","corrections"}},
+  {name = "VespPD-1InterigationRoom2CrimEntrance", x = -1107.85, y = -840.6, z = 13.33, model = -1118394925, locked = true, offset={0.0, -1.0, 0.0}, heading=40, _dist = 1.5, allowedJobs = {"sheriff","corrections"}},
+  {name = "VespPDEvidenceRoom", x = -1085.3, y = -824.77, z = 7.87, model = 4787313, locked = true, _dist = 8.0, gate = true, offset={0.0, 0.0, 0.0}, lockedCoords = {-1085.25, -824.75, 7.87}, allowedJobs = {"sheriff","corrections"}},
+  {name = "VespPDRearGate", x = -1063.01, y = -880.21, z = 4.16, model = 1170466506, locked = true, _dist = 8.0, gate = true, offset={9.0, 5.0, 0.0}, lockedCoords = {-1063.01, -880.21, 4.16}, allowedJobs = {"sheriff","corrections"}},
 }
-
 -- allowedJobs - table of job names allowed to use door, the player's job must match any value in the list for the door to lock/unlock
 -- offsetX, offsetY, offsetZ - 3D text offset from the object's coordinates (used to display text)
 -- static - true will result in the door being left in the state defined (locked/unlocked), and will prevent text from displaying for locking/unlocking (used to lock one of two double doors permanently)
@@ -429,13 +480,48 @@ end, {
 })
 
 TriggerEvent('es:addGroupCommand', 'copydoor', 'owner', function(source, args, char)
-  TriggerClientEvent('doormanager:DoorClipboard', source, args[2], args[3], args[4], args[5])
+  TriggerClientEvent('doormanager:DoorClipboard', source, args[2], args[3], args[4])
 end, {
   help = "Copies Door to clipboard.",
   params = {
     { name = "name", help = "Name of Door" },
     { name = "jobs", help = 'jobs allowed format: {"job1","job2"}'},
-    { name = "denyofduty", help = "If the door should be denied if off duty" },
+    -- { name = "denyofduty", help = "If the door should be denied if off duty" },
     { name = "model", help = 'model of door in hash format'}
+  }
+})
+
+TriggerEvent('es:addGroupCommand', 'copystaticdoor', 'owner', function(source, args, char)
+  TriggerClientEvent('doormanager:StaticClipboard', source, args[2], args[3], args[4])
+end, {
+  help = "Copies Static (Disabled) Door to clipboard.",
+  params = {
+    { name = "name", help = "Name of Door" },
+    { name = "jobs", help = 'jobs allowed format: {"job1","job2"}'},
+    { name = "model", help = 'model of door in hash format'}
+  }
+})
+
+TriggerEvent('es:addGroupCommand', 'copygate', 'owner', function(source, args, char)
+  TriggerClientEvent('doormanager:GateClipboard', source, args[2], args[3], args[4])
+end, {
+  help = "Copies Gate to clipboard.",
+  params = {
+    { name = "name", help = "Name of Gate" },
+    { name = "jobs", help = 'jobs allowed format: {"job1","job2"}'},
+    -- { name = "denyofduty", help = "If the door should be denied if off duty" },
+    { name = "model", help = 'model of Gate in hash format'}
+  }
+})
+
+TriggerEvent('es:addGroupCommand', 'copycell', 'owner', function(source, args, char)
+  TriggerClientEvent('doormanager:CellClipboard', source, args[2], args[3], args[4])
+end, {
+  help = "Copies CellDoor to clipboard.",
+  params = {
+    { name = "name", help = "Name of CellDoor" },
+    { name = "jobs", help = 'jobs allowed format: {"job1","job2"}'},
+    -- { name = "denyofduty", help = "If the door should be denied if off duty" },
+    { name = "model", help = 'model of CellDoor in hash format'}
   }
 })

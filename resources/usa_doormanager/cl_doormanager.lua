@@ -64,7 +64,7 @@ Citizen.CreateThread(function()
         if Vdist2(myCoords, door.x, door.y, door.z) < 500.0 then
           local doorObject = GetClosestObjectOfType(door.x, door.y, door.z, 1.0, door.model, false, false, false)
           if DoesEntityExist(doorObject) then
-            --print("deleting cell door!")
+            -- print("deleting cell door!")
             SetEntityAsMissionEntity(doorObject, true, true)
             DeleteEntity(doorObject)
           end
@@ -353,14 +353,80 @@ AddEventHandler('doormanager:advancedSuccess', function()
 end)
 
 RegisterNetEvent('doormanager:DoorClipboard')
-AddEventHandler('doormanager:DoorClipboard', function(name, jobs, offDuty, doorHash)
-  doorHash = tonumber(doorHash)
+AddEventHandler('doormanager:DoorClipboard', function(name, jobs, doorHash)
+  if string.sub(doorHash, 1, 1) == "-" then
+    doorHash = tonumber(string.sub(doorHash, 2, string.len(doorHash)))
+    doorHash = doorHash * -1
+  else
+    doorHash = tonumber(doorHash)
+  end
   local door = GetClosestObjectOfType(GetEntityCoords(PlayerPedId()), 5.0, doorHash, false, false, false)
   local door_x = round(GetEntityCoords(door).x, 2)
   local door_y = round(GetEntityCoords(door).y, 2)
   local door_z = round(GetEntityCoords(door).z, 2)
   local door_heading = round(GetEntityHeading(door))
-  local message = '{name = "' .. name .. '", x = ' .. door_x .. ', y = ' .. door_y .. ', z = ' .. door_z .. ', model = ' .. doorHash .. ', locked = true, offset={0.0, 0.0, 0.0}, heading=' .. door_heading .. ', _dist = 1.5, allowedJobs = {' .. jobs .. '}, denyOffDuty = ' .. offDuty .. '},'
+  local message = '{name = "' .. name .. '", x = ' .. door_x .. ', y = ' .. door_y .. ', z = ' .. door_z .. ', model = ' .. doorHash .. ', locked = true, offset={0.0, -1.0, 0.0}, heading=' .. door_heading .. ', _dist = 1.5, allowedJobs = {' .. jobs .. '}},'
+  print(message)
+  SendNUIMessage({
+    message = message
+  })
+end)
+
+RegisterNetEvent('doormanager:StaticClipboard')
+AddEventHandler('doormanager:StaticClipboard', function(name, jobs, doorHash)
+  if string.sub(doorHash, 1, 1) == "-" then
+    doorHash = tonumber(string.sub(doorHash, 2, string.len(doorHash)))
+    doorHash = doorHash * -1
+  else
+    doorHash = tonumber(doorHash)
+  end
+  local door = GetClosestObjectOfType(GetEntityCoords(PlayerPedId()), 5.0, doorHash, false, false, false)
+  local door_x = round(GetEntityCoords(door).x, 2)
+  local door_y = round(GetEntityCoords(door).y, 2)
+  local door_z = round(GetEntityCoords(door).z, 2)
+  local door_heading = round(GetEntityHeading(door))
+  local message = '{name = "' .. name .. '", x = ' .. door_x .. ', y = ' .. door_y .. ', z = ' .. door_z .. ', model = ' .. doorHash .. ', locked = true, offset={0.0, -1.0, 0.0}, heading=' .. door_heading .. ', _dist = 1.5, allowedJobs = {' .. jobs .. '}, static = true, gate = true, lockedCoords = {'..door_x..', '..door_y..', '..door_z..'}},'
+  print(message)
+  SendNUIMessage({
+    message = message
+  })
+end)
+
+RegisterNetEvent('doormanager:GateClipboard')
+AddEventHandler('doormanager:GateClipboard', function(name, jobs, doorHash)
+  if string.sub(doorHash, 1, 1) == "-" then
+    doorHash = tonumber(string.sub(doorHash, 2, string.len(doorHash)))
+    doorHash = doorHash * -1
+  else
+    doorHash = tonumber(doorHash)
+  end
+  local door = GetClosestObjectOfType(GetEntityCoords(PlayerPedId()), 5.0, doorHash, false, false, false)
+  local door_x = round(GetEntityCoords(door).x, 2)
+  local door_y = round(GetEntityCoords(door).y, 2)
+  local door_z = round(GetEntityCoords(door).z, 2)
+  local door_heading = round(GetEntityHeading(door))
+  local message = '{name = "'..name..'", x = '..door_x..', y = '..door_y..', z = '..door_z..', model = '..doorHash..', locked = true, _dist = 8.0, gate = true, offset={0.0, 0.0, 0.0}, lockedCoords = {'..door_x..', '..door_y..', '..door_z..'}, allowedJobs = {' .. jobs .. '}},'
+  print(message)
+  SendNUIMessage({
+    message = message
+  })
+end)
+
+RegisterNetEvent('doormanager:CellClipboard')
+AddEventHandler('doormanager:CellClipboard', function(name, jobs, doorHash)
+  if string.sub(doorHash, 1, 1) == "-" then
+    doorHash = tonumber(string.sub(doorHash, 2, string.len(doorHash)))
+    doorHash = doorHash * -1
+  else
+    doorHash = tonumber(doorHash)
+  end
+  local door = GetClosestObjectOfType(GetEntityCoords(PlayerPedId()), 5.0, doorHash, false, false, false)
+  local door_x = round(GetEntityCoords(door).x, 2)
+  local door_y = round(GetEntityCoords(door).y, 2)
+  local door_z = round(GetEntityCoords(door).z, 2)
+  local door_heading = round(GetEntityHeading(door))
+
+  local message = '{name = "'..name..'", x = '..door_x..', y = '..door_y..', z = '..door_z..', model = '..doorHash..', customDoor = { coords = {x = '..door_x..', y = '..door_y..', z = '..door_z..'}, model = GetHashKey("prop_ld_jail_door"), rot = 131.0}, locked = true, _dist = 2.0, cell_block = true, allowedJobs = {' .. jobs .. '}},'
   print(message)
   SendNUIMessage({
     message = message

@@ -165,6 +165,7 @@ Citizen.CreateThread(function()
 			DrawTxt(0.817, 1.25, 1.0, 1.0, 0.50, 'Incapacitated, wait for medical attention or respawn (After 1 minute a local will call 911 for you)!', 255, 255, 255, 255)
 			if GetEntitySpeed(ped) < 0.05 and not IsEntityInAir(ped) and not IsEntityInWater(ped) and not IsPedInAnyVehicle(ped) then
 				if freeze then
+					-- workaround for desync when player dies and ragdolls somewhere (quickly revive them so their location syncs again and then re-down)
 					heading = GetEntityHeading(ped)
 					coords = GetEntityCoords(ped)
 					FreezeEntityPosition(ped, true)
@@ -172,15 +173,15 @@ Citizen.CreateThread(function()
 					revivePed(ped, false)
 					SetEntityHealth(GetPlayerPed(-1), 0)
 					freeze = false
+					FreezeEntityPosition(ped, false)
 					--print('Should be static now...')
 				end
-				FreezeEntityPosition(ped, true)
 			end
 			--DisableControlAction(1, 1, true) -- LOOK UP, DOWN, LEFT, RIGHT
-			DisableControlAction(1, 2, true)
-			DisableControlAction(1, 4, true)
-			DisableControlAction(1, 6, true)
-			DisableControlAction(0, 26, true) -- LOOK BEHIND
+			--DisableControlAction(1, 2, true)
+			--DisableControlAction(1, 4, true)
+			--DisableControlAction(1, 6, true)
+			--DisableControlAction(0, 26, true) -- LOOK BEHIND
 			--DisableControlAction(0, 0, true) -- CHANGE CAMERA VIEW
 			--SetPlayerInvincible(ped, true) causes tens of anticheese flags lol
 			SetEntityHealth(ped, 1)

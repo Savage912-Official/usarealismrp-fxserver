@@ -554,20 +554,20 @@ var menuItems = [{
         name: "Actions",
         children: [
             { name: "Show ID" },
-            { name: "Give cash" },
+            //{ name: "Give cash" },
             { name: "Bank" },
             { name: "Glasses" },
             { name: "Mask" },
             { name: "Hat" },
             { name: "Tie" },
-            { name: "Untie" },
-            { name: "Drag" },
-            { name: "Blindfold" },
-            { name: "Remove blindfold" },
-            { name: "Place" },
-            { name: "Unseat" },
-            { name: "Rob" },
-            { name: "Search" },
+            //{ name: "Untie" },
+            //{ name: "Drag" },
+            //{ name: "Blindfold" },
+            //{ name: "Remove blindfold" },
+            //{ name: "Place" },
+            //{ name: "Unseat" },
+            //{ name: "Rob" },
+            //{ name: "Search" },
             { name: "Roll dice" },
             { name: "Walkstyle" }
         ]
@@ -1219,6 +1219,24 @@ $(function() {
             /* Set misc variables from client */
             interactionMenu.isInVehicle = event.data.isInVehicle;
             interactionMenu.isCuffed = event.data.isCuffed;
+            /* Set current page if applicable */
+            if (event.data.goToPage) {
+                switch (event.data.goToPage) {
+                    case "vehicleActions.open": {
+                        interactionMenu.showVehicleActions();
+                        interactionMenu.onSubmenuItemClick(vehicleActions[2]);
+                        break;
+                    }
+                    case "vehicleActions.close": {
+                        interactionMenu.showVehicleActions();
+                        interactionMenu.onSubmenuItemClick(vehicleActions[3]);
+                        break;
+                    }
+                    case "inventory": {
+                        interactionMenu.onClick({ name: "Inventory" })
+                    }
+                }
+            }
         } else if (event.data.type == "inventoryLoaded") {
             interactionMenu.inventory = event.data.inventory;
             for (var i = 0; i < interactionMenu.inventory.MAX_CAPACITY; i++)

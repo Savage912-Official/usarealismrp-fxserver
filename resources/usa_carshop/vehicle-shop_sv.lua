@@ -874,6 +874,19 @@ Citizen.CreateThread(function()
 	end
 end)
 
+AddEventHandler('playerDropped', function (reason)
+	--player dropped remove from test drive if on one
+	local usource = source
+	for k,v in pairs(testDrivers) do
+		if v.source == usource then
+			local ent = NetworkGetEntityFromNetworkId(v.netID)
+			DeleteEntity(ent)
+			testDrivers[k] = nil
+			break
+		end
+	end
+end)
+
 RegisterServerEvent("mini:checkPlayerTestDrive")
 AddEventHandler("mini:checkPlayerTestDrive", function(vehicle,business)
 	local usource = source

@@ -989,12 +989,18 @@ end)
 local LARGE_XMAS_TREE_MODEL = 118627012
 local ATM_MODEL = GetHashKey("prop_atm_02")
 local ATM_MODEL2 = GetHashKey("prop_atm_01")
+local PRISON_TV = GetHashKey("prop_cs_tv_stand")
 
 local STATIC_OBJECTS = {
   AUTOREPAIR_ATM = {
     coords = vector3(948.26678466797, -966.03826904297, 38.399954223633),
     heading = 275.0,
     obj = ATM_MODEL2
+  },
+  PRISON_TV = {
+    coords = vector3(1749.0377197265625, 2478.02294921875, 44.74413619995117),
+    heading = 30.0,
+    obj = PRISON_TV
   }
   --LEGION = {226.48237609863, -895.41094970703, 28.692138671875},
   --UPPER_PILLBOX = {242.40295410156, -565.30682373047, 41.278789520264},

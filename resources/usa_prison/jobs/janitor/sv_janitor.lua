@@ -21,13 +21,13 @@ local cleaningLocations = {
 }
 
 local REDUCE_TIME_RATES = {
-    tables = math.random(0, 2),
-    gym = math.random(0, 3)
+    tables = 1,
+    gym = 1
 }
 
 local PAY_RATES = {
-    tables = math.random(20, 60),
-    gym = math.random(25, 75)
+    tables = math.random(20, 100),
+    gym = math.random(25, 100)
 }
 
 local CLEANING_TIME_SECONDS = 45
@@ -62,8 +62,8 @@ AddEventHandler("prison-janitor:toggleJob", function(targetSrc)
         end
         char.set("jailTime", math.max(0, time))
         char.giveBank(payment)
-        TriggerClientEvent("usa:notify", src, "You've been paid: $" .. exports.globals:comma_value(payment))
-	TriggerClientEvent("usa:notify", src, "Reduced Prison Time, New Time: " .. time)
+        TriggerClientEvent("usa:notify", src, "You've been paid: $" .. exports.globals:comma_value(payment), "^3INFO: ^0You've been paid: $" .. exports.globals:comma_value(payment))
+        TriggerClientEvent("usa:notify", src, "Reduced Prison Time, New Time: " .. time, "^3INFO: ^0Reduced Prison Time, New Time: " .. time)
         -- record stoppage
         currentlyCleaning[src] = nil
         currentlyCleaningTaskName[src] = nil
@@ -82,6 +82,8 @@ AddEventHandler("prison-janitor:markLocationAsCleaned", function(index, security
         if getNumCleaned(currentlyCleaning[source]) >= #currentlyCleaning[source] then
             print("finished cleaning all locations for job")
             TriggerEvent("prison-janitor:toggleJob", source)
+        else
+            TriggerClientEvent("usa:notify", source, "Table cleaned!", "^3INFO: ^0Table cleaned!")
         end
     end
 end)

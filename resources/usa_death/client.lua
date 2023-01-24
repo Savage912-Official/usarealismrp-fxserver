@@ -47,10 +47,9 @@ end)
 
 function revivePed(ped, anim)
 	local playerPos = GetEntityCoords(ped, true)
-	FreezeEntityPosition(ped, false)
 	NetworkResurrectLocalPlayer(playerPos, true, true, false)
-	SetPlayerInvincible(ped, false)
 	ClearPedBloodDamage(ped)
+	FreezeEntityPosition(ped, false)
 	if anim then
 		RequestAnimDict('combat@damage@injured_pistol@to_writhe')
 		while not HasAnimDictLoaded('combat@damage@injured_pistol@to_writhe') do
@@ -69,7 +68,6 @@ function respawnPed(ped,coords)
 	if #(currentCoords - CAYO_PERICO_MANSION_COORDS) < 500 then
 		TriggerServerEvent("av_cayoheist:removeGoods")
 	end
-	FreezeEntityPosition(ped, false)
 	DoScreenFadeOut(500)
 	Citizen.Wait(500)
 	RequestCollisionAtCoord(coords.x, coords.y, coords.z)
@@ -87,7 +85,7 @@ function respawnPed(ped,coords)
 	TriggerEvent("crim:blindfold", false, false, true)
 	TriggerEvent("cuff:unCuff", true)
 	ClearPedBloodDamage(ped)
-	SetPlayerInvincible(ped, false)
+	FreezeEntityPosition(ped, false)
 	Citizen.Wait(3000)
 	DoScreenFadeIn(500)
 	TriggerEvent("chatMessage", "", { 0, 0, 0 }, "^1^*[RESPAWN] ^r^7You wake up at the local hospital, and can't seem to remember events leading up to now...")
@@ -168,22 +166,14 @@ Citizen.CreateThread(function()
 					-- workaround for desync when player dies and ragdolls somewhere (quickly revive them so their location syncs again and then re-down)
 					heading = GetEntityHeading(ped)
 					coords = GetEntityCoords(ped)
-					FreezeEntityPosition(ped, true)
 					SetEntityCoords(ped, coords.x, coords.y, coords.z - 1.0, 0, 0, 0)
 					revivePed(ped, false)
 					SetEntityHealth(GetPlayerPed(-1), 0)
+					FreezeEntityPosition(ped, true)
 					freeze = false
-					FreezeEntityPosition(ped, false)
 					--print('Should be static now...')
 				end
 			end
-			--DisableControlAction(1, 1, true) -- LOOK UP, DOWN, LEFT, RIGHT
-			--DisableControlAction(1, 2, true)
-			--DisableControlAction(1, 4, true)
-			--DisableControlAction(1, 6, true)
-			--DisableControlAction(0, 26, true) -- LOOK BEHIND
-			--DisableControlAction(0, 0, true) -- CHANGE CAMERA VIEW
-			--SetPlayerInvincible(ped, true) causes tens of anticheese flags lol
 			SetEntityHealth(ped, 1)
 			if not jailed then
 				local waitPeriod = diedTime + (RESPAWN_WAIT_TIME) -- how long you must wait (5 mins)

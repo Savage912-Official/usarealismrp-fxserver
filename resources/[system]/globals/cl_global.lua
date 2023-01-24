@@ -304,20 +304,22 @@ function createCulledNonNetworkedPedAtCoords(model, locations, maxDist, _3dText,
     end
   end)
   -- draw 3d text when nearby
-  Citizen.CreateThread(function()
-    while true do
-      if nearbyLocation and nearbyLocation.dist <= _3dTextDrawDist then
-        DrawText3D(nearbyLocation.x, nearbyLocation.y, nearbyLocation.z, _3dText)
-        -- listen for keypress
-        if keypressFunc then
-          if IsControlJustPressed(0, key) then
-            keypressFunc()
+  if _3dText then
+    Citizen.CreateThread(function()
+      while true do
+        if nearbyLocation and nearbyLocation.dist <= _3dTextDrawDist then
+          DrawText3D(nearbyLocation.x, nearbyLocation.y, nearbyLocation.z, _3dText)
+          -- listen for keypress
+          if keypressFunc then
+            if IsControlJustPressed(0, key) then
+              keypressFunc()
+            end
           end
         end
+        Wait(1)
       end
-      Wait(1)
-    end
-  end)
+    end)
+  end
 end
 
 function playAnimation(dict, name, duration, flag, timerBarText)

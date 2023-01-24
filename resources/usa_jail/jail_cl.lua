@@ -248,3 +248,7 @@ end)
 Citizen.CreateThread(function()
   TriggerServerEvent("jail:checkalarm")
 end)
+
+exports.globals:createCulledNonNetworkedPedAtCoords("s_m_m_postal_01", {
+  {x = 1775.7181396484, y = 2489.6140136719, z = 45.740772247314, heading = 112.0}
+}, 300.0, false, 2.0, false, false)

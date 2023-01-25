@@ -192,10 +192,29 @@ Check out the `exposedDB.*` functions in the `resources/essentialmode/db.lua` fi
 To access the DB API from a server script with the above mentioned functions:
 
 ```
-TriggerEvent("es:exposeDBFunctions", function(db)
-	-- access exposedDB.* functions with the db object
-	-- i.e. db.createDocument(...), db.getDocumentById(...)
-end)
+-- create
+local newDoc = {
+	someKey1 = "heyyy",
+	someKey2 = "yoooo"
+}
+local success = exports.essentialmode:createDocumentWithId("database-name-here", "docIdHere", newDoc)
+
+-- read
+local doc = exports.essentialmode:getDocument("database-name-here", "docIdHere") -- fetch doc from DB
+let sampleVal = doc.someKey1 -- getting a value within the doc
+print(sampleVal) // "heyyy"
+
+-- update
+doc.someKey1 = "no longer heyyy"
+doc.newPropertyHere = 123
+doc.newObjectPropertyHere = {
+	someKey1 = "someValue1",
+	someKey2 = 666
+}
+exports.essentialmode:updateDocument("database-name-here", "docIdHere", doc, true)
+
+-- delete
+see resources/essentialmode/db.lua, example todo still
 ```
 
 Also check out `resources/[system]/globals` for a library of some miscellaneous commonly used functions for both the server and client side.

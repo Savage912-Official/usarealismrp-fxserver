@@ -158,13 +158,6 @@ hospitalLocations = {
     {-251.8987, 6334.1558, 32.4272} -- Paleto Clinic
 }
 
-doctorLocations = {
-    {311.01, -599.24, 43.29}, -- pillbox
-    {-815.40, -1242.14, 7.33}, -- viceroy
-    {1839.8976, 3687.0020, 34.2749}, -- sandy
-    {-256.0696, 6306.1753, 32.4272}, -- paleto
-    {-176.41996765137, 406.39044189453, 110.77401733398}, -- blackmarket
-}
 
 effects = {} -- when you take damage for a specific reason, you may be put into an effect
 injuredParts = {} -- injured body parts, and their wounds as the value
@@ -639,15 +632,6 @@ Citizen.CreateThread(function()
                         local x, y, z = table.unpack(playerCoords)
                         TriggerServerEvent('injuries:validateCheckin', injuredParts, IsPedDeadOrDying(playerPed), x, y, z, IsPedMale(playerPed))
                     end
-                end
-            end
-        end
-        for i = 1, #doctorLocations do
-            local x, y, z = table.unpack(doctorLocations[i])
-            if Vdist(playerCoords, x, y, z) < 3 then
-                DrawText3Ds(x, y, z, '[E] - On/Off Duty (~r~Doctor~s~)')
-                if IsControlJustPressed(0, 38) and Vdist(playerCoords, x, y, z) < 2 then
-                    TriggerServerEvent('injuries:toggleOnDuty')
                 end
             end
         end

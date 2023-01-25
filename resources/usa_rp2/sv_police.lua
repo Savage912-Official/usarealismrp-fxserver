@@ -37,6 +37,15 @@ local POLICE_RANKS = {
 		[7] = "Battalion Chief",
 		[8] = "Assistant Fire Chief",
 		[9] = "Fire Chief"
+	},
+	["Doctor"] = {
+		[1] = "Intern Nurse/Doctor",
+		[2] = "Registered Nurse/Resident Doctor",
+		[3] = "Attending Doctor/Psychiatrist",
+		[4] = "Pillbox Team Leader",
+		[5] = "Director of Department",
+		[6] = "Co-Dean of Medicine",
+		[7] = "Dean of Medicine"
 	}
 }
 
@@ -442,6 +451,10 @@ TriggerEvent('es:addCommand', 'showbadge', function(source, args, char, location
 	local police_rank = char.get("policeRank")
 	local bcso_rank = char.get("bcsoRank")
 	local ems_rank = char.get("emsRank")
+	local doctor_rank = char.get("doctorRank")
+	if (doctor_rank == nil) then
+		doctor_rank = 0
+	end
 	local char_name = char.getFullName()
 
 	if args[2] == "sasp" then	
@@ -471,6 +484,15 @@ TriggerEvent('es:addCommand', 'showbadge', function(source, args, char, location
 		else
 			TriggerClientEvent("usa:notify", source, "Not whitelisted for this dept.")
 		end
+	elseif args[2] == "doctor" then
+		if doctor_rank > 0 then
+			exports["globals"]:sendLocalActionMessage(source, char_name .. " shows official pillbox id card.")
+			TriggerClientEvent("badge:client:animation", source)
+			local msg = "^*[Pillbox ID Card]^r ^2Name: ^0" .. char_name .. " - ^2SSN: ^0" .. source .. " - ^2Rank: ^0" .. GetRankName(doctor_rank, "doctor")
+			exports["globals"]:sendLocalActionMessageChat(msg, location)
+		else
+			TriggerClientEvent("usa:notify", source, "Not whitelisted for this dept.")
+		end
 	elseif args[2] == nil then
 		if police_rank > 0 then
 			exports["globals"]:sendLocalActionMessage(source, char_name .. " shows official police badge.")
@@ -487,12 +509,17 @@ TriggerEvent('es:addCommand', 'showbadge', function(source, args, char, location
 			TriggerClientEvent("badge:client:animation", source)
 			local msg = "^*[EMS BADGE]^r ^2Name: ^0" .. char_name .. " - ^2SSN: ^0" .. source .. " - ^2Rank: ^0" .. GetRankName(ems_rank, "ems")
 			exports["globals"]:sendLocalActionMessageChat(msg, location)
+		elseif doctor_rank > 0 then
+			exports["globals"]:sendLocalActionMessage(source, char_name .. " shows official pillbox id card.")
+			TriggerClientEvent("badge:client:animation", source)
+			local msg = "^*[Pillbox ID Card]^r ^2Name: ^0" .. char_name .. " - ^2SSN: ^0" .. source .. " - ^2Rank: ^0" .. GetRankName(doctor_rank, "doctor")
+			exports["globals"]:sendLocalActionMessageChat(msg, location)
 		end
 	end
 end, {
 	help = "Show official police or ems badge.",
 	params = {
-		{ name = "dept", help = "Department: sasp, bcso, ems." }
+		{ name = "dept", help = "Department: sasp, bcso, ems, doctor." }
 	}
 })
 
@@ -504,6 +531,8 @@ function GetRankName(rank, dept)
 		department = "SASP"
 	elseif dept == "ems" then
 		department = "EMS"
+	elseif dept == "doctor" then
+		department = "Doctor"
 	end
 	return POLICE_RANKS[department][rank]
 end

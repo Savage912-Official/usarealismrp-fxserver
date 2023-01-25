@@ -1214,8 +1214,10 @@ function interactionMenuUse(index, itemName, wholeItem)
 		ExecuteCommand("placehoop")
 	elseif itemName == "Skateboard" then
 		TriggerEvent('usa_skateboard:PlaceDown')
-	elseif wholeItem.type == "magicPotion" then
+  elseif wholeItem.type == "magicPotion" then
 		TriggerServerEvent("magicPotion:used", wholeItem)
+	elseif itemName == "Drill" then
+		TriggerEvent("banking:DrillATM")
 	elseif itemName == "Christmas Present" then
 		TriggerServerEvent("usa:openChristmasPresent", wholeItem)
 	elseif itemName == "RC Car" then

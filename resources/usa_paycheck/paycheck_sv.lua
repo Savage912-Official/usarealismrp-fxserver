@@ -109,7 +109,21 @@ function DepositPayCheck(char)
     elseif job == "lawyer" then
         paycheckAmount = 1500
     elseif job == "doctor" then
-        paycheckAmount = 1750
+        local rank = char.get("doctorRank")
+        paycheckAmount = 1600 -- Intern Nurse/Doctor
+        if rank == 2 then
+            paycheckAmount = 1750 -- Registered Nurse/Resident Doctor
+        elseif rank == 3 then
+            paycheckAmount = 1900 -- Attending Doctor/Psychiatrist
+        elseif rank == 4 then
+            paycheckAmount = 2050 -- Team Leader
+        elseif rank == 5 then
+            paycheckAmount = 2200 -- Director of Department
+        elseif rank == 6 then
+            paycheckAmount = 2350 -- Co-Dean of Med
+        elseif rank == 7 then
+            paycheckAmount = 2500 -- Dean of Med
+        end
     elseif job == "da" then
         paycheckAmount = 1700
     elseif job == 'BurgerShotEmployee' then

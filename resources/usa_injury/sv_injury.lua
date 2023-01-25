@@ -316,28 +316,6 @@ AddEventHandler('injuries:chargeForInjuries', function(playerInjuries, multiplie
 	TriggerClientEvent('chatMessage', source, 'The payment has been deducted from your bank balance.')
 end)
 
-RegisterServerEvent('injuries:toggleOnDuty')
-AddEventHandler('injuries:toggleOnDuty', function()
-	local JOB_NAME = "doctor"
-	local char = exports["usa-characters"]:GetCharacter(source)
-	if char.get("job") ~= 'doctor' then
-		if char.get('emsRank') >= 4 then
-			TriggerClientEvent('usa:notify', source, 'You are now signed ~g~on-duty~s~ as a doctor.')
-			char.set('job', 'doctor')
-			TriggerEvent('job:sendNewLog', source, JOB_NAME, true)
-      		TriggerEvent("eblips:remove", source)
-      		TriggerEvent("eblips:add", {name = char.getName(), src = source, color = 50})
-		else
-			TriggerClientEvent('usa:notify', source, '~y~You are not whitelisted for DOCTOR')
-		end
-	else
-		TriggerClientEvent('usa:notify', source, 'You are now signed ~y~off-duty~s~ as a doctor.')
-		char.set('job', 'civ')
-		TriggerEvent('job:sendNewLog', source, JOB_NAME, false)
-      	TriggerEvent("eblips:remove", source)
-	end
-end)
-
 RegisterServerEvent('injuries:getPlayerInjuries')
 AddEventHandler('injuries:getPlayerInjuries', function(sourceToGetInjuriesFrom, sourceToReturnInjuries)
 	TriggerClientEvent('injuries:returnInjuries', sourceToGetInjuriesFrom, sourceToReturnInjuries)

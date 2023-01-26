@@ -195,9 +195,11 @@ TriggerEvent('es:addCommand', 'whitelist', function(source, args, char)
     if type == "ems" then
         user_rank = tonumber(char.get("emsRank"))
     elseif type == "doctor" then
-        user_rank = tonumber(char.get("doctorRank"))
+        user_rank = char.get("doctorRank")
         if (user_rank == nil) then
             user_rank = 0
+        else
+            user_rank = tonumber(user_rank)
         end 
     elseif type == "police" then
         user_rank = tonumber(char.get("policeRank"))

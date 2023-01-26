@@ -95,6 +95,11 @@ local VEHICLE_RANKS = {
 			allowedLiveries = {1, 2, 3, 4, 5},
 			hash = GetHashKey("intchar")
 		},
+		["tolplam"] = {
+			rank = 7,
+			allowedLiveries = {1, 2, 3, 4, 5},
+			hash = -989604086
+		},
 		["predator"] = {
 			rank = 1,
 			allowedLiveries = { 1 },
@@ -123,7 +128,7 @@ local VEHICLE_RANKS = {
 		["fbi2"] = {
 			rank = 4,
 			allowedLiveries = { 1 },
-			hash = -1647941228	
+			hash = -1647941228
 		},
 		["bearcatrb"] = {
 			rank = 3,
@@ -275,7 +280,7 @@ local VEHICLE_RANKS = {
 		["fbi2"] = {
 			rank = 4,
 			allowedLiveries = { 1 },
-			hash = -1647941228	
+			hash = -1647941228
 		},
 		["bearcatrb"] = {
 			rank = 3,
@@ -398,7 +403,7 @@ function getRankForJob(char, job, cb)
 		cb(char.get("policeRank"))
 	elseif job == "ems" or job == "doctor" then
 		cb(char.get("emsRank"))
-	elseif job == "corrections" then 
+	elseif job == "corrections" then
 		cb(char.get("bcsoRank"))
 	end
 end
@@ -443,12 +448,12 @@ RegisterServerEvent("vehCommands:gotVehModel")
 AddEventHandler("vehCommands:gotVehModel", function(model, srcAction, selected)
 	local char = exports["usa-characters"]:GetCharacter(source)
 	local job = char.get("job")
-	if srcAction == "livery" then 
-		for name, info in pairs(VEHICLE_RANKS[job]) do 
+	if srcAction == "livery" then
+		for name, info in pairs(VEHICLE_RANKS[job]) do
 			if type(info) == "table" then
-				if info.hash == model then 
-					for i = 1, #info.allowedLiveries do 
-						if selected == info.allowedLiveries[i] then 
+				if info.hash == model then
+					for i = 1, #info.allowedLiveries do
+						if selected == info.allowedLiveries[i] then
 							TriggerClientEvent("vehicleCommands:setLivery", source, selected)
 							return
 						end

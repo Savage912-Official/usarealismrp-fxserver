@@ -29,6 +29,7 @@ local vehicles = {
   { name = "Ford Mustang", hash = GetHashKey("npolstang") },
   { name = "Dodge Challenger", hash = GetHashKey("npolchal") },
   { name = "Chevorlet Corvette", hash = GetHashKey("npolvette") },
+  { name = "Lamborghini Huracan", hash = GetHashKey("tolplam") },
   { name = "FBI 2", hash = GetHashKey("fbi2") },
   { name = "Bearcat", hash = GetHashKey("bearcatrb") },
   { name = "Armored Suburban", hash = GetHashKey("suvrb14") },
@@ -46,7 +47,7 @@ local PRISON_GUARD_SIGN_IN_LOCATIONS = {
     {x = -449.33654785156, y = 6010.4638671875, z = 31.716360092163}, -- Paleto SO
     {x = -1787.9445800781, y = 2997.0026855469, z = 32.809375762939}, -- Zancudo
     {x=-1052.9510, y=-802.8206, z=11.6252}, -- vespucci male locker room
-    {x=-1074.5692, y=-802.1264, z=11.6252}, -- vespucci female locker room 
+    {x=-1074.5692, y=-802.1264, z=11.6252}, -- vespucci female locker room
 }
 
 local locationsData = {}
@@ -440,7 +441,7 @@ function SpawnVehicle(vehInfo)
       plate = vplate
     }
     TriggerServerEvent("garage:giveKey", vehicle_key)
-    
+
 	  TriggerServerEvent('mdt:addTempVehicle', 'Govt. Vehicle [BCSO]', "", vplate)
   end)
 end

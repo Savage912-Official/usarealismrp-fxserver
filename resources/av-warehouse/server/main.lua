@@ -60,6 +60,13 @@ RegisterServerCallback {
 	end
 }
 
+RegisterServerCallback {
+	eventName = 'av-warehouse:getLocations',
+	eventCallback = function(source)		
+		return locations
+	end
+}
+
 AddEventHandler('onResourceStart', function(resource)
 	if resource == GetCurrentResourceName() then
 		local ubicacion = math.random(1, #locations)		

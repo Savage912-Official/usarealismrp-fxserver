@@ -33,18 +33,36 @@ local CELLS = {
 	{x = 1777.3125, y = 2483.3032226563, z = 49.693046569824, occupant = nil}, -- Cell 27
 }
 
+local Prison_Locations = {
+	{ coords = vector3(1689.3699951172, 2592.8100585938, 45.668334960938), distance = 140 },
+	{ coords = vector3(1691.1254882813, 2540.8515625, 45.564823150635), distance = 100 }
+}
+
 local alarm_on = false
 
 local DB_NAME = "prisonitemstorage"
 
 exports["globals"]:PerformDBCheck("usa_jail", DB_NAME)
 
+local function isAtPrisonLocation(coords)
+	for i = 1, #Prison_Locations do
+		if #(coords - Prison_Locations[i].coords) < Prison_Locations[i].distance then
+			return true
+		end
+	end
+	return false
+end
+
 -- V2
 TriggerEvent('es:addCommand', 'jail', function(source, args, char)
 	local job = char.get("job")
 	local jailtime = char.get("jailTime")
 	if job == "sheriff" or job == "cop" or job == "corrections" or job == "judge" then
-		TriggerClientEvent("jail:openMenu", tonumber(source))
+		if isAtPrisonLocation(GetEntityCoords(GetPlayerPed(source))) then
+			TriggerClientEvent("jail:openMenu", tonumber(source))
+		else
+			TriggerClientEvent("usa:notify", source, "You are not at the Prison!")
+		end
 	elseif jailtime > 0 then
 		TriggerClientEvent("usa:notify", tonumber(source), "You have ~y~" .. jailtime .. " month(s) ~w~left in your jail sentence.")
 	end

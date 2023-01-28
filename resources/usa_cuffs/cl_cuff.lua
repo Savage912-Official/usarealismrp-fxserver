@@ -4,6 +4,7 @@ local cuffanimplaying = false
 local awaitingHandsDown = false
 local prevMaleVariation = 0
 local prevFemaleVariation = 0
+local count = 0
 
 local uncuff_locations = {
 	{x = -533.3, y = 5291.5, z = 74.2},
@@ -266,10 +267,13 @@ AddEventHandler("cuff:Handcuff", function(arrestingPlayerId, x, y, z, playerHead
 		local lPed = GetPlayerPed(-1)
 		if DoesEntityExist(lPed) then
 			Citizen.CreateThread(function()
+				
 				RequestAnimDict("mp_arresting")
+				
 				while not HasAnimDictLoaded("mp_arresting") do
 					Citizen.Wait(100)
 				end
+
 				if isCuffed then
 					if arrestingPlayerId then
 						TriggerServerEvent("cuff:triggerAnimType", arrestingPlayerId, 3) -- police uncuffing
@@ -286,26 +290,71 @@ AddEventHandler("cuff:Handcuff", function(arrestingPlayerId, x, y, z, playerHead
 		            	SetPedComponentVariation(lPed, 7, prevMaleVariation, 0, 0)
 		        	end
 				else
-					while IsEntityPlayingAnim(GetPlayerPed(-1), "mp_arrest_paired", "crook_p2_back_right", 3) or cuffanimplaying or IsPedRagdoll(GetPlayerPed(-1)) do
-						Citizen.Wait(5)
-					end
-					if arrestingPlayerId then
-						TriggerServerEvent("cuff:triggerAnimType", arrestingPlayerId, 1) -- police scuffing
-					end
-					TriggerEvent("cuff:playSuspectAnim", x, y, z, playerHeading)
-					Wait(3000)
-					TaskPlayAnim(lPed, "mp_arresting", "idle", 8.0, -8, -1, 49, 0, 0, 0, 0)
-					SetEnableHandcuffs(lPed, true)
-					SetCurrentPedWeapon(lPed, GetHashKey("WEAPON_UNARMED"), true)
-					TriggerEvent('usa:showHelp', false, 'You have been ~r~detained~s~.')
-					isCuffed = true
-					isHardcuffed = false
-					if IsPedModel(lPed,"mp_f_freemode_01") then
-				  		prevFemaleVariation = GetPedDrawableVariation(lPed, 7)
-						SetPedComponentVariation(lPed, 7, 23, 0, 0)
-					elseif IsPedModel(lPed,"mp_m_freemode_01") then
-						prevMaleVariation = GetPedDrawableVariation(lPed, 7)
-	            		SetPedComponentVariation(lPed, 7, 34, 0, 0)
+					if count >= 3 then
+						count = 0
+						
+						while IsEntityPlayingAnim(GetPlayerPed(-1), "mp_arrest_paired", "crook_p2_back_right", 3) or cuffanimplaying or IsPedRagdoll(GetPlayerPed(-1)) do
+							Citizen.Wait(5)
+						end
+						if arrestingPlayerId then
+							TriggerServerEvent("cuff:triggerAnimType", arrestingPlayerId, 1) -- police scuffing
+						end
+						TriggerEvent("cuff:playSuspectAnim", x, y, z, playerHeading)
+						Wait(3000)
+						TaskPlayAnim(lPed, "mp_arresting", "idle", 8.0, -8, -1, 49, 0, 0, 0, 0)
+						SetEnableHandcuffs(lPed, true)
+						SetCurrentPedWeapon(lPed, GetHashKey("WEAPON_UNARMED"), true)
+						TriggerEvent('usa:showHelp', false, 'You have been ~r~detained~s~.')
+						isCuffed = true
+						isHardcuffed = false
+						if IsPedModel(lPed,"mp_f_freemode_01") then
+							prevFemaleVariation = GetPedDrawableVariation(lPed, 7)
+							SetPedComponentVariation(lPed, 7, 23, 0, 0)
+						elseif IsPedModel(lPed,"mp_m_freemode_01") then
+							prevMaleVariation = GetPedDrawableVariation(lPed, 7)
+							SetPedComponentVariation(lPed, 7, 34, 0, 0)
+						end
+					else
+						while IsEntityPlayingAnim(GetPlayerPed(-1), "mp_arrest_paired", "crook_p2_back_right", 3) or cuffanimplaying or IsPedRagdoll(GetPlayerPed(-1)) do
+							Citizen.Wait(500)
+						end
+						
+						if arrestingPlayerId then
+							TriggerServerEvent("cuff:triggerAnimType", arrestingPlayerId, 1) -- police scuffing
+						end
+
+						TriggerEvent("cuff:playSuspectAnim", x, y, z, playerHeading)
+
+						local success = lib.skillCheck({ {areaSize = 50, speedMultiplier = 1.5}, {areaSize = 40, speedMultiplier = 1.7}, {areaSize = 30, speedMultiplier = 2.0} })
+						if success then
+							count = count + 1
+							isCuffed = false
+							isHardcuffed = false
+							TriggerEvent('usa:showHelp', false, 'You have ~g~Escaped!')
+
+							local beginTime = GetGameTimer()
+							while GetGameTimer() - beginTime < 1800000 do
+								Citizen.Wait(0)
+							end
+							count = 0
+						else
+							count = 0
+							isCuffed = true
+							isHardcuffed = false
+
+							TaskPlayAnim(lPed, "mp_arresting", "idle", 8.0, -8, -1, 49, 0, 0, 0, 0)
+							SetEnableHandcuffs(lPed, true)
+							SetCurrentPedWeapon(lPed, GetHashKey("WEAPON_UNARMED"), true)
+							TriggerEvent('usa:showHelp', false, 'You have been ~r~detained~s~.')
+							
+							if IsPedModel(lPed,"mp_f_freemode_01") then
+								prevFemaleVariation = GetPedDrawableVariation(lPed, 7)
+								SetPedComponentVariation(lPed, 7, 23, 0, 0)
+							elseif IsPedModel(lPed,"mp_m_freemode_01") then
+								prevMaleVariation = GetPedDrawableVariation(lPed, 7)
+								SetPedComponentVariation(lPed, 7, 34, 0, 0)
+							end
+						end
 					end
 				end
 			end)

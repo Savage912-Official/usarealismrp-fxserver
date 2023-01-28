@@ -310,7 +310,7 @@ AddEventHandler('doormanager:advancedPick', function()
     for i = 1, #DOORS_TO_MANAGE do
         local door = DOORS_TO_MANAGE[i]
         local x, y, z = door.x, door.y, door.z
-        if Vdist(playerCoords, x, y, z) < 1.0 then
+        if Vdist(playerCoords, x, y, z) < 1.5 then
             if door.advancedlockpickable then
                 local x, y, z = table.unpack(playerCoords)
                 local lastStreetHASH = GetStreetNameAtCoord(x, y, z)
@@ -342,7 +342,7 @@ AddEventHandler('doormanager:advancedSuccess', function()
     for i = 1, #DOORS_TO_MANAGE do
         local door = DOORS_TO_MANAGE[i]
         local x, y, z = door.x, door.y, door.z
-        if Vdist(playerCoords, x, y, z) < 1.0 then
+        if Vdist(playerCoords, x, y, z) < 1.5 then
             if door.advancedlockpickable then
                 TriggerServerEvent('doormanager:checkDoorLock', i, door.x, door.y, door.z, true)
                 TriggerEvent("usa:notify", "Lockpick was ~y~successful~s~!")

@@ -63,12 +63,14 @@ AddEventHandler("towJob:setJob", function()
 	if char.get("job") == "mechanic" then
 		TriggerClientEvent("towJob:offDuty", source)
 		char.set("job", "civ")
+		TriggerClientEvent("thirdEye:updateActionsForNewJob", source, "civ")
 	else
 		local drivers_license = char.getItem("Driver's License")
 		if drivers_license then
 			if drivers_license.status == "valid" then
 				local usource = source
 				char.set("job", "mechanic")
+				TriggerClientEvent("thirdEye:updateActionsForNewJob", source, "mechanic")
 				local ident = char.get("_id")
 				MechanicHelper.getMechanicRepairCount(ident, function(repairCount)
 					if repairCount >= MechanicHelper.LEVEL_3_RANK_THRESH then
@@ -94,6 +96,7 @@ RegisterServerEvent("tow:forceRemoveJob")
 AddEventHandler("tow:forceRemoveJob", function()
 	local char = exports["usa-characters"]:GetCharacter(source)
 	char.set("job", "civ")
+	TriggerClientEvent("thirdEye:updateActionsForNewJob", source, "civ")
 	TriggerClientEvent("towJob:offDuty", source)
 end)
 

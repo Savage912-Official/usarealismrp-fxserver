@@ -54,6 +54,7 @@ AddEventHandler("emsstation2:loadOutfit", function(slot)
       TriggerClientEvent("emsstation2:setCharacter", src, outfit)
       if char.get('job') ~= JOB_NAME then
         char.set("job",JOB_NAME)
+        TriggerClientEvent("thirdEye:updateActionsForNewJob", src, JOB_NAME)
         TriggerEvent('job:sendNewLog', src, JOB_NAME, true)
       end
       TriggerClientEvent('interaction:setPlayersJob', src, JOB_NAME)
@@ -93,6 +94,7 @@ AddEventHandler("emsstation2:onduty", function()
 	local char = exports["usa-characters"]:GetCharacter(source)
   if char.get("job") ~= JOB_NAME then
     char.set("job", JOB_NAME)
+    TriggerClientEvent("thirdEye:updateActionsForNewJob", source, JOB_NAME)
     TriggerEvent('job:sendNewLog', source, JOB_NAME, true)
     TriggerEvent("eblips:add", {name = char.getName(), src = source, color = 1})
   end
@@ -105,6 +107,7 @@ AddEventHandler("emsstation2:offduty", function()
   TriggerClientEvent("emsstation2:setciv", source, char.get("appearance"), playerWeapons) -- need to test
   if char.get('job') == JOB_NAME then
       char.set("job", "civ")
+      TriggerClientEvent("thirdEye:updateActionsForNewJob", source, "civ")
       TriggerEvent('job:sendNewLog', source, JOB_NAME, false)
       TriggerEvent("eblips:remove", source)
       TriggerClientEvent("radio:unsubscribe", source)

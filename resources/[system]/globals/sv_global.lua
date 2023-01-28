@@ -71,6 +71,7 @@ function setJob(src, job)
 end
 
 TriggerEvent('es:addGroupCommand', 'setjob', 'owner', function(source, args, char)
+	TriggerClientEvent("thirdEye:updateActionsForNewJob", source, args[2])
 	setJob(source, args[2])
 end, {
 	help = "DEBUG: SET YOUR JOB"

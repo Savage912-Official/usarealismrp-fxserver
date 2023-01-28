@@ -325,7 +325,7 @@ AddEventHandler("cuff:Handcuff", function(arrestingPlayerId, x, y, z, playerHead
 
 						TriggerEvent("cuff:playSuspectAnim", x, y, z, playerHeading)
 
-						local success = lib.skillCheck({ {areaSize = 50, speedMultiplier = 1.5}, {areaSize = 40, speedMultiplier = 1.7}, {areaSize = 30, speedMultiplier = 2.0} })
+						local success = lib.skillCheck({ {areaSize = 50, speedMultiplier = 1.8}, {areaSize = 40, speedMultiplier = 1.9}, {areaSize = 30, speedMultiplier = 2.0} })
 						if success then
 							count = count + 1
 							isCuffed = false

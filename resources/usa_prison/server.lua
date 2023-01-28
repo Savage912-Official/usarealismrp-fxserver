@@ -140,6 +140,7 @@ AddEventHandler("doc:offduty", function()
 	end
 	--exports["usa_ems"]:RemoveServiceWeapons(char)
 	char.set("job", "civ")
+	TriggerClientEvent("thirdEye:updateActionsForNewJob", src, "civ")
 	TriggerClientEvent("usa:notify", source, "You have clocked out!")
 	TriggerEvent("eblips:remove", source)
 	TriggerClientEvent("interaction:setPlayersJob", source, "civ")
@@ -164,6 +165,7 @@ AddEventHandler("doc:forceDuty", function()
 		-- set to corrections job --
 		----------------------------
 		char.set("job", "corrections")
+		TriggerClientEvent("thirdEye:updateActionsForNewJob", src, "corrections")
 		TriggerEvent("doc:loadUniform", 1, source)
 		TriggerClientEvent("usa:notify", source, "You have clocked in!")
 		TriggerEvent('job:sendNewLog', source, "corrections", true)
@@ -214,6 +216,7 @@ AddEventHandler("doc:loadOutfit", function(slot, id)
 	local player_identifer = GetPlayerIdentifiers(usource)[1]
 	if job ~= "corrections" then
 		char.set("job", "corrections")
+		TriggerClientEvent("thirdEye:updateActionsForNewJob", src, "corrections")
 		TriggerEvent('job:sendNewLog', source, "corrections", true)
 		TriggerClientEvent("usa:notify", usource, "You have clocked in!")
 		TriggerClientEvent("ptt:isEmergency", usource, true)

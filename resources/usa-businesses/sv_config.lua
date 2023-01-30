@@ -235,7 +235,7 @@ BUSINESSES = {
 		isBeingRobbed = false,
 		lastRobbedTime = 0,
 		price = 2000,
-		notRobbable = false 
+		notRobbable = false
 	},
 	["247 Supermarket (Barbareno Rd.)"] = {
 		position = {-3244.92, 1000.0, 12.83},
@@ -438,6 +438,20 @@ BUSINESSES = {
 		lastRobbedTime = 0,
 		price = 10000,
 		notRobbable = true
+	},
+	["Ammunation (Chumash)"] = {
+		position = {-3169.29, 1088.35, 20.83},
+		cameraID = 'store60',
+		isBeingRobbed = false,
+		lastRobbedTime = 0,
+		price = 6500
+	},
+	["Clothing Store (Chumash)"] = {
+		position = {-3173.17, 1055.76, 20.86},
+		cameraID = 'store61',
+		isBeingRobbed = false,
+		lastRobbedTime = 0,
+		price = 6000
 	},
 }
 

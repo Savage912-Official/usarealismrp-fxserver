@@ -175,6 +175,7 @@ local vehicleShopItems = {
 			{make = "Declasse", model = "Silver-Star (Lowrider)", price = 50000, hash = "silverstar2", storage_capacity = 210.0},
 			{make = "Declasse", model = "Draugur", price = 110000, hash = "draugur", storage_capacity = 90.0},
 			{make = "BF", model = "Weevil Custom", price = 90000, hash = "weevil2", storage_capacity = 90.0},
+			{make = "Dinka", model = "Winky", price = 25000, hash = 'winky', storage_capacity = 100.0},
 		},
 		["Motorcycles"] = {
 			{make = "Pegassi", model = "Faggio", price = 2069, hash = -1842748181, storage_capacity = 30.0},

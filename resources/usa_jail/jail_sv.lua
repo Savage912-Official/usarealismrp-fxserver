@@ -35,7 +35,8 @@ local CELLS = {
 
 local Prison_Locations = {
 	{ coords = vector3(1689.3699951172, 2592.8100585938, 45.668334960938), distance = 140 },
-	{ coords = vector3(1691.1254882813, 2540.8515625, 45.564823150635), distance = 100 }
+	{ coords = vector3(1691.1254882813, 2540.8515625, 45.564823150635), distance = 100 },
+	{ coords = vector3(1841.5126953125, 2594.3278808594, 46.014324188232), distance = 10 }
 }
 
 local alarm_on = false

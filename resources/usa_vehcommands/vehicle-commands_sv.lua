@@ -96,7 +96,7 @@ local VEHICLE_RANKS = {
 			hash = GetHashKey("intchar")
 		},
 		["tolplam"] = {
-			rank = 7,
+			rank = 8,
 			allowedLiveries = {1, 2, 3, 4, 5},
 			hash = -989604086
 		},
@@ -251,6 +251,11 @@ local VEHICLE_RANKS = {
 			rank = 7,
 			allowedLiveries = {1, 2, 3, 4, 5},
 			hash = GetHashKey("intchar")
+		},
+		["tolplam"] = {
+			rank = 7,
+			allowedLiveries = {1, 2, 3, 4, 5},
+			hash = -989604086
 		},
 		["predator"] = {
 			rank = 1,

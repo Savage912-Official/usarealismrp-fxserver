@@ -394,3 +394,17 @@ AddEventHandler("thirdEye:updateActionsForNewJob", function(job)
         addCivVehicleOptions()
     end
 end)
+
+target.addPoint("911CallPoint", "911", "fas fa-siren", vector3(1772.273, 2495.202, 45.74072), 1, function() end, {
+    {
+        name = 'call',
+        label = 'Call 911',
+        onSelect = function(a, b, entityHandle)
+            local msg = exports.globals:GetUserInput("message", 100)
+            local mycoords = GetEntityCoords(PlayerPedId())
+            TriggerServerEvent("911:PlayerCall", mycoords.x, mycoords.y, mycoords.z, "Bolingbroke Prison (Cell Block)", msg)
+        end
+    },
+})
+
+-- todo: add /carry as a civ person option

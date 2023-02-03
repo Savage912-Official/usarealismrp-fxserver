@@ -29,7 +29,6 @@ local vehicles = {
   { name = "Ford Mustang", hash = GetHashKey("npolstang") },
   { name = "Dodge Challenger", hash = GetHashKey("npolchal") },
   { name = "Chevorlet Corvette", hash = GetHashKey("npolvette") },
-  { name = "Lamborghini Huracan", hash = GetHashKey("tolplam") },
   { name = "FBI 2", hash = GetHashKey("fbi2") },
   { name = "Bearcat", hash = GetHashKey("bearcatrb") },
   { name = "Armored Suburban", hash = GetHashKey("suvrb14") },

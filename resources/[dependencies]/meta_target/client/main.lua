@@ -11,6 +11,7 @@ local uiFocus
 local plyPos = vec3(0,0,0)
 local endCoords = vec3(0,0,0)
 local entHit = 0
+local control = gameName == 'redm' and 0x580C4473 or 37
 
 -- exports
 local exportNames = {}
@@ -457,7 +458,6 @@ end
 
 Citizen.CreateThread(function()  
   local gameName      = GetGameName()
-  local control       = gameName == 'redm' and 0x580C4473 or 37
   local revealControl = gameName == 'redm' and 0x07CE1E61 or 24
 
   while true do
@@ -467,8 +467,6 @@ Citizen.CreateThread(function()
       DisableControlAction(0,control)      
       DisableControlAction(0,revealControl)
       DisableControlAction(0,0x0F39B3D4)
-    else
-      DisableControlAction(0,control)
     end
 
     if isOpen then
@@ -932,4 +930,9 @@ AddEventHandler('onClientResourceStop',function(res)
       table.remove(targets,i)
     end
   end
+end)
+
+RegisterNetEvent("thirdEye:updateHotkey")
+AddEventHandler("thirdEye:updateHotkey", function(key)
+    control = key
 end)

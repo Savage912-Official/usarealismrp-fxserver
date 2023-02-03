@@ -184,6 +184,14 @@ AddEventHandler("ammo:checkForMagazine", function(selectedIndex, vehiclePlate, s
             if WEPS_WITH_MAGS[curWep.hash] then
                 local magToUse = FindMagToReloadWith(char, curWep.hash)
                 if magToUse then
+                    if magToUse.name:find("Extended") or magToUse.name:find("Box") then
+                        if not magToUse.name:find(curWep.name) then
+                            TriggerClientEvent("usa:notify", src, "Wrong mag for weapon", "INFO: Mag doesn't fit weapon")
+                            magToUse = false -- wrong weapon for extended/box mag (see #1752)
+                        end
+                    end
+                end
+                if magToUse then
                     TriggerClientEvent("ammo:reloadMag", src, magToUse)
                     if curWep.magazine then
                         local playerCoords = GetEntityCoords(GetPlayerPed(src))

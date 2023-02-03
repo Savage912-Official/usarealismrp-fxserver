@@ -169,6 +169,7 @@ local ITEMS = {
     { name = "Thermite", legality = "illegal", quantity = 2, type = "misc", weight = 20 },
     { name = "Tablet", price = 1000, type = "misc", quantity = 1, legality = "legal", weight = 3, objectModel = "imp_prop_impexp_tablet", blockedInPrison = true},
     {name = "AK47",hash = GetHashKey("WEAPON_ASSAULTRIFLE"),quantity = 1,type = "weapon",weight = 45,objectModel = "w_ar_assaultrifle",notStackable = true},
+    {name = "Assault Rifle MK2",hash = GetHashKey("WEAPON_ASSAULTRIFLE_MK2"),quantity = 1,type = "weapon",weight = 45,objectModel = "w_ar_assaultrifle",notStackable = true},
     { name = "7.62mm Bullets", type = "ammo", price = 600, weight = 0.5, quantity = 10, legality = "legal", objectModel = "prop_ld_ammo_pack_03" },
     { name = "Empty AK47 Extended Mag", quantity = 1, type = "magazine", price = 500, weight = 7, receives = "7.62mm", MAX_CAPACITY = 60, currentCapacity = 0, legality = "illegal", notStackable = true, magComponent = "COMPONENT_ASSAULTRIFLE_CLIP_02", compatibleWeapon = GetHashKey("WEAPON_ASSAULTRIFLE") },
     { name = "Empty AK47 Drum Mag", quantity = 1, type = "magazine", price = 700, weight = 7, receives = "7.62mm", MAX_CAPACITY = 100, currentCapacity = 0, legality = "illegal", notStackable = true, magComponent = "COMPONENT_ASSAULTRIFLE_CLIP_03", compatibleWeapon = GetHashKey("WEAPON_ASSAULTRIFLE") },

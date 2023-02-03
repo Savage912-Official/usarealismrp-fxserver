@@ -150,6 +150,9 @@ local ITEMS = {
                 {name = "Flashlight", value = "COMPONENT_AT_AR_FLSH", price = 900, weapon_hash = -1074790547},
                 {name = "Yusuf Amir Luxury Finish", value = "COMPONENT_ASSAULTRIFLE_VARMOD_LUXE", price = 6500, weapon_hash = -1074790547}
             },
+            ["Assault Rifle MK2"] = {
+                { name = "Empty Assault Rifle MK2 Extended Mag", quantity = 1, type = "magazine", price = 500, weight = 7, receives = "7.62mm", MAX_CAPACITY = 60, currentCapacity = 0, legality = "illegal", notStackable = true, magComponent = "COMPONENT_ASSAULTRIFLE_MK2_CLIP_02", compatibleWeapon = GetHashKey("WEAPON_ASSAULTRIFLE_MK2") },
+            },
             ["Akorus"] = {
                 {name = "Empty Akorus Extended Mag", quantity = 1, type = "magazine", price = 900, weight = 7, receives = "7.62mm", MAX_CAPACITY = 60, currentCapacity = 0, notStackable = true, magComponent = "COMPONENT_AKORUS_CLIP_02", compatibleWeapon = GetHashKey("WEAPON_AKORUS") },
                 {name = "Empty Akorus Box Mag", quantity = 1, type = "magazine", price = 900, weight = 12, receives = "7.62mm", MAX_CAPACITY = 140, currentCapacity = 0, notStackable = true, magComponent = "COMPONENT_AKORUS_CLIP_03", compatibleWeapon = GetHashKey("WEAPON_AKORUS") },

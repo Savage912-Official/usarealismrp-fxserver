@@ -23,25 +23,25 @@ svConfig = {
     competitionMinute = 0,
 
     -- A limit to how much competitions can be generated at once. Limit is suggested, because when you only have results on very short tracks, you will generate a huge amount of competitions.
-    maximumGeneratedCompetitions = 10,
+    maximumGeneratedCompetitions = 8,
 
     -- How many minutes of pure racing should one day have. If for example to 40, it could generate 1 race with a 40 minute track or 4 races with
     -- 10 tracks. This value is the minimum length! When 38 minutes of tracks have been generated, then the minimum isn't reached and the last track
     -- could be for ex. 20 minutes long, taking the total length to 58 minutes. So you have to take into account that generally more will be generated.
-    competitionTargetLength = 70,
+    competitionTargetLength = 80,
 
     -- When a circuit track is chosen for a competition race, then how many laps should it be? Will be randomly selected between these two values.
     competitionMinLaps = 2,
-    competitionMaxLaps = 4,
+    competitionMaxLaps = 8,
 
     -- At least how many participants should a race have for it to be displayed in the 'Races' tab? By default set to 2 to reduce 1-player race spam.
     minimumParticipantsForRaceTab = 2,
 
     -- Luck weight
     competitionChanceWeights = {
-        ['S'] = 45,
-        ['A'] = 35,
-        ['B'] = 17,
+        ['S'] = 60,
+        ['A'] = 25,
+        ['B'] = 12,
         ['C'] = 2,
         ['D'] = 1
     },

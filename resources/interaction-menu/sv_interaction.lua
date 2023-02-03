@@ -4,6 +4,9 @@ local lastInvMovTimeStamps = {}
 
 local LAG_SWTICH_THRESHOLD_MS = 300 -- 300 ms per move action would prob be too fast for any human to do naturally
 
+local THIRD_EYE_DEFAULT_HOTKEY = 37
+local THIRD_EYE_ALT_HOTKEY = 19
+
 RegisterServerEvent("interaction:checkJailedStatusBeforeEmote")
 AddEventHandler("interaction:checkJailedStatusBeforeEmote", function(scenario)
 	local jailTime = exports["usa-characters"]:GetCharacterField(source, "jailTime")
@@ -372,3 +375,37 @@ AddEventHandler('playerDropped', function(reason)
 		lastInvMovTimeStamps[source] = nil
 	end
 end)
+
+TriggerEvent('es:addCommand', '3rdeyehotkey', function(src, args, char)
+	local currentSetting = (get3rdEyeSetting(src) or THIRD_EYE_DEFAULT_HOTKEY)
+	if currentSetting == THIRD_EYE_DEFAULT_HOTKEY then
+		currentSetting = THIRD_EYE_ALT_HOTKEY
+	elseif currentSetting == THIRD_EYE_ALT_HOTKEY then
+		currentSetting = THIRD_EYE_DEFAULT_HOTKEY
+	end
+	save3rdEyeSetting(src, currentSetting)
+	TriggerClientEvent("thirdEye:updateHotkey", src, currentSetting)
+	local READABLE_FORMAT = {
+		[19] = "L ALT",
+		[37] = "TAB"
+	}
+	TriggerClientEvent("usa:notify", src, "Hotkey updated to: " .. READABLE_FORMAT[currentSetting])
+end, {
+	help = "Toggle 3rd eye hotkey between TAB and L ALT"
+})
+
+function get3rdEyeSetting(src)
+	local doc = exports.essentialmode:getDocument("third-eye-setting", GetPlayerIdentifiers(src)[1])
+	return doc and doc.key or THIRD_EYE_DEFAULT_HOTKEY
+end
+
+function save3rdEyeSetting(src, setting)
+	exports.essentialmode:updateDocument("third-eye-setting", GetPlayerIdentifiers(src)[1], { key = setting }, true)
+end
+
+AddEventHandler('es:playerLoaded', function(src, user)
+	local doc = exports.essentialmode:getDocument("third-eye-setting", GetPlayerIdentifiers(src)[1])
+	TriggerClientEvent("thirdEye:updateHotkey", src, (doc.key or THIRD_EYE_DEFAULT_HOTKEY))
+end)
+
+exports["globals"]:PerformDBCheck("interaction-menu", "third-eye-setting")

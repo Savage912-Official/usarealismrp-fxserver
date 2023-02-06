@@ -134,5 +134,11 @@ UPGRADES = {
         displayName = "Underglow Kit",
         requiresItem = "Underglow Kit",
         postInstall = function(vehPlate) end
+    },
+    ["xenon-headlights"] = {
+        id = "xenon-headlights",
+        displayName = "Xenon Headlights",
+        requiresItem = "Xenon Headlights",
+        postInstall = function(vehPlate) end
     }
 }

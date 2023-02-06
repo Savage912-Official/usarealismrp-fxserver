@@ -1,4 +1,4 @@
-fx_version 'cerulean'
+fx_version 'bodacious'
 game 'gta5'
 
 author 'highrider#2873'
@@ -24,7 +24,9 @@ client_scripts {
     'client/*.lua',
     -- https://github.com/Xogy/xsound
     'client/xsound/*.lua',
-    'client/xsound/**/*.lua'
+    'client/xsound/**/*.lua',
+    '@cs-stories/client/hooks/core.lua',
+    '@cs-video-call/client/hooks/core.lua' 
 }
 
 server_scripts {
@@ -33,7 +35,9 @@ server_scripts {
     'sv_config.lua',
     'utils/server.lua',
     'locales/*.lua',
-    'server/*.lua'
+    'server/*.lua',
+    '@cs-stories/server/hooks/core.lua',
+    '@cs-video-call/server/hooks/core.lua'
 }
 
 files {

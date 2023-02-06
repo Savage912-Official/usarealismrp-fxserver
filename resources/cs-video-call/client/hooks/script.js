@@ -10,6 +10,9 @@
     const experimentalCameraCropWidthBack = 0.45
     const experimentalCameraCropHeight = 0.0
 
+    const pendingVideoTransmissionIntervalMs = 500
+    const useRecorder = true // Set this to false for better performance if you get a lot of video glitches. However note that this may crash in certain GPUs, please test it within your community!
+
     let isTransmitting = false
     let selfVideoCanvasStream = null
     let peerData = null
@@ -67,7 +70,11 @@
             })
 
             this.listenEmitFromServer('peer-disconnect', () => this.close())
-            this.listenEmitFromServer('remote-peer-disconnected', () => this.remotePeerConnected = false)
+
+            this.listenEmitFromServer('remote-peer-disconnected', () => {
+                this.remotePeerConnected = false
+            })
+
             this.emitToServer('peer-connect')
         }
 
@@ -243,6 +250,7 @@
         let backCamera = false
         let keyLabels = false
         let experimentalMode = false
+        let pendingVideoTransmission = false
     
         let currentFilter = 0
         let fps = 0
@@ -428,6 +436,7 @@
                     peerData.close()
     
                 jQuery('[data-action="cs-video-call-swap-transmission"]', callContainer).hide()
+                pendingVideoTransmission = false
             } else {
                 if (peerData === null) {
                     if (isTransmitting)
@@ -437,49 +446,54 @@
                         activeTracks.push(track)
 
                         if (remoteVideo) {
-                            if (remoteMediaRecorder) {
-                                remoteMediaRecorder.ondataavailable = null
+                            if (!useRecorder) {
+                                remoteVideo.srcObject = new MediaStream()
+                                remoteVideo.srcObject.addTrack(track)
+                            } else {
+                                if (remoteMediaRecorder) {
+                                    remoteMediaRecorder.ondataavailable = null
 
-                                if (remoteMediaRecorder.state !== 'inactive')
-                                    remoteMediaRecorder.stop()
+                                    if (remoteMediaRecorder.state !== 'inactive')
+                                        remoteMediaRecorder.stop()
 
-                                remoteMediaRecorder = null
-                            }
-
-                            const remoteMediaSource = new MediaSource()
-
-                            remoteVideo.src = URL.createObjectURL(remoteMediaSource)
-
-                            remoteMediaSource.addEventListener('sourceopen', e => {
-                                const remoteVideoBuffer = remoteMediaSource.addSourceBuffer('video/webm;codecs=vp8')
-                                const remoteVideoTempStream = new MediaStream()
-                                const remoteVideoReader = new FileReader()
-
-                                remoteVideoReader.onloadend = () => {
-                                    try {
-                                        remoteVideoBuffer.appendBuffer(new Uint8Array(remoteVideoReader.result))
-                                    } catch (e) { }
+                                    remoteMediaRecorder = null
                                 }
 
-                                remoteVideoTempStream.addTrack(track)
+                                const remoteMediaSource = new MediaSource()
 
-                                remoteMediaRecorder = new MediaRecorder(remoteVideoTempStream, {
-                                    mimeType: 'video/webm;codecs=vp8'
-                                })
+                                remoteVideo.src = URL.createObjectURL(remoteMediaSource)
 
-                                lastDataAvailableAt = new Date().getTime()
+                                remoteMediaSource.addEventListener('sourceopen', e => {
+                                    const remoteVideoBuffer = remoteMediaSource.addSourceBuffer('video/webm;codecs=vp8')
+                                    const remoteVideoTempStream = new MediaStream()
+                                    const remoteVideoReader = new FileReader()
 
-                                remoteMediaRecorder.ondataavailable = e => {
+                                    remoteVideoReader.onloadend = () => {
+                                        try {
+                                            remoteVideoBuffer.appendBuffer(new Uint8Array(remoteVideoReader.result))
+                                        } catch (e) { }
+                                    }
+
+                                    remoteVideoTempStream.addTrack(track)
+
+                                    remoteMediaRecorder = new MediaRecorder(remoteVideoTempStream, {
+                                        mimeType: 'video/webm;codecs=vp8'
+                                    })
+
                                     lastDataAvailableAt = new Date().getTime()
 
-                                    try {
-                                        if (!remoteVideoBuffer.updating)
-                                            remoteVideoReader.readAsArrayBuffer(e.data)
-                                    } catch (e) {}
-                                }
+                                    remoteMediaRecorder.ondataavailable = e => {
+                                        lastDataAvailableAt = new Date().getTime()
 
-                                remoteMediaRecorder.start(250)
-                            }, false)
+                                        try {
+                                            if (!remoteVideoBuffer.updating)
+                                                remoteVideoReader.readAsArrayBuffer(e.data)
+                                        } catch (e) {}
+                                    }
+
+                                    remoteMediaRecorder.start(250)
+                                }, false)
+                            }
 
                             remoteVideo.play().catch(e => { })
                         }
@@ -487,7 +501,7 @@
                         activeTracks = []
 
                         if ((!isRestarting) && callContainer)
-                            callContainer.removeClass('cs-video-call-remote-cs-video-call-video-active')
+                            callContainer.removeClass('cs-video-call-remote-video-active')
 
                         if (remoteVideo && (!isRestarting))
                             jQuery(remoteVideo).fadeOut(750)
@@ -553,6 +567,10 @@
             }).catch(error => {})
         }
 
+        window.CS_VIDEO_CALL.setPendingVideoTransmission = () => {
+            pendingVideoTransmission = true
+        }
+
         window.CS_VIDEO_CALL.hookDocument = () => {
             if (documentHooked || hookingDocument || unhookingDocument)
                 return
@@ -585,9 +603,11 @@
             selfVideoCanvas.height = videoCallHeight
 
             remoteVideo.onplay = event => {
-                callContainer.addClass('cs-video-call-remote-cs-video-call-video-active')
+                callContainer.addClass('cs-video-call-remote-video-active')
                 jQuery(remoteVideo).fadeIn(750)
             }
+
+            remoteVideo.onloadedmetadata = event => remoteVideo.play()
 
             if (remoteMediaRecorder) {
                 remoteMediaRecorder.ondataavailable = null
@@ -599,41 +619,48 @@
             }
 
             if (activeTracks.length > 0) {
-                const remoteMediaSource = new MediaSource()
-
-                remoteVideo.src = URL.createObjectURL(remoteMediaSource)
-
-                remoteMediaSource.addEventListener('sourceopen', e => {
-                    const remoteVideoBuffer = remoteMediaSource.addSourceBuffer('video/webm;codecs=vp8')
-                    const remoteVideoTempStream = new MediaStream()
-                    const remoteVideoReader = new FileReader()
-
-                    remoteVideoReader.onloadend = () => {
-                        try {
-                            remoteVideoBuffer.appendBuffer(new Uint8Array(remoteVideoReader.result))
-                        } catch (e) { }
-                    }
-
+                if (!useRecorder) {
+                    remoteVideo.srcObject = new MediaStream()
+    
                     for (let index = 0; index < activeTracks.length; index++)
-                        remoteVideoTempStream.addTrack(activeTracks[index])
-
-                    remoteMediaRecorder = new MediaRecorder(remoteVideoTempStream, {
-                        mimeType: 'video/webm;codecs=vp8'
-                    })
-
-                    lastDataAvailableAt = new Date().getTime()
-
-                    remoteMediaRecorder.ondataavailable = e => {
+                        remoteVideo.srcObject.addTrack(activeTracks[index])
+                } else {
+                    const remoteMediaSource = new MediaSource()
+    
+                    remoteVideo.src = URL.createObjectURL(remoteMediaSource)
+    
+                    remoteMediaSource.addEventListener('sourceopen', e => {
+                        const remoteVideoBuffer = remoteMediaSource.addSourceBuffer('video/webm;codecs=vp8')
+                        const remoteVideoTempStream = new MediaStream()
+                        const remoteVideoReader = new FileReader()
+    
+                        remoteVideoReader.onloadend = () => {
+                            try {
+                                remoteVideoBuffer.appendBuffer(new Uint8Array(remoteVideoReader.result))
+                            } catch (e) { }
+                        }
+    
+                        for (let index = 0; index < activeTracks.length; index++)
+                            remoteVideoTempStream.addTrack(activeTracks[index])
+    
+                        remoteMediaRecorder = new MediaRecorder(remoteVideoTempStream, {
+                            mimeType: 'video/webm;codecs=vp8'
+                        })
+    
                         lastDataAvailableAt = new Date().getTime()
-
-                        try {
-                            if (!remoteVideoBuffer.updating)
-                                remoteVideoReader.readAsArrayBuffer(e.data)
-                        } catch (e) {}
-                    }
-
-                    remoteMediaRecorder.start(250)
-                }, false)
+    
+                        remoteMediaRecorder.ondataavailable = e => {
+                            lastDataAvailableAt = new Date().getTime()
+    
+                            try {
+                                if (!remoteVideoBuffer.updating)
+                                    remoteVideoReader.readAsArrayBuffer(e.data)
+                            } catch (e) {}
+                        }
+    
+                        remoteMediaRecorder.start(250)
+                    }, false)
+                }
 
                 remoteVideo.play().catch(e => { })
             }
@@ -642,14 +669,15 @@
             renderKeyLabels()
             updateKeyLabels()
 
-            lastDataCheckInterval = setInterval(() => {
-                const now = new Date().getTime()
+            if (useRecorder)
+                lastDataCheckInterval = setInterval(() => {
+                    const now = new Date().getTime()
 
-                if (remoteMediaRecorder && ((now - lastDataAvailableAt) / 1000) > 3) {
-                    lastDataAvailableAt = now
-                    console.error(`[criticalscripts.shop] cs-video-call could not retrieve the remote feed. Make sure the required inbound UDP port is open and consult the package's store page for further information.`)
-                }
-            }, 250)
+                    if (remoteMediaRecorder && ((now - lastDataAvailableAt) / 1000) > 3) {
+                        lastDataAvailableAt = now
+                        console.error('[criticalscripts.shop] cs-video-call could not retrieve the remote feed. Make sure the required inbound UDP port is open and consult the package\'s store page for further information.')
+                    }
+                }, 250)
 
             hookingDocument = false
         }
@@ -885,7 +913,7 @@
                 videoTracks[index].enabled = false
     
             setTimeout(() => jQuery(selfVideoCanvas).animate({
-                opacity: '0.85'
+                opacity: callContainer.hasClass('cs-video-call-opaque') ? '1.0' : '0.85'
             }, 500, () => {
                 for (let index = 0; index < videoTracks.length; index++)
                     videoTracks[index].enabled = true
@@ -931,6 +959,13 @@
         jQuery('body').on('click', '.cs-video-call-incoming-call-container [data-action="cs-video-call-swap-camera"]', event => swapCamera())
         jQuery('body').on('click', '.cs-video-call-incoming-call-container [data-action="cs-video-call-swap-elements"]', event => swapElements())
         jQuery('body').on('click', '.cs-video-call-incoming-call-container [data-action="cs-video-call-swap-transmission"]', event => swapTransmission())
+        
+        setInterval(() => {
+            if (pendingVideoTransmission && jQuery('[data-action="cs-video-call-swap-transmission"]', callContainer).is(':visible')) {
+                pendingVideoTransmission = false
+                jQuery('[data-action="cs-video-call-swap-transmission"]', callContainer).click()
+            }
+        }, pendingVideoTransmissionIntervalMs)
     
         window.addEventListener('message', event => {
             const data = event.data

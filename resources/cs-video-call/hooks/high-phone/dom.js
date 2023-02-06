@@ -1,6 +1,3 @@
-if ((!window.ESX) || (!window.ESX.Phone) || (!window.ESX.Phone.functions))
-    throw new Error('[criticalscripts.shop] cs-video-call could not be hooked to your phone. Make sure you are using the correct hook.')
-
 window.CS_VIDEO_CALL.hookInterface = () => {
     jQuery('#callscreen').prepend(`
         <canvas id="cs-video-call-video-clone"></canvas>
@@ -32,4 +29,9 @@ window.CS_VIDEO_CALL.hookInterface = () => {
     return jQuery('#callscreen')
 }
 
-window.CS_VIDEO_CALL.hookDocument()
+jQuery('body').on('DOMSubtreeModified', event => {
+    if (jQuery('#callscreen').length > 0)
+        window.CS_VIDEO_CALL.hookDocument()
+    else
+        window.CS_VIDEO_CALL.unhookDocument()
+})

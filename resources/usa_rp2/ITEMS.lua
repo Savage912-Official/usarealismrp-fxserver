@@ -262,6 +262,13 @@ local ITEMS = {
     { name = "Low Grip Tires", price = 5000, type = "mechanicPart", quantity = 1, weight = 50, objectModel = "prop_wheel_03"},
     { name = "Normal Tires", price = 5000, type = "mechanicPart", quantity = 1, weight = 50, objectModel = "prop_wheel_03"},
     { name = "Underglow Kit", price = 5000, type = "mechanicPart", quantity = 1, weight = 30},
+    {
+		name = "Xenon Headlights",
+		price = 5000,
+		quantity = 1,
+		weight = 30,
+		type = "mechanicPart"
+	}
 }
 
 

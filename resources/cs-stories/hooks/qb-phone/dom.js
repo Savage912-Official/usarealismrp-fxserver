@@ -1,7 +1,7 @@
 const _CSS_notchOffset = '16.5%' // If your phone is using a skin with a notch you can specify the top distance it takes here.
 const _CSS_bottomToTop = '5px' // The distance from bottom to top to animate the bottom elements to.
 const _CSS_topToBottom = '15px' // The distance from top to bottom to animate the top elements to.
-const _CSS_QB_NAMESPACE = typeof(QB) === 'object' && QB.Phone ? QB : null
+const _CSS_QB_NAMESPACE = typeof(QB) === 'object' && QB.Phone ? 'QB' : null
 
 if ((!_CSS_QB_NAMESPACE) || typeof(IsAppJobBlocked) !== 'function')
     throw new Error('[criticalscripts.shop] cs-stories could not be hooked to your phone. Make sure you are using the correct hook.')
@@ -127,7 +127,12 @@ window.CS_STORIES.hookInterface = () => {
             </div>
         `)
 
-        jQuery('.phone-home-applications').append(_CSS_button)
+        const firstEmptyButton = jQuery('.phone-home-applications .phone-application[data-bs-original-title=""]:first')
+
+        if (firstEmptyButton.length > 0)
+            firstEmptyButton.replaceWith(_CSS_button)
+        else
+            jQuery('.phone-home-applications').append(_CSS_button)
     }
 
     jQuery('.phone-container').prepend(_CSS_container)
@@ -173,7 +178,7 @@ window.CS_STORIES.getStoryTemplate = (story, lang) => { // Each individual story
 
 const originalSetupApps = window[_CSS_QB_NAMESPACE] && window[_CSS_QB_NAMESPACE].Phone && window[_CSS_QB_NAMESPACE].Phone.Functions && window[_CSS_QB_NAMESPACE].Phone.Functions.SetupApplications ? window[_CSS_QB_NAMESPACE].Phone.Functions.SetupApplications : null
 
-if (originalSetupApps)
+if (originalSetupApps) {
     window[_CSS_QB_NAMESPACE].Phone.Functions.SetupApplications = data => { // If you want to edit the app's position, name or color you may do so here.
         let maxSlot = 0
 
@@ -189,16 +194,25 @@ if (originalSetupApps)
             job: false,
             app: 'cs-stories',
             color: '#ff015f',
+            color2: '#ff015f',
             blockedjobs: [],
             icon: 'cs-stories-dummy-icon-do-not-change-this-value fas fa-camera-retro',
             slot: maxSlot + 1,
+            style: 'font-size: 2.7vh',
             tooltipPos: 'bottom',
             tooltipText: 'Stories'
         }
 
         originalSetupApps(data)
 
+        jQuery(`.phone-application[data-appslot="${data.applications['cs-stories'].slot}"]`).attr('data-bs-original-title', data.applications['cs-stories'].tooltipText)
+
         window.CS_STORIES.hookDocument()
     }
-else
+
+    if (Object.values(window[_CSS_QB_NAMESPACE].Phone.Data.Applications).length !== 0)
+        window[_CSS_QB_NAMESPACE].Phone.Functions.SetupApplications({
+            applications: window[_CSS_QB_NAMESPACE].Phone.Data.Applications
+        })
+} else
     window.CS_STORIES.hookDocument()

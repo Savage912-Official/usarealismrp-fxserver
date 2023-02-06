@@ -10,7 +10,7 @@ svConfig = {
     -- generated for the players who are queued. The chances of receiving a contract in that loop execution are defined in vehicle class configs, the
     -- 'generationPercentage' value. For example, if the 'D' class has a generationPercentage value of 70, then every 15 minutes there is a 25% chance
     -- that you will receive a D class boosting contract.
-    minutesBetweenGenerations = 15,
+    minutesBetweenGenerations = 7,
 
     -- The amount of contracts that player will be given when he opens the tablet for the very first time (to get him started).
     initialContractAmount = 5,
@@ -18,14 +18,25 @@ svConfig = {
     -- The amount of online police required for people to get important (A / S class) contracts. This will be applied to classes which have the 'isImportant' as true.
     requiredPoliceAmount = 4,
 
-    -- A comma separated list of player identifiers that are allowed to access the admin panel.
+    --  Define the principal which will be given the ACE permission to use the in-game admin panel. If you don't wish to use this, set it to false.
+    adminPrincipal = false,
+
+    -- A comma separated list of player identifiers (strings) that are allowed to access the admin panel (in addition to those allowed by ACE permissions).
     adminIdentifiers = {},
 
     -- A comma separated list of player identifiers that are allowed to access the admin panel.
     penalizeForDamagedEngine = true,
 
     -- The amount in dollars that's the maximum penalty for having a damaged engine when dropping off.
-    maximumEngineDamagePenalty = 500,
+    maximumEngineDamagePenalty = 1250,
+
+    -- If the vehicle were in the center of the indicated area, it would be found instantly. To prevent this, an offset is used. This value determines
+    -- the min/max offset of the x and y axis (randomly generated between 0 and this value) from the vehicle spawn point (in meters).
+    -- Related client-side config values: vehicleCreationDistance, vehicleAreaRadius
+    vehicleAreaMaximumOffset = 145.0,
+
+    -- An option to enable / disable VIN scratching. If disabled, then the player will get an error message when trying to VIN scratch a vehicle.
+    vinScratchingEnabled = true,
 
     -- A list of conditions for different vehicle classes
     -- The list must be ordered by their 'xpRequired' value (high -> low)
@@ -52,14 +63,13 @@ svConfig = {
     -- @experiencePerJob: amount of experience points received when the contract is successful
     -- @tuningChance: the probability of the vehicle being tuned (0-100%)
     -- @riskChances: the probability of different risks on the vehicle
-    -- @doorsLocked: the probability that vehicle doors are locked
-    -- @advancedLockChance: the probability that vehicle doors are locked with an advanced lock (must use a better lock pick than the bad one)
-    -- @advancedSystemChance: the probability that vehicle doors are locked with an high-tech system (must use a hacking device)
-    -- @npcChance: the probability (percentage 0-100) that killer NPCs will spawn when you try to hack the vehicle.
-    -- npcChance can only be higher than 0 on classes that have isImportant = true. This is because isImportant boosts use different spawns that
-    -- have npc spawn locations built in (shared.lua advancedVehicleCoords). DO NOT use this variable on lower, non-important boosts.
+        -- @doorsLocked: the probability that vehicle doors are locked
+        -- @advancedLockChance: the probability that vehicle doors are locked with an advanced lock (must use a better lock pick than the bad one)
+        -- @advancedSystemChance: the probability that vehicle doors are locked with an high-tech system (must use a hacking device)
+        -- @npcChance: the probability (percentage 0-100) that killer NPCs will spawn when you try to hack the vehicle.
+            -- npcChance can only be higher than 0 on classes that have isImportant = true. This is because isImportant boosts use different spawns that
+            -- have npc spawn locations built in (shared.lua advancedVehicleCoords). DO NOT use this variable on lower, non-important boosts.
 
-    -- BEFORE YOU MAKE ANY EDITS, PLEASE READ THE EXPLANATIONS ABOVE. TY - LOVE WEEP
     vehicleClasses = {
         [1] = {
             class = "S",
@@ -80,7 +90,7 @@ svConfig = {
             rewardCashMax = 95000,
             rewardCryptoMin = 1000,
             rewardCryptoMax = 1400,
-            experiencePerJob = 12,
+            experiencePerJob = 27,
             tuningChance = 60,
             riskChances = {
                 doorsLocked = 100,
@@ -91,7 +101,7 @@ svConfig = {
         },
         [2] = {
             class = "A",
-            xpRequired = 800,
+            xpRequired = 1000,
             generationPercentage = 30,
             timeBetweenGenerations = 30,
             isImportant = true,
@@ -108,7 +118,7 @@ svConfig = {
             rewardCashMax = 42000,
             rewardCryptoMin = 500,
             rewardCryptoMax = 700,
-            experiencePerJob = 8,
+            experiencePerJob = 19,
             tuningChance = 35,
             riskChances = {
                 doorsLocked = 100,
@@ -133,7 +143,7 @@ svConfig = {
             rewardCashMax = 4000,
             rewardCryptoMin = 60,
             rewardCryptoMax = 90,
-            experiencePerJob = 4,
+            experiencePerJob = 11,
             tuningChance = 25,
             riskChances = {
                 doorsLocked = 100,
@@ -278,6 +288,18 @@ svConfig = {
             iconFile = 'laptop.png',
             receiveItemIds = {
                 [1] = 'Bank Laptop'
+            }
+        },
+        ['Fake License Plate'] = {
+            cashRequired = 30000,
+            cryptoRequired = math.random(11,27),
+            availablePerRestart = math.random(5,10),
+            isSoldOut = true,
+            title = "Fake License Plate [Coming Soon]",
+            description = "Got a brand spanking new whip from your neighbor? Hide their plate so cops don't get suspicious.",
+            iconFile = 'plate.png',
+            receiveItemIds = {
+                [1] = 'Fake Plate'
             }
         }
     }
@@ -442,15 +464,15 @@ supportedVehicles = {
     { name = "1967 Ford Mustang GT500", model = "67GT500", class = "A" },
     { name = "1999 Dodge Viper", model = "99viper", class = "A" },
     { name = "Audi RS6", model = "rs6", class = "A" },
-    { name = "BMW M2", model = "m2", class = "A" },
-    { name = "BMW M3", model = "bmwm3e92", class = "A" },
-    { name = "BMW M3 GTS", model = "m3e92gts", class = "A" },
-    { name = "BMW M3 E36", model = "rmodm3e36", class = "A" },
-    { name = "BMW M3 E46", model = "M3E46", class = "A" },
-    { name = "BMW M4", model = "f82", class = "A" },
-    { name = "BMW M5", model = "bmci", class = "A" },
-    { name = "BMW M5 E60", model = "m5e60", class = "A" },
-    { name = "BMW M8", model = "bmwm8", class = "A" },
+    -- { name = "BMW M2", model = "m2", class = "A" },
+    -- { name = "BMW M3", model = "bmwm3e92", class = "A" },
+    -- { name = "BMW M3 GTS", model = "m3e92gts", class = "A" },
+    -- { name = "BMW M3 E36", model = "rmodm3e36", class = "A" },
+    -- { name = "BMW M3 E46", model = "M3E46", class = "A" },
+    -- { name = "BMW M4", model = "f82", class = "A" },
+    -- { name = "BMW M5", model = "bmci", class = "A" },
+    -- { name = "BMW M5 E60", model = "m5e60", class = "A" },
+    -- { name = "BMW M8", model = "bmwm8", class = "A" },
     { name = "Chevrolet Camaro", model = "zl12017", class = "A" },
     { name = "Chevrolet C7", model = "c7", class = "A" },
     { name = "Ford Mustang", model = "mgt", class = "A" },
@@ -549,10 +571,10 @@ supportedVehicles = {
     { name = "2021 Ford Bronco Wildtrak", model = "wildtrak", class = "B" },
     { name = "2016 Bentley Bentayga", model = "bbentayga", class = "B" },
     { name = "Mercedes-Benz E55 AMG", model = "benze55", class = "B" },
-    { name = "BMW E30", model = "alpinae30", class = "B" },
-    { name = "BMW E34", model = "e34", class = "B" },
-    { name = "2016 BMW X5", model = "x5m2016", class = "B" },
-    { name = "BMW Z3", model = "z3", class = "B" },
+    -- { name = "BMW E30", model = "alpinae30", class = "B" },
+    -- { name = "BMW E34", model = "e34", class = "B" },
+    -- { name = "2016 BMW X5", model = "x5m2016", class = "B" },
+    -- { name = "BMW Z3", model = "z3", class = "B" },
     { name = "Subaru BRZ", model = "brz13", class = "B" },
     { name = "Chevrolet C-10 Stepside Custom", model = "c10custom", class = "B" },
     { name = "1969 Chevrolet Camaro SS", model = "camaro69", class = "B" },
@@ -663,7 +685,7 @@ supportedVehicles = {
     { name = "1963 Volkswagon Type 2", model = "type263", class = "C" },
     { name = "1966 Volkswagon Type 2", model = "type266", class = "C" },
     { name = "2000 Ford F350 Dually", model = "00f350d", class = "C" },
-    { name = "Hummer H2", model = "H2", class = "C" },
+    { name = "Hummer H2", model = "h2", class = "C" },
     -- D CLASS
     { name = "Bravado Youga Classic 4x4", model = "youga3", class = "D" },
     { name = "Bravado Youga Custom", model = "youga4_USA", class = "D" },

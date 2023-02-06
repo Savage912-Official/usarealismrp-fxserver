@@ -1048,12 +1048,28 @@ AddEventHandler("vehShop:sellVehicle", function(toSellVehicle)
 	local usource = source
 	print("toSellVehicle: " .. toSellVehicle.model)
 	local vehiclePrice = GetVehiclePrice(toSellVehicle)
+	local char = exports["usa-characters"]:GetCharacter(usource)
+	local ow_id = char.get("_id")
+	local boostvehicle = MySQL.query.await('SELECT * FROM boosted_vehicles WHERE owner_id = ?', {ow_id})
+	local c = false
 	if not vehiclePrice then
 		if toSellVehicle.price then
 			print("vehicle price nil with toSellVehicle: " .. toSellVehicle.make .. " " .. toSellVehicle.model)
 			TriggerClientEvent("chatMessage", usource, "", {}, "^3CAR DEALER: ^0We're not interested in it, sorry.")
 		end
 		return
+	end
+	-- check if MySQL data exists
+	if not boostvehicle[1] then
+		c = false
+	else 
+		c = true
+	end
+	-- if value found in SQL data, then set price for VIN scratched vehicle
+	if c then
+		if toSellVehicle.plate == boostvehicle[1].plate then
+			vehiclePrice = boostvehicle[1].price
+		end
 	end
 	local char = exports["usa-characters"]:GetCharacter(usource)
 	local vehicles = char.get("vehicles")
@@ -1069,6 +1085,10 @@ AddEventHandler("vehShop:sellVehicle", function(toSellVehicle)
 		char.giveMoney(math.ceil(vehiclePrice * .30))
 		TriggerClientEvent("usa:notify", usource, "~y~SOLD:~w~ " .. toSellVehicle.make .. " " .. toSellVehicle.model .. "\n~y~PRICE: ~g~$" .. exports.globals:comma_value(.30 * toSellVehicle.price))
 	end)
+	if c then
+		-- Deletes value in `boosted_vehicles` DB
+		MySQL.execute("DELETE FROM boosted_vehicles WHERE plate = ?", {boostvehicle[1].plate})
+	end
 end)
 
 function GetVehiclePrice(vehicle)

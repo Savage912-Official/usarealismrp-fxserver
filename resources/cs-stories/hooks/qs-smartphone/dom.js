@@ -180,7 +180,7 @@ window.CS_STORIES.getStoryTemplate = (story, lang) => { // Each individual story
     `
 }
 
-window[_CSS_QS_NAMESPACE].Phone.Functions.SetupApplications = data => { // If you want to edit the app's position, name or icon you may do so here.
+window[_CSS_QS_NAMESPACE].Phone.Functions.SetupApplications = data => {
     let maxSlot = 0
     let appExists = false
 

@@ -548,6 +548,7 @@ var itemImages = {
     "Normal Tires": "https://i.imgur.com/dbnI2Fl.png",
     "Underglow Kit": "https://i.imgur.com/Py0qvzu.png",
     "RC Car": "https://i.imgur.com/L7PtIAY.png",
+    "Xenon Headlights": "https://i.imgur.com/VS1f4HT.png"
 }
 
 var menuItems = [{

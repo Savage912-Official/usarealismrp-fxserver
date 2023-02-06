@@ -1,4 +1,4 @@
-const _CSVC_QS_NAMESPACE = typeof(QS) === 'object' && QS.Phone ? QS : null
+const _CSVC_QS_NAMESPACE = typeof(QS) === 'object' && QS.Phone ? 'QS' : null
 
 if (!_CSVC_QS_NAMESPACE)
     throw new Error('[criticalscripts.shop] cs-video-call could not be hooked to your phone. Make sure you are using the correct hook.')
@@ -30,6 +30,11 @@ window.CS_VIDEO_CALL.hookInterface = () => {
     `)
 
     jQuery('.phone-call-app .phone-call-ongoing #ongoing-cancel').before('<span data-action="cs-video-call-swap-transmission" style="display: none;"><svg enable-background="new 0 0 488.3 488.3" version="1.1" viewBox="0 0 488.3 488.3" xml:space="preserve" xmlns="http://www.w3.org/2000/svg"><path d="m488.3 142.5v203.1c0 15.7-17 25.5-30.6 17.7l-84.6-48.8v13.9c0 41.8-33.9 75.7-75.7 75.7h-221.7c-41.8 0-75.7-33.9-75.7-75.7v-168.5c0-41.8 33.9-75.7 75.7-75.7h221.8c41.8 0 75.7 33.9 75.7 75.7v13.9l84.6-48.8c13.5-8 30.5 1.9 30.5 17.5z" /></svg></span>')
+
+    jQuery('#phone-app-viewContactActions .phone-app-viewContactActionsFast:not([onclick])').on('click', () => {
+        window.CS_VIDEO_CALL.setPendingVideoTransmission()
+        startCall()
+    })
 
     return jQuery('.phone-call-app')
 }

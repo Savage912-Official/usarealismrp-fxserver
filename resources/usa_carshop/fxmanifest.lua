@@ -1,6 +1,15 @@
-resource_manifest_version '05cfa83c-a124-4cfa-a768-c24a5811d8f9'
+fx_version   'cerulean'
+lua54        'yes'
+game         'gta5'
 
-server_script 'vehicle-shop_sv.lua'
+shared_scripts {
+    '@ox_lib/init.lua'
+}
+
+server_scripts {
+    '@oxmysql/lib/MySQL.lua',
+    'vehicle-shop_sv.lua'
+}
 
 client_scripts {
 	"@NativeUI/Wrapper/Utility.lua",

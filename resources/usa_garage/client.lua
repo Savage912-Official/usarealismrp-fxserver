@@ -82,7 +82,9 @@ locations = {
 	{x = -2315.1484375, y = 283.1760559082, z = 169.46704101563, noBlip = true}, -- plasma kart 
 	{x = 897.21588134766, y = -1019.8331298828, z = 34.966979980469, noBlip = true}, -- Auto Repair Place
 	{x = -1669.1839599609, y = -541.4306640625, z = 35.10620880127, noBlip = true},
-	{x = 471.7410, y = -1873.5828, z = 26.8678, noBlip = true} -- Atomic Autos
+	{x = 471.7410, y = -1873.5828, z = 26.8678, noBlip = true}, -- Atomic Autos
+	{x = -1916.8400878906, y = 2030.8366699219, z = 140.73731994629, noBlip = false}, -- Orange Farm
+	{x = 436.27728271484, y = 6529.9682617188, z = 27.877355575562, noBlip = false} -- Orange Farm Paleto
 }
 
 local VEHICLE_DAMAGES = {}

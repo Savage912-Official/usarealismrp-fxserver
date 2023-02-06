@@ -1,15 +1,11 @@
 return function(resource)
     RegisterNetEvent('high_phone:pickupCall', function(number)
         local callee = source
-        local caller = getUserByNumber(number)
+        local caller = getSourceByNumber(number)
 
         if (callee and caller) then
-            local player = Config.FrameworkFunctions.getPlayerByIdentifier(caller.citizenid or caller.identifier)
-
-            if (player and player.source) then
-                TriggerClientEvent('cs-video-call:custom:setCallee', player.source, callee)
-                TriggerClientEvent('cs-video-call:custom:setCallee', callee, player.source)
-            end
+            TriggerClientEvent('cs-video-call:custom:setCallee', caller, callee)
+            TriggerClientEvent('cs-video-call:custom:setCallee', callee, caller)
         end
     end)
 

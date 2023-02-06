@@ -99,7 +99,7 @@ AddEventHandler("customs:applyCustomizations", function(veh)
 		-- set mods --
     	SetVehicleModKit(currentvehicle,0)
 		for x = 0, 48 do
-			if x == 18 or x == 20 or x == 22 then -- turbo, xeon headlights, tyre smoke
+			if x == 18 or x == 20 then -- turbo, tyre smoke
 				print("toggling vehicle mod!")
 				if customizations[x] then
 					ToggleVehicleMod(currentvehicle, x, customizations[x].mod)
@@ -455,8 +455,8 @@ local function DriveInGarage()
 			end
 		end
 
-		local m = LSCMenu.categories:addSubMenu("LIGHTS", "Lights", "Improved night time visibility.",true)
-		AddMod(22,LSCMenu.categories.Lights,"HEADLIGHTS", "Headlights", nil, false)
+		--local m = LSCMenu.categories:addSubMenu("LIGHTS", "Lights", "Improved night time visibility.",true)
+		--AddMod(22,LSCMenu.categories.Lights,"HEADLIGHTS", "Headlights", nil, false)
 		--[[
 		if not IsThisModelABike(GetEntityModel(veh)) then
 			m = m:addSubMenu("NEON KITS", "Neon kits", nil, true)
@@ -1618,7 +1618,7 @@ function UnfakeVeh()
 	SetVehicleModKit(veh,0)
 	SetVehicleWheelType(veh, myveh.wheeltype)
 	for i,m in pairs(myveh.mods) do
-		if i == 22 or i == 18 then
+		if i == 18 then
 			ToggleVehicleMod(veh,i,m.mod)
 		elseif i == 23 or i == 24 then
 			SetVehicleMod(veh,i,m.mod,m.variation)

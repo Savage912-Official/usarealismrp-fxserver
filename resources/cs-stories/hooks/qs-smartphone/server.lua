@@ -1,13 +1,29 @@
 return function(resource)
     exports[resource]:GetStoryPlayerName(function(source)
         -- You can replace a story's author name parser here, this will be stored in a story's metadata and you cannot change it on-demand.
+
         local QS = nil
+        local qbCoreFramework = nil
 
         TriggerEvent('qs-base:getSharedObject', function(obj)
             QS = obj
         end)
 
-        local info = QS.GetPlayerFromId(tonumber(source))
+        if ((not QS) or (not QS.GetPlayerFromId)) then
+            if (QBCore) then
+                qbCoreFramework = QBCore
+            else
+                TriggerEvent('QBCore:GetObject', function(obj)
+                    qbCoreFramework = obj
+                end)
+
+                if (not qbCoreFramework) then
+                    qbCoreFramework = exports['qb-core']:GetCoreObject()
+                end
+            end
+        end
+
+        local info = (QS and QS.GetPlayerFromId and QS.GetPlayerFromId(tonumber(source))) or qbCoreFramework.Functions.GetPlayer(tonumber(source))
 
         if (info) then
             info = info.PlayerData.charinfo

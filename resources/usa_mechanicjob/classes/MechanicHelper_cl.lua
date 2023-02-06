@@ -47,6 +47,12 @@ MechanicHelper.UPGRADE_FUNC_MAP = {
         if rgb then
             SetVehicleNeonLightsColour(veh, rgb.r,  rgb.g, rgb.b)
         end
+    end,
+    ["xenon-headlights"] = function(veh)
+        if GetVehicleModKit(veh) ~= 0 then
+            SetVehicleModKit(veh, 0)
+        end
+        ToggleVehicleMod(veh, 22, true)
     end
 }
 

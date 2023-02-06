@@ -121,7 +121,6 @@ Most scripts use CouchDB (including the DB API @ `resources/essentialmode/db.lua
 [optional] Set the following convars in your `server_internal.cfg` file like so:
 
 ```
-set status-channel-webhook ""
 set server-monitor-webhook ""
 set ban-log-webhook ""
 set modder-log-webhook ""

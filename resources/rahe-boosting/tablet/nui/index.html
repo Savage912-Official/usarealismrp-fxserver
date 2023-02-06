@@ -5,11 +5,12 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="jquery-3.6.3.min.js" type="text/javascript"></script>
+    <!-- <link rel="stylesheet" href="tailwind.css"> -->
     <link rel="stylesheet" href="tailwind.css">
-    <script src="alpine.js" type="text/javascript"></script>
+    <script src="alpine.js" type="text/javascript" defer></script>
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
           integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
-    <script src="nui://game/ui/jquery.js" type="text/javascript"></script>
     <script src="translations.js" type="text/javascript"></script>
 
     <style>
@@ -31,7 +32,7 @@
             function closeTablet() {
                 $.post("https://rahe-boosting/closeTablet", JSON.stringify({}));
             }
-        });
+        })
     </script>
 </head>
 
@@ -81,26 +82,28 @@
      style="position: absolute; margin: 0 auto; left:2vh; right: 2vh; top: 8vh; width:63.4vw; height:68vh;"
      class="bg-slate-800">
 
-    <div x-transition:enter="transition duration-200 transform ease-out"
+    <div @mouseover="errorMessage = ''"
+         x-transition:enter="transition duration-200 transform ease-out"
          x-transition:enter-start="scale-75"
          x-transition:leave="transition duration-100 transform ease-in"
          x-transition:leave-end="opacity-0 scale-90" x-show="errorMessage != ''"
-         class="bg-red-500 p-2 pl-3 pt-3 text-sm font-medium text-gray-200 w-full text-center">
+         class="absolute z-10 bg-red-500 py-1.5 text-sm font-medium text-gray-200 w-full text-center">
         <span x-text="errorMessage"></span>
     </div>
 
-    <div x-transition:enter="transition duration-500 transform ease-out"
+    <div @mouseover="infoMessage = ''"
+         x-transition:enter="transition duration-500 transform ease-out"
          x-transition:enter-start="scale-75"
          x-transition:leave="transition duration-100 transform ease-in"
          x-transition:leave-end="opacity-0 scale-90" x-show="infoMessage != ''"
-         class="bg-blue-700 p-2 pl-3 pt-3 text-sm font-medium text-gray-300 w-full text-center">
+         class="absolute z-10 bg-blue-700 py-1.5 text-sm font-medium text-gray-300 w-full text-center">
         <span x-text="infoMessage"></span>
     </div>
 
-    <div id="mainContent" class="h-screen overflow-y-auto bg-gray-900 text-gray-200"
+    <div id="mainContent" class="h-screen overflow-y-auto bg-gray-900 text-gray-200 relative"
          style="max-height: 100%;">
 
-        <header class="relative">
+        <header class="relative select-none">
             <div class="pt-6">
                 <nav class="relative max-w-8xl mx-auto flex items-center justify-between px-4 sm:px-6" aria-label="Global">
                     <div class="flex items-center flex-1">
@@ -137,7 +140,8 @@
                         </div>
                     </div>
                     <div class="hidden md:flex md:items-center md:space-x-6">
-                        <a x-show="isAdminPanelAllowed" href="#" @click="activeTab = 'admin'; $.post('https://rahe-boosting/tabOpened', JSON.stringify({tab: activeTab}))"
+                        <a x-show="isAdminPanelAllowed" href="#"
+                           @click="activeTab = 'admin'; $.post('https://rahe-boosting/tabOpened', JSON.stringify({tab: activeTab}))"
                            class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-gray-700 hover:bg-gray-600"
                            x-text="TRANSLATIONS.GENERAL.HEADER_ADMIN_PANEL"></a>
                         <a href="#" @click="activeTab = 'profile'; $.post('https://rahe-boosting/tabOpened', JSON.stringify({tab: activeTab}))"
@@ -149,7 +153,7 @@
         </header>
 
         <!-- Home tab -->
-        <div x-show="activeTab === 'home'" x-data="{ tracks: [] }"
+        <div x-show="activeTab === 'home'" x-data="{ tracks: []}"
              @message.window="
              if ($event.data.action == 'loadTabData' && $event.data.tab == 'home')  {
                 ownedContract = $event.data.data.ownedContract;
@@ -161,7 +165,7 @@
                     <div class="col-span-3 mx-auto px-4 sm:px-6 sm:text-center lg:px-0 lg:text-left lg:items-center">
                         <div class="w-fullpb-6">
                             <ul role="list" class="w-full">
-                                <li class="mb-10">
+                                <li class="mb-10 select-none">
                                     <div class="pb-5 mt-8 sm:flex sm:items-center sm:justify-between">
                                         <h2 class="flex text-left text-3xl font-bold text-white sm:text-3xl xl:text-3xl">
                                             <span class="block mr-3" x-text="TRANSLATIONS.HOME_TAB.LEVEL"></span>
@@ -175,7 +179,7 @@
                                             <template x-for="(vehicleClass, index) in vehicleClasses" hidden>
                                                 <li class="relative md:flex-1 md:flex">
                                                     <!-- Current Step -->
-                                                    <a href="#" class="px-6 py-2 flex items-center text-sm font-medium" aria-current="step">
+                                                    <a disabled class="px-6 py-2 flex items-center text-sm font-medium" aria-current="step">
                                                     <span x-show="experience >= vehicleClass.xpRequired"
                                                           class="flex-shrink-0 w-8 h-8 flex items-center justify-center bg-emerald-500 rounded-full 0">
                                                         <!-- Heroicon name: solid/check -->
@@ -198,7 +202,8 @@
                                                     </span>
 
                                                         <span :class="{'text-gray-500': experience < vehicleClass.xpRequired,'text-gray-200': experience >= vehicleClass.xpRequired }"
-                                                              class="ml-4 text-sm font-medium"><span x-text="vehicleClass.class"></span> <span x-text="TRANSLATIONS.HOME_TAB.LEVEL_CLASS"></span></span>
+                                                              class="ml-4 text-sm font-medium"><span x-text="vehicleClass.class"></span> <span
+                                                                x-text="TRANSLATIONS.HOME_TAB.LEVEL_CLASS"></span></span>
                                                     </a>
 
                                                     <!-- Arrow separator for lg screens and up -->
@@ -223,23 +228,83 @@
 
                                 <li>
                                     <div class="pb-5 mt-8 sm:flex sm:items-center sm:justify-between">
-                                        <h2 class="flex text-left text-3xl font-bold text-white sm:text-3xl xl:text-3xl">
-                                            <span class="block mr-3" x-text="TRANSLATIONS.HOME_TAB.ACTIVE_CONTRACT_TITLE"></span>
+                                        <h2 class="flex text-left text-3xl font-bold text-white sm:text-3xl xl:text-3xl select-none">
+                                            <span class="block mr-3"
+                                                  x-text="TRANSLATIONS.HOME_TAB.ACTIVE_CONTRACT_TITLE">Saadaval olevad tööotsad
+                                            </span>
+                                            <div x-transition x-show="ownedContract?.groupData?.participants" class="inline-flex space-x-1 items-center rounded-md font-medium bg-gray-800 px-4 text-sm text-gray-100 tracking-wide">
+                                                <span>ID </span>
+                                                <span class="select-all" x-text="ownedContract.id"></span>
+                                            </div>
                                         </h2>
+
+                                        <div x-show="ownedContract == ''" class="mt-3 flex sm:mt-0 sm:ml-4 select-none" x-data="{inputOpen: false, contractIdToJoin: 0}">
+                                            <h2 class="flex text-right text-3xl tracking-tight font-extrabold text-white sm:text-3xl xl:text-3xl">
+                                                <div x-show="!inputOpen" x-on:click="inputOpen = true;" class="col-span-3">
+                                                    <button type="button"
+                                                            class="inline-flex items-center rounded-md border border-transparent bg-blue-600 py-1 px-5 text-sm font-medium text-white shadow-sm hover:bg-blue-700">
+
+                                                        <svg xmlns="http://www.w3.org/2000/svg" class="-ml-1 mr-2 h-5 w-5"
+                                                             fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                                  d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z"/>
+                                                        </svg>
+
+                                                        <span x-text="TRANSLATIONS.HOME_TAB.ACTIVE_CONTRACT_GROUP_JOIN"></span>
+                                                    </button>
+                                                </div>
+
+                                                <div x-show="inputOpen" class="relative grid grid-cols-12 gap-x-2">
+                                                    <div class="col-span-2">
+                                                        <button @click="inputOpen = false" type="button"
+                                                                class="text-center px-2 py-0.5 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 block w-full h-full">
+                                                            <div>
+                                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline-block" fill="none"
+                                                                     viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                                          d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                                                                </svg>
+                                                            </div>
+                                                        </button>
+                                                    </div>
+
+                                                    <div class="col-span-8">
+                                                        <input style="padding-top:0.375rem; padding-bottom:0.375rem;" x-show="inputOpen"
+                                                               x-model="contractIdToJoin" type="number" name="roomCode"
+                                                               class="block w-full shadow-sm px-4 text-xs text-gray-600 font-bold placeholder:font-normal placeholder-gray-400 rounded-md"
+                                                               :placeholder="TRANSLATIONS.HOME_TAB_ACTIVE_CONTRACT_GROUP_IDENTIFIER_PLACEHOLDER">
+                                                    </div>
+
+                                                    <div class="col-span-2">
+                                                        <button x-on:click="$.post('https://rahe-boosting/requestJoinGroup', JSON.stringify({contractId: contractIdToJoin}));"
+                                                                type="button"
+                                                                class="text-center px-2 py-0.5 border border-transparent rounded-md shadow-sm text-sm text-white bg-blue-600 hover:bg-blue-700 block w-full h-full">
+                                                            <div>
+                                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                                     stroke-width="2" stroke="currentColor" class="w-4 w-4 inline-block">
+                                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                                          d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"/>
+                                                                </svg>
+                                                            </div>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </h2>
+                                        </div>
                                     </div>
 
 
                                     <span x-show="ownedContract === ''"
                                           class="relative block w-full border-2 border-gray-400 border-dashed rounded-lg p-8 text-center mb-10">
-                                        <span class="mt-2 block text-sm font-medium text-gray-300" x-text="TRANSLATIONS.HOME_TAB.ACTIVE_CONTRACT_NONE ">
+                                        <span class="mt-2 block text-sm font-medium text-gray-300"
+                                              x-text="TRANSLATIONS.HOME_TAB.ACTIVE_CONTRACT_NONE ">
                                       </span>
                                     </span>
-
-                                <li x-show="ownedContract !== ''" class="h-20 bg-gray-800 mb-10"
+                                <li x-show="ownedContract !== ''" class="bg-gray-800 mb-10"
                                     x-transition:enter="transition ease-out duration-1000" x-transition:enter-start="opacity-0 transform scale-90"
                                     x-transition:enter-end="opacity-100 transform scale-100" x-transition:leave="transition ease-in duration-1000"
                                     x-transition:leave-start="opacity-100 transform scale-100" x-transition:leave-end="opacity-0 transform scale-90">
-                                    <a href="#" class="block hover:bg-gray-700">
+                                    <div>
                                         <div class="flex items-center px-4 py-4 sm:px-6">
                                             <div class="min-w-0 flex-1 flex items-center">
                                                 <span x-show="ownedContract.vehicle_class === 'S'"
@@ -262,9 +327,11 @@
 
                                                 <div class="min-w-0 flex-1 px-4 grid grid-cols-12 md:gap-4">
                                                     <div class="col-span-4">
-                                                        <p class="text-sm font-medium text-gray-100 truncate"><span x-text="TRANSLATIONS.HOME_TAB.ACTIVE_CONTRACT_PRE">Tööots sõiduki</span>
+                                                        <p class="text-sm font-medium text-gray-100 truncate"><span
+                                                                x-text="TRANSLATIONS.HOME_TAB.ACTIVE_CONTRACT_PRE"></span>
                                                             <span class="text-emerald-400"
-                                                                  x-text="ownedContract.vehicle_model_name">Sultan RS</span> <span x-text="TRANSLATIONS.HOME_TAB.ACTIVE_CONTRACT_AFT"></span>
+                                                                  x-text="ownedContract.vehicle_model_name"></span> <span
+                                                                    x-text="TRANSLATIONS.HOME_TAB.ACTIVE_CONTRACT_AFT"></span>
                                                         </p>
                                                         <p class="mt-2 flex items-center text-sm">
                                                             <!-- Heroicon name: solid/mail -->
@@ -277,7 +344,8 @@
                                                                       d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                                                             </svg>
                                                             <span class="truncate text-xs"><span
-                                                                    x-text="ownedContract.vehicle_class"></span> <span x-text="TRANSLATIONS.HOME_TAB.ACTIVE_CONTRACT_DESC"></span> <span
+                                                                    x-text="ownedContract.vehicle_class"></span> <span
+                                                                    x-text="TRANSLATIONS.HOME_TAB.ACTIVE_CONTRACT_DESC"></span> <span
                                                                     x-text="ownedContract.vehicle_license_plate"></span></span>
                                                         </p>
                                                     </div>
@@ -296,8 +364,10 @@
                                                                 </svg>
                                                                 <span x-text="TRANSLATIONS.HOME_TAB.ACTIVE_CONTRACT_VALID_UNTIL"></span>: <span
                                                                     class="pl-1 font-medium text-emerald-400"><span
-                                                                    x-text="ownedContract.hours_to">3</span> <span x-text="TRANSLATIONS.GENERAL.HOURS"></span> <span
-                                                                    x-text="ownedContract.minutes_to">5</span> <span x-text="TRANSLATIONS.GENERAL.MINUTES"></span></span>
+                                                                    x-text="ownedContract.hours_to"></span> <span
+                                                                    x-text="TRANSLATIONS.GENERAL.HOURS"></span> <span
+                                                                    x-text="ownedContract.minutes_to"></span> <span
+                                                                    x-text="TRANSLATIONS.GENERAL.MINUTES"></span></span>
                                                             </p>
                                                             <p class="mt-2 flex items-center text-sm text-gray-100">
                                                                 <!-- Heroicon name: solid/check-circle -->
@@ -314,23 +384,25 @@
                                                                     x-text="ownedContract.payout_cash ? ownedContract.payout_cash.toLocaleString(currencyLocale, {
                                                                                                 style: 'currency',
                                                                                                 currency: currency,
-                                                                                            }) : '';"></span></span> <span x-text="TRANSLATIONS.GENERAL.AND"></span> <span
+                                                                                            }) : '';"></span></span> <span
+                                                                    x-text="TRANSLATIONS.GENERAL.AND"></span> <span
                                                                     class="pl-1 font-medium text-emerald-400"><span
-                                                                    x-text="ownedContract.payout_crypto">22</span> <span x-text="TRANSLATIONS.GENERAL.CRYPTO"></span></span>
+                                                                    x-text="ownedContract.payout_crypto"></span> <span
+                                                                    x-text="TRANSLATIONS.GENERAL.CRYPTO"></span></span>
                                                             </p>
                                                         </div>
                                                     </div>
 
-                                                    <div class="col-span-4 pl-2 h-full flex items-center justify-center w-full">
-
+                                                    <div class="col-span-4 pl-12 h-full flex items-center justify-center w-full">
                                                         <div class="min-w-0 flex-1 px-2 grid grid-cols-12"
                                                              x-show="ownedContract.status === 'IN_PROGRESS'">
                                                             <div class="col-span-12 text-center text-sm">
-                                                                <span class="pl-1 font-medium text-gray-200" x-text="TRANSLATIONS.HOME_TAB.ACTIVE_CONTRACT_STARTED"></span>
+                                                                <span class="font-medium text-gray-200"
+                                                                      x-text="TRANSLATIONS.HOME_TAB.ACTIVE_CONTRACT_STARTED"></span>
 
-                                                                <button type="button" x-text="TRANSLATIONS.HOME_TAB.ACTIVE_CANCEL"
+                                                                <button x-show="!ownedContract?.groupData || ownedContract?.groupData?.isPlayerOwner"  type="button" x-text="TRANSLATIONS.HOME_TAB.ACTIVE_CANCEL"
                                                                         x-on:click="$.post('https://rahe-boosting/cancelContract', JSON.stringify({contractId: ownedContract.id}));"
-                                                                        class="inline-flex items-center ml-2 px-4 py-1 border border-transparent text-sm leading-4 font-medium rounded-lg shadow-sm text-white bg-red-500 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+                                                                        class="inline-flex items-center px-4 py-0.5 border border-transparent text-xs leading-4 font-medium rounded-lg shadow-sm text-white bg-red-500 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
 
                                                                 </button>
                                                             </div>
@@ -339,51 +411,58 @@
                                                         <div class="min-w-0 flex-1 px-2 grid grid-cols-12"
                                                              x-show="ownedContract.status === 'IN_PROGRESS_VIN'">
                                                             <div class="col-span-12 text-center text-sm">
-                                                                <span class="pl-1 font-medium text-gray-200" x-text="TRANSLATIONS.HOME_TAB.ACTIVE_CONTRACT_STARTED_VIN"></span>
+                                                                <span class="font-medium text-gray-200"
+                                                                      x-text="TRANSLATIONS.HOME_TAB.ACTIVE_CONTRACT_STARTED_VIN"></span>
 
-                                                                <button type="button" x-text="TRANSLATIONS.HOME_TAB.ACTIVE_CANCEL"
+                                                                <button x-show="!ownedContract?.groupData || ownedContract?.groupData?.isPlayerOwner" type="button" x-text="TRANSLATIONS.HOME_TAB.ACTIVE_CANCEL"
                                                                         x-on:click="$.post('https://rahe-boosting/cancelContract', JSON.stringify({contractId: ownedContract.id}));"
-                                                                        class="inline-flex items-center ml-2 px-4 py-1 border border-transparent text-sm leading-4 font-medium rounded-lg shadow-sm text-white bg-red-500 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+                                                                        class="inline-flex items-center ml-2 px-4 py-0.5 border border-transparent text-xs leading-4 font-medium rounded-lg shadow-sm text-white bg-red-500 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
                                                                 </button>
                                                             </div>
                                                         </div>
 
-                                                        <div class="min-w-0 flex-1 px-2 grid grid-cols-12"
-                                                             x-show="ownedContract.status === 'BOUGHT'">
-                                                            <div class="col-span-4">
+                                                        <div class="min-w-0 flex-1 grid grid-cols-12 select-none" x-show="ownedContract.status === 'BOUGHT' && (!ownedContract?.groupData || ownedContract?.groupData?.isPlayerOwner)">
+                                                            <div class="col-span-12 ml-auto">
+                                                                <div class="inline-block mr-2 bg-emerald-500 rounded-full">
+                                                                    <svg x-on:click="$.post('https://rahe-boosting/startContract', JSON.stringify({contractId: ownedContract.id}));"
+                                                                         xmlns="http://www.w3.org/2000/svg"
+                                                                         class="h-10 w-10 bg-emerald-500 rounded-l-full p-2 mx-0.5 inline-block hover:bg-emerald-600 cursor-pointer"
+                                                                         fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                                              d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/>
+                                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                                              d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                                                    </svg>
 
-                                                            </div>
+                                                                    <svg x-on:click="$.post('https://rahe-boosting/changeContractGroupType', JSON.stringify({contractId: ownedContract.id}));"
+                                                                         xmlns="http://www.w3.org/2000/svg"
+                                                                         class="h-10 w-10 bg-emerald-500 p-2 mx-0.5 inline-block hover:bg-emerald-600 cursor-pointer"
+                                                                         fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                                              d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z"/>
+                                                                    </svg>
 
-                                                            <div class="col-span-8">
-                                                                <svg x-on:click="$.post('https://rahe-boosting/startContract', JSON.stringify({contractId: ownedContract.id}));"
+                                                                    <svg x-on:click="$.post('https://rahe-boosting/stealContract', JSON.stringify({contractId: ownedContract.id}));"
+                                                                         xmlns="http://www.w3.org/2000/svg"
+                                                                         class="h-10 w-10 bg-emerald-500 rounded-r-full p-2 mx-0.5 inline-block hover:bg-emerald-600 cursor-pointer"
+                                                                         fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                                                        <path d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0z"/>
+                                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                                              d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1M5 17a2 2 0 104 0m-4 0a2 2 0 114 0m6 0a2 2 0 104 0m-4 0a2 2 0 114 0"/>
+                                                                    </svg>
+                                                                </div>
+
+                                                                <svg x-show="!ownedContract?.groupData" x-on:click="$.post('https://rahe-boosting/transferContract', JSON.stringify({contractId: ownedContract.id}));"
                                                                      xmlns="http://www.w3.org/2000/svg"
-                                                                     class="h-10 w-10 bg-emerald-500 rounded-full p-2 inline-block hover:bg-emerald-600 mr-2"
+                                                                     class="h-10 w-10 bg-yellow-500 rounded-full p-2 inline-block hover:bg-yellow-600 mr-2 cursor-pointer"
                                                                      fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                                                     <path stroke-linecap="round" stroke-linejoin="round"
-                                                                          d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/>
-                                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                                          d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                                                                </svg>
-
-                                                                <svg x-on:click="$.post('https://rahe-boosting/stealContract', JSON.stringify({contractId: ownedContract.id}));"
-                                                                     xmlns="http://www.w3.org/2000/svg"
-                                                                     class="h-10 w-10 bg-emerald-500 rounded-full p-2 inline-block hover:bg-emerald-600 mr-2"
-                                                                     fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                                                    <path d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0z"/>
-                                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                                          d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1M5 17a2 2 0 104 0m-4 0a2 2 0 114 0m6 0a2 2 0 104 0m-4 0a2 2 0 114 0"/>
-                                                                </svg>
-
-                                                                <svg x-on:click="$.post('https://rahe-boosting/transferContract', JSON.stringify({contractId: ownedContract.id}));"
-                                                                     xmlns="http://www.w3.org/2000/svg"
-                                                                     class="h-10 w-10 bg-yellow-500 rounded-full p-2 inline-block hover:bg-yellow-600 mr-2"
-                                                                     fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7" />
+                                                                          d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/>
                                                                 </svg>
 
                                                                 <svg x-on:click="$.post('https://rahe-boosting/cancelContract', JSON.stringify({contractId: ownedContract.id}));"
                                                                      xmlns="http://www.w3.org/2000/svg"
-                                                                     class="h-10 w-10 bg-red-500 rounded-full p-2 inline-block hover:bg-red-600 mr-2"
+                                                                     class="h-10 w-10 bg-red-500 rounded-full p-2 inline-block hover:bg-red-600 cursor-pointer"
                                                                      fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                                                     <path stroke-linecap="round" stroke-linejoin="round"
                                                                           d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"/>
@@ -394,12 +473,74 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </a>
+                                    </div>
+
+                                    <div x-show="ownedContract?.groupData?.participants" x-transition>
+                                        <div class="flex items-center px-4 py-4 sm:px-6 select-none">
+                                            <div class="w-full">
+                                                <ul role="list" class="grid grid-cols-1 gap-4 sm:grid-cols-4">
+                                                    <template x-for="participant in ownedContract?.groupData?.participants" hidden>
+                                                        <li class="transition ease-in-out hover:-translate-y-1 hover:scale-105 duration-300">
+                                                            <button type="button"
+                                                                    class="cursor-none group flex w-full items-center justify-between space-x-3 rounded-full border border-gray-700 p-2 text-left shadow-sm hover:bg-gray-700 focus:outline-none">
+                                                            <span class="flex min-w-0 flex-1 items-center justify-between space-x-3">
+                                                                <span class="block flex-shrink-0">
+                                                                  <img class="h-10 w-10 rounded-full" :src="participant.pictureUrl" alt="">
+                                                                </span>
+
+                                                                <span class="block min-w-0 flex-1">
+                                                                  <span class="block truncate text-sm font-medium text-gray-200"
+                                                                        x-text="participant.name"></span>
+                                                                  <span class="block truncate text-xs font-medium text-gray-300"
+                                                                        x-text="participant.role === 'OWNER' ? TRANSLATIONS.HOME_TAB_ACTIVE_CONTRACT_GROUP_OWNER : (participant.status === 'JOINED' ? TRANSLATIONS.HOME_TAB_ACTIVE_CONTRACT_GROUP_MEMBER : TRANSLATIONS.HOME_TAB_ACTIVE_CONTRACT_GROUP_APPLICANT)"></span>
+                                                                    </span>
+                                                                </span>
+
+                                                                <span x-show="ownedContract?.groupData?.isPlayerOwner" class="flex items-center justify-center">
+                                                                    <svg x-on:click="$.post('https://rahe-boosting/kick', JSON.stringify({contractId: ownedContract.id, participantIdentifier: participant.identifier}));"
+                                                                         x-show="participant.role !== 'OWNER' && participant.status === 'JOINED'"
+                                                                         class="h-7 w-7 p-1 text-gray-400 hover:text-gray-600 cursor-pointer mr-2"
+                                                                         xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9" />
+                                                                    </svg>
+
+                                                                    <svg x-on:click="$.post('https://rahe-boosting/requestResponse', JSON.stringify({contractId: ownedContract.id, participantIdentifier: participant.identifier, requestResponse: true}));"
+                                                                         x-show="participant.status === 'REQUEST'"
+                                                                         class="h-7 w-7 p-1 text-green-500 hover:text-green-400 hover:bg-green-700 rounded-full cursor-pointer mr-1"
+                                                                         xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                                                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                                                                    </svg>
+
+                                                                    <svg x-on:click="$.post('https://rahe-boosting/requestResponse', JSON.stringify({contractId: ownedContract.id, participantIdentifier: participant.identifier, requestResponse: false}));"
+                                                                         x-show="participant.status === 'REQUEST'"
+                                                                         class="h-7 w-7 p-1 text-red-500 hover:text-red-400 hover:bg-red-700 rounded-full cursor-pointer mr-2"
+                                                                         xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                                                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                                                    </svg>
+                                                                </span>
+                                                            </button>
+                                                        </li>
+                                                    </template>
+                                                    <template x-for="i in (4 - ownedContract?.groupData?.participants.length)" hidden>
+                                                        <li class="transition ease-in-out hover:-translate-y-1 hover:scale-105 duration-300">
+                                                            <button type="button" class="cursor-none group flex w-full items-center justify-between space-x-3 rounded-full border border-dashed border-gray-700 p-2 text-center shadow-sm hover:bg-gray-700 focus:outline-none h-full">
+                                                              <span class="flex min-w-0 flex-1 items-center space-x-3">
+                                                                <span class="block min-w-0 flex-1">
+                                                                  <span class="block truncate text-xs font-medium text-gray-400 tracking-wide uppercase" x-text="TRANSLATIONS.HOME_TAB_ACTIVE_CONTRACT_GROUP_AVAILABLE"></span>
+                                                                </span>
+                                                              </span>
+                                                            </button>
+                                                        </li>
+                                                    </template>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </li>
                                 </li>
 
                                 <li class="pb-2">
-                                    <div class="pb-5 mt-8 sm:flex sm:items-center sm:justify-between">
+                                    <div class="pb-5 mt-8 sm:flex sm:items-center sm:justify-between select-none">
                                         <h2 class="flex text-left text-3xl font-bold text-white sm:text-3xl xl:text-3xl">
                                             <span class="block mr-3" x-text="TRANSLATIONS.HOME_TAB.AVAILABLE_CONTRACTS"></span>
                                         </h2>
@@ -438,7 +579,7 @@
 
                                             <template x-for="availableContract in availableContracts" hidden>
                                                 <li class="h-20">
-                                                    <a href="#" class="block hover:bg-gray-700">
+                                                    <a disabled class="block hover:bg-gray-700">
                                                         <div class="flex items-center px-4 py-4 sm:px-6">
                                                             <div class="min-w-0 flex-1 flex items-center">
                                                                 <div class="flex-shrink-0">
@@ -464,9 +605,10 @@
                                                                 </div>
                                                                 <div class="min-w-0 flex-1 px-4 grid grid-cols-12 md:gap-4">
                                                                     <div class="col-span-4">
-                                                                        <p class="text-sm font-medium text-gray-100 truncate"><span x-text="TRANSLATIONS.HOME_TAB.AVAILABLE_CONTRACTS_PRE"></span>
+                                                                        <p class="text-sm font-medium text-gray-100 truncate"><span
+                                                                                x-text="TRANSLATIONS.HOME_TAB.AVAILABLE_CONTRACTS_PRE"></span>
                                                                             <span class="text-emerald-400"
-                                                                                  x-text="availableContract.vehicle_model_name">Sultan RS</span>
+                                                                                  x-text="availableContract.vehicle_model_name"></span>
                                                                             <span x-text="TRANSLATIONS.HOME_TAB.AVAILABLE_CONTRACTS_AFT"></span></p>
                                                                         <p class="mt-2 flex items-center text-sm">
                                                                             <!-- Heroicon name: solid/mail -->
@@ -479,8 +621,9 @@
                                                                                       d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                                                                             </svg>
                                                                             <span class="truncate text-xs"><span
-                                                                                    x-text="availableContract.vehicle_class">S</span> <span x-text="TRANSLATIONS.HOME_TAB.AVAILABLE_CONTRACTS_DESC"></span> <span
-                                                                                    x-text="availableContract.vehicle_license_plate">0247BISP</span></span>
+                                                                                    x-text="availableContract.vehicle_class"></span> <span
+                                                                                    x-text="TRANSLATIONS.HOME_TAB.AVAILABLE_CONTRACTS_DESC"></span> <span
+                                                                                    x-text="availableContract.vehicle_license_plate"></span></span>
                                                                         </p>
                                                                     </div>
                                                                     <div class="col-span-4 pl-12">
@@ -496,10 +639,13 @@
                                                                                           stroke-width="2"
                                                                                           d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
                                                                                 </svg>
-                                                                                <span x-text="TRANSLATIONS.HOME_TAB.ACTIVE_CONTRACT_VALID_UNTIL"></span>: <span
-                                                                                    class="pl-1 font-medium text-emerald-400"><span
-                                                                                    x-text="availableContract.hours_to">3</span> <span x-text="TRANSLATIONS.GENERAL.HOURS"></span> <span
-                                                                                    x-text="availableContract.minutes_to">5</span> <span x-text="TRANSLATIONS.GENERAL.MINUTES"></span> </span>
+                                                                                <span x-text="TRANSLATIONS.HOME_TAB.ACTIVE_CONTRACT_VALID_UNTIL"></span>:
+                                                                                <span
+                                                                                        class="pl-1 font-medium text-emerald-400"><span
+                                                                                        x-text="availableContract.hours_to"></span> <span
+                                                                                        x-text="TRANSLATIONS.GENERAL.HOURS"></span> <span
+                                                                                        x-text="availableContract.minutes_to"></span> <span
+                                                                                        x-text="TRANSLATIONS.GENERAL.MINUTES"></span> </span>
                                                                             </p>
                                                                             <p class="mt-2 flex items-center text-sm text-gray-100">
                                                                                 <!-- Heroicon name: solid/check-circle -->
@@ -511,16 +657,19 @@
                                                                                           stroke-width="2"
                                                                                           d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                                                                                 </svg>
-                                                                                <span x-text="TRANSLATIONS.HOME_TAB.AVAILABLE_CONTRACTS_COST"></span>: <span
-                                                                                    class="pl-1 font-medium text-emerald-400"><span
-                                                                                    x-text="availableContract.price">12</span> <span x-text="TRANSLATIONS.GENERAL.CRYPTO"></span></span>
+                                                                                <span x-text="TRANSLATIONS.HOME_TAB.AVAILABLE_CONTRACTS_COST"></span>:
+                                                                                <span
+                                                                                        class="pl-1 font-medium text-emerald-400"><span
+                                                                                        x-text="availableContract.price"></span> <span
+                                                                                        x-text="TRANSLATIONS.GENERAL.CRYPTO"></span></span>
                                                                             </p>
                                                                         </div>
                                                                     </div>
-                                                                    <div class="col-span-4 h-full flex items-center justify-center">
-                                                                        <div class="ml-36">
+                                                                    <div class="col-span-4 h-full flex items-center justify-center select-none">
+                                                                        <div class="ml-auto">
                                                                             <button x-on:click="$.post('https://rahe-boosting/acceptContract', JSON.stringify({contractId: availableContract.id}));"
-                                                                                    type="button" x-text="TRANSLATIONS.HOME_TAB.AVAILABLE_CONTRACTS_ACCEPT"
+                                                                                    type="button"
+                                                                                    x-text="TRANSLATIONS.HOME_TAB.AVAILABLE_CONTRACTS_ACCEPT"
                                                                                     class="inline-flex items-center px-6 py-2 border border-transparent text-sm leading-4 font-medium rounded-full shadow-sm text-white bg-emerald-500 hover:bg-emerald-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500">
                                                                             </button>
                                                                         </div>
@@ -537,7 +686,8 @@
 
                                 <li x-show="availableContracts.length > 0" class="pb-10">
                                 <span class="relative block w-full text-center">
-                                    <span class="mt-2 block text-xs font-normal text-gray-300" x-text="TRANSLATIONS.HOME_TAB.AVAILABLE_CONTRACTS_HINT_2">
+                                    <span class="mt-2 block text-xs font-normal text-gray-300"
+                                          x-text="TRANSLATIONS.HOME_TAB.AVAILABLE_CONTRACTS_HINT_2">
                                     </span>
                                 </span>
                                 </li>
@@ -563,7 +713,7 @@
                                 <li>
                                     <div>
                                         <div class="pb-5 mt-8 sm:flex sm:items-center sm:justify-between">
-                                            <h2 class="flex text-left text-3xl font-bold text-white sm:text-3xl xl:text-3xl">
+                                            <h2 class="flex text-left text-3xl font-bold text-white sm:text-3xl xl:text-3xl select-none">
                                                 <span class="block mr-3" x-text="TRANSLATIONS.STORE_TAB.TITLE"></span>
                                             </h2>
 
@@ -590,10 +740,10 @@
                                         <ul role="list" class="divide-y divide-dashed divide-gray-700">
                                             <template x-for="(storeItem, key) in storeItems" :key="index" hidden>
                                                 <li>
-                                                    <a href="#" class="block hover:bg-gray-700">
+                                                    <a disabled class="block hover:bg-gray-700">
                                                         <div class="flex items-center px-4 py-3 sm:px-6">
                                                             <div class="min-w-0 flex-1 flex items-center">
-                                                                <div class="flex-shrink-0">
+                                                                <div class="flex-shrink-0 select-none">
                                                                     <img class="h-12 w-12 rounded-full" :src="'img/' + storeItem.iconFile" alt="">
                                                                 </div>
                                                                 <div class="min-w-0 flex-1 px-4 md:grid md:grid-cols-2 md:gap-4">
@@ -638,7 +788,8 @@
                                                                                           d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
                                                                                           clip-rule="evenodd"></path>
                                                                                 </svg>
-                                                                                <span x-show="!storeItem.isSoldOut" x-text="TRANSLATIONS.STORE_TAB.ITEM_AVAILABLE"></span>
+                                                                                <span x-show="!storeItem.isSoldOut"
+                                                                                      x-text="TRANSLATIONS.STORE_TAB.ITEM_AVAILABLE"></span>
 
 
                                                                                 <svg x-show="storeItem.isSoldOut" xmlns="http://www.w3.org/2000/svg"
@@ -647,18 +798,20 @@
                                                                                     <path stroke-linecap="round" stroke-linejoin="round"
                                                                                           d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                                                                                 </svg>
-                                                                                <span x-show="storeItem.isSoldOut" x-text="TRANSLATIONS.STORE_TAB.ITEM_UNAVAILABLE"></span>
+                                                                                <span x-show="storeItem.isSoldOut"
+                                                                                      x-text="TRANSLATIONS.STORE_TAB.ITEM_UNAVAILABLE"></span>
                                                                             </p>
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                             <div>
-                                                                <button @click="$.post('https://rahe-boosting/buyItem', JSON.stringify({item: key}));" x-text="TRANSLATIONS.STORE_TAB.BUY"
+                                                                <button @click="$.post('https://rahe-boosting/buyItem', JSON.stringify({item: key}));"
+                                                                        x-text="TRANSLATIONS.STORE_TAB.BUY"
                                                                         type="button"
                                                                         x-bind:disabled="storeItem.isSoldOut"
                                                                         :class="{'bg-emerald-500 hover:bg-emerald-600': !storeItem.isSoldOut, 'bg-red-500': storeItem.isSoldOut}"
-                                                                        class="inline-flex px-8 py-1 items-center justify-center border border-transparent text-sm font-medium rounded-md shadow-sm text-white">
+                                                                        class="select-none inline-flex px-8 py-1 items-center justify-center border border-transparent text-sm font-medium rounded-md shadow-sm text-white">
                                                                 </button>
                                                             </div>
                                                         </div>
@@ -700,7 +853,7 @@
 
                                                     <template x-for="completedContract in completedContracts" hidden>
                                                         <li class="h-20">
-                                                            <a href="#" class="block hover:bg-gray-700">
+                                                            <a disabled class="block hover:bg-gray-700">
                                                                 <div class="flex items-center px-4 py-4 sm:px-6">
                                                                     <div class="min-w-0 flex-1 flex items-center">
                                                                         <div class="flex-shrink-0">
@@ -726,7 +879,8 @@
                                                                         </div>
                                                                         <div class="min-w-0 flex-1 px-4 grid grid-cols-12 md:gap-4">
                                                                             <div class="col-span-4">
-                                                                                <p class="text-sm font-medium text-gray-100 truncate"><span x-text="TRANSLATIONS.HISTORY_TAB.SUCCESSFUL_PRE"></span>
+                                                                                <p class="text-sm font-medium text-gray-100 truncate"><span
+                                                                                        x-text="TRANSLATIONS.HISTORY_TAB.SUCCESSFUL_PRE"></span>
                                                                                     <span class="text-emerald-400"
                                                                                           x-text="completedContract.vehicle_model_name"></span>
                                                                                     <span x-text="TRANSLATIONS.HISTORY_TAB.SUCCESSFUL_AFT"></span></p>
@@ -741,7 +895,8 @@
                                                                                               d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                                                                                     </svg>
                                                                                     <span class="truncate text-xs"><span
-                                                                                            x-text="completedContract.vehicle_class">S</span> <span x-text="TRANSLATIONS.HISTORY_TAB.VEHICLE_DESC"></span> <span
+                                                                                            x-text="completedContract.vehicle_class">S</span> <span
+                                                                                            x-text="TRANSLATIONS.HISTORY_TAB.VEHICLE_DESC"></span> <span
                                                                                             x-text="completedContract.vehicle_license_plate">0247BISP</span></span>
                                                                                 </p>
                                                                             </div>
@@ -758,9 +913,10 @@
                                                                                                   d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                                                                                         </svg>
 
-                                                                                        <span x-text="TRANSLATIONS.HISTORY_TAB.EMPLOYER"></span>: <span
-                                                                                            class="pl-1 font-medium text-emerald-400"
-                                                                                            x-text="completedContract.employer">
+                                                                                        <span x-text="TRANSLATIONS.HISTORY_TAB.EMPLOYER"></span>:
+                                                                                        <span
+                                                                                                class="pl-1 font-medium text-emerald-400"
+                                                                                                x-text="completedContract.employer">
                                                                                     </span>
                                                                                     </p>
                                                                                     <p class="mt-2 flex items-center text-sm text-gray-100">
@@ -792,7 +948,7 @@
                                                                             </div>
                                                                             <div class="col-span-4 h-full flex items-center justify-center">
                                                                                 <div class="ml-36">
-                                                                                    <button type="button"
+                                                                                    <button disabled type="button"
                                                                                             x-text="completedContract.days_ago + ' ' + TRANSLATIONS.LEADER_TAB.TABLE_DAYS_AGO"
                                                                                             :class="{'bg-emerald-200 hover:bg-emerald-300': completedContract.days_ago <= 14, 'bg-yellow-200 hover:bg-yellow-300': completedContract.days_ago > 14 && completedContract.days_ago < 31, 'bg-red-200 hover:bg-red-300': completedContract.days_ago >= 31}"
                                                                                             class="inline-flex items-center px-4 py-1 border border-transparent text-sm text-xs leading-4 font-medium rounded-full shadow-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500">
@@ -921,7 +1077,8 @@
         </div>
 
         <!-- Profile tab -->
-        <div x-show="activeTab === 'profile'" x-data="{name: '', showNameChange: false, showPictureChange: false, picture: '', date: '', identifier: ''}"
+        <div x-show="activeTab === 'profile'"
+             x-data="{name: '', showNameChange: false, showPictureChange: false, picture: '', date: '', identifier: ''}"
              @message.window="
              if ($event.data.action == 'loadTabData' && $event.data.tab == 'profile')  {
                 name = $event.data.data.name;
@@ -960,12 +1117,14 @@
                                                             <span x-text="TRANSLATIONS.PROFILE_TAB.MEMBER_SINCE"></span> <span class="ml-1"
                                                                                                                                x-text="date"></span>
 
-                                                            <svg xmlns="http://www.w3.org/2000/svg" class="flex-shrink-0 mr-1.5 h-5 w-5 ml-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                                                <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                                            <svg xmlns="http://www.w3.org/2000/svg" class="flex-shrink-0 mr-1.5 h-5 w-5 ml-3"
+                                                                 fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                                      d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
                                                             </svg>
 
                                                             <span x-text="TRANSLATIONS.PROFILE_TAB.IDENTIFIER"></span> <span class="ml-1"
-                                                                                                                               x-text="identifier"></span>
+                                                                                                                             x-text="identifier"></span>
                                                         </dd>
                                                     </dl>
                                                 </div>
@@ -1032,7 +1191,6 @@
              dataChangePlayer: '', dataChangeExperience: '', dataChangeCrypto: ''}"
              @message.window="
              if ($event.data.action == 'loadTabData' && $event.data.tab == 'admin')  {
-
                 if ($event.data.data.loadedPlayerData) {
                     let playerData = $event.data.data.loadedPlayerData;
 
@@ -1060,7 +1218,8 @@
                                     <div class="relative lg:grid lg:grid-cols-12">
                                         <div class="px-4 sm:px-6 lg:col-span-5 lg:px-8 xl:pr-12">
                                             <div class="max-w-lg mx-auto">
-                                                <h2 class="text-2xl font-extrabold tracking-tight text-whitesm:text-3xl" x-text="TRANSLATIONS.ADMIN_TAB.GENERAL_TITLE"></h2>
+                                                <h2 class="text-2xl font-extrabold tracking-tight text-whitesm:text-3xl"
+                                                    x-text="TRANSLATIONS.ADMIN_TAB.GENERAL_TITLE"></h2>
                                                 <p class="mt-3 text-lg leading-6 text-gray-300" x-text="TRANSLATIONS.ADMIN_TAB.GENERAL_DESC"></p>
                                             </div>
                                         </div>
@@ -1087,7 +1246,8 @@
                                     <div class="relative lg:grid lg:grid-cols-12">
                                         <div class="px-4 sm:px-6 lg:col-span-5 lg:px-8 xl:pr-12">
                                             <div class="max-w-lg mx-auto">
-                                                <h2 class="text-2xl font-extrabold tracking-tight text-whitesm:text-3xl" x-text="TRANSLATIONS.ADMIN_TAB.CONTRACT_TITLE"></h2>
+                                                <h2 class="text-2xl font-extrabold tracking-tight text-whitesm:text-3xl"
+                                                    x-text="TRANSLATIONS.ADMIN_TAB.CONTRACT_TITLE"></h2>
                                                 <p class="mt-3 text-lg leading-6 text-gray-300" x-text="TRANSLATIONS.ADMIN_TAB.CONTRACT_DESC"></p>
                                             </div>
                                         </div>
@@ -1153,14 +1313,17 @@
                                     <div class="relative lg:grid lg:grid-cols-12">
                                         <div class="px-4 sm:px-6 lg:col-span-5 lg:px-8 xl:pr-12">
                                             <div class="max-w-lg mx-auto">
-                                                <h2 class="text-2xl font-extrabold tracking-tight text-whitesm:text-3xl" x-text="TRANSLATIONS.ADMIN_TAB.DATA_TITLE"></h2>
+                                                <h2 class="text-2xl font-extrabold tracking-tight text-whitesm:text-3xl"
+                                                    x-text="TRANSLATIONS.ADMIN_TAB.DATA_TITLE"></h2>
                                                 <p class="mt-3 text-lg leading-6 text-gray-300" x-text="TRANSLATIONS.ADMIN_TAB.DATA_DESC"></p>
                                             </div>
                                         </div>
                                         <div class="px-4 sm:px-6 lg:col-span-7 xl:pl-12 lg:pr-12 my-auto">
                                             <div class="text-xs pb-2" x-show="dataChangeStage === 'LOADED'">
-                                                <b><span x-text="TRANSLATIONS.ADMIN_TAB.DATA_LOADED_PLAYER"></span>: </b><span x-text="dataChangePlayer"></span> (<span
-                                                    x-text="dataChangeCrypto"></span> <span x-text="TRANSLATIONS.GENERAL.CRYPTO"></span>, <span x-text="dataChangeExperience"></span>xp)
+                                                <b><span x-text="TRANSLATIONS.ADMIN_TAB.DATA_LOADED_PLAYER"></span>: </b><span
+                                                    x-text="dataChangePlayer"></span> (<span
+                                                    x-text="dataChangeCrypto"></span> <span x-text="TRANSLATIONS.GENERAL.CRYPTO"></span>, <span
+                                                    x-text="dataChangeExperience"></span>xp)
                                             </div>
 
                                             <div class="relative grid grid-cols-12 gap-x-2">

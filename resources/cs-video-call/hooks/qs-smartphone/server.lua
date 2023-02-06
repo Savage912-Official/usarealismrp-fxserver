@@ -7,7 +7,7 @@ return function(resource)
 
     function ParseCallContact(TargetData, CallId, AnonymousCall)
         local player = source
-        local target = QS.GetPlayerFromPhone(TargetData.number)
+        local target = (QS and QS.GetPlayerFromPhone and QS.GetPlayerFromPhone(TargetData.number)) or (GetPlayerFromPhone and GetPlayerFromPhone(TargetData.number))
 
         if (target ~= nil and target.PlayerData and target.PlayerData.source) then
             TriggerClientEvent('cs-video-call:custom:setCallee', player, target.PlayerData and target.PlayerData.source)

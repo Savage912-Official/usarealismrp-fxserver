@@ -751,10 +751,12 @@ backwheel = {
 	},
 
 ---------Headlights---------
+--[[
 	[22] = {
 		{name = "Stock Lights", mod = 0, price = 0},
 		{name = "Xenon Lights", mod = 1, price = 1625},
 	},
+	--]]
 
 ----------Turbo---------
 	[18] = {

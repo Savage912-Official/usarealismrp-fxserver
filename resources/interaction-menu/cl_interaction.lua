@@ -22,7 +22,7 @@ local playerName = ""
 local raycastResult = 0
 local voipLevel = 0.0
 
-local busy = false
+busy = false
 
 local menuEnabled = false
 

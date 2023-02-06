@@ -61,24 +61,37 @@ return function(resource)
 
     AddEventHandler('cs-stories:onStoryUpload', function(data)
         -- A story was uploaded by this player.
-        TriggerEvent('cs-stories:notify', '~h~Phone Stories~n~~h~~g~Your story has been uploaded!')
+        TriggerEvent('cs-stories:qs-smartphone:notify', 'Your story has been uploaded!', 3500)
     end)
 
     AddEventHandler('cs-stories:onStoryUploadFailed', function(data)
         -- A story upload by this player failed.
-        TriggerEvent('cs-stories:notify', '~h~Phone Stories~n~~h~~r~Your story upload failed, please try again!')
+        TriggerEvent('cs-stories:qs-smartphone:notify', 'Your story upload failed, please try again!', 3500)
     end)
 
     AddEventHandler('cs-stories:onStoryDeleteOutcome', function(tempId, outcome)
         -- A story was deleted by this player (using the application interface).
 
         if (outcome == 'success') then
-            TriggerEvent('cs-stories:notify', '~h~Phone Stories~n~~h~~g~You deleted story #' .. tempId .. '!')
+            TriggerEvent('cs-stories:qs-smartphone:notify', 'You deleted story #' .. tempId .. '!', 3500)
         elseif (outcome == 'no_permissions') then
-            TriggerEvent('cs-stories:notify', '~h~Phone Stories~n~~h~~r~You don\'t have permissions to delete story #' .. tempId .. '!')
+            TriggerEvent('cs-stories:qs-smartphone:notify', 'You don\'t have permissions to delete story #' .. tempId .. '!', 3500)
         elseif (outcome == 'no_story') then
-            TriggerEvent('cs-stories:notify', '~h~Phone Stories~n~~h~~r~Story #' .. tempId .. ' could not be found!')
+            TriggerEvent('cs-stories:qs-smartphone:notify', 'Story #' .. tempId .. ' could not be found!', 3500)
         end
+    end)
+
+    AddEventHandler('cs-stories:qs-smartphone:notify', function(message, timeoutMs)
+        SendNUIMessage({
+            action = 'Notification',
+
+            PhoneNotify = { -- If you edit the app's name or icon make sure to also update it here.
+                title = 'Stories',
+                text = message,
+                icon = 'data:image/png;base64,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',
+                timeout = timeoutMs
+            }
+        })
     end)
 
     CreateThread(function()

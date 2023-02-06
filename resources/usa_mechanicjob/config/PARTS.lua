@@ -105,5 +105,12 @@ PARTS = {
 		quantity = 1,
 		weight = 30,
 		type = "mechanicPart"
+	},
+	["Xenon Headlights"] = {
+		name = "Xenon Headlights",
+		price = 5000,
+		quantity = 1,
+		weight = 30,
+		type = "mechanicPart"
 	}
 }

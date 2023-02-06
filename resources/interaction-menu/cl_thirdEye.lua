@@ -11,6 +11,10 @@ function onVehicleOptionSelect(a, buttonInfo, hitHandle)
     elseif buttonInfo.label == "Close" then
         EnableGui(vehPlate, "vehicleActions.close")
     elseif buttonInfo.label == "Inventory" then
+        if busy then
+            exports.globals:notify("Busy!")
+            return
+        end
         EnableGui(vehPlate, "inventory")
     elseif buttonInfo.label == "Hide Trunk" then
         TriggerEvent('trunkhide:hideInNearestTrunk')
@@ -109,6 +113,10 @@ function addCivPlayerOptions()
             name = 'search',
             label = 'Search',
             onSelect = function(a, b, entityHandle)
+                if busy then
+                    exports.globals:notify("Busy!")
+                    return
+                end
                 local playerServerId = GetPlayerServerId(NetworkGetPlayerIndexFromPed(entityHandle))
                 TriggerEvent("search:attemptToSearchNearestPerson", playerServerId)
             end

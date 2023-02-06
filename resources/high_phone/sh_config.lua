@@ -304,16 +304,18 @@ Config.FrameworkFunctions = {
 local tokoCallId = nil
 -- DO NOT RENAME ANY OF THE TABLE INDEX NAMES, KEEP THEM AS THEY ARE, ONLY CHANGE THEIR VALUES AND FUNCTIONS (DO NOT REMOVE OR CHANGE THE ARGUMENTS IN FUNCTIONS)
 Config.VoipFunctions = {
-    usedVoip = "auto", -- 'auto' automatically detects your used VOIP and uses it's default functions. If you're using a renamed VOIP or something similar, put an index name of one of the VOIP tables in this table.
+    usedVoip = "mumble-voip", -- 'auto' automatically detects your used VOIP and uses it's default functions. If you're using a renamed VOIP or something similar, put an index name of one of the VOIP tables in this table.
     -- Configure your custom functions below, do not rename any of the table function names/values, modify only the functions themselves. Do not change the function arguments as well.
     ["mumble-voip"] = {
         voiceTarget = 2, -- Mumble voice target id, do not change this if you haven't changed it in mumble-voip's code.
         serverSided = false,
         addToCall = function(id)
             exports["mumble-voip"]:SetCallChannel(id)
+            print("added to call")
         end,
         removeFromCall = function()
             exports['mumble-voip']:SetCallChannel(0)
+            print('call finished')
         end
     },
     ["tokovoip_script"] = {

@@ -1,3 +1,25 @@
+local randomnames = {
+    "Frida Kline",
+    "Tianna Rocha",
+    "Aiden Nielsen",
+    "Bryan Murphy",
+    "Corinne Bowers",
+    "Danica Monroe",
+    "Kathleen Oliver",
+    "Karsyn Campbell",
+    "Jaylah Michael",
+    "Amare Mullen",
+    "Steven Park",
+    "Phillip Drake",
+    "Alfred Wolf",
+    "Zackary Mullins",
+    "Theodore Hull",
+    "Aisha Bass",
+    "Lillianna Dunn",
+    "Karli Coleman",
+    "Timothy Galloway",
+    "Jada Kaufman"
+}
 --
 --[[ Framework specific functions ]]--
 --
@@ -27,6 +49,7 @@ function getPlayerIdentifier(playerId)
 
         return -1
     else
+        -- CUSTOM
         local char = exports["usa-characters"]:GetCharacter(playerId)
         if not char then
             return
@@ -42,6 +65,7 @@ function getPlayerMoney(playerId)
     elseif framework == 'QB' then
         return QBCore.Functions.GetPlayer(playerId).PlayerData.money.cash
     else
+        -- CUSTOM
         local char = exports["usa-characters"]:GetCharacter(playerId)
         return char.get("bank")
     end
@@ -54,6 +78,7 @@ function removePlayerMoney(playerId, amount)
         local Player = QBCore.Functions.GetPlayer(playerId)
         Player.Functions.RemoveMoney('cash', amount)
     else
+        -- CUSTOM
         local char = exports["usa-characters"]:GetCharacter(playerId)
         char.set("bank", char.get("bank") - amount)
         TriggerClientEvent("usa:notify",playerId, "$"..amount.." has been ~r~removed~w~ from your bank account.")
@@ -67,6 +92,7 @@ function givePlayerMoney(playerId, amount)
         local Player = QBCore.Functions.GetPlayer(playerId)
         Player.Functions.AddMoney('cash', amount)
     else
+        -- CUSTOM
         local char = exports["usa-characters"]:GetCharacter(playerId)
         char.set("bank", char.get("bank") + amount)
         TriggerClientEvent("usa:notify",playerId, "$"..amount.." has been ~g~added~w~ to your bank account.")
@@ -75,10 +101,11 @@ end
 
 function giveItem(playerId, itemId, amount)
     if framework == 'ESX' then
-        return
+
     elseif framework == 'QB' then
-        return
+
     else
+        -- CUSTOM
         local char = exports["usa-characters"]:GetCharacter(playerId)
         local item = {
             name = itemId,
@@ -118,66 +145,103 @@ function giveItem(playerId, itemId, amount)
     end
 end
 
--- Use this variable if you want to set the player as police with an event from another resource.
-local isPolice
-
-AddEventHandler('rahe-boosting:isPlayerPolice', function(isPolice)
-    local char = exports["usa-characters"]:GetCharacter(source)
-	local job = char.get("job")
-	if job == 'sheriff' or job == "corrections" then
-        isPolice = true
-    else
-        isPolice = false
-    end
-end)
-
 -- Use this variable if you want to set the police count with an event from another resource. If it's not nil, it will be used.
 local policeCount
 
 function getOnDutyPoliceAmount()
-    exports.globals:getNumCops(function(num)
-        policeCount = num
-    end)
-    if policeCount == nil then
-        policeCount = 0
+    if policeCount or framework == 'QB' then
+        if not policeCount then -- If the QB framework has yet not set the police count.
+            policeCount = 0
+        end
+
+        return policeCount
+    elseif framework == 'ESX' then
+        return exports["esx_service"]:GetInServiceCount("police")
+    else
+        -- CUSTOM
+        exports.globals:getNumCops(function(num)
+            policeCount = num
+        end)
+        if policeCount == nil then
+            policeCount = 0
+        end
+        return policeCount
     end
-    return policeCount
 end
+
+-- This is event is only relevant if you're using QB. If you're using QB, please check the readme to make sure you have triggered this event in qb-policejob.
+AddEventHandler('police:SetCopCount', function(amount)
+    policeCount = amount
+end)
 
 --
 --[[ General]]--
 --
 
 function notifyPlayer(playerId, message, type)
-    TriggerClientEvent("usa:notify", playerId, message)
+    -- TriggerClientEvent("usa:notify", playerId, message)
+    TriggerClientEvent('rahe-boosting:client:notify', playerId, message, type)
 end
 
 -- The event which will be triggered when a player successfully completes his VIN scratch boosting contract.
 -- This event must be used to give a vehicle to the player.
-AddEventHandler('rahe-boosting:server:vinScratchSuccessful', function(playerId, vehicleModel, vehicleModelName, licensePlate, vehicleProperties)
-	local char = exports["usa-characters"]:GetCharacter(playerId)
-    local vehInfo = exports["usa_carshop"]:GetVehicleByHashName(vehicleModel)
-    local vehicle = {
-        owner = char.getFullName(),
-        make = vehInfo.make,
-        model = vehInfo.model,
-        hash = vehInfo.hash,
-        plate = licensePlate,
-        stored = true,
-        price = vehInfo.price * 0.05,
-        inventory = exports["usa_vehinv"]:NewInventory(vehInfo.storage_capacity),
-        storage_capacity = vehInfo.storage_capacity,
-        isVinScratched = true
-    }
-    local vehicle_key = {
-        name = "Key -- " .. licensePlate,
-        quantity = 1,
-        type = "key",
-        owner = char.getFullName(),
-        make = vehInfo.make,
-        model = vehInfo.model,
-        plate = licensePlate
-    }
+AddEventHandler('rahe-boosting:server:vinScratchSuccessful', function(playerId, vehicleModel, vehicleModelName, licensePlate, vehicleProperties, contractOwnerIdentifier)
+    local char = exports["usa-characters"]:GetCharacter(playerId)
+    local vehInfo = nil
+    local vehicle, vehicle_key
+    local restrictedVehModel = {'taxi', 'DABABY','rumpo'} -- Added a vehicle you want to get VIN Scratched? Be sure to add it to this list mofo.
+    if vehicleModel ~= restrictedVehModel then
+        vehInfo = exports["usa_carshop"]:GetVehicleByHashName(vehicleModel)
+        -- print("Vehicle Model is ["..vehicleModel.."] and was not a restricted vehicle. Assigning info") -- debug
+    end
+    -- print(vehInfo) -- debug
+    if vehInfo ~= nil then
+        -- print("VehInfo has data, now attaching attributes") -- debug
+        vehicle = {
+            owner = char.getFullName(),
+            make = vehInfo.make,
+            model = vehInfo.model,
+            hash = vehInfo.hash,
+            plate = licensePlate,
+            stored = true,
+            price = vehInfo.price * 0.05,
+            inventory = exports["usa_vehinv"]:NewInventory(vehInfo.storage_capacity),
+            storage_capacity = vehInfo.storage_capacity,
+        }
+        vehicle_key = {
+            name = "Key -- " .. licensePlate,
+            quantity = 1,
+            type = "key",
+            owner = char.getFullName(),
+            make = vehInfo.make,
+            model = vehInfo.model,
+            plate = licensePlate
+        }
+        -- print("Vehicle make is ["..vehicle.make.."] and the model is ["..vehicle.model.."].") -- debug
+    else
+        -- print("VehInfo has NO DATA, attaching default attributes") -- debug
+        vehicle = {
+            owner = char.getFullName(),
+            make = vehicleModelName,
+            model = vehicleModelName,
+            hash = vehicleModel,
+            plate = licensePlate,
+            stored = true,
+            price = 0,
+            inventory = exports["usa_vehinv"]:NewInventory(100),
+            storage_capacity = 100,
+        }
+        vehicle_key = {
+            name = "Key -- " .. licensePlate,
+            quantity = 1,
+            type = "key",
+            owner = char.getFullName(),
+            make = vehicleModelName,
+            model = vehicleModelName,
+            plate = licensePlate
+        }
+        -- print("Vehicle make is ["..vehicle.make.."] and the model is ["..vehicle.model.."].") -- debug
+    end
     -- print("The total sell price of this vehicle will be "..vehicle.price) -- DEBUG STUFF FOR WEEPY
     -- add vehicle to database
     exports.usa_carshop:AddVehicleToDB(vehicle)
@@ -185,8 +249,18 @@ AddEventHandler('rahe-boosting:server:vinScratchSuccessful', function(playerId, 
     local vehs = char.get("vehicles")
     table.insert(vehs, vehicle.plate)
     char.set("vehicles", vehs)
+    -- Add vehicles to MySQL for boosting vehicles
+    MySQL.insert('INSERT INTO boosted_vehicles (owner_id, local_owner, vehicle, hash, plate, price) VALUES (?, ?, ?, ?, ?, ?)', {
+        char.get("_id"),
+        randomnames[math.random(#randomnames)],
+        vehicleModel,
+        GetHashKey(vehicleModel),
+        licensePlate,
+        vehicle.price
+    })
+    print("Vehicle successfully added to DB")
     -- notify
-    TriggerClientEvent("usa:notify", playerId, "Your vehicle has been dropped off.")
+    notifyPlayer(playerId, "Your vehicle has been dropped off.", G_NOTIFICATION_TYPE_SUCCESS)
 end)
 
 -- Testing Phase
@@ -208,7 +282,7 @@ end)
 function isPlayerSuperUser(playerIdentifier, playerId)
     local user = exports.essentialmode:getPlayerFromId(playerId)
     local ugroup = user.getGroup()
-    local allowed = {"owner"}
+    local allowed = {"owner", "superadmin"}
     for i = 1, #allowed do
         if allowed[i] == ugroup then
             return true

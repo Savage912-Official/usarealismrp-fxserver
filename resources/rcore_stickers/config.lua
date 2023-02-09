@@ -423,6 +423,12 @@ Config.Stickers = {
                 flip = false,
                 dict = 'japanese'
             }, 
+			{
+                name = 'Dragon',
+                price = 140,
+                flip = false,
+                dict = 'japanese'
+            }, 
         }
     },
     {
@@ -669,6 +675,78 @@ Config.Stickers = {
             },
 			{
                 name = 'Peekabo',
+                price = 95,
+                flip = false,
+                dict = 'others'
+            },
+			{
+                name = 'I Eat Ass',
+                price = 95,
+                flip = false,
+                dict = 'others'
+            },
+			{
+                name = 'Sunflower',
+                price = 95,
+                flip = false,
+                dict = 'others'
+            },
+			{
+                name = 'Sunflower 2',
+                price = 95,
+                flip = false,
+                dict = 'others'
+            },
+			{
+                name = 'Sunflower 3',
+                price = 95,
+                flip = false,
+                dict = 'others'
+            },
+			{
+                name = 'Geometric Patterns 1',
+                price = 95,
+                flip = false,
+                dict = 'others'
+            },
+			{
+                name = 'Geometric Patterns 2',
+                price = 95,
+                flip = false,
+                dict = 'others'
+            },
+			{
+                name = 'Geometric Patterns 3',
+                price = 95,
+                flip = false,
+                dict = 'others'
+            },
+			{
+                name = 'Geometric Patterns 4',
+                price = 95,
+                flip = false,
+                dict = 'others'
+            },
+			{
+                name = 'The Cookie Jar',
+                price = 95,
+                flip = false,
+                dict = 'others'
+            },
+			{
+                name = 'Triple R',
+                price = 95,
+                flip = false,
+                dict = 'others'
+            },
+			{
+                name = 'Chicken Nuggets',
+                price = 95,
+                flip = false,
+                dict = 'others'
+            },
+			{
+                name = 'Kuromi',
                 price = 95,
                 flip = false,
                 dict = 'others'

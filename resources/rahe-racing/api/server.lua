@@ -209,6 +209,7 @@ supportedVehicles = {
     { name = "Mercedes-Benz AMG GT" , model = "rr20amggt", class = "S" },
     { name = "Dodge Charger (Redeye)" , model = "chr20" , class = "S" },
     { name = "Lamborghini Urus", model = "urustc", class = "S" },
+    { name = "Audi RSQ8 Mansory", model = "rsq8m", class = "S" },
     { name = "2022 Porsche GT3", model = "pgt322", class = "S" },
     { name = "Honda Civic (EG6)", model = "eg6", class = "S" },
     { name = "Honda Civic (EK9)", model = "spoonek", class = "S" },
@@ -224,6 +225,9 @@ supportedVehicles = {
     { name = "Nissan Skyline GT-R V-Spec (R33)", model = "r33vspec", class = "S" },
     { name = "Nissan Skyline GT-R (R32)", model = "r32", class = "S" },
     { name = "1992 Honda NSX", model = "na1", class = "S" },
+    { name = "Ferrari LaFerrari", model = "laferrari", class = "S" },
+    { name = "McLaren P1", model = "p1", class = "S" },
+    { name = "Porsche 918", model = "918", class = "S" },
     -- A Class:**
     { name = "Sultan RS", model = "sultanrs", class = "A" },
     { name = "Annis Elegy Retro", model = "elegy", class = "A" },
@@ -529,6 +533,8 @@ supportedVehicles = {
     { name = "GMC Denali", model = "denali18", class = "B" },
     { name = "Dodge Ram TRX", model = "dodgetrx", class = "B" },
     { name = "Ford F100 Slammed", model = "slammedf100", class = "B" },
+    { name = "2009 Ford Focus RS", model = "09fordRS", class = "B" },
+    { name = "2017 Ford Focus RS", model = "17fordRS", class = "B" },
     { name = "Dababy Car", model = "dababy", class = "B" },
     { name = "Ford Mach E", model = "mache", class = "E" }, -- ELECTRIC
     { name = "Audi e-tron GT", model = "ocnetrongt", class = "E" }, -- ELECTRIC
@@ -536,7 +542,6 @@ supportedVehicles = {
     { name = "Harley Davidson Road King", model = "na25", class = "B" },
     { name = "2022 Sur Ron Lightbee Pxx", model = "22Surron", class = "B" },
     { name = "Ford F100 Trophy", model = "f100trophy", class = "B" },
-    { name = "Audi RSQ8 Mansory", model = "rsq8m", class = "B" },
     { name = "Progen Proff", model = "proff", class = "B" },
     { name = "Dodge Ram 1500 Custom", model = "gcram1500", class = "B" },
     { name = "Spyker C8", model = "spyker", class = "B" },

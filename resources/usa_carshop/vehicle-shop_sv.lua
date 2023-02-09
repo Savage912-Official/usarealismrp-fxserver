@@ -175,7 +175,7 @@ local vehicleShopItems = {
 			{make = "Declasse", model = "Silver-Star (Lowrider)", price = 50000, hash = "silverstar2", storage_capacity = 210.0},
 			{make = "Declasse", model = "Draugur", price = 110000, hash = "draugur", storage_capacity = 90.0},
 			{make = "BF", model = "Weevil Custom", price = 90000, hash = "weevil2", storage_capacity = 90.0},
-			{make = "Dinka", model = "Winky", price = 25000, hash = 'winky', storage_capacity = 100.0},
+			{make = "Dinka", model = "Winky", price = 25000, hash = 'winky', storage_capacity = 180.0},
 		},
 		["Motorcycles"] = {
 			{make = "Pegassi", model = "Faggio", price = 2069, hash = -1842748181, storage_capacity = 30.0},
@@ -497,6 +497,7 @@ local vehicleShopItems = {
 			{make = "Ferrari", model = "F12", price = 850000, hash = "rmodf12tdf", storage_capacity = 130.0},
 			{make = "Ferrari", model = "F40", price = 1200000, hash = "rmodf40", storage_capacity = 130.0},
 			{make = "Ferrari", model = "FXXK (NOT ROAD LEGAL)", price = 2400000, hash = "fxxk", storage_capacity = 120.0},
+			{make = "Ferrari", model = "LaFerrari", price = 1500000, hash = "laferrari", storage_capacity = 130.0},
 			--
 			{make = "Ford", model = "Bronco (1980)", price = 50000, hash = "80bronco", storage_capacity = 300.0},
 			{make = "Ford", model = "Bronco Wildtrak (2021)", price = 140000, hash = "wildtrak", storage_capacity = 300.0},
@@ -595,6 +596,7 @@ local vehicleShopItems = {
 			--
 			{make = "Mclaren", model = "600LT", price = 500000, hash = "600lt", storage_capacity = 145.0},
 			{make = "Mclaren", model = "Elva", price = 2300000, hash = "elva", storage_capacity = 145.0},
+			{make = "Mclaren", model = "P1", price = 1600000, hash = "p1", storage_capacity = 125.0},
 			{make = "Mclaren", model = "Senna", price = 2000000, hash = "sennas", storage_capacity = 125.0},
 			{make = "Mclaren", model = "Senna GTR (NOT ROAD LEGAL)", price = 2200000, hash = "sennasgtr", storage_capacity = 120.0},
 			--
@@ -631,6 +633,7 @@ local vehicleShopItems = {
 			{make = "Porsche", model = "356", price = 100000, hash = "356ac", storage_capacity = 165.0},
 			{make = "Porsche", model = "911 Turbo S", price = 280000, hash = "pts21", storage_capacity = 160.0},
 			{make = "Porsche", model = "911 (1973)", price = 60000, hash = "porrs73", storage_capacity = 165.0},
+			{make = "Porsche", model = "918", price = 1400000, hash = "918", storage_capacity = 120.0},
 			{make = "Porsche", model = "928 GTS (1993)", price = 60000, hash = "928gts", storage_capacity = 160.0},
 			{make = "Porsche", model = "GT1", price = 3850000, hash = "gt1", storage_capacity = 130.0},
 			{make = "Porsche", model = "GT3", price = 280000, hash = "pgt3", storage_capacity = 160.0},
@@ -1062,7 +1065,7 @@ AddEventHandler("vehShop:sellVehicle", function(toSellVehicle)
 	-- check if MySQL data exists
 	if not boostvehicle[1] then
 		c = false
-	else 
+	else
 		c = true
 	end
 	-- if value found in SQL data, then set price for VIN scratched vehicle

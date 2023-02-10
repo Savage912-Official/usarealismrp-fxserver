@@ -92,7 +92,7 @@ local markets = {
     ['pedHash'] = 'mp_m_g_vagfun_01'
   },
   ['marketD'] = {
-    ['coords'] = {113.24684906006, -1967.5310058594, 21.317762374878}, -- Grove St. house interior /gotoc 113.24684906006 -1967.5310058594 21.317762374878
+    ['coords'] = {112.30765533447, -1961.1926269531, 20.95094871521}, -- Grove St.
     ['items'] = {
       { name = "Large Firework", type = "misc", price = 2000, legality = "illegal", quantity = 1, weight = 15, stock = math.random(1, 10), objectModel = "ind_prop_firework_03" },
       { name = "Firework Gun", type = "weapon", hash = 2138347493, price = 5000, legality = "illegal", quantity = 1, weight = 50, stock = math.random(1, 3), objectModel = "w_lr_firework" },

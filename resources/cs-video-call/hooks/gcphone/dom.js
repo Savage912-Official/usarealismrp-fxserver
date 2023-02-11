@@ -44,4 +44,4 @@ jQuery('body').on('DOMSubtreeModified', event => {
         window.CS_VIDEO_CALL.unhookDocument()
 })
 
-window.CS_VIDEO_CALL.setUsingMouse(window.localStorage.gc_mouse === 'true') // Informing cs-video-call that the phone is using NUI mouse.
+window.CS_VIDEO_CALL.setUsingMouse(window.localStorage.getItem('gc_mouse') === 'true' || window.localStorage.getItem('gks_app') ? true : false) // Informing cs-video-call that the phone is using NUI mouse.

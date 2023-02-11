@@ -207,20 +207,20 @@ locations = {
 	},
 	["Tuner Shop"] = {
 		duty = {
-			x = 153.05549621582, 
-			y = -3050.2783203125, 
+			x = 153.05549621582,
+			y = -3050.2783203125,
 			z = 6.0408916473389,
 		},
 		truck_spawn = {
-			x = 165.74934387207, 
-			y = -3049.3461914063, 
+			x = 165.74934387207,
+			y = -3049.3461914063,
 			z = 5.8909130096436,
 			heading = 267.5
 		},
 		impound = nil,
 		ped = {
-			x = 153.05549621582, 
-			y = -3050.2783203125, 
+			x = 153.05549621582,
+			y = -3050.2783203125,
 			z = 7.0408916473389,
 			heading = 30.1
 		},
@@ -230,18 +230,18 @@ locations = {
 	},
 	["Vespucci PD"] = {
 		duty = {
-			x = -1058.3012695313, 
-			y = -840.30407714844, 
-			z = 4.2009510993958
+			x = -1044.7526,
+			y = -843.0539,
+			z = 5.0417
 		},
 		impound = {
-			x = -1049.2827148438, 
-			y = -863.85809326172, 
+			x = -1049.2827148438,
+			y = -863.85809326172,
 			z = 3.5
 		},
 		truck_spawn = {
-			x = -1051.6624755859, 
-			y = -847.31860351563, 
+			x = -1051.6624755859,
+			y = -847.31860351563,
 			z = 4.8675470352173,
 			heading = 217.0
 		},
@@ -252,13 +252,13 @@ locations = {
 	},
 	["Greenwich PW."] = {
 		duty = {
-			x = -1140.01, 
-			y = -2005.84, 
+			x = -1140.01,
+			y = -2005.84,
 			z = 13.18,
 		},
 		truck_spawn = {
-			x = -1150.46, 
-			y = -1981.68, 
+			x = -1150.46,
+			y = -1981.68,
 			z = 13.16,
 			heading = 310.64
 		},
@@ -286,8 +286,68 @@ locations = {
 			disable_blip = true
 		}
 	},
+	["Luxury Auto"] = {
+		duty = {
+			x = -1248.69,
+			y = -350.80,
+			z = 36.92
+		},
+		truck_spawn = {
+			x = -1266.36,
+			y = -301.59,
+			z = 39.68,
+			heading = 206.31
+		},
+		impound = nil,
+		ped = nil,
+		show_blip = {
+			disable_blip = true
+		}
+	},
+	["Atomic Auto"] = {
+		duty = {
+			x = 478.21,
+			y = -1876.95,
+			z = 26.09
+		},
+		truck_spawn = {
+			x = 476.67,
+			y = -1868.62,
+			z = 26.89,
+			heading = 299.0
+		},
+		impound = nil,
+		ped = nil,
+		show_blip = {
+			disable_blip = true
+		}
+	},
+	["Benny's"] = {
+		duty = {
+			x = -224.849609375,
+			y = -1314.9272460938,
+			z = 30.301332473755,
+		},
+		truck_spawn = {
+			x = -240.69104003906,
+			y = -1346.2185058594,
+			z = 31.035608291626,
+			heading = 89.5
+		},
+		impound = nil,
+		ped = {
+			x = -224.849609375,
+			y = -1314.9272460938,
+			z = 32.301332473755,
+			heading = 230.1,
+			model = "mpf_bennymech_01"
+		},
+		show_blip = {
+			disable_blip = false
+		}
+	}
 }
-	
+
 -- S P A W N  J O B  P E D S
 local createdJobPeds = {}
 Citizen.CreateThread(function()
@@ -314,8 +374,8 @@ Citizen.CreateThread(function()
 						TaskStartScenarioInPlace(ped, "WORLD_HUMAN_CLIPBOARD", 0, true)
 						createdJobPeds[name] = ped
 					end
-				else 
-					if createdJobPeds[name] then 
+				else
+					if createdJobPeds[name] then
 						DeletePed(createdJobPeds[name])
 						createdJobPeds[name] = nil
 					end
@@ -347,7 +407,7 @@ Citizen.CreateThread(function()
 	local timeout = 0
 	while true do
 		Wait(0)
-		
+
 		if IsControlJustPressed(0, KEYS.E) then
 			Wait(500)
 			if IsControlPressed(0, KEYS.E) then
@@ -384,7 +444,7 @@ Citizen.CreateThread(function()
 			end
 		end
 
-		
+
 		if IsControlJustPressed(0, KEYS.V) and GetLastInputMethod(0) and onDuty == "yes" then
 			Wait(500)
 			if IsControlPressed(0, KEYS.V) then
@@ -407,7 +467,7 @@ Citizen.CreateThread(function()
 	while true do
 		local me = PlayerPedId()
 		if onDuty == "yes" then
-			if IsPedInAnyVehicle(me) then 
+			if IsPedInAnyVehicle(me) then
 				local veh = GetVehiclePedIsIn(me, false)
 				local vehModel = GetEntityModel(veh)
 				if vehModel == GetHashKey("flatbed") or vehModel == GetHashKey("isgtow") then
@@ -423,7 +483,7 @@ Citizen.CreateThread(function()
 					exports.globals:notify("You are about to be kicked from the mechanic job! Get back to work!")
 					warnedKick = true
 				end
-			elseif timeSinceLastDoingJob >= TIME_KICK_MINUTES * 60000 then 
+			elseif timeSinceLastDoingJob >= TIME_KICK_MINUTES * 60000 then
 				exports.globals:notify("You have been removed from the tow job!")
 				TriggerServerEvent("tow:forceRemoveJob")
 			end
@@ -558,10 +618,10 @@ AddEventHandler("mechanic:repairJobCheck", function()
 					exports.globals:notify("Vehicle does not need repairs!")
 				end
 			end
-		else 
+		else
 			exports.globals:notify("Must be outside vehicle!")
 		end
-	else 
+	else
 		exports.globals:notify("Please wait!")
 	end
 end)
@@ -577,12 +637,12 @@ AddEventHandler("mechanic:repair", function(repairCount)
 					print("repair succeeded!")
 					TriggerServerEvent("mechanic:vehicleRepaired")
 					exports.globals:notify("Vehicle repaired!")
-				else 
+				else
 					print("repair failed")
 					exports.globals:notify("Vehicle repair failed!")
 				end
 			end)
-		else 
+		else
 			exports.globals:notify("No vehicle found!")
 		end
 		isRepairing = false

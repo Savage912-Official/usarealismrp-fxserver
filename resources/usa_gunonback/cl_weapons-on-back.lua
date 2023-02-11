@@ -19,6 +19,7 @@ local SETTINGS = {
       ["w_ar_carbinerifle"] = -2084633992,
       ["w_ar_carbineriflemk2"] = GetHashKey("WEAPON_CARBINERIFLE_Mk2"),
       ["w_ar_assaultrifle"] = -1074790547,
+      ["w_ar_assaultrifle"] = GetHashKey("WEAPON_AKORUS"),
       ["w_ar_specialcarbine"] = -1063057011,
       ["w_ar_bullpuprifle"] = 2132975508,
       ["w_ar_advancedrifle"] = -1357824103,

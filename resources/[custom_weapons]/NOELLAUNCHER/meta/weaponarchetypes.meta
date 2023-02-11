@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<CWeaponModelInfo__InitDataList>
+	<InitDatas>
+		
+	
+		<Item>
+			<modelName>w_lr_noellauncher</modelName>
+			<txdName>w_lr_noellauncher</txdName>
+			<ptfxAssetName>wpn_indep_firework</ptfxAssetName>
+			<lodDist value="500"/>
+		</Item>
+		<Item>
+			<modelName>w_lr_noellauncher_rocket</modelName>
+			<txdName>w_lr_noellauncher_rocket</txdName>
+			<ptfxAssetName>proj_indep_firework</ptfxAssetName>
+			<lodDist value="300"/>
+		</Item>
+	</InitDatas>
+</CWeaponModelInfo__InitDataList>

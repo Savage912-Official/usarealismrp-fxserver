@@ -1,3 +1,5 @@
+-- basically just using this script for the /dcs command since new player list (fax-scoreboard)
+
 local _menuPool = NativeUI.CreatePool()
 local mainMenu = NativeUI.CreateMenu("Players", "~b~View online players", 1400 --[[X COORD]], -10 --[[Y COORD]])
 local dcMenu = NativeUI.CreateMenu("Players", "~b~View disconnected players", 1400 --[[X COORD]], -10 --[[Y COORD]])
@@ -23,9 +25,11 @@ Citizen.CreateThread(function()
 		_menuPool:DisableInstructionalButtons(false)
 		_menuPool:WidthOffset(-40)
 		_menuPool:ProcessMenus()
+		--[[
 		if IsControlJustPressed(0, playerlist.key) and GetLastInputMethod(0) then
 			TriggerServerEvent('playerlist:getPlayers')
 		end
+		--]]
 	end
 end)
 

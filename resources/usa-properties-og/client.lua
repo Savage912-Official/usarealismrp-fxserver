@@ -98,6 +98,8 @@ end)
 RegisterNetEvent("properties:storeVehicle")
 AddEventHandler("properties:storeVehicle", function()
     local veh = GetVehiclePedIsIn(GetPlayerPed(-1), true)
+    local underglowEnabled = isUnderglowOn(veh)
+	local underglowR, underglowG, underglowB = GetVehicleNeonLightsColour(veh)
     local plate = GetVehicleNumberPlateText(veh)
     plate = exports.globals:trim(plate)
     TriggerEvent("usa:notify", "~g~Vehicle stored!")
@@ -118,6 +120,12 @@ AddEventHandler("properties:storeVehicle", function()
     Citizen.InvokeNative(0xEA386986E786A54F, Citizen.PointerValueIntInitialized(veh))
     -- save fuel
     TriggerServerEvent("fuel:save", plate)
+    -- save underglow
+    if underglowEnabled then
+        -- save underglow color (cause it can be changed with the RGB controller)
+        TriggerServerEvent("mechanic:saveUnderglow", plate, underglowR, underglowG, underglowB)
+    end
+
 end)
 
 -- retrieving vehicle --
@@ -151,6 +159,9 @@ AddEventHandler("properties:retrieveVehicle", function(vehicle)
     SetEntityAsMissionEntity(vehicle, true, true)
     SetVehicleHasBeenOwnedByPlayer(vehicle, true)
     SetVehicleExplodesOnHighExplosionDamage(vehicle, false)
+
+    -- Vehicle Wheel Fitment
+	exports['ae-fitment']:GetWheelFitment(vehicle, playerVehicle.plate)
 
     -- car customizations
     if playerVehicle.customizations then
@@ -887,4 +898,14 @@ function RemoveBlips()
     for i = 1, #currentMapBlips do
         RemoveBlip(currentMapBlips[i])
     end
+end
+
+function isUnderglowOn(veh)
+	local indexes = {0, 1, 2, 3}
+	for i = 1, #indexes do
+		if IsVehicleNeonLightEnabled(veh, indexes[i]) then
+			return true
+		end
+	end
+	return false
 end

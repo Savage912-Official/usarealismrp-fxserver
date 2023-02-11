@@ -125,16 +125,22 @@ RegisterClientCallback {
 }
 
 RegisterNetEvent("search:attemptToSearchNearestPerson")
-AddEventHandler("search:attemptToSearchNearestPerson", function()
-  TriggerEvent("usa:getClosestPlayer", 1.6, function(player)
-    if player.id ~= 0 and IsEntityVisible(GetPlayerPed(GetPlayerFromServerId(player.id))) then
-      TriggerServerEvent("search:foundPlayerToSearch", player.id)
-    elseif IsPedInAnyVehicle(PlayerPedId(), false) then
-      TriggerEvent("veh:searchVeh")
-    else
-      TriggerEvent("usa:notify", "No person found to search!")
+AddEventHandler("search:attemptToSearchNearestPerson", function(playerId)
+  if playerId then
+    if IsEntityVisible(GetPlayerPed(GetPlayerFromServerId(playerId))) then
+      TriggerServerEvent("search:foundPlayerToSearch", playerId)
     end
-  end)
+  else
+    TriggerEvent("usa:getClosestPlayer", 1.6, function(player)
+      if player.id ~= 0 and IsEntityVisible(GetPlayerPed(GetPlayerFromServerId(player.id))) then
+        TriggerServerEvent("search:foundPlayerToSearch", player.id)
+      elseif IsPedInAnyVehicle(PlayerPedId(), false) then
+        TriggerEvent("veh:searchVeh")
+      else
+        TriggerEvent("usa:notify", "No person found to search!")
+      end
+    end)
+  end
 end)
 
 RegisterNetEvent("search:searchNearest")

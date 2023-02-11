@@ -2,9 +2,6 @@ const _CSS_notchOffset = '12.5%' // If your phone is using a skin with a notch y
 const _CSS_bottomToTop = '5px' // The distance from bottom to top to animate the bottom elements to.
 const _CSS_topToBottom = '15px' // The distance from top to bottom to animate the top elements to.
 
-if ((!window.ESX) || (!window.ESX.Phone) || (!window.ESX.Phone.functions))
-    throw new Error('[criticalscripts.shop] cs-stories could not be hooked to your phone. Make sure you are using the correct hook.')
-
 jQuery('body').on('click', '.phone-go-home', () => window.CS_STORIES.onHome()) // Calling this if the phone directs us to go back to the home view.
 jQuery('body').on('click', '.phone-go-back', () => window.CS_STORIES.onBack()) // Calling this if the phone directs us to go back on the previous view.
 
@@ -114,7 +111,7 @@ window.CS_STORIES.hookInterface = () => {
 
     // If you want to edit the app's name or color you may do so here.
     const _CSS_button = jQuery(`
-        <div class="app" data-app="cs-stories" style="background: linear-gradient(to bottom, #ee015f, #ff015f)">
+        <div class="app" data-app="cs-stories" style="background: linear-gradient(to bottom, #ee015f, #ff015f); border-radius: 10px">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="height: 65%; fill: white; margin-top: 15%"><path d="M 12 2 A 2 2 0 0 0 10 4 A 2 2 0 0 0 12 6 A 2 2 0 0 0 14 4 A 2 2 0 0 0 12 2 z M 12 7 C 9.269 7 7 7.9087969 7 9.2167969 L 7 10 L 6 10 C 4.9069372 10 4 10.906937 4 12 L 4 20 C 4 21.093063 4.9069372 22 6 22 L 18 22 C 19.093063 22 20 21.093063 20 20 L 20 12 C 20 10.906937 19.093063 10 18 10 L 17 10 L 17 9.2167969 C 17 7.9087969 14.731 7 12 7 z M 6 12 L 18 12 L 18 20 L 15.962891 20 C 15.77054 18.812134 14.05927 18 12 18 C 9.9407301 18 8.2294596 18.812134 8.0371094 20 L 6 20 L 6 12 z M 12 13 A 2 2 0 0 0 10 15 A 2 2 0 0 0 12 17 A 2 2 0 0 0 14 15 A 2 2 0 0 0 12 13 z"></path></svg>
             <p class="name">Stories</p>
             <div class="notifications"><span></span></div>
@@ -158,7 +155,7 @@ window.CS_STORIES.getStoryTemplate = (story, lang) => { // Each individual story
 
 jQuery('body').on('DOMSubtreeModified', event => {
     // If you want to edit the app's position you may do so here.
-    if (jQuery('.cs-stories-button').length === 0 && jQuery('.mainapps > .app').length >= 4) {
+    if (jQuery('.cs-stories-button').length === 0 && jQuery('.mainapps > .app').length >= 5) {
         window.CS_STORIES.unhookDocument()
         window.CS_STORIES.hookDocument()
     }
@@ -168,5 +165,5 @@ window.addEventListener('message', event => {
     const data = event.data
 
     if (data.type === 'cs-stories:high-phone:notify')
-        window.ESX.Phone.functions.sendNotification('fas fa-camera', '#ff015f', 'Stories', data.message, data.timeoutMs)
+        window.HR.Phone.functions.sendNotification('fas fa-camera', '#ff015f', 'Stories', data.message, data.timeoutMs)
 })

@@ -1,3 +1,8 @@
+local robbedATMs = {}
+local players_that_blew_atm = {}
+local ATM_ROBBED_TIMEOUT_HOURS = 4
+local NUM_COPS_REQUIRED = 2
+
 -- HELPER FUNCTIONS
 function bankBalance(player)
 	return exports["usa-characters"]:GetCharacterField(player, "bank")
@@ -207,8 +212,18 @@ AddEventHandler("bank:showBankBalance", function()
 end)
 
 RegisterServerEvent("bank:getBalanceForGUI")
-AddEventHandler("bank:getBalanceForGUI", function()
-	TriggerClientEvent("bank:getBalanceForGUI", source, exports["usa-characters"]:GetCharacterField(source, "bank"))
+AddEventHandler("bank:getBalanceForGUI", function(coords)
+	local canUse = true
+	if robbedATMs[coords] ~= nil then
+    	if GetGameTimer() - robbedATMs[coords] < ATM_ROBBED_TIMEOUT_HOURS * 3600000 then
+    		canUse = false
+    	end
+    end
+    if canUse then
+		TriggerClientEvent("bank:getBalanceForGUI", source, exports["usa-characters"]:GetCharacterField(source, "bank"))
+	else
+		TriggerClientEvent("usa:notify", source, "This ATM looks damaged!")
+	end
 end)
 
 TriggerEvent('es:addCommand', 'bank', function(source, args, char)
@@ -226,3 +241,76 @@ function comma_value(amount)
 	end
 	return formatted
 end
+
+RegisterServerEvent("banking:checkATMBlow")
+AddEventHandler("banking:checkATMBlow", function(coords)
+	local src = source
+    local char = exports["usa-characters"]:GetCharacter(source)
+    local canRob = true
+    if robbedATMs[coords] ~= nil then
+    	if GetGameTimer() - robbedATMs[coords] < ATM_ROBBED_TIMEOUT_HOURS * 3600000 then
+    		canRob = false
+    	end
+    end
+    exports.globals:getNumCops(function(numCops)
+	    if numCops >= NUM_COPS_REQUIRED and canRob then
+	        if char.hasItem("Thermite") then
+	            robbedATMs[coords] = GetGameTimer()
+	            char.removeItem("Thermite", 1)
+	            TriggerClientEvent("banking:blowATM", src)
+	        else
+	            TriggerClientEvent("usa:notify", src, "You have no thermite!")
+	        end
+	    else 
+	        TriggerClientEvent('usa:notify', src, 'The ATM looks damaged!')
+	    end
+	end)
+end)
+
+RegisterServerEvent("banking:checkATMDrill")
+AddEventHandler("banking:checkATMDrill", function(coords)
+	local src = source
+	local canRob = true
+	if robbedATMs[coords] ~= nil then
+    	if GetGameTimer() - robbedATMs[coords] < ATM_ROBBED_TIMEOUT_HOURS * 3600000 then
+    		canRob = false
+    	end
+    end
+    exports.globals:getNumCops(function(numCops)
+		if numCops >= NUM_COPS_REQUIRED and canRob then
+			TriggerClientEvent("banking:StartDrillATM", src)
+		else
+	        TriggerClientEvent('usa:notify', src, 'The ATM looks damaged!')
+	    end
+	end)
+end)
+
+Citizen.CreateThread(function()
+	while true do
+		for player,timestamp in pairs(players_that_blew_atm) do
+			if GetGameTimer() - timestamp > 120000 then
+				players_that_blew_atm[player] = nil
+			end
+		end
+		Citizen.Wait(1000)
+	end
+end)
+
+RegisterNetEvent("banking:addPlayerToBlowList")
+AddEventHandler("banking:addPlayerToBlowList", function()
+	local src = source
+	local timestamp = GetGameTimer()
+	players_that_blew_atm[src] = timestamp
+end)
+
+RegisterServerEvent("banking:pickupMoney")
+AddEventHandler("banking:pickupMoney", function()
+	local src = source
+	if players_that_blew_atm[src] ~= nil then
+		local money = math.random(300,2000)
+		local src = source
+	    local char = exports["usa-characters"]:GetCharacter(source)
+	    char.giveMoney(money)
+		TriggerEvent("usa:notify", src, "You picked up a bundle of $" .. money)
+	end
+end)

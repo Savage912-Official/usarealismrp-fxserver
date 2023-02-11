@@ -4,7 +4,8 @@ RegisterServerEvent("crafting:fetchUnlockedRecipes")
 AddEventHandler("crafting:fetchUnlockedRecipes", function()
     local src = source
     local char = exports["usa-characters"]:GetCharacter(src)
-    local unlockedRecipes = getUnlockedRecipesOfType(char.get("_id"), "weapons")
+    local closest = getClosestStation(src)
+    local unlockedRecipes = getUnlockedRecipesOfType(char.get("_id"), closest.type)
     TriggerClientEvent("crafting:sendNUIMessage", src, {type = "gotUnlockedRecipes", unlockedRecipes = unlockedRecipes})
 end)
 
@@ -106,17 +107,19 @@ function getNumberOfSuccessfulCraftsOfType(charID, recipeType)
 end
 
 function getCurrentCraftingLevelOfType(numCrafts, recipeType)
+    local ret = 1
     if recipeType == "weapons" then
         if numCrafts <= Config.LEVEL_1_MAX_CRAFT_COUNT then
-            return 1
+            ret = 1
         elseif numCrafts <= Config.LEVEL_2_MAX_CRAFT_COUNT then
-            return 2
+            ret = 2
         elseif numCrafts <= Config.LEVEL_3_MAX_CRAFT_COUNT then
-            return 3
+            ret = 3
         else
-            return 4
+            ret = 4
         end
     end
+    return ret
 end
 
 function getUnlockedRecipesOfType(charID, recipeType)
@@ -125,10 +128,12 @@ function getUnlockedRecipesOfType(charID, recipeType)
     local currentCraftingLevel = getCurrentCraftingLevelOfType(numCrafts, recipeType)
     -- calculate and return list of unlocked recipes
     local unlockedRecipes = {}
-    for i = 1, #Config.recipes[recipeType] do
-        local recipe = Config.recipes[recipeType][i]
-        if recipe.requiredCraftingLevel <= currentCraftingLevel then
-            table.insert(unlockedRecipes, recipe)
+    if Config.recipes[recipeType] then
+        for i = 1, #Config.recipes[recipeType] do
+            local recipe = Config.recipes[recipeType][i]
+            if recipe.requiredCraftingLevel <= currentCraftingLevel then
+                table.insert(unlockedRecipes, recipe)
+            end
         end
     end
     return unlockedRecipes
@@ -179,4 +184,22 @@ function didFailCraft(charID, recipeType)
     else
         return true
     end
+end
+
+function getClosestStation(source)
+    local recordedClosest = {
+        dist = 99999999,
+        stationInfo = nil
+    }
+    local playerCoords = GetEntityCoords(GetPlayerPed(source))
+    for i = 1, #Config.craftingLocations do
+        local dist = #(Config.craftingLocations[i].coords - playerCoords)
+        if dist < recordedClosest.dist then
+            recordedClosest = {
+                dist = dist,
+                stationInfo = Config.craftingLocations[i]
+            }
+        end
+    end
+    return recordedClosest.stationInfo
 end

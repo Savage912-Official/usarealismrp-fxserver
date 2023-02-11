@@ -37,6 +37,10 @@ local MAGAZINE_LOAD_ANIM = {
 
 local MAGS_ENABLED = true
 
+local NO_WEAPON_RELOADS = {
+    [683870287] = true
+}
+
 RegisterNetEvent("ammo:setMagMode")
 AddEventHandler("ammo:setMagMode", function(val, notify)
     MAGS_ENBALED = val
@@ -256,7 +260,7 @@ Citizen.CreateThread(function()
         if IsDisabledControlJustPressed(1, 45) then -- 45 = R
             if GetGameTimer() - lastPressTime >= RELOAD_TIME_MS then
                 lastPressTime = GetGameTimer()
-                if IsPedArmed(PlayerPedId(), 4 | 2) then
+                if IsPedArmed(PlayerPedId(), 4 | 2) and not NO_WEAPON_RELOADS[GetSelectedPedWeapon(PlayerPedId())] then
                     if MAGS_ENBALED then
                         TriggerServerEvent("ammo:checkForMagazine")
                     else

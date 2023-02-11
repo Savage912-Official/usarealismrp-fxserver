@@ -34,14 +34,20 @@ AddEventHandler("crim:blindfold", function(on, dont_send_message, dont_notify)
 end)
 
 RegisterNetEvent("crim:attemptToBlindfoldNearestPerson")
-AddEventHandler("crim:attemptToBlindfoldNearestPerson", function(blindfold)
-  TriggerEvent("usa:getClosestPlayer", 1.5, function(player)
-    if player.id ~= 0 and IsEntityVisible(GetPlayerPed(GetPlayerFromServerId(player.id))) then
-      TriggerServerEvent("crim:foundPlayerToBlindfold", player.id, blindfold)
-    else
-      TriggerEvent("usa:notify", "No person found to blindfold!")
+AddEventHandler("crim:attemptToBlindfoldNearestPerson", function(blindfold, playerId)
+  if playerId then
+    if IsEntityVisible(GetPlayerPed(GetPlayerFromServerId(playerId))) then
+      TriggerServerEvent("crim:foundPlayerToBlindfold", playerId, blindfold)
     end
-  end)
+  else
+    TriggerEvent("usa:getClosestPlayer", 1.5, function(player)
+      if player.id ~= 0 and IsEntityVisible(GetPlayerPed(GetPlayerFromServerId(player.id))) then
+        TriggerServerEvent("crim:foundPlayerToBlindfold", player.id, blindfold)
+      else
+        TriggerEvent("usa:notify", "No person found to blindfold!")
+      end
+    end)
+  end
 end)
 
 RegisterNetEvent("civ:robPlayerIfTiedOrDowned")
@@ -58,14 +64,20 @@ AddEventHandler("civ:robPlayerIfTiedOrDowned", function(fromSrc)
 end)
 
 RegisterNetEvent("crim:attemptToRobNearestPerson")
-AddEventHandler("crim:attemptToRobNearestPerson", function()
-  TriggerEvent("usa:getClosestPlayer", 1.5, function(player)
-    if player.id ~= 0 and IsEntityVisible(GetPlayerPed(GetPlayerFromServerId(player.id))) then
-      TriggerServerEvent("crim:foundPlayerToRob", player.id)
-    else
-      TriggerEvent("usa:notify", "No person found to rob!")
+AddEventHandler("crim:attemptToRobNearestPerson", function(playerId)
+  if playerId then
+    if IsEntityVisible(GetPlayerPed(GetPlayerFromServerId(playerId))) then
+      TriggerServerEvent("crim:foundPlayerToRob", playerId)
     end
-  end)
+  else
+    TriggerEvent("usa:getClosestPlayer", 1.5, function(player)
+      if player.id ~= 0 and IsEntityVisible(GetPlayerPed(GetPlayerFromServerId(player.id))) then
+        TriggerServerEvent("crim:foundPlayerToRob", player.id)
+      else
+        TriggerEvent("usa:notify", "No person found to rob!")
+      end
+    end)
+  end
 end)
 
 RegisterNetEvent("crim:attemptToTieNearestPerson")
@@ -453,59 +465,6 @@ end)
 RegisterNetEvent("civ:resetWalkStyle")
 AddEventHandler("civ:resetWalkStyle", function()
   SetClipset(currentWalkstyle)
-end)
-
-local lastVehicle = {
-  handle = 0,
-  enabled = false,
-  underglow = {}
-}
-
-RegisterNetEvent("civ:toggleUnderglow")
-AddEventHandler("civ:toggleUnderglow", function()
-  --print('underglow!')
-  local playerPed = PlayerPedId()
-  local playerVeh = GetVehiclePedIsIn(playerPed)
-  if GetPedInVehicleSeat(playerVeh, -1) == playerPed then
-    --print('is driver')
-    if playerVeh == lastVehicle.handle then
-      --print('player in old vehicle!')
-      if not lastVehicle.enabled then
-        --print('enabling!')
-        for i = 1, #lastVehicle.underglow do
-          local index = lastVehicle.underglow[i]
-          SetVehicleNeonLightEnabled(playerVeh, index, true)
-        end
-        lastVehicle.enabled = true
-      else
-        --print('disabling!')
-        for i = 0, 3 do
-          SetVehicleNeonLightEnabled(playerVeh, i, false)
-        end
-        lastVehicle.enabled = false
-      end
-    else
-      --print('player is in a new vehicle')
-      if lastVehicle.handle ~= 0 then
-        SetVehicleNeonLightsColour(lastVehicle.handle, r, g, b)
-        for i = 1, #lastVehicle.underglow do
-          local index = lastVehicle.underglow[i]
-          SetVehicleNeonLightEnabled(lastVehicle.handle, index, true)
-        end
-      end
-      for i = 0, 3 do
-        if IsVehicleNeonLightEnabled(playerVeh, i) then
-          table.insert(lastVehicle.underglow, i)
-          lastVehicle.enabled = true
-        end
-      end
-      lastVehicle.handle = playerVeh
-      TriggerEvent('civ:toggleUnderglow')
-      --print('new vehicle added!')
-    end
-  else
-    TriggerEvent('usa:notify', 'You must be the driver to do this!')
-  end
 end)
 
 -- trading/selling vehicles --

@@ -23,6 +23,7 @@ local fuelStations = {
 			{-252.3193, 6319.0859, 39.6596}, -- paleto clinic
 			{-705.84326171875, -1464.5919189453, 5.0427398681641}, -- Shank St & Greenwhich Prkwy Pump 1
 			{-764.34759521484, -1434.9971923828, 5.0576033592224}, -- Shank St & Greenwhich Prkwy Pump 2
+			{-1095.5939, -835.6335, 37.6946, 335.3011} -- vespucci PD
 		}
 	},
 	['Watercraft'] = {

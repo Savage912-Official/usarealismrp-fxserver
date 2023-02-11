@@ -53,8 +53,7 @@ BUSINESSES = {
 		isBeingRobbed = false,
 		lastRobbedTime = 0,
 		price = 30000,
-		purchasePercentage = 0.10,
-		notRobbable = true
+		purchasePercentage = 0.10
 	},
 	["Car Dealership (Harmony)"] = {
 		position = {1234.0, 2737.2, 38.0},
@@ -236,7 +235,7 @@ BUSINESSES = {
 		isBeingRobbed = false,
 		lastRobbedTime = 0,
 		price = 2000,
-		notRobbable = false 
+		notRobbable = false
 	},
 	["247 Supermarket (Barbareno Rd.)"] = {
 		position = {-3244.92, 1000.0, 12.83},
@@ -271,7 +270,7 @@ BUSINESSES = {
 		purchasePercentage = 0.05
 	},
 	["Benny's Auto Garage (Strawberry)"] = {
-		position = {-207.4, -1341.2, 34.9},
+		position = {-195.55, -1319.27, 30.3},
 		cameraID = 'store24',
 		isBeingRobbed = false,
 		lastRobbedTime = 0,
@@ -371,14 +370,6 @@ BUSINESSES = {
 		lastRobbedTime = 0,
 		price = 4500
 	},
-	["Auto Repair (Voodoo Place)"] = {
-		position = {125.19500732422, -3009.8500976563, 7.0408892631531},
-		cameraID = 'store51',
-		isBeingRobbed = false,
-		lastRobbedTime = 0,
-		price = 10500,
-		notRobbable = true
-	},
 	["Otto's Auto Repair (Popular St.)"] = {
 		position = {832.59692382813, -826.30114746094, 26.332597732544},
 		cameraID = 'store50',
@@ -401,6 +392,66 @@ BUSINESSES = {
 		lastRobbedTime = 0,
 		price = 10000,
 		purchasePercentage = 0.05
+	},
+	["General Store (Great Ocean Highway)"] = {
+		position = {-2067.5854492188, -333.97616577148, 13.315826416016},
+		cameraID = 'store54',
+		isBeingRobbed = false,
+		price = 2400,
+		purchasePercentage = 0.05
+	},
+	["General Store (Route 68 (GOH)"] = {
+		position = {-2539.0610351563, 2310.4838867188, 33.221008300781},
+		cameraID = 'store55',
+		isBeingRobbed = false,
+		price = 2400,
+		purchasePercentage = 0.05
+	},
+	["General Store (Paleto Bay)"] = {
+		position = {162.92617797852, 6643.9150390625, 31.687068939209},
+		cameraID = 'store56',
+		isBeingRobbed = false,
+		price = 2400,
+		purchasePercentage = 0.05
+	},
+	["RPG Repair"] = {
+		position = {-782.98, -232.65, 37.08},
+		cameraID = 'store57',
+		isBeingRobbed = false,
+		lastRobbedTime = 0,
+		price = 10000,
+		purchasePercentage = 0.05,
+		notRobbable = true
+	},
+	["Triple R Auto Repair"] = {
+		position = {122.30, -3029.67, 7.04},
+		cameraID = 'store58',
+		isBeingRobbed = false,
+		lastRobbedTime = 0,
+		price = 10000,
+		notRobbable = true
+	},
+	["The Cookie Jar"] = {
+		position = {-207.4, -1341.2, 34.9},
+		cameraID = 'store59',
+		isBeingRobbed = false,
+		lastRobbedTime = 0,
+		price = 10000,
+		notRobbable = true
+	},
+	["Ammunation (Chumash)"] = {
+		position = {-3169.29, 1088.35, 20.83},
+		cameraID = 'store60',
+		isBeingRobbed = false,
+		lastRobbedTime = 0,
+		price = 6500
+	},
+	["Clothing Store (Chumash)"] = {
+		position = {-3173.17, 1055.76, 20.86},
+		cameraID = 'store61',
+		isBeingRobbed = false,
+		lastRobbedTime = 0,
+		price = 6000
 	},
 }
 

@@ -30,18 +30,17 @@ end)
 RegisterServerEvent('k9:smellVehicle')
 AddEventHandler('k9:smellVehicle', function(targetPlate)
 	local userSource = source
-	exports["usa_vehinv"]:GetVehicleInventory(targetPlate, function(inv)
-		for i = 0, inv.MAX_ITEMS - 1 do
-			local item = inv.items[tostring(i)]
-			if item then
-				if IsItemDetectable(item.name) or item.residue then
-					TriggerClientEvent('k9:returnSmell', userSource)
-					return
-				end
+	local inv = exports["usa_vehinv"]:GetVehicleInventory(targetPlate)
+	for i = 0, inv.MAX_ITEMS - 1 do
+		local item = inv.items[tostring(i)]
+		if item then
+			if IsItemDetectable(item.name) or item.residue then
+				TriggerClientEvent('k9:returnSmell', userSource)
+				return
 			end
 		end
-		TriggerClientEvent("usa:notify", userSource, "Dog does not smell anything abnormal")
-	end)
+	end
+	TriggerClientEvent("usa:notify", userSource, "Dog does not smell anything abnormal")
 end)
 
 function IsItemDetectable(itemName)

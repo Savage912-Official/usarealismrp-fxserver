@@ -90,7 +90,7 @@ return function(resource)
         end
     end)
 
-    RegisterNetEvent('cs-stories:high-phone:notify', function(message, timeoutMs)
+    AddEventHandler('cs-stories:high-phone:notify', function(message, timeoutMs)
         SendNUIMessage({
             type = 'cs-stories:high-phone:notify',
             message = message,

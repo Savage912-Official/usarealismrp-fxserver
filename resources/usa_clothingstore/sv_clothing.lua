@@ -49,3 +49,11 @@ AddEventHandler("mini:giveMeMyWeaponsPlease", function()
     	TriggerClientEvent("CS:giveWeapons", source, playerWeapons)
 	end
 end)
+
+RegisterServerCallback { 
+    eventName = "usa_clothingstore:GetSteamHex",
+    eventCallback = function(source)
+		local steam = GetPlayerIdentifiers(source)[1]
+        return steam
+    end
+}

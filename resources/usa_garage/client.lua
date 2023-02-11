@@ -31,7 +31,7 @@ locations = {
 	{ ['x'] = -311.8, ['y'] = 228.2, ['z'] = 87.8, ['noBlip'] = true}, -- studio los santos
 	{ ['x'] = -620.3, ['y'] = 52.7, ['z'] = 43.7, ['noBlip'] = true}, -- Tinsel Towers Apartments
 	{ ['x'] = 364.4, ['y'] = -1700.6, ['z'] = 32.5}, -- court house (davis, LS)
-	{ ["x"] = -1073.4, ["y"] = -879.7, ["z"] = 4.8, ["jobs"] = {"sheriff", "ems", "police", "judge", "corrections"}, ["noBlip"] = true }, -- Vespucci PD
+	{ ["x"] = -1093.6023, ["y"] = -812.4022, ["z"] = 4.8649, ["jobs"] = {"sheriff", "ems", "police", "judge", "corrections"}, ["noBlip"] = true }, -- Vespucci PD
 	{ ["x"] = 817.88757324219, ["y"] = -1356.1462402344, ["z"] = 26.115545272827, ["jobs"] = {"sheriff", "ems", "police", "judge", "corrections"}, ["noBlip"] = true }, -- La Mesa PD
 	{ ['x'] = 1127.5, ['y'] = 2670.8, ['z'] = 38.1, ['noBlip'] = true}, -- Sandy Shores Motel
 	{ ['x'] = 388.5, ['y'] = 2647.6, ['z'] = 44.5, ['noBlip'] = true}, -- Eastern Motel (sandy)
@@ -63,7 +63,7 @@ locations = {
 	{x = 1110.33, y = -780.18, z = 58.34, noBlip = true}, -- mirror park repair shop
 	{x = -1080.6645507813, y = -1257.9010009766, z = 5.5575938224792, noBlip = true},
 	{x = -2187.1748046875, y = 1135.5759277344, z = -23.259094238281, noBlip = true}, -- LS Car Meet
-	{x =  1013.5130004883, y = -2358.1096191406, z = 30.509565353394, noBlip = true}, -- LS Fight Club 
+	{x =  1013.5130004883, y = -2358.1096191406, z = 30.509565353394, noBlip = true}, -- LS Fight Club
 	{x = -424.23614501953, y = -38.142559051514, z = 46.215244293213, noBlip = true}, -- cocaktoos
 	{x = 550.98217773438, y = -206.7356262207, z = 54.104431152344, noBlip = true}, -- auto exotic repair on elgin ave
 	{x = 2524.6560058594, y = 4109.4716796875, z = 38.584625244141, noBlip = true}, -- lunatix garage
@@ -71,7 +71,7 @@ locations = {
 	{x = 813.39111328125, y = -824.33929443359, z = 26.181001663208, noBlip = true}, -- Otto's Auto Repair
 	{x = 142.83195495605, y = -3044.2541503906, z = 7.0408906936646, noBlip = false}, -- Tuner Place MLO
 	{x = -464.47183227539, y = -619.52258300781, z = 31.174465179443, noBlip = false}, -- Shopping Mall Garage
-	{x = -1293.5942382813, y = -274.45895385742, z = 39.047008514404, noBlip = true}, -- Arcade Garage
+	{x = -1293.5942382813, y = -274.45895385742, z = 39.047008514404, noBlip = false}, -- Arcade Garage
 	{x = -100.82892608643, y = 93.411506652832, z = 71.825096130371, noBlip = true}, -- Benefactor
 	{x = -24.549116134644, y = -1024.7790527344, z = 28.883750915527, noBlip = true}, -- PDM
 	{x = -3142.0212402344, y = 1091.0336914063, z = 20.686082839966, noBlip = false}, -- Great Ocean Highway (tattoo Shop)
@@ -79,8 +79,13 @@ locations = {
 	{x = -581.46343994141, y = -242.82208251953, z = 35.965721130371, noBlip = true}, -- Court House, Rockford Drive
     {x = 234.1309, y = -2492.6128, z = 6.5814, noBlip = true}, -- Train Clock in
 	{x = -935.0384, y = -2316.2700, z =  6.7091, noBlip = true}, -- metro Clock in
-	{x = -2315.1484375, y = 283.1760559082, z = 169.46704101563, noBlip = true}, -- plasma kart 
-	{x = 897.21588134766, y = -1019.8331298828, z = 34.966979980469, noBlip = true} -- Auto Repair Place
+	{x = -2315.1484375, y = 283.1760559082, z = 169.46704101563, noBlip = true}, -- plasma kart
+	{x = 897.21588134766, y = -1019.8331298828, z = 34.966979980469, noBlip = true}, -- Auto Repair Place
+	{x = -1669.1839599609, y = -541.4306640625, z = 35.10620880127, noBlip = true},
+	{x = 471.7410, y = -1873.5828, z = 26.8678, noBlip = true}, -- Atomic Autos
+	{x = -1916.8400878906, y = 2030.8366699219, z = 140.73731994629, noBlip = false}, -- Orange Farm
+	{x = 436.27728271484, y = 6529.9682617188, z = 27.877355575562, noBlip = false}, -- Orange Farm Paleto
+	{x = -181.43, y = -1289.32, z = 31.3, noBlip = true} -- Benny's
 }
 
 local VEHICLE_DAMAGES = {}
@@ -97,6 +102,8 @@ Citizen.CreateThread(function()
 end)
 
 local nearbyLocations = {}
+
+local lastUnderglowColorForVeh = {}
 
 -- thread to record nearby locations as an optimization
 Citizen.CreateThread(function()
@@ -150,6 +157,8 @@ end)
 RegisterNetEvent("garage:storeVehicle")
 AddEventHandler("garage:storeVehicle", function()
 	local veh = GetVehiclePedIsIn(GetPlayerPed(-1), true)
+	local underglowEnabled = isUnderglowOn(veh)
+	local underglowR, underglowG, underglowB = GetVehicleNeonLightsColour(veh)
 	local plate = GetVehicleNumberPlateText(veh)
 	plate = exports.globals:trim(plate)
 	exports.globals:notify("Vehicle has been returned to the garage!")
@@ -186,6 +195,13 @@ AddEventHandler("garage:storeVehicle", function()
 		TriggerServerEvent("garage:storeKey", plate)
 		-- save fuel
 		TriggerServerEvent("fuel:save", plate)
+		if underglowEnabled then
+			if hasChangedUnderglowColor(plate, { r = underglowR, g = underglowG, b = underglowB }) then
+				-- save underglow color (cause it can be changed with the RGB controller)
+				TriggerServerEvent("mechanic:saveUnderglow", plate, underglowR, underglowG, underglowB)
+			end
+			lastUnderglowColorForVeh[plate] = nil
+		end
 	end
 end)
 
@@ -239,6 +255,9 @@ AddEventHandler("garage:spawn", function(vehicle)
 		SetVehicleHasBeenOwnedByPlayer(vehicle, true)
 		SetVehicleExplodesOnHighExplosionDamage(vehicle, false)
 
+		-- Vehicle Wheel Fitment
+		exports['ae-fitment']:GetWheelFitment(vehicle, playerVehicle.plate)
+
 		-- car customizations
 		if playerVehicle.customizations then
 			TriggerEvent("customs:applyCustomizations", playerVehicle.customizations)
@@ -273,6 +292,16 @@ AddEventHandler("garage:spawn", function(vehicle)
 			end
 		end
 
+		-- record underglow if applicable (for optimization purposes)
+		if isUnderglowOn(vehicle) then
+			local currentR, currentG, currentB = GetVehicleNeonLightsColour(vehicle)
+			lastUnderglowColorForVeh[plateText] = {
+				r = currentR,
+				g = currentG,
+				b = currentB
+			}
+		end
+
 	end)
 
 end)
@@ -287,4 +316,26 @@ function DrawText3D(x, y, z, text)
 	DrawText(_x,_y)
 	local factor = (string.len(text)) / 470
 	DrawRect(_x,_y+0.0125, 0.015+factor, 0.03, 41, 11, 41, 68)
+end
+
+function isUnderglowOn(veh)
+	local indexes = {0, 1, 2, 3}
+	for i = 1, #indexes do
+		if IsVehicleNeonLightEnabled(veh, indexes[i]) then
+			return true
+		end
+	end
+	return false
+end
+
+function hasChangedUnderglowColor(plate, currentRgb)
+	if lastUnderglowColorForVeh[plate].r ~= currentRgb.r then
+		return true
+	elseif lastUnderglowColorForVeh[plate].g ~= currentRgb.g then
+		return true
+	elseif lastUnderglowColorForVeh[plate].b ~= currentRgb.b then
+		return true
+	else
+		return false
+	end
 end

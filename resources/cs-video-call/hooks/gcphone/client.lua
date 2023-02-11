@@ -1,11 +1,13 @@
 return function(resource)
     local originalSendNUIMessage = _G.SendNUIMessage
     local originalSetNuiFocusKeepInput = _G.SetNuiFocusKeepInput
+    local originalIsEntityPlayingAnim = _G.IsEntityPlayingAnim
     local callWaiting = false
     local callAccepted = false
     local callRejected = false
     local phoneOpen = false
     local lastNuiFocusKeepInputState = false
+    local hasAnimFns = PhonePlayIn and PhonePlayCall and PhonePlayText and PhonePlayOut and true or false
 
     _G.SendNUIMessage = function(data)
         if (data.show ~= nil) then
@@ -23,15 +25,23 @@ return function(resource)
         end
     end
 
-    RegisterNUICallback('useMouse', function(um, callback)
-        CS_VIDEO_CALL.SetKeyLabels(not um) -- Set key labels depending on user preference of using mouse or not while browsing the phone.
-        callback(true)
-    end)
+    if (not hasAnimFns) then
+        _G.IsEntityPlayingAnim = function(entity, dict, name, flag)
+            if (CS_VIDEO_CALL.ACTIVE and dict == 'cellphone@' and name == 'cellphone_call_listen_base') then
+                return true
+            else
+                return originalIsEntityPlayingAnim(entity, dict, name, flag)
+            end
+        end
+    end
 
     AddEventHandler('cs-video-call:onVideoOn', function()
         -- Triggered when the player has opened the video call camera.
 
-        PhonePlayIn()
+        if (hasAnimFns) then
+            PhonePlayIn()
+        end
+
         originalSetNuiFocusKeepInput(true) -- Allow control to pass through NUI.
 
         CreateThread(function()
@@ -56,17 +66,19 @@ return function(resource)
     AddEventHandler('cs-video-call:onVideoOff', function()
         -- Triggered when the player has closed the video call camera.
 
-        if (phoneOpen) then
-            if (callRejected) then
-                PhonePlayCall()
-                PhonePlayText()
+        if (hasAnimFns) then
+            if (phoneOpen) then
+                if (callRejected) then
+                    PhonePlayCall()
+                    PhonePlayText()
+                else
+                    PhonePlayText()
+                    PhonePlayCall()
+                end
             else
                 PhonePlayText()
-                PhonePlayCall()
+                PhonePlayOut()
             end
-        else
-            PhonePlayText()
-            PhonePlayOut()
         end
 
         originalSetNuiFocusKeepInput(lastNuiFocusKeepInputState)
@@ -100,14 +112,14 @@ return function(resource)
         callAccepted = true
         callWaiting = false
         callRejected = false
+
+        CS_VIDEO_CALL.SetCallState(true)
         
         if (initiator or GetPlayerServerId(PlayerId()) == data.transmitter_src) then
             CS_VIDEO_CALL.SetCallee(data.receiver_src)
         else
             CS_VIDEO_CALL.SetCallee(data.transmitter_src)
         end
-
-        CS_VIDEO_CALL.SetCallState(true)
     end
 
     local rejectCallFn = function(data, initiator)
@@ -119,8 +131,8 @@ return function(resource)
         callAccepted = false
         callWaiting = false
 
-        CS_VIDEO_CALL.ClearCallee()
         CS_VIDEO_CALL.SetCallState(false)
+        CS_VIDEO_CALL.ClearCallee()
     end
 
     -- Trying to support a variety of phones that are based on gcphone.

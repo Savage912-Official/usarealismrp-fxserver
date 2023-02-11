@@ -158,12 +158,10 @@ AddEventHandler("character:swap--check-distance", function()
 	for i = 1, #swap_locations do
 		local location = swap_locations[i]
 		if GetDistanceBetweenCoords(location.x, location.y, location.z, mycoords) < 8 then
-			TriggerServerEvent("character:swapCharSetJob")
 			TriggerEvent("Radio.Set", false, {})
 			TriggerEvent("hotkeys:setCurrentSlotPassive", nil)
 			TriggerEvent("radio:unsubscribe")
-			TriggerServerEvent("character:getCharactersAndOpenMenu", "home")
-			TriggerServerEvent("spawn:setCharLastLocation", mycoords)
+			TriggerServerEvent("character:swapChar")
 			SendNUIMessage({
 				type = "displayGUI"
 			})
@@ -371,6 +369,7 @@ function SpawnCharacter()
 	TriggerEvent("chatMessage", "", { 0, 0, 0 }, "^0Welcome to ^1U^0S^5A ^3REALISM RP^0!")
 	TriggerEvent("chatMessage", "", { 0, 0, 0 }, "^0Type ^3'/info' ^0for more help and information!")
 	TriggerEvent("chatMessage", "", { 0, 0, 0 }, "^0Press ^3M^0 to open the interaction menu.")
+	TriggerEvent("chatMessage", "", { 0, 0, 0 }, "^0Hold ^3TAB^0 to interact with things around you.")
 end
 
 function MakeCamera()

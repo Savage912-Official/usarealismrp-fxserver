@@ -131,27 +131,35 @@ VehInventoryManager.putItemInFirstFreeSlot = function(plate, inv, item, cb)
   end
 end
 
-VehInventoryManager.putItemInSlot = function(plate, inv, item, slot, cb)
+VehInventoryManager.putItemInSlot = function(plate, inv, item, slot)
+  local retOk, retMsg = nil
   slot = tostring(slot)
   if not inv.items[slot] then -- no item in slot already
     inv.items[slot] = item
-    cb(true)
+    retOk = true
   elseif inv.items[slot] and inv.items[slot].name == item.name and not item.notStackable then -- item in slot already, but stackable
     inv.items[slot].quantity = inv.items[slot].quantity + item.quantity
-    cb(true)
+    retOk = true
   else
-    cb(false, "Invalid slot")
+    retOk = false
+    retMsg = "Invalid slot"
   end
   -- save --
   if not VehInventoryManager:getTempVehInv(plate) then
-      TriggerEvent('es:exposeDBFunctions', function(db)
-        db.updateDocument("vehicles", plate, { inventory = inv }, function()
-          removeVehicleBusy(plate)
-        end)
+    local waiting = true
+    TriggerEvent('es:exposeDBFunctions', function(db)
+      db.updateDocument("vehicles", plate, { inventory = inv }, function()
+        removeVehicleBusy(plate)
+        waiting = false
       end)
+    end)
+    while waiting == true do
+      Wait(1)
+    end
   else
       removeVehicleBusy(plate)
   end
+  return retOk, retMsg
 end
 
 VehInventoryManager.calcWeight = function(inv)

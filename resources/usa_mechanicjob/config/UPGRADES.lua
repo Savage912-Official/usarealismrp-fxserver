@@ -110,5 +110,35 @@ UPGRADES = {
             -- remove manual upgrade since it was converted to automatic and also auto conversion kit since it is no longer needed since auto is default
             MechanicHelper.removeVehicleUpgrades(vehPlate, {"manual-conversion-kit", "auto-conversion-kit"})
         end
+    },
+    ["low-grip-tires"] = {
+        id = "low-grip-tires",
+        displayName = "Low Grip Tires",
+        requiresItem = "Low Grip Tires",
+        postInstall = function(vehPlate)
+            -- remove opposite tire upgrade if applicable
+            MechanicHelper.removeVehicleUpgrades(vehPlate, {"normal-tires"})
+        end
+    },
+    ["normal-tires"] = {
+        id = "normal-tires",
+        displayName = "Normal Tires",
+        requiresItem = "Normal Tires",
+        postInstall = function(vehPlate)
+            -- remove opposite tire upgrade if applicable
+            MechanicHelper.removeVehicleUpgrades(vehPlate, {"low-grip-tires"})
+        end
+    },
+    ["underglow-kit"] = {
+        id = "underglow-kit",
+        displayName = "Underglow Kit",
+        requiresItem = "Underglow Kit",
+        postInstall = function(vehPlate) end
+    },
+    ["xenon-headlights"] = {
+        id = "xenon-headlights",
+        displayName = "Xenon Headlights",
+        requiresItem = "Xenon Headlights",
+        postInstall = function(vehPlate) end
     }
 }

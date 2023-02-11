@@ -29,6 +29,7 @@ AddEventHandler('trunkhide:hideInNearestTrunk', function()
 		local vehicleInFront = VehicleInFront()
 		if vehicleInFront and vehicleInFront ~= 0 then
 			TriggerEvent('trunkhide:enterTrunk', vehicleInFront)
+			exports.globals:notify("Type /hidetrunk to exit", "INFO: Type /hidetrunk to exit the trunk")
 		end
 	else
 		TriggerEvent('trunkhide:exitTrunk')

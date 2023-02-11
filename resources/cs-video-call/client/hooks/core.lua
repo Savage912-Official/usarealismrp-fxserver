@@ -193,6 +193,11 @@ RegisterNetEvent('cs-video-call:initialize', function(serverConfig, hookFiles, r
         callback(true)
     end)
 
+    RegisterNUICallback('cs-video-call:usingMouse', function(data, callback)
+        CS_VIDEO_CALL.SetKeyLabels(not data.state)
+        callback(true)
+    end)
+
     RegisterNetEvent('cs-video-call:emitToClient', function(name, data)
         SendNUIMessage({
             type = 'cs-video-call:emitToClient',

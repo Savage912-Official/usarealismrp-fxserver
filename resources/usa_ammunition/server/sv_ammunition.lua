@@ -22,6 +22,7 @@ local WEPS_WITH_MAGS = {
     -- assault rifles --
     [GetHashKey("WEAPON_ASSAULTRIFLE")] = { accepts = "7.62mm", magAmmoCounts = {30, 60, 100} },
     [GetHashKey("WEAPON_ASSAULTRIFLE_MK2")] = { accepts = "7.62mm", magAmmoCounts = {20, 30, 60} },
+    [GetHashKey("WEAPON_AKORUS")] = { accepts = "7.62mm", magAmmoCounts = {30, 60, 140} },
     [GetHashKey("WEAPON_CARBINERIFLE")] = { accepts = "5.56mm", magAmmoCounts = {30, 60, 100} },
     [GetHashKey("WEAPON_CARBINERIFLE_MK2")] = { accepts = "5.56mm", magAmmoCounts = {20, 30, 60} },
     [GetHashKey("WEAPON_ADVANCEDRIFLE")] = { accepts = "5.56mm", magAmmoCounts = {30, 60} },
@@ -78,6 +79,10 @@ local WEPS_NO_MAGS = {
         AMMO_NAME = ".45",
         MAX_CAPACITY = 6
     },
+    [GetHashKey("WEAPON_REVOLVERULTRA")] = {
+        AMMO_NAME = ".45",
+        MAX_CAPACITY = 6
+    },
     [GetHashKey("WEAPON_STUNGUN")] = {
         AMMO_NAME = "Taser Cartridge",
         MAX_CAPACITY = 1
@@ -106,7 +111,11 @@ local WEPS_NO_MAGS = {
     [GetHashKey("WEAPON_DBSHOTGUN")] = {
         AMMO_NAME = "12 Gauge Shells",
         MAX_CAPACITY = 2
-    }
+    },
+    [GetHashKey("WEAPON_BEANBAGSHOTGUN")] = {
+        AMMO_NAME = "Beanbag Shell",
+        MAX_CAPACITY = 8
+    },
 }
 
 local THROWABLES = {
@@ -174,6 +183,14 @@ AddEventHandler("ammo:checkForMagazine", function(selectedIndex, vehiclePlate, s
             curWep.hash = tonumber(curWep.hash) & 0xFFFFFFFF -- ensure hash key is an unsigned int to match our look up table
             if WEPS_WITH_MAGS[curWep.hash] then
                 local magToUse = FindMagToReloadWith(char, curWep.hash)
+                if magToUse then
+                    if magToUse.name:find("Extended") or magToUse.name:find("Box") then
+                        if not magToUse.name:find(curWep.name) then
+                            TriggerClientEvent("usa:notify", src, "Wrong mag for weapon", "INFO: Mag doesn't fit weapon")
+                            magToUse = false -- wrong weapon for extended/box mag (see #1752)
+                        end
+                    end
+                end
                 if magToUse then
                     TriggerClientEvent("ammo:reloadMag", src, magToUse)
                     if curWep.magazine then

@@ -24,7 +24,11 @@ AddEventHandler("interaction:addDroppedItem", function(item)
   if item.objectModel then
     local handle = CreateObject(GetHashKey(item.objectModel), item.coords.x, item.coords.y, item.coords.z, false, false, false)
     SetEntityAsMissionEntity(handle, true, true)
-    SetEntityHeading(handle, GetEntityHeading(PlayerPedId()))
+    local heading = item.coords.h
+    if (heading == nil) then
+      heading = GetEntityHeading(PlayerPedId())
+    end
+    SetEntityHeading(handle, heading)
     PlaceObjectOnGroundProperly(handle)
     item.objectHandle = handle
   end

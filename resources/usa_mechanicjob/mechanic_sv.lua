@@ -1,8 +1,9 @@
 exports["globals"]:PerformDBCheck("usa_mechanicjob", "mechanicjob")
+exports["globals"]:PerformDBCheck("usa_mechanicjob", "vehicle-underglow")
 
 local NEEDS_TO_BE_CLOCKED_IN = true
 
-local TOW_REWARD = {100, 450}
+local TOW_REWARD = {850, 1250}
 
 local TRUCKS_FOR_RANK = {
 	[1] = {"flatbed"},
@@ -12,8 +13,8 @@ local TRUCKS_FOR_RANK = {
 
 local PARTS_FOR_RANK = {
 	[1] = {},
-	[2] = {"NOS Install Kit", "NOS Bottle (Stage 1)", "NOS Bottle (Stage 2)", "Top Speed Tune", "NOS Gauge", "Custom Radio"},
-	[3] = {"NOS Install Kit", "NOS Bottle (Stage 1)", "NOS Bottle (Stage 2)", "NOS Bottle (Stage 3)", "Top Speed Tune", "NOS Gauge", "Custom Radio", "Manual Conversion Kit", "Auto Conversion Kit", "RGB Controller"}
+	[2] = {"NOS Install Kit", "NOS Bottle (Stage 1)", "NOS Bottle (Stage 2)", "Top Speed Tune", "NOS Gauge", "Custom Radio", "Low Grip Tires", "Normal Tires", "RGB Controller", "Underglow Kit", "Xenon Headlights"},
+	[3] = {"NOS Install Kit", "NOS Bottle (Stage 1)", "NOS Bottle (Stage 2)", "NOS Bottle (Stage 3)", "Top Speed Tune", "NOS Gauge", "Custom Radio", "Manual Conversion Kit", "Auto Conversion Kit", "RGB Controller", "Low Grip Tires", "Normal Tires", "Underglow Kit", "Xenon Headlights"}
 }
 
 local PARTS_DELIVERY_TIME_DAYS = 1
@@ -62,12 +63,14 @@ AddEventHandler("towJob:setJob", function()
 	if char.get("job") == "mechanic" then
 		TriggerClientEvent("towJob:offDuty", source)
 		char.set("job", "civ")
+		TriggerClientEvent("thirdEye:updateActionsForNewJob", source, "civ")
 	else
 		local drivers_license = char.getItem("Driver's License")
 		if drivers_license then
 			if drivers_license.status == "valid" then
 				local usource = source
 				char.set("job", "mechanic")
+				TriggerClientEvent("thirdEye:updateActionsForNewJob", source, "mechanic")
 				local ident = char.get("_id")
 				MechanicHelper.getMechanicRepairCount(ident, function(repairCount)
 					if repairCount >= MechanicHelper.LEVEL_3_RANK_THRESH then
@@ -93,6 +96,7 @@ RegisterServerEvent("tow:forceRemoveJob")
 AddEventHandler("tow:forceRemoveJob", function()
 	local char = exports["usa-characters"]:GetCharacter(source)
 	char.set("job", "civ")
+	TriggerClientEvent("thirdEye:updateActionsForNewJob", source, "civ")
 	TriggerClientEvent("towJob:offDuty", source)
 end)
 
@@ -419,3 +423,17 @@ end
 	tires popped
 	door broken
 ]]
+
+RegisterServerCallback {
+	eventName = "mechanic:getUnderglow",
+	eventCallback = function(src, vehPlate)
+		vehPlate = exports.globals:trim(vehPlate)
+		local doc = exports.essentialmode:getDocument("vehicle-underglow", vehPlate)
+		return doc
+	end
+}
+
+RegisterServerEvent("mechanic:saveUnderglow")
+AddEventHandler("mechanic:saveUnderglow", function(plate, r, g, b)
+	exports.essentialmode:updateDocument("vehicle-underglow", plate, { r = r, g = g, b = b }, true)
+end)

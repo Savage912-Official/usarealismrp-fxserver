@@ -21,14 +21,9 @@ function undoFirstPerson(ped)
 end
 
 Citizen.CreateThread(function()
-    local lastPedWeSetConfigFor = 0
     local WEAPON_UNARMED_HASH = `WEAPON_UNARMED`
     while true do
         local me = PlayerPedId()
-        if me ~= lastPedWeSetConfigFor then
-            SetPedConfigFlag(me, 184, true)
-            lastPedWeSetConfigFor = me
-        end
         if IsPedInAnyVehicle(me) then
             local selectedPedWeapon = GetSelectedPedWeapon(me)
             if IsPedDoingDriveby(me) then

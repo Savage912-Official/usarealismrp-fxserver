@@ -57,6 +57,8 @@ AddEventHandler("playerDropped", function(reason)
     TriggerEvent("playerlist:addDC", char)
     -- send duty log if on duty for one of a few designated jobs --
     exports["usa_rp2"]:handlePlayerDropDutyLog(char, GetPlayerName(usource), accountIdentifier)
+    exports["globals"]:setJob(source, "civ") -- this is needed to remove the online indicator from job contacts
+    TriggerEvent("high_callback:drop", source)
     -- destroy player object --
     print("[usa-characters] Destroying character object for src: " .. usource)
     CHARACTERS[usource] = nil

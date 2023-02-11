@@ -4,9 +4,16 @@
 
 -- PERFORM FIRST TIME DB CHECK --
 exports["globals"]:PerformDBCheck("vehicle-shop", "vehicles", nil)
+exports["globals"]:PerformDBCheck("vehicle-shop", "test-drive-strikes", nil)
 
 local price, vehicleName, hash, plate
 local MAX_PLAYER_VEHICLES = 500
+
+local testDrivers = {}
+local stolenVehicles = {}
+local lastStolenPlate = nil
+local warnMinutes = 10 -- minutes until warning
+local finalMinutes = 15 -- minutes until 911/seize
 
 local vehicleShopItems = {
 	["vehicles"] = {
@@ -168,6 +175,7 @@ local vehicleShopItems = {
 			{make = "Declasse", model = "Silver-Star (Lowrider)", price = 50000, hash = "silverstar2", storage_capacity = 210.0},
 			{make = "Declasse", model = "Draugur", price = 110000, hash = "draugur", storage_capacity = 90.0},
 			{make = "BF", model = "Weevil Custom", price = 90000, hash = "weevil2", storage_capacity = 90.0},
+			{make = "Dinka", model = "Winky", price = 25000, hash = 'winky', storage_capacity = 180.0},
 		},
 		["Motorcycles"] = {
 			{make = "Pegassi", model = "Faggio", price = 2069, hash = -1842748181, storage_capacity = 30.0},
@@ -401,6 +409,7 @@ local vehicleShopItems = {
         		{make = "Trailer", model = "Closed", price = 80000, hash = "ctrailer", storage_capacity = 400.0},
 			{make = "Trailer", model = "Car Hauler (Gooseneck)", price = 60000, hash = "godzhauler", storage_capacity = 400.0},
 			{make = "Trailer", model = "42ft Yellow Fin Trailer", price = 30000, hash = "yftrailer", storage_capacity = 200.0},
+			{make = "Trailer", model = "2020 24ft Bloomer", price = 45000, hash = "bcbloomer", storage_capacity = 500.0},
 		},
 		["Electric"] = {
 			{make = "Coil", model = "Raider", price = 50000, hash = "raiden", storage_capacity = 150.0},
@@ -413,7 +422,6 @@ local vehicleShopItems = {
 			{make = "Obey", model = "Omnis e-GT", price = 100000, hash = "omnisegt", storage_capacity = 135.0},
 		},
 		["Custom"] = {
-			{make = "Acura", model = "NSX (Aimgain)", price = 350000, hash = "aimgainnsx", storage_capacity = 120.0},
 			{make = "Acura", model = "RSX (2004)", price = 70000, hash = "dc5", storage_capacity = 160.0},
 			--
 			{make = "Audi", model = "A6 (2020)", price = 130000, hash = "a6", storage_capacity = 220.0},
@@ -443,6 +451,7 @@ local vehicleShopItems = {
 			{make = "Cadillac", model = "Escalade (2021)", price = 130000, hash = "21escalade", storage_capacity = 280.0},
 			--
 			{make = "Chevrolet", model = "C-10 Stepside Custom", price = 90000, hash = "c10custom", storage_capacity = 190.0},
+			{make = "Chevrolet", model = "C-10", price = 85000, hash = "bcc10c", storage_capacity = 300.0},
 			{make = "Chevrolet", model = "Camaro (2002)", price = 50000, hash = "camaro02", storage_capacity = 165.0},
 			{make = "Chevrolet", model = "Camaro (2017)", price = 160000, hash = "zl12017", storage_capacity = 130.0},
 			{make = "Chevrolet", model = "Camaro (2021)", price = 150000, hash = "21camaro", storage_capacity = 160.0},
@@ -452,6 +461,7 @@ local vehicleShopItems = {
 			{make = "Chevrolet", model = "Caprice (Donk)", price = 60000, hash = "trixbox", storage_capacity = 200.0},
 			{make = "Chevrolet", model = "Corvette C3 (1970)", price = 50000, hash = "corvette70", storage_capacity = 170.0},
 			{make = "Chevrolet", model = "Corvette C7", price = 95000, hash = "c7", storage_capacity = 160.0},
+			{make = "Chevrolet", model = "Corvette C7R GTLM (NOT ROAD LEGAL)", price = 210000, hash = "C7R", storage_capacity = 120.0},
 			{make = "Chevrolet", model = "Corvette C8", price = 180000, hash = "stingray", storage_capacity = 130.0},
 			{make = "Chevrolet", model = "Hoonigan K5 Blazer (1979)", price = 150000, hash = "k5", storage_capacity = 220.0},
 			{make = "Chevrolet", model = "Impala (1959)", price = 70000, hash = "impala59c", storage_capacity = 250.0},
@@ -475,6 +485,9 @@ local vehicleShopItems = {
 			{make = "Dodge", model = "Ram Donk (2019)", price = 160000, hash = "19ramdonk", storage_capacity = 300.0},
 			{make = "Dodge", model = "Ram SRT-10", price = 140000, hash = "ramsrt10", storage_capacity = 400.0},
 			{make = "Dodge", model = "Ram TRX", price = 190000, hash = "dodgetrx", storage_capacity = 400.0},
+			{make = "Dodge", model = "Ram 3500", price = 150000, hash = "bcys", storage_capacity = 400.0},
+			{make = "Dodge", model = "Ram 3500 HD", price = 160000, hash = "bc203500hd", storage_capacity = 400.0},
+			{make = "Dodge", model = "Ram 2500", price = 150000, hash = "bcbruiser", storage_capacity = 400.0},
 			{make = "Dodge", model = "Viper (1999)", price = 250000, hash = "99viper", storage_capacity = 170.0},
 			--
 			{make = "Ducati", model = "Panigale", price = 90000, hash = "panigale", storage_capacity = 20.0},
@@ -484,6 +497,8 @@ local vehicleShopItems = {
 			{make = "Ferrari", model = "F8 Tributo", price = 850000, hash = "f8t", storage_capacity = 130.0},
 			{make = "Ferrari", model = "F12", price = 850000, hash = "rmodf12tdf", storage_capacity = 130.0},
 			{make = "Ferrari", model = "F40", price = 1200000, hash = "rmodf40", storage_capacity = 130.0},
+			{make = "Ferrari", model = "FXXK (NOT ROAD LEGAL)", price = 2400000, hash = "fxxk", storage_capacity = 120.0},
+			{make = "Ferrari", model = "LaFerrari", price = 1500000, hash = "laferrari", storage_capacity = 130.0},
 			--
 			{make = "Ford", model = "Bronco (1980)", price = 50000, hash = "80bronco", storage_capacity = 300.0},
 			{make = "Ford", model = "Bronco Wildtrak (2021)", price = 140000, hash = "wildtrak", storage_capacity = 300.0},
@@ -527,6 +542,8 @@ local vehicleShopItems = {
 			{make = "Honda", model = "Civic (EG6)", price = 100000, hash = "eg6", storage_capacity = 160.0},
 			{make = "Honda", model = "Civic (EK9)", price = 105000, hash = "spoonek", storage_capacity = 160.0},
 			{make = "Honda", model = "Civic (FnF) (1993)", price = 110000, hash = "fnfcivic", storage_capacity = 160.0},
+			{make = "Honda", model = "NSX (1992)", price = 170000, hash = "na1", storage_capacity = 160.0},
+			{make = "Honda", model = "NSX (2016)", price = 350000, hash = "aimgainnsx", storage_capacity = 120.0},
 			--
 			{make = "Hummer", model = "H2", price = 110000, hash = "h2", storage_capacity = 300.0},
 			--
@@ -534,13 +551,17 @@ local vehicleShopItems = {
 			--
 			{make = "Italdesign", model = "GTR50", price = 2000000, hash = "rmodgtr50", storage_capacity = 130.0},
 			--
-			{make = "Jaguar", model = "C-X75", price = 1100000, hash = "cx75", storage_capacity = 130.0},
+			{make = "Jaguar", model = "CX-75", price = 1100000, hash = "cx75", storage_capacity = 130.0},
 			--
 			{make = "Jeep", model = "Gladiator", price = 70000, hash = "jeepg", storage_capacity = 280.0},
 			{make = "Jeep", model = "SRT8", price = 100000, hash = "srt8", storage_capacity = 185.0},
 			--
 			{make = "Kawasaki", model = "H2R (NOT ROAD LEGAL)", price = 200000, hash = "ninjah2", storage_capacity = 20.0},
 			{make = "Kawasaki", model = "Z1000", price = 70000, hash = "z1000", storage_capacity = 20.0},
+			--
+			{make = "Karin", model = "Ariant", price = 40000, hash = "ariant", storage_capacity = 220.0},
+			{make = "Karin", model = "Asterope RS", price = 60000, hash = "asteropers", storage_capacity = 220.0},
+			{make = "Karin", model = "Rebel Custom", price = 60000, hash = "rebeld", storage_capacity = 200.0},
 			--
 			{make = "Koenigsegg", model = "Agera RS (2017)", price = 3700000, hash = "agerars", storage_capacity = 120.0},
 			{make = "Koenigsegg", model = "Jesko", price = 4500000, hash = "rmodjesko", storage_capacity = 130.0},
@@ -576,6 +597,10 @@ local vehicleShopItems = {
 			--
 			{make = "Mclaren", model = "600LT", price = 500000, hash = "600lt", storage_capacity = 145.0},
 			{make = "Mclaren", model = "Elva", price = 2300000, hash = "elva", storage_capacity = 145.0},
+			{make = "Mclaren", model = "P1", price = 1600000, hash = "p1", storage_capacity = 125.0},
+			{make = "Mclaren", model = "P1 GTR", price = 1900000, hash = "rmodp1gtr", storage_capacity = 120.0},
+			{make = "Mclaren", model = "Senna", price = 2000000, hash = "sennas", storage_capacity = 125.0},
+			{make = "Mclaren", model = "Senna GTR (NOT ROAD LEGAL)", price = 2200000, hash = "sennasgtr", storage_capacity = 120.0},
 			--
 			{make = "Mercedes-Benz", model = "300 SL", price = 700000, hash = "mb300sl", storage_capacity = 165.0},
 			{make = "Mercedes-Benz", model = "C63 AMG", price = 175000, hash = "C63AMG", storage_capacity = 175.0},
@@ -586,23 +611,32 @@ local vehicleShopItems = {
 			{make = "Mercedes-Benz", model = "S63 AMG Cabriolet (2017)", price = 190000, hash = "mers63c", storage_capacity = 185.0},
      		 	{make = "Mercedes-Benz", model = "S650 Maybach (2019)", price = 220000, hash = "19S650", storage_capacity = 220.0},
 			{make = "Mercedes-Benz", model = "SLR Stirling Moss", price = 800000, hash = "moss", storage_capacity = 130.0},
+			{make = "Mercedes-Benz", model = "CLK LM (NOT ROAD LEGAL)", price = 2600000, hash = "clklm", storage_capacity = 130.0},
 			--
 			{make = "Mitsubishi", model = "EVO IX (DRIFT)", price = 85000, hash = "evoix", storage_capacity = 160.0},
 			--
 			{make = "Nissan", model = "240SX (DRIFT)", price = 70000, hash = "rmod240sx", storage_capacity = 150.0},
 			{make = "Nissan", model = "240SX (s14) (DRIFT)", price = 75000, hash = "silvia3", storage_capacity = 150.0},
 			{make = "Nissan", model = "370Z Nismo", price = 110000, hash = "370z", storage_capacity = 130.0},
+			{make = "Nissan", model = "R32 GTR", price = 160000, hash = "r32", storage_capacity = 175.0},
+			{make = "Nissan", model = "R33 GTR", price = 165000, hash = "r33vspec", storage_capacity = 175.0},
 			{make = "Nissan", model = "R34 GTR", price = 170000, hash = "skyline", storage_capacity = 175.0},
 			{make = "Nissan", model = "R35 GTR", price = 275000, hash = "gtr", storage_capacity = 130.0},
 			{make = "Nissan", model = "Silvia S15 (DRIFT)", price = 80000, hash = "s15yoshio", storage_capacity = 220.0},
+			--
+			{make = "Pagani", model = "Zonda R (NOT ROAD LEGAL)", price = 3000000, hash = "zondar", storage_capacity = 120.0},
+			--
+			{make = "Pegassi", model = "Monroe Custom", price = 275000, hash = "monroec", storage_capacity = 120.0},
 			--
 			{make = "Peugeot", model = "206 GTi", price = 30000, hash = "peugeot206", storage_capacity = 175.0},
 			--
 			{make = "Pontiac", model = "G8", price = 80000, hash = "pontiacg8", storage_capacity = 165.0},
 			--
 			{make = "Porsche", model = "356", price = 100000, hash = "356ac", storage_capacity = 165.0},
+			{make = "Porsche", model = "718 Cayman GT4", price = 270000, hash = "por718gt4", storage_capacity = 160.0},
 			{make = "Porsche", model = "911 Turbo S", price = 280000, hash = "pts21", storage_capacity = 160.0},
 			{make = "Porsche", model = "911 (1973)", price = 60000, hash = "porrs73", storage_capacity = 165.0},
+			{make = "Porsche", model = "918", price = 1400000, hash = "918", storage_capacity = 120.0},
 			{make = "Porsche", model = "928 GTS (1993)", price = 60000, hash = "928gts", storage_capacity = 160.0},
 			{make = "Porsche", model = "GT1", price = 3850000, hash = "gt1", storage_capacity = 130.0},
 			{make = "Porsche", model = "GT3", price = 280000, hash = "pgt3", storage_capacity = 160.0},
@@ -627,12 +661,15 @@ local vehicleShopItems = {
 			{make = "Toyota", model = "Sprinter Trueno GT Apex (AE86) (1985) (DRIFT)", price = 78000, hash = "ae86", storage_capacity = 160.0},
 			{make = "Toyota", model = "Supra Mk4", price = 100000, hash = "supra2", storage_capacity = 150.0},
 			{make = "Toyota", model = "Supra MK5", price = 95000, hash = "rmodsuprapandem", storage_capacity = 160.0},
+			{make = "Toyota", model = "Supra (Castrol) (NOT ROAD LEGAL)", price = 800000, hash = "castrolsupra", storage_capacity = 120.0},
 			--
 			--{make = "Tesla", model = "Model S", price = 140000, hash = "models", storage_capacity = 170.0},
 			{make = "Tesla", model = "Model S", price = 125000, hash = "teslamodels", storage_capacity = 190.0},
 			{make = "Tesla", model = "Model S (Prior Design)", price = 155000, hash = "teslapd", storage_capacity = 190.0},
 			{make = "Tesla", model = "Model X", price = 160000, hash = "teslax", storage_capacity = 220.0},
 			{make = "Tesla", model = "Roadster", price = 420000, hash = "tesroad20", storage_capacity = 120.0},
+			--
+			{make = "Ubermach", model = "Sentinel Custom (DRIFT)", price = 70000, hash = "sentineldm", storage_capacity = 180.0},
 			--
 			{make = "Volkswagon", model = "Golf GTI", price = 90000, hash = "golfgti", storage_capacity = 175.0},
 			{make = "Volkswagon", model = "Golf (MK3)", price = 60000, hash = "mk3", storage_capacity = 200.0},
@@ -666,33 +703,211 @@ AddEventHandler("vehicle-shop:loadItems", function()
 	TriggerClientEvent("vehicle-shop:loadItems", source, vehicleShopItems)
 end)
 
-RegisterServerEvent("mini:checkVehicleMoney")
-AddEventHandler("mini:checkVehicleMoney", function(vehicle, business)
-	local playerIdentifier = GetPlayerIdentifiers(source)[1]
-	local char = exports["usa-characters"]:GetCharacter(source)
+-- TODO: Add Return Point for Vehicles
+
+function addStrike(char)
+	local done = false
+	TriggerEvent("es:exposeDBFunctions", function(db)
+        db.getDocumentById("test-drive-strikes", char.get("_id"), function(doc)
+            if doc then
+                local strikes = doc.strikes + 1
+               	if strikes >= 3 then
+               		local timestamp = os.time()
+               		db.updateDocument("test-drive-strikes", char.get("_id"), {strikes = strikes, banned = timestamp}, function()
+	            		done = true
+	            	end)
+               	else
+	                db.updateDocument("test-drive-strikes", char.get("_id"), {strikes = strikes, banned = false}, function()
+	            		done = true
+	            	end)
+               	end
+            else
+                db.createDocumentWithId("test-drive-strikes",{strikes = 1, banned = false},char.get("_id"), function(success)
+	                if success then
+	                	print("created doc for char "..char.get("_id"))
+	                else
+	                	print("error creating doc for char "..char.get("_id"))
+	                end
+            		done = true
+                end)
+            end
+        end)
+    end)
+    while not done do
+    	Wait(0)
+    end
+    return
+end
+
+function round(num, numDecimalPlaces)
+  local mult = 10^(numDecimalPlaces or 0)
+  return math.floor(num * mult + 0.5) / mult
+end
+
+function getStrikes(char)
+	local strikes = 0
+	local done = false
+	local bannedFor = false
+	TriggerEvent("es:exposeDBFunctions", function(db)
+        db.getDocumentById("test-drive-strikes", char.get("_id"), function(doc)
+            if doc then
+            	if doc.banned ~= false then
+            		local now = os.time()
+            		local banned_days = 30
+            		if now - doc.banned > banned_days*86400 then
+            			db.updateDocument("test-drive-strikes", char.get("_id"), {strikes = 0, banned = false}, function()
+		            		done = true
+		            	end)
+            		else
+            			bannedFor = round(banned_days - ((now - doc.banned) / 86400),0)
+            			strikes = doc.strikes
+            		end
+            	else
+            		strikes = doc.strikes
+            	end
+            end
+            done = true
+        end)
+    end)
+    while not done do
+    	Wait(0)
+    end
+    return strikes, bannedFor
+end
+
+Citizen.CreateThread(function()
+	while true do
+        local lastCheck = GetGameTimer()
+		while GetGameTimer() - lastCheck < 5000 do
+		  Wait(1)
+		end
+		for k,v in pairs(stolenVehicles) do
+			local ent = NetworkGetEntityFromNetworkId(v.netID)
+			if not DoesEntityExist(ent) or GetEntityModel(ent) ~= v.hash then
+				for i,source in ipairs(v.trackedBy) do
+					TriggerClientEvent("vehShop:stopTrackStolenVeh", source)
+					TriggerClientEvent("usa:notify", source, "Lost Tracker Connection! Vehicle might have been destroyed, lost or impounded", "^3INFO: ^0Lost Tracker Connection! Vehicle might have been destroyed, lost or impounded")
+				end
+				stolenVehicles[k] = nil
+			else
+				v.coords = GetEntityCoords(ent)
+				for i,source in ipairs(v.trackedBy) do
+					TriggerClientEvent("vehShop:trackStolenVeh", source, v.coords)
+				end
+			end
+		end
+	end
+end)
+
+TriggerEvent('es:addJobCommand', 'trackveh', {'sheriff', 'corrections'}, function(source, args, char)
+	local plate = nil
+	if args[2] ~= nil then
+		plate = string.upper(args[2])
+	else
+		TriggerClientEvent("usa:notify", source, "No plate provided using last 911")
+		plate = lastStolenPlate
+	end
+	if stolenVehicles[plate] ~= nil then
+		TriggerClientEvent("vehShop:trackStolenVeh", source, stolenVehicles[plate].coords)
+		table.insert(stolenVehicles[plate].trackedBy, source)
+	else
+		TriggerClientEvent("usa:notify", source, "Invalid Plate! Vehicle might be destroyed, lost or impounded!")
+	end
+end, {
+	help = "Track a stolen vehicle.",
+	params = {
+		{ name = "Plate", help = "The plate of the tracker fitted vehicle, if not provided will use plate from last 911" }
+	}
+})
+
+TriggerEvent('es:addJobCommand', 'endtrack', {'sheriff', 'corrections'}, function(source, args, char)
+	TriggerClientEvent("vehShop:stopTrackStolenVeh", source)
+	for k,v in pairs(stolenVehicles) do
+		for i,s in ipairs(v.trackedBy) do
+			if source == s then
+				table.remove(v.trackedBy, i)
+			end
+		end
+	end
+end, {
+	help = "Stops tracking a stolen vehicle.",
+	params = {
+	}
+})
+
+Citizen.CreateThread(function()
+	while true do
+		local lastCheck = GetGameTimer()
+		while GetGameTimer() - lastCheck < 5000 do
+			Wait(1)
+		end
+		for k,v in pairs(testDrivers) do
+			local ent = NetworkGetEntityFromNetworkId(v.netID)
+			local char = exports["usa-characters"]:GetCharacter(v.source)
+			if v.netID ~= nil and (not DoesEntityExist(ent) or GetEntityModel(ent) ~= v.hash) then
+				addStrike(char)
+				local strikes, bannedFor = getStrikes(char)
+				TriggerClientEvent("usa:notify", v.source, "Your loaned car was destroyed or lost! "..strikes.."/3 strikes!", "^3INFO: ^0Your loaned car was destroyed or lost! "..strikes.."/3 strikes!")
+				TriggerClientEvent("vehShop:endTestDrive",v.source)
+				testDrivers[k] = nil
+			else
+				local diff = GetGameTimer() - v.timestamp
+				if diff > warnMinutes * 60 * 1000 and testDrivers[k].warned == false then
+					testDrivers[k].warned = true
+					TriggerClientEvent("usa:notify", v.source, "You have driven the car for " .. tostring(warnMinutes) .. " minutes, return to the dealership immediatly!", "^3INFO: ^0You have driven the car for " .. tostring(warnMinutes) .. " minutes, return to the dealership immediatly!")
+				end
+				if diff > finalMinutes * 60 * 1000 then
+					exports.globals:getNumCops(function(numCops)
+						if numCops > 3 then
+							addStrike(char)
+							local strikes, bannedFor = getStrikes(char)
+							TriggerClientEvent("usa:notify", v.source, "You did not return to the dealership, the emergency services have been called! "..strikes.."/3 strikes!", "^3INFO: ^0You did not return to the dealership, the emergency services have been called! "..strikes.."/3 strikes!")
+							lastStolenPlate = v.plate
+							TriggerEvent("mdt:markTestDriveVehicleStolen", v.plate)
+							TriggerEvent('911:StolenTestDriveVehicle', GetEntityCoords(ent), v.plate, char.getFullName())
+							stolenVehicles[v.plate] = {netID = v.netID, coords = GetEntityCoords(ent), hash = GetEntityModel(ent), stolenAt = GetGameTimer(), trackedBy = {}}
+						else
+							addStrike(char)
+							local strikes, bannedFor = getStrikes(char)
+							TriggerClientEvent("usa:notify", v.source, "You did not return to the dealership, the vehicle has been taken back! "..strikes.."/3 strikes!", "^3INFO: ^0You did not return to the dealership, the vehicle has been taken back! "..strikes.."/3 strikes!")
+							DeleteEntity(ent)
+						end
+						testDrivers[k] = nil
+						TriggerClientEvent("vehShop:endTestDrive",v.source)
+					end)
+				end
+			end
+		end
+	end
+end)
+
+AddEventHandler('playerDropped', function (reason)
+	--player dropped remove from test drive if on one
+	local usource = source
+	for k,v in pairs(testDrivers) do
+		if v.source == usource then
+			local ent = NetworkGetEntityFromNetworkId(v.netID)
+			DeleteEntity(ent)
+			testDrivers[k] = nil
+			break
+		end
+	end
+end)
+
+RegisterServerEvent("mini:checkPlayerTestDrive")
+AddEventHandler("mini:checkPlayerTestDrive", function(vehicle,business)
+	local usource = source
+	local char = exports["usa-characters"]:GetCharacter(usource)
 	local license = char.getItem("Driver's License")
-	local vehicles = char.get("vehicles")
-	local money = char.get("bank")
+	local ident = char.get("_id")
 	local owner_name = char.getFullName()
 	if license and license.status == "valid" then
-		local hash = vehicle.hash
-		local price = tonumber(GetVehiclePrice(vehicle))
-		if price <= money then
-			local plate = generate_random_number_plate()
-			if vehicles then
-				char.removeBank(price)
-				local vehicle = {
-					owner = owner_name,
-					make = vehicle.make,
-					model = vehicle.model,
-					hash = hash,
-					plate = plate,
-					stored = false,
-					price = price,
-					inventory = exports["usa_vehinv"]:NewInventory(vehicle.storage_capacity),
-					storage_capacity = vehicle.storage_capacity
-				}
-
+		if testDrivers[ident] == nil then
+			local strikes, bannedFor = getStrikes(char)
+			if strikes < 3 then
+				local plate = generate_random_number_plate()
+				local hash = vehicle.hash
+				local price = tonumber(GetVehiclePrice(vehicle))
 				local vehicle_key = {
 					name = "Key -- " .. plate,
 					quantity = 1,
@@ -702,25 +917,105 @@ AddEventHandler("mini:checkVehicleMoney", function(vehicle, business)
 					model = vehicle.model,
 					plate = plate
 				}
-
-				table.insert(vehicles, vehicle.plate)
-				char.set("vehicles", vehicles)
+				TriggerEvent("lock:addPlate", plate)
+				TriggerEvent("mdt:addTestDriveVehicle", vehicle.make .. " " .. vehicle.model, business, owner_name, plate)
+				TriggerClientEvent("vehShop:spawnPlayersVehicle", usource, hash, plate, true)
+				testDrivers[ident] = { timestamp = GetGameTimer(), plate = plate, source = usource, netID = nil, hash = hash, warned = false}
 				char.giveItem(vehicle_key, 1)
-				AddVehicleToDB(vehicle)
-
-				TriggerEvent("lock:addPlate", vehicle.plate)
-				TriggerClientEvent("usa:notify", source, "Here are the keys! Thanks for your business!", "Purchased a " .. vehicle.make .. " " .. vehicle.model .. " for $" .. exports.globals:comma_value(vehicle.price))
-				TriggerClientEvent("vehShop:spawnPlayersVehicle", source, hash, plate)
-
-				if business then
-					exports["usa-businesses"]:GiveBusinessCashPercent(business, price)
-				end
+				TriggerClientEvent("usa:notify", usource, "You have " .. tostring(warnMinutes) .. " minutes to test drive the car! Don't run off with it or you'll be in big trouble!", "^3INFO: ^0You have " .. tostring(warnMinutes) .. " minutes to test drive the car! Don't run off with it or you'll be in big trouble!")
+			else
+				TriggerClientEvent("usa:notify", usource, "You have three strikes you are banned for ".. tostring(bannedFor) .." days from this dealership!")
 			end
 		else
-			TriggerClientEvent("usa:notify", source, "Not enough money in bank to purchase!")
+			TriggerClientEvent("usa:notify", usource, "You already have a vehicle out for a test drive!")
 		end
 	else
-		TriggerClientEvent("usa:notify", source, "Come back when you have a valid driver's license!")
+		TriggerClientEvent("usa:notify", usource, "You do not hold a valid license!")
+	end
+end)
+
+RegisterServerEvent("vehShop:spawnTestDriveCallback")
+AddEventHandler("vehShop:spawnTestDriveCallback", function(plate,vehNetID)
+	local char = exports["usa-characters"]:GetCharacter(source)
+	local ident = char.get("_id")
+	testDrivers[ident].netID = vehNetID
+end)
+
+RegisterServerEvent("vehShop:returnVehicle")
+AddEventHandler("vehShop:returnVehicle", function(plate, model)
+	local char = exports["usa-characters"]:GetCharacter(source)
+	local ident = char.get("_id")
+
+	if testDrivers[ident].plate == plate and testDrivers[ident].hash == model then
+		local ent = NetworkGetEntityFromNetworkId(testDrivers[ident].netID)
+		DeleteEntity(ent)
+		testDrivers[ident] = nil
+		TriggerClientEvent("vehShop:endTestDrive",source)
+		char.removeItem("Key -- " .. plate, 1)
+	end
+end)
+
+RegisterServerEvent("mini:checkVehicleMoney")
+AddEventHandler("mini:checkVehicleMoney", function(vehicle, business)
+	local usource = source
+	local playerIdentifier = GetPlayerIdentifiers(usource)[1]
+	local char = exports["usa-characters"]:GetCharacter(usource)
+	local license = char.getItem("Driver's License")
+	local vehicles = char.get("vehicles")
+	local money = char.get("bank")
+	local owner_name = char.getFullName()
+	if license and license.status == "valid" then
+		local strikes, bannedFor = getStrikes(char)
+		if strikes < 3 then
+			local hash = vehicle.hash
+			local price = tonumber(GetVehiclePrice(vehicle))
+			if price <= money then
+				local plate = generate_random_number_plate()
+				if vehicles then
+					char.removeBank(price)
+					local vehicle = {
+						owner = owner_name,
+						make = vehicle.make,
+						model = vehicle.model,
+						hash = hash,
+						plate = plate,
+						stored = false,
+						price = price,
+						inventory = exports["usa_vehinv"]:NewInventory(vehicle.storage_capacity),
+						storage_capacity = vehicle.storage_capacity
+					}
+
+					local vehicle_key = {
+						name = "Key -- " .. plate,
+						quantity = 1,
+						type = "key",
+						owner = owner_name,
+						make = vehicle.make,
+						model = vehicle.model,
+						plate = plate
+					}
+
+					table.insert(vehicles, vehicle.plate)
+					char.set("vehicles", vehicles)
+					char.giveItem(vehicle_key, 1)
+					AddVehicleToDB(vehicle)
+
+					TriggerEvent("lock:addPlate", vehicle.plate)
+					TriggerClientEvent("usa:notify", usource, "Here are the keys! Thanks for your business!", "Purchased a " .. vehicle.make .. " " .. vehicle.model .. " for $" .. exports.globals:comma_value(vehicle.price))
+					TriggerClientEvent("vehShop:spawnPlayersVehicle", usource, hash, plate)
+
+					if business then
+						exports["usa-businesses"]:GiveBusinessCashPercent(business, price)
+					end
+				end
+			else
+				TriggerClientEvent("usa:notify", usource, "Not enough money in bank to purchase!")
+			end
+		else
+			TriggerClientEvent("usa:notify", usource, "You have three strikes you are banned for ".. tostring(bannedFor) .." days from this dealership!")
+		end
+	else
+		TriggerClientEvent("usa:notify", usource, "Come back when you have a valid driver's license!")
 	end
 end)
 
@@ -759,12 +1054,28 @@ AddEventHandler("vehShop:sellVehicle", function(toSellVehicle)
 	local usource = source
 	print("toSellVehicle: " .. toSellVehicle.model)
 	local vehiclePrice = GetVehiclePrice(toSellVehicle)
+	local char = exports["usa-characters"]:GetCharacter(usource)
+	local ow_id = char.get("_id")
+	local boostvehicle = MySQL.query.await('SELECT * FROM boosted_vehicles WHERE owner_id = ?', {ow_id})
+	local c = false
 	if not vehiclePrice then
 		if toSellVehicle.price then
 			print("vehicle price nil with toSellVehicle: " .. toSellVehicle.make .. " " .. toSellVehicle.model)
 			TriggerClientEvent("chatMessage", usource, "", {}, "^3CAR DEALER: ^0We're not interested in it, sorry.")
 		end
 		return
+	end
+	-- check if MySQL data exists
+	if not boostvehicle[1] then
+		c = false
+	else
+		c = true
+	end
+	-- if value found in SQL data, then set price for VIN scratched vehicle
+	if c then
+		if toSellVehicle.plate == boostvehicle[1].plate then
+			vehiclePrice = boostvehicle[1].price
+		end
 	end
 	local char = exports["usa-characters"]:GetCharacter(usource)
 	local vehicles = char.get("vehicles")
@@ -780,6 +1091,10 @@ AddEventHandler("vehShop:sellVehicle", function(toSellVehicle)
 		char.giveMoney(math.ceil(vehiclePrice * .30))
 		TriggerClientEvent("usa:notify", usource, "~y~SOLD:~w~ " .. toSellVehicle.make .. " " .. toSellVehicle.model .. "\n~y~PRICE: ~g~$" .. exports.globals:comma_value(.30 * toSellVehicle.price))
 	end)
+	if c then
+		-- Deletes value in `boosted_vehicles` DB
+		MySQL.execute("DELETE FROM boosted_vehicles WHERE plate = ?", {boostvehicle[1].plate})
+	end
 end)
 
 function GetVehiclePrice(vehicle)

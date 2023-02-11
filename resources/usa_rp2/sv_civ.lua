@@ -55,12 +55,6 @@ end, {
 	help = "Steal the nearest player's money."
 })
 
-TriggerEvent('es:addCommand','underglow', function(source, args, char)
-	TriggerClientEvent("civ:toggleUnderglow", source)
-end, {
-	help = "Toggle underglow on your vehicle."
-})
-
 local pings = {}
 
 TriggerEvent('es:addJobCommand','ping', {"sheriff", "ems", "corrections", "mechanic", "taxi"}, function(source, args, char)

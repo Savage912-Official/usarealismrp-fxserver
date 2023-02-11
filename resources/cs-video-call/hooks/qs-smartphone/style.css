@@ -5,6 +5,7 @@
     top: 0;
     right: 0;
     z-index: 0;
+    object-fit: cover;
 }
 
 .cs-video-call-incoming-call-container.cs-video-call-swapped #cs-video-call-remote-video {
@@ -30,7 +31,7 @@
     top: 0;
     right: 0;
     width: 100%;
-    height: 100%;
+    height: 110%;
     z-index: 0;
 }
 
@@ -73,7 +74,7 @@
 
 .cs-video-call-incoming-call-container.cs-video-call-swapped .cs-video-call-buttons-container {
     position: absolute;
-    bottom: 14.5%;
+    top: 7.5%;
     width: 100%;
     text-align: center;
 }
@@ -106,12 +107,12 @@
     margin-right: 0;
 }
 
-[data-action="cs-video-call-swap-transmission"] {
+.cs-video-call-incoming-call-container [data-action="cs-video-call-swap-transmission"] {
     position: absolute !important;
-    bottom: 2.5vh;
-    left: 25%;
-    height: 5vh;
-    width: 5vh;
+    bottom: 28px;
+    left: 48px;
+    height: 5.5vh;
+    width: 5.5vh;
     color: rgb(255, 255, 255, 0.8);
     background-color: rgba(231, 76, 60);
     font-size: 1.5vh;
@@ -123,38 +124,37 @@
 
 .cs-video-call-incoming-call-container .phone-call-ongoing-caller, .cs-video-call-incoming-call-container .phone-call-ongoing-title, .cs-video-call-incoming-call-container .phone-call-ongoing-picture, .cs-video-call-incoming-call-container .phone-call-ongoing-time {
     transition: all 1s ease;
+    left: 0;
+    pointer-events: none;
 }
 
-.cs-video-call-incoming-call-container .phone-call-ongoing-caller, .cs-video-call-incoming-call-container .phone-call-ongoing-title, .cs-video-call-incoming-call-container .phone-call-ongoing-time {
-    width: 100%;
-}
-
-.cs-video-call-incoming-call-container.cs-video-call-video-active .phone-call-ongoing-caller, .cs-video-call-incoming-call-container.cs-video-call-video-active .phone-call-ongoing-title, .cs-video-call-incoming-call-container.cs-video-call-video-active .phone-call-ongoing-time {
+.cs-video-call-incoming-call-container.cs-video-call-video-active:not(.cs-video-call-swapped) .phone-call-ongoing-caller, .cs-video-call-incoming-call-container.cs-video-call-video-active:not(.cs-video-call-swapped) .phone-call-ongoing-title, .cs-video-call-incoming-call-container.cs-video-call-video-active:not(.cs-video-call-swapped) .phone-call-ongoing-time {
     width: 68%;
+}
+
+.cs-video-call-incoming-call-container.cs-video-call-remote-video-active.cs-video-call-swapped .phone-call-ongoing-caller, .cs-video-call-incoming-call-container.cs-video-call-remote-video-active.cs-video-call-swapped .phone-call-ongoing-title, .cs-video-call-incoming-call-container.cs-video-call-remote-video-active.cs-video-call-swapped .phone-call-ongoing-time {
+    width: 68%;
+    left: 0;
 }
 
 .cs-video-call-incoming-call-container .phone-call-ongoing-picture {
     margin-right: 29.3%;
 }
 
-.cs-video-call-incoming-call-container.cs-video-call-video-active .phone-call-ongoing-picture {
+.cs-video-call-incoming-call-container.cs-video-call-video-active:not(.cs-video-call-swapped) .phone-call-ongoing-picture {
     margin-right: 45%;
 }
 
-.cs-video-call-incoming-call-container.cs-video-call-remote-cs-video-call-video-active .phone-call-ongoing-picture {
+.cs-video-call-incoming-call-container.cs-video-call-remote-video-active .phone-call-ongoing-picture {
     display: none;
 }
 
-.cs-video-call-incoming-call-container.cs-video-call-remote-cs-video-call-video-active .phone-call-ongoing-title {
+.cs-video-call-incoming-call-container.cs-video-call-remote-video-active .phone-call-ongoing-title {
     top: 9%;
 }
 
-.cs-video-call-incoming-call-container.cs-video-call-remote-cs-video-call-video-active .phone-call-ongoing-caller {
+.cs-video-call-incoming-call-container.cs-video-call-remote-video-active .phone-call-ongoing-caller {
     top: 10%;
-}
-
-.cs-video-call-incoming-call-container.cs-video-call-remote-cs-video-call-video-active .phone-call-ongoing-time {
-    top: 11%;
 }
 
 .cs-video-call-incoming-call-container [data-cs-video-call-key-label] {
@@ -165,6 +165,7 @@
 .cs-video-call-incoming-call-container [data-action="cs-video-call-swap-filter"], .cs-video-call-incoming-call-container [data-action="cs-video-call-swap-camera"], .cs-video-call-incoming-call-container [data-action="cs-video-call-swap-elements"] {
     width: 27%;
     margin-top: 1%;
+    display: inline-block;
 }
 
 .cs-video-call-incoming-call-container.cs-video-call-swapped [data-action="cs-video-call-swap-filter"], .cs-video-call-incoming-call-container.cs-video-call-swapped [data-action="cs-video-call-swap-camera"], .cs-video-call-incoming-call-container.cs-video-call-swapped [data-action="cs-video-call-swap-elements"] {
@@ -191,5 +192,9 @@
 }
 
 body #ongoing-cancel {
-    left: 55%;
+    left: 208px;
+}
+
+body .cancel-call-button > p {
+    left: 217px;
 }

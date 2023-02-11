@@ -9,9 +9,11 @@ return function(resource)
 
     local originalSendNUIMessage = _G.SendNUIMessage
     local originalSetNuiFocusKeepInput = _G.SetNuiFocusKeepInput
+    local originalIsEntityPlayingAnim = _G.IsEntityPlayingAnim
     local talking = nil
     local phoneOpen = false
     local lastNuiFocusKeepInputState = false
+    local hasAnimFns = PhonePlayIn and PhonePlayCall and PhonePlayText and PhonePlayOut and true or false
 
     _G.SendNUIMessage = function(data)
         if (data.show ~= nil) then
@@ -33,6 +35,16 @@ return function(resource)
         end
     end
 
+    if (not hasAnimFns) then
+        _G.IsEntityPlayingAnim = function(entity, dict, name, flag)
+            if (CS_STORIES.ACTIVE and dict == 'cellphone@' and name == 'cellphone_call_to_text') then
+                return true
+            else
+                return originalIsEntityPlayingAnim(entity, dict, name, flag)
+            end
+        end
+    end
+
     RegisterNUICallback('useMouse', function(um, callback)
         CS_STORIES.SetKeyLabels(not um) -- Set key labels depending on user preference of using mouse or not while browsing the phone.
         callback(true)
@@ -41,7 +53,10 @@ return function(resource)
     AddEventHandler('cs-stories:onVideoOn', function()
         -- Triggered when the player has opened Stories' camera.
 
-        PhonePlayIn()
+        if (hasAnimFns) then
+            PhonePlayIn()
+        end
+
         originalSetNuiFocusKeepInput(true) -- Allow control to pass through NUI.
 
         CreateThread(function()
@@ -66,12 +81,14 @@ return function(resource)
     AddEventHandler('cs-stories:onVideoOff', function()
         -- Triggered when the player has closed Stories' camera.
 
-        if (phoneOpen) then
-            PhonePlayCall()
-            PhonePlayText()
-        else
-            PhonePlayText()
-            PhonePlayOut()
+        if (hasAnimFns) then
+            if (phoneOpen) then
+                PhonePlayCall()
+                PhonePlayText()
+            else
+                PhonePlayText()
+                PhonePlayOut()
+            end
         end
 
         originalSetNuiFocusKeepInput(lastNuiFocusKeepInputState)

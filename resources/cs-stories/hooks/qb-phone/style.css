@@ -278,7 +278,7 @@
 }
 
 .cs-stories-container:not(.cs-stories-key-labels) .cs-stories-progress-ring {
-    top: -20px;
+    top: -25px;
 }
 
 .cs-stories-container .cs-stories-progress-ring svg {

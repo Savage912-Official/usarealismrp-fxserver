@@ -131,6 +131,24 @@ AddEventHandler('es_admin:fix', function()
 	end
 end)
 
+RegisterNetEvent('es_admin:upgradecar')
+AddEventHandler('es_admin:upgradecar', function()
+	local playerPed = GetPlayerPed(-1)
+	if IsPedInAnyVehicle(playerPed, false) then
+		local vehicle = GetVehiclePedIsIn(playerPed, false)
+		SetVehicleMod(vehicle, 11, 2, false) --engine
+		SetVehicleMod(vehicle, 12, 2, false) --brakes
+		SetVehicleMod(vehicle, 13, 2, false) --gearbox
+		SetVehicleMod(vehicle, 15, 3, false) --suspension
+		SetVehicleMod(vehicle, 16, 0, false) --armor
+		ToggleVehicleMod(vehicle, 18 , true) --turbo
+		ModifyVehicleTopSpeed(vehicle, 20.0) --topspeed
+		TriggerEvent('usa:notify', "Your vehicle has been upgraded!")
+	else
+		TriggerEvent('usa:notify', "You're not in a vehicle!")
+	end
+end)
+
 RegisterNetEvent('es_admin:notifySound')
 AddEventHandler('es_admin:notifySound', function()
 	SetFlash(0, 0, 100, 100, 100)
@@ -327,7 +345,7 @@ end
 -- noclip hot key --
 Citizen.CreateThread(function()
 	while true do
-		if IsControlPressed(1,  KEYS.ALT) and IsControlPressed(1, KEYS.SHIFT) and IsControlJustPressed(1, KEYS.N) then 
+		if IsControlPressed(1,  KEYS.ALT) and IsControlPressed(1, KEYS.SHIFT) and IsControlJustPressed(1, KEYS.N) then
 			TriggerServerEvent("admin:checkGroupForNoClipHotkey")
 		end
 		Wait(10)

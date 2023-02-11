@@ -237,7 +237,7 @@ AddEventHandler("usa:loadPlayerComponents", function(id)
 end)
 
 TriggerEvent('es:addJobCommand', 'impound', { "sheriff", "ems", "corrections" }, function(source, args, char)
-	if exports["usa-characters"]:GetNumCharactersWithJob("mechanic") < 3 then
+	if exports["usa-characters"]:GetNumCharactersWithJob("mechanic") < 5 then
 		local msg = "Calls for State Tow"
 		TriggerEvent('display:shareDisplayBySource', source, msg, 5, 370, 10, 8000, true)
 		TriggerClientEvent('impoundVehicle', source)

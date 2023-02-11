@@ -1,62 +1,201 @@
--- config
 local fov_max = 80.0
 local fov_min = 10.0 -- max zoom level (smaller fov is more zoom)
-local zoomspeed = 5.0 -- camera zoom speed
-local speed_lr = 5.0 -- speed by which the camera pans left-right
-local speed_ud = 5.0 -- speed by which the camera pans up-down
+local zoomspeed = 2.0 -- camera zoom speed
+local speed_lr = 3.0 -- speed by which the camera pans left-right 
+local speed_ud = 3.0 -- speed by which the camera pans up-down
 local toggle_helicam = 51 -- control id of the button by which to toggle the helicam mode. Default: INPUT_CONTEXT (E)
 local toggle_vision = 25 -- control id to toggle vision mode. Default: INPUT_AIM (Right mouse btn)
-local toggle_rappel = 154 -- control id to rappel out of the heli. Default: INPUT_DUCK (X)
 local toggle_spotlight = 183 -- control id to toggle the front spotlight Default: INPUT_PhoneCameraGrid (G)
 local toggle_lock_on = 22 -- control id to lock onto a vehicle with the camera. Default is INPUT_SPRINT (spacebar)
+local count,hover,help,super = 0,0,0,0
+
+function MessaggioAiuto(msg, thisFrame, beep, duration)
+	AddTextEntry('KernelNotify', msg)
+	if thisFrame then
+		DisplayHelpTextThisFrame('KernelNotify', false)
+	else
+		if beep == nil then beep = true end
+		BeginTextCommandDisplayHelp('KernelNotify')
+		EndTextCommandDisplayHelp(0, false, beep, duration or -1)
+	end
+end
+
+CreateThread(function()
+	local heli = GetVehiclePedIsIn(PlayerPedId())
+	while true do
+		Wait(5)
+		if CheckVeicoloPlayer() and not CheckAltezzaElicottero(heli) then
+			TriggerEvent('usa:showHelp', true, 'Press ~INPUT_CELLPHONE_CAMERA_FOCUS_LOCK~ For Help!')
+		end
+	end
+end)
+
+Citizen.CreateThread(function()
+	RegisterKeyMapping('AttivaCam', Kernel.Translations[Kernel.Lenguage]["active_heli_cam"], 'keyboard', Kernel.ActiveCamKey)
+	RegisterKeyMapping('CalatiFune', Kernel.Translations[Kernel.Lenguage]["rappel"], 'keyboard', Kernel.RappelKey)
+	RegisterKeyMapping('AccendiFaro', Kernel.Translations[Kernel.Lenguage]["lights"], 'keyboard', Kernel.LightsKey)
+	RegisterKeyMapping('Hover', Kernel.Translations[Kernel.Lenguage]["hover"], 'keyboard', Kernel.HoverKey)
+	RegisterKeyMapping('SuperHover', Kernel.Translations[Kernel.Lenguage]["super"], 'keyboard', Kernel.SuperHoverKey)
+	RegisterKeyMapping('Help', Kernel.Translations[Kernel.Lenguage]["help"], 'keyboard', Kernel.HelpKey)
+end)
+local Ca,Ci,Ho,So = "~r~Inactive","~r~Inactive","~r~Inactive","~r~Inactive"
+
+RegisterCommand("Help",function()
+	if CheckVeicoloPlayer() then
+		if help == 1 then
+			help = 0
+		elseif help == 0 then
+			help = 1
+			while help do
+				Citizen.Wait(5)
+				if count == 1 then Ca = "~g~Active" else Ca = "~r~Inactive" end if hover == 1 then Ho = "~g~Active" else Ho = "~r~Inactive" end if super == 1 then So = "~g~Active" else So = "~r~Inactive" end 
+				MessaggioAiuto(Kernel.Translations[Kernel.Lenguage]["cam"] .. Ca .."\n~w~".. Kernel.Translations[Kernel.Lenguage]["hovering_help"].. Ho.."\n~w~".. Kernel.Translations[Kernel.Lenguage]["superhovering_help"] .. So,false, true, 8000)
+				if Kernel.ViewCommandsHelp then
+					AddTextEntry('HelpText', Kernel.Translations[Kernel.Lenguage]["help_text"])
+    	        	SetFloatingHelpTextWorldPosition(1, GetEntityCoords(PlayerPedId()).x + -7,GetEntityCoords(PlayerPedId()).y+5,GetEntityCoords(PlayerPedId()).z)
+    	        	SetFloatingHelpTextStyle(1, 1, 2, -1, 3, 0)
+    	        	BeginTextCommandDisplayHelp('HelpText')
+    	        	EndTextCommandDisplayHelp(2, false, false, -1)
+				end
+				if help == 0 then
+					break 
+				end
+			end
+		end
+	end
+end)
+
+RegisterCommand("SuperHover",function()
+	if CheckVeicoloPlayer() then
+		if super == 1 then
+			super = 0
+			MessaggioAiuto(Kernel.Translations[Kernel.Lenguage]["hover_off"], false, true, 8000)
+		elseif super == 0 then
+			super = 1
+			Citizen.CreateThread(function()
+				MessaggioAiuto(Kernel.Translations[Kernel.Lenguage]["hover_on"], false, true, 8000)
+				local vehicle = GetVehiclePedIsIn(PlayerPedId(),true)
+				while super and GetHeliMainRotorHealth(vehicle) > 0 and GetHeliTailRotorHealth(vehicle) > 0 and GetVehicleEngineHealth(vehicle,true) > 300 do Citizen.Wait(0)
+					local currentvelocity = GetEntityVelocity(vehicle)
+					SetEntityVelocity(vehicle, 0.0, 0.0, 0.0)
+					SetPlaneTurbulenceMultiplier(vehicle,0.0)
+					if super == 0 then
+						SetEntityVelocity(vehicle, currentvelocity.x, currentvelocity.y, currentvelocity.z)
+						break
+					end
+				end
+				MessaggioAiuto(Kernel.Translations[Kernel.Lenguage]["hover_off"], false, true, 8000)
+			end)
+			MessaggioAiuto(Kernel.Translations[Kernel.Lenguage]["hover_off"], false, true, 8000)
+		end
+
+	end
+end)
+
+RegisterCommand("Hover",function()
+	if CheckVeicoloPlayer() then
+		if hover == 1 then
+			hover = 0
+			MessaggioAiuto(Kernel.Translations[Kernel.Lenguage]["hover_off"], false, true, 8000)
+		elseif hover == 0 then
+			hover = 1
+			Citizen.CreateThread(function()
+				MessaggioAiuto(Kernel.Translations[Kernel.Lenguage]["hover_on"], false, true, 8000)
+				local vehicle = GetVehiclePedIsIn(PlayerPedId(),true)
+				while hover and GetHeliMainRotorHealth(vehicle) > 0 and GetHeliTailRotorHealth(vehicle) > 0 and GetVehicleEngineHealth(vehicle,true) > 300 do Citizen.Wait(0)
+					local currentvelocity = GetEntityVelocity(vehicle)
+					SetEntityVelocity(vehicle, currentvelocity.x, currentvelocity.y, 0.0)
+					SetPlaneTurbulenceMultiplier(vehicle,0.0)
+					if hover == 0 then
+						SetEntityVelocity(vehicle, currentvelocity.x, currentvelocity.y, currentvelocity.z)
+						break
+					end
+				end
+				MessaggioAiuto(Kernel.Translations[Kernel.Lenguage]["hover_off"], false, true, 8000)
+			end)
+			MessaggioAiuto(Kernel.Translations[Kernel.Lenguage]["hover_off"], false, true, 8000)
+		end
+
+	end
+end)
+
+Citizen.CreateThread(function()
+	RegisterKeyMapping('AttivaCam', Kernel.Translations[Kernel.Lenguage]["active_heli_cam"], 'keyboard', Kernel.ActiveCamKey)
+	RegisterKeyMapping('CalatiFune', Kernel.Translations[Kernel.Lenguage]["rappel"], 'keyboard', Kernel.RappelKey)
+	RegisterKeyMapping('AccendiFaro', Kernel.Translations[Kernel.Lenguage]["lights"], 'keyboard', Kernel.LightsKey)
+	RegisterKeyMapping('Hover', Kernel.Translations[Kernel.Lenguage]["hover"], 'keyboard', Kernel.HoverKey)
+end)
+
+
+RegisterCommand("AccendiFaro",function()
+	if CheckVeicoloPlayer() then
+		if GetPedInVehicleSeat(GetVehiclePedIsIn(PlayerPedId()), -1) == PlayerPedId() then
+			spotlight_state = not spotlight_state
+			TriggerServerEvent("Elicottero:Accendiluce", spotlight_state)
+			PlaySoundFrontend(-1, "SELECT", "HUD_FRONTEND_DEFAULT_SOUNDSET", false)
+		end
+	end
+end)
+
+RegisterCommand("CalatiFune",function()
+	if CheckVeicoloPlayer() then
+		Notifications(Kernel.Translations[Kernel.Lenguage]["prepare_rope"])
+		if GetPedInVehicleSeat(GetVehiclePedIsIn(PlayerPedId()), 1) == PlayerPedId() or GetPedInVehicleSeat(GetVehiclePedIsIn(PlayerPedId()), 2) == PlayerPedId() then
+			PlaySoundFrontend(-1, "SELECT", "HUD_FRONTEND_DEFAULT_SOUNDSET", false)
+			TaskRappelFromHeli(PlayerPedId(), 1)
+		else
+			Notifications(Kernel.Translations[Kernel.Lenguage]["not_possible"])
+			PlaySoundFrontend(-1, "5_Second_Timer", "DLC_HEISTS_GENERAL_FRONTEND_SOUNDS", false) 
+		end
+	end
+end)
+
+RegisterCommand("AttivaCam",function()
+	if CheckVeicoloPlayer() and CheckAltezzaElicottero(GetVehiclePedIsIn(PlayerPedId())) then
+		if count == 0 then
+			count = 1
+			AttivaCam()
+		elseif count == 1 then
+			helicam = false
+			count = 0
+			AttivaCam()
+		end
+	end
+end)
 
 -- Script starts here
 local helicam = false
 local fov = (fov_max+fov_min)*0.5
 local vision_state = 0 -- 0 is normal, 1 is nightmode, 2 is thermal vision
-Citizen.CreateThread(function()
+function AttivaCam()
 	while true do
-        Citizen.Wait(0)
-		if IsPlayerInCompatibleHeli() then
-			local lPed = GetPlayerPed(-1)
+		if count == 1 and CheckVeicoloPlayer() then
+        	Citizen.Wait(5)
+			if CheckVeicoloPlayer() then
+			local lPed = PlayerPedId()
 			local heli = GetVehiclePedIsIn(lPed)
-
-			if IsHeliHighEnough(heli) then
-				if IsControlJustPressed(0, toggle_helicam) then -- Toggle Helicam
-					PlaySoundFrontend(-1, "SELECT", "HUD_FRONTEND_DEFAULT_SOUNDSET", false)
+			if CheckAltezzaElicottero(heli) then
+				--if IsControlJustPressed(0, toggle_helicam) then -- Toggle Helicam
+					PlaySoundFrontend(-1, "SELECT", "DLC_HEISTS_GENERAL_FRONTEND_SOUNDS", false)
 					helicam = true
-				end
-
-				if IsControlJustPressed(0, toggle_rappel) then -- Initiate rappel
-					Citizen.Trace("try to rappel")
-					if GetPedInVehicleSeat(heli, 1) == lPed or GetPedInVehicleSeat(heli, 2) == lPed then
-						PlaySoundFrontend(-1, "SELECT", "HUD_FRONTEND_DEFAULT_SOUNDSET", false)
-						TaskRappelFromHeli(GetPlayerPed(-1), 1)
-					else
-						SetNotificationTextEntry( "STRING" )
-						AddTextComponentString("~r~Can't rappel from this seat")
-						DrawNotification(false, false )
-						PlaySoundFrontend(-1, "5_Second_Timer", "DLC_HEISTS_GENERAL_FRONTEND_SOUNDS", false)
-					end
-				end
+				--end			
+				
 			end
-
 			if IsControlJustPressed(0, toggle_spotlight)  and GetPedInVehicleSeat(heli, -1) == lPed then
 				spotlight_state = not spotlight_state
 				TriggerServerEvent("heli:spotlight", spotlight_state)
 				PlaySoundFrontend(-1, "SELECT", "HUD_FRONTEND_DEFAULT_SOUNDSET", false)
 			end
-
-		end
-
-		if helicam then
+			
+			end
+			if helicam then
 			SetTimecycleModifier("heliGunCam")
 			SetTimecycleModifierStrength(0.3)
 			local scaleform = RequestScaleformMovie("HELI_CAM")
 			while not HasScaleformMovieLoaded(scaleform) do
 				Citizen.Wait(0)
 			end
-			local lPed = GetPlayerPed(-1)
+			local lPed = PlayerPedId()
 			local heli = GetVehiclePedIsIn(lPed)
 			local cam = CreateCam("DEFAULT_SCRIPTED_FLY_CAMERA", true)
 			AttachCamToEntity(cam, heli, 0.0,0.0,-1.5, true)
@@ -67,20 +206,17 @@ Citizen.CreateThread(function()
 			PushScaleformMovieFunctionParameterInt(1) -- 0 for nothing, 1 for LSPD logo
 			PopScaleformMovieFunctionVoid()
 			local locked_on_vehicle = nil
-			while helicam and not IsEntityDead(lPed) and (GetVehiclePedIsIn(lPed) == heli) and IsHeliHighEnough(heli) do
+			while helicam and not IsEntityDead(lPed) and (GetVehiclePedIsIn(lPed) == heli) and CheckAltezzaElicottero(heli) do
 				if IsControlJustPressed(0, toggle_helicam) then -- Toggle Helicam
 					PlaySoundFrontend(-1, "SELECT", "HUD_FRONTEND_DEFAULT_SOUNDSET", false)
 					helicam = false
 				end
-				if IsControlJustPressed(0, toggle_vision) then
-					PlaySoundFrontend(-1, "SELECT", "HUD_FRONTEND_DEFAULT_SOUNDSET", false)
-					ChangeVision()
+				if Kernel.UseVision then
+					if IsControlJustPressed(0, toggle_vision) then
+						PlaySoundFrontend(-1, "SELECT", "HUD_FRONTEND_DEFAULT_SOUNDSET", false)
+						ChangeVision()
+					end
 				end
-				if IsControlJustPressed(0, 24) then
-					PlaySoundFrontend(-1, "SELECT", "HUD_FRONTEND_DEFAULT_SOUNDSET", false)
-					spotlight_on = not spotlight_on
-				end
-
 				if locked_on_vehicle then
 					if DoesEntityExist(locked_on_vehicle) then
 						PointCamAtEntity(cam, locked_on_vehicle, 0.0, 0.0, 0.0, true)
@@ -113,16 +249,6 @@ Citizen.CreateThread(function()
 						end
 					end
 				end
-
-				if spotlight_on then
-					local heli_coords = GetEntityCoords(heli)
-					local coords = GetCamCoord(cam)
-					local forward_vector = RotAnglesToVec(GetCamRot(cam, 2))
-					local dir = GetOffsetFromEntityGivenWorldCoords(heli, coords)
-					--DrawSpotLight(heli_coords, dir+(forward_vector*200.0), 255, 255, 255, 400.0, 10.0, 0.0, 7.0, 10.0)
-					TriggerServerEvent("heli:syncSpotlight", heli_coords, dir+(forward_vector*200.0))
-				end
-
 				HandleZoom(cam)
 				HideHUDThisFrame()
 				PushScaleformMovieFunction(scaleform, "SET_ALT_FOV_HEADING")
@@ -141,40 +267,35 @@ Citizen.CreateThread(function()
 			DestroyCam(cam, false)
 			SetNightvision(false)
 			SetSeethrough(false)
+			else
+				Citizen.Wait(500)
+				break
+			end
+		else
+			break
 		end
 	end
-end)
+end
 
-RegisterNetEvent("heli:updateSpotlight")
-AddEventHandler("heli:updateSpotlight", function(coords, dir)
-	local beginTime = GetGameTimer()
-	while GetGameTimer() - beginTime < 40 do
-		Citizen.Wait(0)
-		DrawSpotLight(coords, dir, 255, 255, 255, 400.0, 10.0, 0.0, 7.0, 10.0)
-	end
-end)
-
-RegisterNetEvent('heli:spotlight')
-AddEventHandler('heli:spotlight', function(serverID, state)
+RegisterNetEvent('Ritorno:AccendiLuci')
+AddEventHandler('Ritorno:AccendiLuci', function(serverID, state)
 	local heli = GetVehiclePedIsIn(GetPlayerPed(GetPlayerFromServerId(serverID)), false)
 	SetVehicleSearchlight(heli, state, false)
-	Citizen.Trace("Set heli light state to "..tostring(state).." for serverID: "..serverID)
 end)
 
-function IsPlayerInCompatibleHeli()
-	local compatibleHelis = {"polmav", "as350", "buzzard2", "c3swathawk"}
-	local lPed = GetPlayerPed(-1)
-	local vehicle = GetVehiclePedIsIn(lPed)
-	for i = 1, #compatibleHelis do
-		if IsVehicleModel(vehicle, GetHashKey(compatibleHelis[i])) then
-			return true
-		end
+function CheckVeicoloPlayer()
+	local lPed = PlayerPedId()
+	local vehicle = GetVehiclePedIsIn(lPed)    
+		for i=1,#Kernel.Vehicles do
+			if IsVehicleModel(vehicle, Kernel.Vehicles[i]) then
+				 return true
+			end
 	end
 	return false
 end
 
-function IsHeliHighEnough(heli)
-	return GetEntityHeightAboveGround(heli) > 1.5
+function CheckAltezzaElicottero(heli)
+	return GetEntityHeightAboveGround(heli) > 5
 end
 
 function ChangeVision()
@@ -222,7 +343,7 @@ function HandleZoom(cam)
 		fov = math.max(fov - zoomspeed, fov_min)
 	end
 	if IsControlJustPressed(0,242) then
-		fov = math.min(fov + zoomspeed, fov_max) -- ScrollDown
+		fov = math.min(fov + zoomspeed, fov_max) -- ScrollDown		
 	end
 	local current_fov = GetCamFov(cam)
 	if math.abs(fov-current_fov) < 0.1 then -- the difference is too small, just set the value directly to avoid unneeded updates to FOV of order 10^-5
@@ -235,7 +356,7 @@ function GetVehicleInView(cam)
 	local coords = GetCamCoord(cam)
 	local forward_vector = RotAnglesToVec(GetCamRot(cam, 2))
 	--DrawLine(coords, coords+(forward_vector*100.0), 255,0,0,255) -- debug line to show LOS of cam
-	local rayhandle = CastRayPointToPoint(coords, coords+(forward_vector*200.0), 10, GetVehiclePedIsIn(GetPlayerPed(-1)), 0)
+	local rayhandle = CastRayPointToPoint(coords, coords+(forward_vector*200.0), 10, GetVehiclePedIsIn(PlayerPedId()), 0)
 	local _, _, _, _, entityHit = GetRaycastResult(rayhandle)
 	if entityHit>0 and IsEntityAVehicle(entityHit) then
 		return entityHit
@@ -257,22 +378,9 @@ function RenderVehicleInfo(vehicle)
 	SetTextDropShadow()
 	SetTextOutline()
 	SetTextEntry("STRING")
-	AddTextComponentString("Model: "..vehname.."\nPlate: "..licenseplate)
-	DrawText(0.45, 0.9)
+	AddTextComponentString(Kernel.Translations[Kernel.Lenguage]["plate"]..vehname.."\n"..Kernel.Translations[Kernel.Lenguage]["vehicle"]..licenseplate)
+	DrawText(0.60, 0.9)
 end
-
--- function HandleSpotlight(cam)
--- if IsControlJustPressed(0, toggle_spotlight) then
-	-- PlaySoundFrontend(-1, "SELECT", "HUD_FRONTEND_DEFAULT_SOUNDSET", false)
-	-- spotlight_state = not spotlight_state
--- end
--- if spotlight_state then
-	-- local rotation = GetCamRot(cam, 2)
-	-- local forward_vector = RotAnglesToVec(rotation)
-	-- local camcoords = GetCamCoord(cam)
-	-- DrawSpotLight(camcoords, forward_vector, 255, 255, 255, 300.0, 10.0, 0.0, 2.0, 1.0)
--- end
--- end
 
 function RotAnglesToVec(rot) -- input vector3
 	local z = math.rad(rot.z)

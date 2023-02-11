@@ -12,7 +12,7 @@ local START_JOB_KEY = 38
 
 local CLEAN_TIME_SECONDS = 45 -- also tightly coupled with a server sided duplicate variable rn unfortunately so don't forget to update that too if u change it
 
-local JOB_START_DELAY_SECONDS = 15 * 60
+local JOB_START_DELAY_SECONDS = 10 * 60
 
 local lastJobFinishedAt = 0
 

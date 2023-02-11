@@ -50,8 +50,19 @@ function isPlayerPolice()
     end
 end
 
+--
+--[[ Boosting tablet opening ]]--
+--
+
 local isVisible = false
 local tabletObject = nil
+
+-- Tablet opening through a command
+-- if clConfig.commandsEnabled then
+--     RegisterCommand("boosting", function()
+--         openTablet()
+--     end)
+-- end
 
 -- Tablet opening through an event
 RegisterNetEvent("rahe-boosting:client:openTablet")
@@ -76,6 +87,18 @@ AddEventHandler("rahe-boosting:client:openTablet", function()
     openTablet()
 end)
 
+
+--
+--[[ Using hacking device ]]--
+--
+
+-- Hacking device using through a command
+-- if clConfig.commandsEnabled then
+--     RegisterCommand("usehackingdevice", function()
+--         useHackingDevice()
+--     end)
+-- end
+
 -- Hacking device using through an event
 RegisterNetEvent("rahe-boosting:client:hackingDeviceUsed")
 AddEventHandler("rahe-boosting:client:hackingDeviceUsed", function()
@@ -88,9 +111,11 @@ end)
 --
 
 -- GPS hacking device using function. This calls an internal encrypted function which starts the use.
-RegisterCommand("usegpshackingdevice", function()
-    useGpsHackingDevice()
-end)
+-- if clConfig.commandsEnabled then
+--     RegisterCommand("usegpshackingdevice", function()
+--         useGpsHackingDevice()
+--     end)
+-- end
 
 -- GPS hacking device using through an event
 RegisterNetEvent("rahe-boosting:client:gpsHackingDeviceUsed")
@@ -105,7 +130,8 @@ end)
 
 RegisterNetEvent('rahe-boosting:client:notify')
 AddEventHandler('rahe-boosting:client:notify',function(message, type)
-    TriggerServerEvent('usa:notify', message)
+	TriggerEvent("chatMessage", '', {46,204,113}, message)
+    notifyPlayer(message, type)
 end)
 
 function notifyPlayer(message, type)

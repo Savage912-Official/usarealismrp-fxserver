@@ -768,6 +768,8 @@ Citizen.CreateThread(function()
 	end
 end)
 
+local warehousecoords
+
 function isAtAWarpPoint(x, y, z)
 	for i = 1, #COORDS_TO_ALLOW_TELEPORTATION_FROM do
 		local warp_to_check_against = COORDS_TO_ALLOW_TELEPORTATION_FROM[i]
@@ -780,6 +782,15 @@ function isAtAWarpPoint(x, y, z)
 		local _x, _y, _z = table.unpack(warp)
 		if Vdist(x, y, z, _x, _y, _z) < 15.0 then
 			return true
+		end
+	end
+	if warehousecoords == nil then 
+		warehousecoords = exports["av-warehouse"]:getWarehouseLocations()
+	else
+		for i = 1, #warehousecoords do
+			if Vdist(x, y, z, warehousecoords[i].x, warehousecoords[i].y, warehousecoords[i].z) < 15.0 then
+				return true
+			end
 		end
 	end
 	return false

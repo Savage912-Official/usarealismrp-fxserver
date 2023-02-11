@@ -11,6 +11,7 @@ export class AnimalFarm {
     exitdoor: sdk.AquiverDoor;
 
     constructor(public _data: FarmDatabaseInterface) {
+        /*
         this.blip = AddBlipForCoord(this.position.x, this.position.y, this.position.z);
         SetBlipSprite(this.blip, 85);
         SetBlipDisplay(this.blip, 4);
@@ -20,6 +21,7 @@ export class AnimalFarm {
         BeginTextCommandSetBlipName('STRING');
         AddTextComponentString(this.name);
         EndTextCommandSetBlipName(this.blip);
+        */
 
         this.updateDoor();
     }

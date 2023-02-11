@@ -1,0 +1,51 @@
+body {
+    background: none;
+    overflow-x: hidden;
+}
+#main {
+    user-select: none;
+}
+#main .markermenu {
+    position: absolute;
+    top: 50%;
+    right: 2.5%;
+    width: 10%;
+    height: auto;
+    min-height: 5%;
+    background-color: #232832;
+    border-radius: 0.2vw;
+    animation: open 0.5s;
+}
+#main .markermenu.exit {
+    animation: exit 0.5s;
+}
+#main .markermenu .markermenutext {
+    position: relative;
+    width: 100%;
+    text-align: center;
+    font-family: iphone;
+    font-size: 0.8vw;
+    font-weight: 1000;
+    line-height: 1.5;
+    color: rgb(200, 200, 200);
+
+    padding-top: 0.9vw;
+    padding-bottom: 1vw;
+}
+
+@font-face {
+	font-family: iphone;
+	src: url(../fonts/SF-Pro-Text-Light.ttf);
+}
+@font-face {
+	font-family: iphone-bold;
+	src: url(../fonts/SF-Pro-Display-Bold.otf);
+}
+@keyframes open {
+	0% {transform: translateX(200%);}
+	100% {transform: translateX(0%);}
+}
+@keyframes exit {
+	0% {transform: translateX(0%);}
+	100% {transform: translateX(200%);}
+}

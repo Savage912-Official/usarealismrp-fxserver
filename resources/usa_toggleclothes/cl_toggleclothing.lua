@@ -105,13 +105,13 @@ AddEventHandler("headprops:toggleComponent", function(component_index)
 	elseif component_index == 4 then -- /pants
 		if isMale then -- if male, then do this
 			TriggerEvent("usa:playAnimation", "clothingtrousers", "try_trousers_neutral_c", -8, 1, -1, 53, 0, 0, 0, 0,  1.5) -- play remove pants animation
-			if GetPedDrawableVariation(ped, component_index) ~= 44 then -- component is on, take off -- Also change the num value to whatever the male underwear is
+			if GetPedDrawableVariation(ped, component_index) ~= 50 then -- component is on, take off -- Also change the num value to whatever the male underwear is
 				local value = GetPedDrawableVariation(ped, component_index)
 				local texture = GetPedTextureVariation(ped, component_index)
 				components[strComponentIndex].value = tonumber(value)
 				components[strComponentIndex].texture = tonumber(texture)
 				Wait(waitTime)
-				SetPedComponentVariation(ped, component_index, 44, 0, 2) -- set MALE legs to underwear with hearts | If clothing ever pushes this, make sure to edit the 3rd value
+				SetPedComponentVariation(ped, component_index, 50, 0, 2) -- set MALE legs to underwear with hearts | If clothing ever pushes this, make sure to edit the 3rd value
 			else
 				-- off, put back on --
 				Wait(waitTime)
@@ -123,13 +123,13 @@ AddEventHandler("headprops:toggleComponent", function(component_index)
 			end
 		else -- if not male, then do this
 			TriggerEvent("usa:playAnimation", "clothingtrousers", "try_trousers_neutral_c", -8, 1, -1, 53, 0, 0, 0, 0,  1.5) -- play remove pants animation
-			if GetPedDrawableVariation(ped, component_index) ~= 43 then -- component is on, take off
+			if GetPedDrawableVariation(ped, component_index) ~= 56 then -- component is on, take off
 				local value = GetPedDrawableVariation(ped, component_index)
 				local texture = GetPedTextureVariation(ped, component_index)
 				components[strComponentIndex].value = tonumber(value)
 				components[strComponentIndex].texture = tonumber(texture)
 				Wait(waitTime)
-				SetPedComponentVariation(ped, component_index, 43, 0, 2) -- set FEMALE legs to underwear | If clothing ever pushes this, make sure to edit the 3rd value
+				SetPedComponentVariation(ped, component_index, 56, 0, 2) -- set FEMALE legs to underwear | If clothing ever pushes this, make sure to edit the 3rd value
 			else
 				-- off, put back on --
 				Wait(waitTime)

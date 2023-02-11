@@ -989,12 +989,24 @@ end)
 local LARGE_XMAS_TREE_MODEL = 118627012
 local ATM_MODEL = GetHashKey("prop_atm_02")
 local ATM_MODEL2 = GetHashKey("prop_atm_01")
+local PRISON_TV = GetHashKey("prop_cs_tv_stand")
+local PHONEBOX_STANDING = GetHashKey("p_phonebox_01b_s")
 
 local STATIC_OBJECTS = {
   AUTOREPAIR_ATM = {
     coords = vector3(948.26678466797, -966.03826904297, 38.399954223633),
     heading = 275.0,
     obj = ATM_MODEL2
+  },
+  PRISON_TV = {
+    coords = vector3(1749.0377197265625, 2478.02294921875, 44.60413619995117),
+    heading = 30.0,
+    obj = PRISON_TV
+  },
+  PRISON_PHONE = {
+    obj = PHONEBOX_STANDING,
+    coords = vector3(1772.794, 2495.62, 44.74072),
+    heading = 300.0
   }
   --LEGION = {226.48237609863, -895.41094970703, 28.692138671875},
   --UPPER_PILLBOX = {242.40295410156, -565.30682373047, 41.278789520264},
@@ -1101,4 +1113,111 @@ end
 
 Citizen.CreateThread(function()
   CheckVehicles()
+end)
+
+-- Helicopter Submix --
+local soundmix = false
+
+function EnableSubmix()
+  SetAudioSubmixEffectRadioFx(0, 0)
+  SetAudioSubmixEffectParamInt(0, 0, `default`, 1)
+  SetAudioSubmixEffectParamFloat(0, 0, `freq_low`, 1250.0)
+  SetAudioSubmixEffectParamFloat(0, 0, `freq_hi`, 8500.0)
+  SetAudioSubmixEffectParamFloat(0, 0, `fudge`, 0.5)
+  SetAudioSubmixEffectParamFloat(0, 0, `rm_mix`, 19.0)
+end
+
+function DisableSubmix()
+  SetAudioSubmixEffectRadioFx(0, 0)
+  SetAudioSubmixEffectParamInt(0, 0, `enabled`, 0)
+end
+
+local soundmix = false
+CreateThread(function()
+  while true do
+    Wait(1000)
+    ped = PlayerPedId()
+    currentVehicle = GetVehiclePedIsIn(ped, false)
+    local vehmodel = GetEntityModel(currentVehicle)
+    if IsThisModelAHeli(vehmodel) or IsThisModelAPlane(vehmodel) then
+      if IsPedInAnyVehicle(ped, false) then
+        if GetIsVehicleEngineRunning(currentVehicle) then
+          if soundmix == false then
+            EnableSubmix()
+            soundmix = true
+          end
+        else
+          if soundmix == true then 
+            DisableSubmix()
+            soundmix = false
+          end        
+        end
+      else
+        if soundmix == true then 
+          DisableSubmix() 
+          soundmix = false 
+        end                
+      end
+    else
+      if soundmix == true then
+        DisableSubmix()
+        soundmix = false
+      end
+    end
+  end
+end)
+
+-- Remove Props At a certain coord --
+local PropInfo = {
+  { -- pd targets
+    Coords = vector3(478.07559204102, -1005.5838623047, 30.689582824707),
+    Props = {
+      {Hash = `gabz_mrpd_shooting_target`, Range = 12.0},
+    }
+  },
+  { -- legion ammunation targets
+    Coords = vector3(18.08592, -1088.539, 29.79719),
+    Props = {
+      {Hash = `gr_prop_gr_target_05c`, Range = 12.0},
+    }
+  },
+  { -- legion ammunation target arms
+    Coords = vector3(18.08592, -1088.539, 29.79719),
+    Props = {
+      {Hash = `prop_target_arm_b`, Range = 12.0},
+    }
+  },
+  { -- docks ammunation targets
+    Coords = vector3(820.2431, -2173.661, 29.61917),
+    Props = {
+      {Hash = `gr_prop_gr_target_05c`, Range = 12.0},
+    }
+  },
+  { -- docks ammunation target arms
+    Coords = vector3(820.2431, -2173.661, 29.61917),
+    Props = {
+      {Hash = `prop_target_arm_b`, Range = 12.0},
+    }
+  },
+}
+
+Citizen.CreateThread(function()
+  for k,v in ipairs(PropInfo) do
+    for k2,v2 in ipairs(v.Props) do
+      CreateModelHideExcludingScriptObjects(v.Coords, v2.Range or 0.0, v2.Hash, true)
+    end
+  end
+end)
+
+-- prevent auto shuffle in vehicle
+Citizen.CreateThread(function()
+  local lastPedWeSetConfigFor = 0
+  while true do
+    local me = PlayerPedId()
+    if me ~= lastPedWeSetConfigFor then
+        SetPedConfigFlag(me, 184, true)
+        lastPedWeSetConfigFor = me
+    end
+    Wait(1)
+  end
 end)

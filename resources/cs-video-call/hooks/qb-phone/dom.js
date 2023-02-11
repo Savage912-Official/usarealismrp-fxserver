@@ -1,10 +1,16 @@
-const _CSVC_QB_NAMESPACE = typeof(QB) === 'object' && QB.Phone ? QB : null
+const _CSVC_notificationStyle = null // Whether the qb-phone you are using has a notification-style active phone call screen. Available options: "one" and "two".
+const _CSVC_QB_NAMESPACE = typeof(QB) === 'object' && QB.Phone ? 'QB' : null
 
 if (!_CSVC_QB_NAMESPACE)
     throw new Error('[criticalscripts.shop] cs-video-call could not be hooked to your phone. Make sure you are using the correct hook.')
 
 window.CS_VIDEO_CALL.hookInterface = () => {
-    jQuery('.phone-call-app').prepend(`
+    let container = jQuery('.phone-call-app')
+
+    if (_CSVC_notificationStyle)
+        container = jQuery('.phone-container')
+
+    container.prepend(`
         <canvas id="cs-video-call-video-clone"></canvas>
         <video id="cs-video-call-virtual-video"></video>
 
@@ -29,9 +35,15 @@ window.CS_VIDEO_CALL.hookInterface = () => {
         <video id="cs-video-call-remote-video"></video>
     `)
 
-    jQuery('.phone-call-app .phone-call-ongoing #ongoing-cancel').before('<span data-action="cs-video-call-swap-transmission" style="display: none;"><svg enable-background="new 0 0 488.3 488.3" version="1.1" viewBox="0 0 488.3 488.3" xml:space="preserve" xmlns="http://www.w3.org/2000/svg"><path d="m488.3 142.5v203.1c0 15.7-17 25.5-30.6 17.7l-84.6-48.8v13.9c0 41.8-33.9 75.7-75.7 75.7h-221.7c-41.8 0-75.7-33.9-75.7-75.7v-168.5c0-41.8 33.9-75.7 75.7-75.7h221.8c41.8 0 75.7 33.9 75.7 75.7v13.9l84.6-48.8c13.5-8 30.5 1.9 30.5 17.5z" /></svg></span>')
+    if (_CSVC_notificationStyle) {
+        jQuery('.phone-currentcall-container').addClass('cs-video-call-notification-style').addClass(`cs-video-call-notification-style-${_CSVC_notificationStyle}`)
+        jQuery('.phone-currentcall-container #incoming-deny').before('<span data-action="cs-video-call-swap-transmission" style="display: none;"><svg enable-background="new 0 0 488.3 488.3" version="1.1" viewBox="0 0 488.3 488.3" xml:space="preserve" xmlns="http://www.w3.org/2000/svg"><path d="m488.3 142.5v203.1c0 15.7-17 25.5-30.6 17.7l-84.6-48.8v13.9c0 41.8-33.9 75.7-75.7 75.7h-221.7c-41.8 0-75.7-33.9-75.7-75.7v-168.5c0-41.8 33.9-75.7 75.7-75.7h221.8c41.8 0 75.7 33.9 75.7 75.7v13.9l84.6-48.8c13.5-8 30.5 1.9 30.5 17.5z" /></svg></span>')
+        container.addClass('cs-video-call-notification-style').addClass(`cs-video-call-notification-style-${_CSVC_notificationStyle}`)
+        container.addClass('cs-video-call-opaque')
+    } else
+        jQuery('.phone-call-ongoing #ongoing-cancel', container).before('<span data-action="cs-video-call-swap-transmission" style="display: none;"><svg enable-background="new 0 0 488.3 488.3" version="1.1" viewBox="0 0 488.3 488.3" xml:space="preserve" xmlns="http://www.w3.org/2000/svg"><path d="m488.3 142.5v203.1c0 15.7-17 25.5-30.6 17.7l-84.6-48.8v13.9c0 41.8-33.9 75.7-75.7 75.7h-221.7c-41.8 0-75.7-33.9-75.7-75.7v-168.5c0-41.8 33.9-75.7 75.7-75.7h221.8c41.8 0 75.7 33.9 75.7 75.7v13.9l84.6-48.8c13.5-8 30.5 1.9 30.5 17.5z" /></svg></span>')
 
-    return jQuery('.phone-call-app')
+    return container
 }
 
 window.CS_VIDEO_CALL.hookDocument()

@@ -1,5 +1,12 @@
 local inventoriesBeingAccessed = {}
 
+local lastInvMovTimeStamps = {}
+
+local LAG_SWTICH_THRESHOLD_MS = 300 -- 300 ms per move action would prob be too fast for any human to do naturally
+
+local THIRD_EYE_DEFAULT_HOTKEY = 37
+local THIRD_EYE_ALT_HOTKEY = 19
+
 RegisterServerEvent("interaction:checkJailedStatusBeforeEmote")
 AddEventHandler("interaction:checkJailedStatusBeforeEmote", function(scenario)
 	local jailTime = exports["usa-characters"]:GetCharacterField(source, "jailTime")
@@ -32,10 +39,9 @@ end)
 RegisterServerEvent("interaction:loadVehicleInventory")
 AddEventHandler("interaction:loadVehicleInventory", function(plate)
 	local userSource = tonumber(source)
-	exports["usa_vehinv"]:GetVehicleInventory(plate, function(inv)
-		local isLocked = exports["_locksystem"]:isLocked(plate)
-		TriggerClientEvent("interaction:vehicleInventoryLoaded", userSource, inv, isLocked)
-	end)
+	local inv = exports["usa_vehinv"]:GetVehicleInventory(plate)
+	local isLocked = exports["_locksystem"]:isLocked(plate)
+	TriggerClientEvent("interaction:vehicleInventoryLoaded", userSource, inv, isLocked)
 end)
 
 RegisterServerEvent("interaction:loadInventoryForInteraction")
@@ -160,6 +166,13 @@ end)
 
 RegisterServerEvent("inventory:moveItem")
 AddEventHandler("inventory:moveItem", function(data)
+	if lastInvMovTimeStamps[source] then
+		if GetGameTimer() - lastInvMovTimeStamps[source] <= LAG_SWTICH_THRESHOLD_MS then
+			print("sus inventory move detected (lag switch dupe attempt?) from #" .. source .. " / " .. GetPlayerName(source))
+			return
+		end
+	end
+	lastInvMovTimeStamps[source] = GetGameTimer()
 	local usource = source
 	local char = exports["usa-characters"]:GetCharacter(usource)
 	local quantity = tonumber(data.quantity) or 1
@@ -179,16 +192,15 @@ AddEventHandler("inventory:moveItem", function(data)
 				-- todo: send msg to NUI to give some UI feedback for failed move
 				return
 			end
-				-- perform move --
+			-- perform move --
 			if item then
-				TriggerEvent("vehicle:storeItem", usource, data.plate, item, quantity, data.toSlot, function(success, inv) -- make export?
-					if success then
-						char.removeItemByIndex(data.fromSlot, quantity)
-						TriggerClientEvent("interaction:sendNUIMessage", usource, { type = "updateBothInventories", inventory = { primary = char.get("inventory"), secondary = inv}})
-						--TriggerClientEvent("interaction:sendNUIMessage", usource, { type = "inventoryLoaded", inventory = char.get("inventory")})
-						TriggerEvent("vehicle:updateForOthers", data.plate, inv)
-					end
-				end)
+				local success, inv = exports.usa_vehinv:storeItem(usource, data.plate, item, quantity, data.toSlot)
+				if success then
+					char.removeItemByIndex(data.fromSlot, quantity)
+					TriggerClientEvent("interaction:sendNUIMessage", usource, { type = "updateBothInventories", inventory = { primary = char.get("inventory"), secondary = inv}})
+					--TriggerClientEvent("interaction:sendNUIMessage", usource, { type = "inventoryLoaded", inventory = char.get("inventory")})
+					TriggerEvent("vehicle:updateForOthers", data.plate, inv)
+				end
 			end
 		elseif data.secondaryInventoryType == "property" then
 			TriggerEvent("properties-og:moveItemToPropertyStorage", usource, data)
@@ -275,7 +287,7 @@ AddEventHandler("inventory:moveItem", function(data)
 end)
 
 RegisterServerEvent("inventory:dropItem")
-AddEventHandler("inventory:dropItem", function(name, index, posX, posY, posZ)
+AddEventHandler("inventory:dropItem", function(name, index, posX, posY, posZ, heading)
 	--------------------
 	-- play animation --
 	--------------------
@@ -284,7 +296,8 @@ AddEventHandler("inventory:dropItem", function(name, index, posX, posY, posZ)
 	local coords = {
 		x = posX,
 		y = posY,
-		z = posZ - 0.9
+		z = posZ - 0.9,
+		h = heading
 	}
 	local char = exports["usa-characters"]:GetCharacter(source)
 	local item = char.getItemByIndex(index)
@@ -356,3 +369,43 @@ AddEventHandler("civ:handsDown", function()
 		inventoriesBeingAccessed[source] = nil
 	end
 end)
+
+AddEventHandler('playerDropped', function(reason)
+	if lastInvMovTimeStamps[source] then
+		lastInvMovTimeStamps[source] = nil
+	end
+end)
+
+TriggerEvent('es:addCommand', '3rdeyehotkey', function(src, args, char)
+	local currentSetting = (get3rdEyeSetting(src) or THIRD_EYE_DEFAULT_HOTKEY)
+	if currentSetting == THIRD_EYE_DEFAULT_HOTKEY then
+		currentSetting = THIRD_EYE_ALT_HOTKEY
+	elseif currentSetting == THIRD_EYE_ALT_HOTKEY then
+		currentSetting = THIRD_EYE_DEFAULT_HOTKEY
+	end
+	save3rdEyeSetting(src, currentSetting)
+	TriggerClientEvent("thirdEye:updateHotkey", src, currentSetting)
+	local READABLE_FORMAT = {
+		[19] = "L ALT",
+		[37] = "TAB"
+	}
+	TriggerClientEvent("usa:notify", src, "Hotkey updated to: " .. READABLE_FORMAT[currentSetting])
+end, {
+	help = "Toggle 3rd eye hotkey between TAB and L ALT"
+})
+
+function get3rdEyeSetting(src)
+	local doc = exports.essentialmode:getDocument("third-eye-setting", GetPlayerIdentifiers(src)[1])
+	return doc and doc.key or THIRD_EYE_DEFAULT_HOTKEY
+end
+
+function save3rdEyeSetting(src, setting)
+	exports.essentialmode:updateDocument("third-eye-setting", GetPlayerIdentifiers(src)[1], { key = setting }, true)
+end
+
+AddEventHandler('es:playerLoaded', function(src, user)
+	local doc = exports.essentialmode:getDocument("third-eye-setting", GetPlayerIdentifiers(src)[1])
+	TriggerClientEvent("thirdEye:updateHotkey", src, (doc.key or THIRD_EYE_DEFAULT_HOTKEY))
+end)
+
+exports["globals"]:PerformDBCheck("interaction-menu", "third-eye-setting")

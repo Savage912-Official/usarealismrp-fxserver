@@ -198,7 +198,7 @@ AddEventHandler("aircraft:purchaseLicense", function(business)
     if char.hasItem('Aircraft License') then
         TriggerClientEvent("usa:notify", source, 'You already have a pilots license!')
     else
-        if char.get("money") < LICENSE_PURCHASE_PRICE then
+        if not char.hasEnoughMoneyOrBank(LICENSE_PURCHASE_PRICE) then
             TriggerClientEvent("usa:notify", source, "Not enough money!")
             return
         end
@@ -207,7 +207,7 @@ AddEventHandler("aircraft:purchaseLicense", function(business)
             return
         end
         char.giveItem(NEW_PILOT_LICENSE)
-        char.removeMoney(LICENSE_PURCHASE_PRICE)
+        char.removeMoneyOrBank(LICENSE_PURCHASE_PRICE)
         if business then
             exports["usa-businesses"]:GiveBusinessCashPercent(business, LICENSE_PURCHASE_PRICE)
         end

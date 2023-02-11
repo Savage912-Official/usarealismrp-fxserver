@@ -10,7 +10,7 @@ svConfig = {
     -- generated for the players who are queued. The chances of receiving a contract in that loop execution are defined in vehicle class configs, the
     -- 'generationPercentage' value. For example, if the 'D' class has a generationPercentage value of 70, then every 15 minutes there is a 25% chance
     -- that you will receive a D class boosting contract.
-    minutesBetweenGenerations = 15,
+    minutesBetweenGenerations = 7,
 
     -- The amount of contracts that player will be given when he opens the tablet for the very first time (to get him started).
     initialContractAmount = 5,
@@ -18,14 +18,25 @@ svConfig = {
     -- The amount of online police required for people to get important (A / S class) contracts. This will be applied to classes which have the 'isImportant' as true.
     requiredPoliceAmount = 4,
 
-    -- A comma separated list of player identifiers that are allowed to access the admin panel.
+    --  Define the principal which will be given the ACE permission to use the in-game admin panel. If you don't wish to use this, set it to false.
+    adminPrincipal = false,
+
+    -- A comma separated list of player identifiers (strings) that are allowed to access the admin panel (in addition to those allowed by ACE permissions).
     adminIdentifiers = {},
 
     -- A comma separated list of player identifiers that are allowed to access the admin panel.
     penalizeForDamagedEngine = true,
 
     -- The amount in dollars that's the maximum penalty for having a damaged engine when dropping off.
-    maximumEngineDamagePenalty = 500,
+    maximumEngineDamagePenalty = 1250,
+
+    -- If the vehicle were in the center of the indicated area, it would be found instantly. To prevent this, an offset is used. This value determines
+    -- the min/max offset of the x and y axis (randomly generated between 0 and this value) from the vehicle spawn point (in meters).
+    -- Related client-side config values: vehicleCreationDistance, vehicleAreaRadius
+    vehicleAreaMaximumOffset = 145.0,
+
+    -- An option to enable / disable VIN scratching. If disabled, then the player will get an error message when trying to VIN scratch a vehicle.
+    vinScratchingEnabled = true,
 
     -- A list of conditions for different vehicle classes
     -- The list must be ordered by their 'xpRequired' value (high -> low)
@@ -52,14 +63,13 @@ svConfig = {
     -- @experiencePerJob: amount of experience points received when the contract is successful
     -- @tuningChance: the probability of the vehicle being tuned (0-100%)
     -- @riskChances: the probability of different risks on the vehicle
-    -- @doorsLocked: the probability that vehicle doors are locked
-    -- @advancedLockChance: the probability that vehicle doors are locked with an advanced lock (must use a better lock pick than the bad one)
-    -- @advancedSystemChance: the probability that vehicle doors are locked with an high-tech system (must use a hacking device)
-    -- @npcChance: the probability (percentage 0-100) that killer NPCs will spawn when you try to hack the vehicle.
-    -- npcChance can only be higher than 0 on classes that have isImportant = true. This is because isImportant boosts use different spawns that
-    -- have npc spawn locations built in (shared.lua advancedVehicleCoords). DO NOT use this variable on lower, non-important boosts.
+        -- @doorsLocked: the probability that vehicle doors are locked
+        -- @advancedLockChance: the probability that vehicle doors are locked with an advanced lock (must use a better lock pick than the bad one)
+        -- @advancedSystemChance: the probability that vehicle doors are locked with an high-tech system (must use a hacking device)
+        -- @npcChance: the probability (percentage 0-100) that killer NPCs will spawn when you try to hack the vehicle.
+            -- npcChance can only be higher than 0 on classes that have isImportant = true. This is because isImportant boosts use different spawns that
+            -- have npc spawn locations built in (shared.lua advancedVehicleCoords). DO NOT use this variable on lower, non-important boosts.
 
-    -- BEFORE YOU MAKE ANY EDITS, PLEASE READ THE EXPLANATIONS ABOVE. TY - LOVE WEEP
     vehicleClasses = {
         [1] = {
             class = "S",
@@ -80,7 +90,7 @@ svConfig = {
             rewardCashMax = 95000,
             rewardCryptoMin = 1000,
             rewardCryptoMax = 1400,
-            experiencePerJob = 12,
+            experiencePerJob = 27,
             tuningChance = 60,
             riskChances = {
                 doorsLocked = 100,
@@ -91,7 +101,7 @@ svConfig = {
         },
         [2] = {
             class = "A",
-            xpRequired = 800,
+            xpRequired = 1000,
             generationPercentage = 30,
             timeBetweenGenerations = 30,
             isImportant = true,
@@ -108,7 +118,7 @@ svConfig = {
             rewardCashMax = 42000,
             rewardCryptoMin = 500,
             rewardCryptoMax = 700,
-            experiencePerJob = 8,
+            experiencePerJob = 19,
             tuningChance = 35,
             riskChances = {
                 doorsLocked = 100,
@@ -133,7 +143,7 @@ svConfig = {
             rewardCashMax = 4000,
             rewardCryptoMin = 60,
             rewardCryptoMax = 90,
-            experiencePerJob = 4,
+            experiencePerJob = 11,
             tuningChance = 25,
             riskChances = {
                 doorsLocked = 100,
@@ -198,7 +208,7 @@ svConfig = {
         ['nospacka'] = {
             cashRequired = 6000,
             cryptoRequired = 100,
-            availablePerRestart = 10,
+            availablePerRestart = math.random(5,10),
             isSoldOut = false,
             title = "Nitrous oxide (Stage 1)",
             description = "When you need that extra bit of boost.",
@@ -210,7 +220,7 @@ svConfig = {
         ['nospackb'] = {
             cashRequired = 17500,
             cryptoRequired = 210,
-            availablePerRestart = 5,
+            availablePerRestart = math.random(3,7),
             isSoldOut = false,
             title = "Nitrous oxide (Stage 1 & 2)",
             description = "When you need that extra bit of boost.",
@@ -221,9 +231,9 @@ svConfig = {
             }
         },
         ['lockpick'] = {
-            cashRequired = 950,
-            cryptoRequired = 10,
-            availablePerRestart = 10,
+            cashRequired = 150 * math.random(3,6),
+            cryptoRequired = math.random(2,5),
+            availablePerRestart = math.random(5,10),
             isSoldOut = false,
             title = "Lockpick",
             description = "A low-quality lockpick which will get the job done.",
@@ -235,13 +245,25 @@ svConfig = {
         ['repairkit'] = {
             cashRequired = 1500,
             cryptoRequired = 20,
-            availablePerRestart = 5,
+            availablePerRestart = math.random(3,7),
             isSoldOut = false,
             title = "Repair kit (LW)",
             description = "Will get your car moving when you break down. Light Weight Edition",
             iconFile = 'repair-kit.png',
             receiveItemIds = {
                 [1] = 'Repair Kit'
+            }
+        },
+        ['hotwiringkit'] = {
+            cashRequired = 350 * math.random(2,4), -- Blackmarket price multiplied by a rand number BECAUSE INFLATION MY BOYS
+            cryptoRequired = math.random(2,5),
+            availablePerRestart = math.random(7,15),
+            isSoldOut = false,
+            title = "Hotwiring Kit",
+            description = "Get a fancy kit to help you hotwire a vehicle that you're going to 'borrow'.",
+            iconFile = 'hotwiring-kit.png',
+            receiveItemIds = {
+                [1] = 'Hotwiring Kit'
             }
         },
         ['racingdongle'] = {
@@ -259,13 +281,25 @@ svConfig = {
         ['laptop'] = {
             cashRequired = 5750,
             cryptoRequired = 30,
-            availablePerRestart = 15,
+            availablePerRestart = math.random(5,10),
             isSoldOut = false,
             title = "Bank Laptop",
             description = "Time for a world of hacker man himself.",
             iconFile = 'laptop.png',
             receiveItemIds = {
                 [1] = 'Bank Laptop'
+            }
+        },
+        ['Fake License Plate'] = {
+            cashRequired = 30000,
+            cryptoRequired = math.random(11,27),
+            availablePerRestart = math.random(5,10),
+            isSoldOut = true,
+            title = "Fake License Plate [Coming Soon]",
+            description = "Got a brand spanking new whip from your neighbor? Hide their plate so cops don't get suspicious.",
+            iconFile = 'plate.png',
+            receiveItemIds = {
+                [1] = 'Fake Plate'
             }
         }
     }
@@ -338,23 +372,42 @@ supportedVehicles = {
     { name = "Lamborghini Sian", model = "rmodsianr", class = "S" },
     { name = "Porsche 911 Turbo S", model = "pts21", class = "S" },
     { name = "Porsche GT3", model = "pgt3", class = "S" },
-    { name = "Acura NSX Aimgain", model = "aimgainnsx", class = "S" },
+    { name = "2016 Honda NSX", model = "aimgainnsx", class = "S" },
     { name = "McLaren Elva", model = "elva", class = "S" },
     { name = "Lamborghini Huracan Evo 2", model = "evo2", class = "S" },
     { name = "Lamborghini Gallardo LW", model = "gallardolw", class = "S" },
     { name = "Lamborghini Murcielago LP-670", model = "lp670", class = "S" },
     { name = "Lamborghini Murcielago LP-670 LW", model = "lwlp670", class = "S" },
     { name = "Ferrari 458 LW", model = "lw458s", class = "S" },
-    { name = "Jaguar C-X75", model = "cx75", class = "S" },
+    { name = "Jaguar CX-75", model = "cx75", class = "S" },
     { name = "Lamborghini Essenza", model = "rmodessenza", class = "S" },
     { name = "Mercedes SLR Stirling Moss", model = "moss", class = "S" },
     { name = "Ford GT500" , model = "shelby20", class = "S" },
     { name = "Mercedes-Benz AMG GT" , model = "rr20amggt", class = "S" },
     { name = "Dodge Charger (Redeye)" , model = "chr20" , class = "S" },
     { name = "Lamborghini Urus", model = "urustc", class = "S" },
+    { name = "Audi RSQ8 Mansory", model = "rsq8m", class = "S" },
+    { name = "2022 Porsche GT3", model = "pgt322", class = "S" },
     { name = "Honda Civic (EG6)", model = "eg6", class = "S" },
     { name = "Honda Civic (EK9)", model = "spoonek", class = "S" },
     { name = "1993 Honda Civic (FnF)", model = "fnfcivic", class = "S" },
+    { name = "Pegassi Monroe Custom", model = "monroec", class = "S" },
+    { name = "Mclaren Senna", model = "sennas", class = "S" },
+    { name = "Mclaren Senna GTR", model = "sennasgtr", class = "S" },
+    { name = "Pagani Zonda R", model = "zondar", class = "S" },
+    { name = "Ferrari FXXK", model = "fxxk", class = "S" },
+    { name = "Mercedes-Benz CLK LM", model = "clklm", class = "S" },
+    { name = "Toyota Supra (Castrol)", model = "castrolsupra", class = "S" },
+    { name = "Nissan Skyline GT-R (R34)", model = "skyline", class = "S" },
+    { name = "Nissan Skyline GT-R V-Spec (R33)", model = "r33vspec", class = "S" },
+    { name = "Nissan Skyline GT-R (R32)", model = "r32", class = "S" },
+    { name = "1992 Honda NSX", model = "na1", class = "S" },
+    { name = "Ferrari LaFerrari", model = "laferrari", class = "S" },
+    { name = "McLaren P1", model = "p1", class = "S" },
+    { name = "Porsche 918", model = "918", class = "S" },
+    { name = "McLaren P1 GTR", model = "rmodp1gtr", class = "S" },
+    { name = "2020 Porsche 718 Cayman GT4", model = "por718gt4", class = "S" },
+    { name = "Chevrolet Corvette C7R GTLM", model = "C7R", class = "S" },
     -- A CLASS
     { name = "Sultan RS", model = "sultanrs", class = "A" },
     { name = "Annis Elegy Retro", model = "elegy", class = "A" },
@@ -398,6 +451,7 @@ supportedVehicles = {
     { name = "Enus Cognoscenti Cabrio", model = "cogcabrio", class = "A" },
     { name = "Ocelot F620", model = "f620", class = "A" },
     { name = "Lampadati Felon GT", model = "felon2", class = "A" },
+    { name = "Obey Tailgater A", model = "tailgater2", class = "B" },
     { name = "Ubermacht Zion", model = "zion", class = "A" },
     { name = "Ubermacht Zion Cabrio", model = "zion2", class = "A" },
     { name = "Enus Paragon", model = "paragon", class = "A" },
@@ -408,6 +462,7 @@ supportedVehicles = {
     { name = "Vapid Dominator ASP", model = "dominator7", class = "A" },
     { name = "Vapid Dominator GTT", model = "dominator8", class = "A" },
     { name = "Bravado Gauntlet", model = "gauntlet", class = "A" },
+    { name = "Bravado Gauntlet Hellfire", model = "gauntlet4", class = "A" },
     { name = "Declasse Vigero ZX", model = "vigero2", class = "A" },
     -- Custom A Class
     { name = "Dodge Challenger", model = "16challenger", class = "A" },
@@ -416,15 +471,15 @@ supportedVehicles = {
     { name = "1967 Ford Mustang GT500", model = "67GT500", class = "A" },
     { name = "1999 Dodge Viper", model = "99viper", class = "A" },
     { name = "Audi RS6", model = "rs6", class = "A" },
-    { name = "BMW M2", model = "m2", class = "A" },
-    { name = "BMW M3", model = "bmwm3e92", class = "A" },
-    { name = "BMW M3 GTS", model = "m3e92gts", class = "A" },
-    { name = "BMW M3 E36", model = "rmodm3e36", class = "A" },
-    { name = "BMW M3 E46", model = "M3E46", class = "A" },
-    { name = "BMW M4", model = "f82", class = "A" },
-    { name = "BMW M5", model = "bmci", class = "A" },
-    { name = "BMW M5 E60", model = "m5e60", class = "A" },
-    { name = "BMW M8", model = "bmwm8", class = "A" },
+    -- { name = "BMW M2", model = "m2", class = "A" },
+    -- { name = "BMW M3", model = "bmwm3e92", class = "A" },
+    -- { name = "BMW M3 GTS", model = "m3e92gts", class = "A" },
+    -- { name = "BMW M3 E36", model = "rmodm3e36", class = "A" },
+    -- { name = "BMW M3 E46", model = "M3E46", class = "A" },
+    -- { name = "BMW M4", model = "f82", class = "A" },
+    -- { name = "BMW M5", model = "bmci", class = "A" },
+    -- { name = "BMW M5 E60", model = "m5e60", class = "A" },
+    -- { name = "BMW M8", model = "bmwm8", class = "A" },
     { name = "Chevrolet Camaro", model = "zl12017", class = "A" },
     { name = "Chevrolet C7", model = "c7", class = "A" },
     { name = "Ford Mustang", model = "mgt", class = "A" },
@@ -439,7 +494,6 @@ supportedVehicles = {
     { name = "2020 Audi RS6 Avant", model = "rs62", class = "A" },
     { name = "2017 Subaru WRX STI", model = "sti17", class = "A" },
     { name = "Toyota Supra Mk4", model = "supra2", class = "A" },
-    { name = "Nissan Skyline (R34)", model = "skyline", class = "A" },
     { name = "2016 Maserati GranTurismo", model = "stradale18", class = "A" },
     { name = "Bentley Bacalar", model = "rmodbacalar", class = "A" },
     { name = "Aston Martin DBS", model = "rmodmartin", class = "A" },
@@ -448,8 +502,8 @@ supportedVehicles = {
     { name = "Dodge Durango Hellephant", model = "hellephantdurango", class = "A" },
     { name = "1977 Ford Mustang Boss", model = "rr70bosswide", class = "A" },
     { name = "Lexus RC-F", model = "rrrcf", class = "A" },
+    { name = "Karin Rebel Custom", model = "rebeld", class = "A" },
     -- B CLASS
-    { name = "Bravado Gauntlet Hellfire", model = "gauntlet4", class = "B" },
     { name = "Declasse Hotring Sabre", model = "hotring", class = "B" },
     { name = "Imponte Beater Dukes", model = "dukes3", class = "B" },
     { name = "Pegassi Monroe", model = "monroe", class = "B" },
@@ -524,10 +578,10 @@ supportedVehicles = {
     { name = "2021 Ford Bronco Wildtrak", model = "wildtrak", class = "B" },
     { name = "2016 Bentley Bentayga", model = "bbentayga", class = "B" },
     { name = "Mercedes-Benz E55 AMG", model = "benze55", class = "B" },
-    { name = "BMW E30", model = "alpinae30", class = "B" },
-    { name = "BMW E34", model = "e34", class = "B" },
-    { name = "2016 BMW X5", model = "x5m2016", class = "B" },
-    { name = "BMW Z3", model = "z3", class = "B" },
+    -- { name = "BMW E30", model = "alpinae30", class = "B" },
+    -- { name = "BMW E34", model = "e34", class = "B" },
+    -- { name = "2016 BMW X5", model = "x5m2016", class = "B" },
+    -- { name = "BMW Z3", model = "z3", class = "B" },
     { name = "Subaru BRZ", model = "brz13", class = "B" },
     { name = "Chevrolet C-10 Stepside Custom", model = "c10custom", class = "B" },
     { name = "1969 Chevrolet Camaro SS", model = "camaro69", class = "B" },
@@ -572,13 +626,20 @@ supportedVehicles = {
     { name = "GMC Denali", model = "denali18", class = "B" },
     { name = "Dodge Ram TRX", model = "dodgetrx", class = "B" },
     { name = "Ford F100 Slammed", model = "slammedf100", class = "B" },
+    { name = "2009 Ford Focus RS", model = "09fordRS", class = "B" },
+    { name = "2017 Ford Focus RS", model = "17fordRS", class = "B" },
     { name = "Dababy Car", model = "dababy", class = "B" },
     { name = "Ford F100 Trophy", model = "f100trophy", class = "B" },
-    { name = "Audi RSQ8 Mansory", model = "rsq8m", class = "B" },
     { name = "Progen Proff", model = "proff", class = "B" },
     { name = "Dodge Ram 1500 Custom", model = "gcram1500", class = "B" },
     { name = "Spyker C8", model = "spyker", class = "B" },
     { name = "Pontiac G8", model = "pontiacg8", class = "B" },
+    { name = "Dodge 2500", model = "bcbruiser", class = "B" },
+    { name = "Dodge 3500", model = "bcys", class = "B" },
+    { name = "Dodge 3500 HD", model = "bc203500hd", class = "B"},
+    { name = "Chevrolet C10", model = "bcc10c", class = "B"},
+    { name = "Karin Ariant", model = "ariant", class = "B"},
+    { name = "Karin Asterope RS", model = "asteropers", class = "B"},
     -- C CLASS
     { name = "Dinka Blista Compact", model = "blista2", class = "C" },
     { name = "Karin Asterope", model = "asterope", class = "C" },
@@ -632,7 +693,7 @@ supportedVehicles = {
     { name = "1963 Volkswagon Type 2", model = "type263", class = "C" },
     { name = "1966 Volkswagon Type 2", model = "type266", class = "C" },
     { name = "2000 Ford F350 Dually", model = "00f350d", class = "C" },
-    { name = "Hummer H2", model = "H2", class = "C" },
+    { name = "Hummer H2", model = "h2", class = "C" },
     -- D CLASS
     { name = "Bravado Youga Classic 4x4", model = "youga3", class = "D" },
     { name = "Bravado Youga Custom", model = "youga4_USA", class = "D" },

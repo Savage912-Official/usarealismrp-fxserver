@@ -31,6 +31,7 @@ injuries = { -- ensure this is the same as cl_injury.lua
 	[GetHashKey("WEAPON_MICROSMG")] = {type = 'penetrating', bleed = 300, string = 'High-speed Projectile', treatableWithBandage = false, treatmentPrice = 500, dropEvidence = 1.0},
 	[GetHashKey("WEAPON_MINISMG")] = {type = 'penetrating', bleed = 300, string = 'High-speed Projectile', treatableWithBandage = false, treatmentPrice = 500, dropEvidence = 1.0},
 	[GetHashKey("WEAPON_ASSAULTRIFLE")] = {type = 'penetrating', bleed = 300, string = 'High-speed Projectile', treatableWithBandage = false, treatmentPrice = 500, dropEvidence = 1.0},
+	[GetHashKey("WEAPON_AKORUS")] = {type = 'penetrating', bleed = 300, string = 'High-speed Projectile', treatableWithBandage = false, treatmentPrice = 500, dropEvidence = 1.0},
 	[GetHashKey("WEAPON_TACTICALRIFLE")] = {type = 'penetrating', bleed = 300, string = 'High-speed Projectile', treatableWithBandage = false, treatmentPrice = 500, dropEvidence = 1.0},
     [GetHashKey("WEAPON_MILITARYRIFLE")] = {type = 'penetrating', bleed = 300, string = 'High-speed Projectile', treatableWithBandage = false, treatmentPrice = 500, dropEvidence = 1.0},
 	[GetHashKey("WEAPON_CARBINERIFLE")] = {type = 'penetrating', bleed = 300, string = 'High-speed Projectile', treatableWithBandage = false, treatmentPrice = 500, dropEvidence = 1.0}, -- WEAPON_CARBINERIFLE
@@ -47,8 +48,8 @@ injuries = { -- ensure this is the same as cl_injury.lua
 	[GetHashKey("WEAPON_FLARE")] = {type = 'burn', bleed = 1800, string = 'Concentrated Heat', treatableWithBandage = true, treatmentPrice = 65, dropEvidence = 0.7}, -- WEAPON_FLARE
 	[GetHashKey("WEAPON_EXPLOSION")] = {type = 'burn', bleed = 120, string = 'Explosion', treatableWithBandage = false, treatmentPrice = 500, dropEvidence = 1.0}, -- WEAPON_EXPLOSION
 	--[GetHashKey("WEAPON_FALL")] = {type = 'blunt', bleed = 2700, string = 'Fall', treatableWithBandage = true, treatmentPrice = 30, dropEvidence = 0.2}, -- WEAPON_FALL
-	[GetHashKey("WEAPON_RAMMED_BY_CAR")] = {type = 'blunt', bleed = 1800, string = 'Vehicle Accident', treatableWithBandage = true, treatmentPrice = 50, dropEvidence = 0.0}, -- WEAPON_RAMMED_BY_CAR
-	[GetHashKey("WEAPON_RUN_OVER_BY_CAR")] = {type = 'blunt', bleed = 1500, string = 'Vehicle Accident', treatableWithBandage = true, treatmentPrice = 50, dropEvidence = 0.4}, -- WEAPON_RUN_OVER_BY_CAR
+	--[GetHashKey("WEAPON_RAMMED_BY_CAR")] = {type = 'blunt', bleed = 1800, string = 'Vehicle Accident', treatableWithBandage = true, treatmentPrice = 50, dropEvidence = 0.0}, -- WEAPON_RAMMED_BY_CAR
+	--[GetHashKey("WEAPON_RUN_OVER_BY_CAR")] = {type = 'blunt', bleed = 1500, string = 'Vehicle Accident', treatableWithBandage = true, treatmentPrice = 50, dropEvidence = 0.4}, -- WEAPON_RUN_OVER_BY_CAR
 	[GetHashKey("WEAPON_FIRE")] = {type = 'burn', bleed = 600, string = 'Fire', treatableWithBandage = false, treatmentPrice = 50, dropEvidence = 1.0}, -- WEAPON_FIRE
 	[GetHashKey("WEAPON_SNSPISTOL")] = {type = 'penetrating', bleed = 300, string = 'High-speed Projectile', treatableWithBandage = false, treatmentPrice = 500, dropEvidence = 1.0}, -- WEAPON_SNSPISTOL
 	[GetHashKey("WEAPON_SNSPISTOL_MK2")] = {type = 'penetrating', bleed = 310, string = 'High-speed Projectile', treatableWithBandage = false, treatmentPrice = 500, dropEvidence = 1.0}, -- WEAPON_SNSPISTOL_MK2
@@ -65,6 +66,7 @@ injuries = { -- ensure this is the same as cl_injury.lua
 	[GetHashKey("WEAPON_MACHETE")] = {type = 'laceration', bleed = 360, string = 'Large Sharp Object', treatableWithBandage = false, treatmentPrice = 300, dropEvidence = 1.0}, -- WEAPON_MACHETE
 	[GetHashKey("WEAPON_SWITCHBLADE")] = {type = 'laceration', bleed = 480, string = 'Knife Puncture', treatableWithBandage = false, treatmentPrice = 70, dropEvidence = 1.0}, -- WEAPON_SWITCHBLADE
 	[GetHashKey("WEAPON_REVOLVER")] = {type = 'penetrating', bleed = 120, string = 'High-speed Projectile', treatableWithBandage = false, treatmentPrice = 500, dropEvidence = 1.0}, -- WEAPON_REVOLVER
+	[GetHashKey("WEAPON_REVOLVERULTRA")] = {type = 'penetrating', bleed = 120, string = 'High-speed Projectile', treatableWithBandage = false, treatmentPrice = 500, dropEvidence = 1.0},
 	[GetHashKey("WEAPON_NAVYREVOLVER")] = {type = 'penetrating', bleed = 120, string = 'High-speed Projectile', treatableWithBandage = false, treatmentPrice = 500, dropEvidence = 1.0}, -- WEAPON_NAVYREVOLVER
     [GetHashKey("WEAPON_DOUBLEACTION")] = {type = 'penetrating', bleed = 120, string = 'High-speed Projectile', treatableWithBandage = false, treatmentPrice = 500, dropEvidence = 1.0}, -- WEAPON_DOUBLEACTION
     [GetHashKey("WEAPON_REVOLVER_MK2")] = {type = 'penetrating', bleed = 125, string = 'High-speed Projectile', treatableWithBandage = false, treatmentPrice = 500, dropEvidence = 1.0}, -- WEAPON_REVOLVER_MK2
@@ -121,6 +123,11 @@ end, {
 })
 
 TriggerEvent('es:addJobCommand', 'bandage', {'ems', 'doctor', 'sheriff', 'corrections'}, function(source, args, char)
+	if not char.hasItem("First Aid Kit") then
+		TriggerClientEvent("usa:notify", source, "No first aid kit")
+		return
+	end
+	char.removeItem("First Aid Kit", 1)
 	local _source = source
 	local targetSource = tonumber(args[2])
 	if targetSource and GetPlayerName(targetSource) then
@@ -309,28 +316,6 @@ AddEventHandler('injuries:chargeForInjuries', function(playerInjuries, multiplie
 	TriggerClientEvent('chatMessage', source, 'The payment has been deducted from your bank balance.')
 end)
 
-RegisterServerEvent('injuries:toggleOnDuty')
-AddEventHandler('injuries:toggleOnDuty', function()
-	local JOB_NAME = "doctor"
-	local char = exports["usa-characters"]:GetCharacter(source)
-	if char.get("job") ~= 'doctor' then
-		if char.get('emsRank') >= 4 then
-			TriggerClientEvent('usa:notify', source, 'You are now signed ~g~on-duty~s~ as a doctor.')
-			char.set('job', 'doctor')
-			TriggerEvent('job:sendNewLog', source, JOB_NAME, true)
-      		TriggerEvent("eblips:remove", source)
-      		TriggerEvent("eblips:add", {name = char.getName(), src = source, color = 50})
-		else
-			TriggerClientEvent('usa:notify', source, '~y~You are not whitelisted for DOCTOR')
-		end
-	else
-		TriggerClientEvent('usa:notify', source, 'You are now signed ~y~off-duty~s~ as a doctor.')
-		char.set('job', 'civ')
-		TriggerEvent('job:sendNewLog', source, JOB_NAME, false)
-      	TriggerEvent("eblips:remove", source)
-	end
-end)
-
 RegisterServerEvent('injuries:getPlayerInjuries')
 AddEventHandler('injuries:getPlayerInjuries', function(sourceToGetInjuriesFrom, sourceToReturnInjuries)
 	TriggerClientEvent('injuries:returnInjuries', sourceToGetInjuriesFrom, sourceToReturnInjuries)
@@ -339,9 +324,9 @@ end)
 RegisterServerEvent('injuries:inspectMyInjuries')
 AddEventHandler('injuries:inspectMyInjuries', function(sourceToReturnInjuries, injuries, myPed)
 	local char = exports["usa-characters"]:GetCharacter(source)
-	local fullName = char.getFullName()
+	local targetSource = char.get("source")
 	TriggerEvent('display:shareDisplayBySource', sourceToReturnInjuries, 'inspects injuries', 4, 470, 10, 4000, true)
-	TriggerClientEvent('injuries:displayInspectedInjuries', sourceToReturnInjuries, injuries, fullName, myPed)
+	TriggerClientEvent('injuries:displayInspectedInjuries', sourceToReturnInjuries, injuries, targetSource, myPed)
 end)
 
 RegisterServerEvent('injuries:treatPlayer')

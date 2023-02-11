@@ -22,7 +22,7 @@ local playerName = ""
 local raycastResult = 0
 local voipLevel = 0.0
 
-local busy = false
+busy = false
 
 local menuEnabled = false
 
@@ -251,7 +251,7 @@ local ACTIONS = {
 		TriggerEvent("drag:attemptToDragNearest")
 	end,
 	["Search"] = function()
-		TriggerEvent("search:attemptToSearchNearestPerson", true)
+		TriggerEvent("search:attemptToSearchNearestPerson")
 	end,
 	["Place"] = function()
 		Citizen.CreateThread(function()
@@ -385,10 +385,15 @@ RegisterNUICallback('loadVehicleInventory', function(data, cb)
 end)
 
 RegisterCommand('openInventory', function()
-	local hitHandleVehicle, distance = getVehicleInsideOrInFrontOfUser()
-	local target_veh_plate = GetVehicleNumberPlateText(hitHandleVehicle)
-	local target_veh_plate = exports.globals:trim(target_veh_plate)
-	TriggerServerEvent("interaction:InvLoadHotkey", target_veh_plate)
+	if not busy then
+		local hitHandleVehicle, distance = getVehicleInsideOrInFrontOfUser()
+		local target_veh_plate = GetVehicleNumberPlateText(hitHandleVehicle)
+		local target_veh_plate = exports.globals:trim(target_veh_plate)
+		TriggerServerEvent("interaction:InvLoadHotkey", target_veh_plate)
+		if hitHandleVehicle ~= 0 and target_veh_plate then
+			TriggerServerEvent("vehicle:AddPersonToInventory", target_veh_plate)
+		end
+	end
 end)
 
 RegisterKeyMapping('openInventory', 'Open Inventory', 'keyboard', 'i')
@@ -894,7 +899,7 @@ RegisterNUICallback("dropItem", function(data, cb)
 			finalPos = GetOffsetFromEntityInWorldCoords(myped, table.unpack(NORMAL_OBJ_SPAWN_OFFSET))
 		end
 		TriggerEvent("usa:playAnimation", "anim@move_m@trash", "pickup", -8, 1, -1, 48, 0, 0, 0, 0)
-		TriggerServerEvent("inventory:dropItem", data.itemName, data.index, finalPos.x, finalPos.y, finalPos.z)
+		TriggerServerEvent("inventory:dropItem", data.itemName, data.index, finalPos.x, finalPos.y, finalPos.z, GetEntityHeading(PlayerPedId()))
 		if data.itemName:find("Radio") then
 			TriggerEvent("Radio.Set", false, {})
 		end
@@ -1038,9 +1043,6 @@ function interactionMenuUse(index, itemName, wholeItem)
 			if GetVehicleDoorLockStatus(veh) ~= 1 then
 				-- prevent using /e to hide animation --
 				isLockpicking = true
-				-- start picking --
-				local start_time = GetGameTimer()
-				local duration = 30000
 				-- play animation:
 				local anim = {
 					dict = "veh@break_in@0h@p_m_one@",
@@ -1065,40 +1067,13 @@ function interactionMenuUse(index, itemName, wholeItem)
 		            end
 					TriggerServerEvent('911:LockpickingVehicle', x, y, z, lastStreetNAME, GetLabelText(GetDisplayNameFromVehicleModel(GetEntityModel(veh))), exports.globals:trim(GetVehicleNumberPlateText(veh)), isMale, primary, secondary)
 				end
-				Citizen.CreateThread(function()
-					while GetGameTimer() - start_time < duration and isLockpicking do
-						Citizen.Wait(0)
-						DisableControlAction(0, 301, true)
-						DisableControlAction(0, 86, true)
-								DisableControlAction(0, 244, true)
-								DisableControlAction(0, 245, true)
-								DisableControlAction(0, 288, true)
-								DisableControlAction(0, 79, true)
-								DisableControlAction(0, 73, true)
-								DisableControlAction(0, 37, true)
-								DisableControlAction(0, 311, true)
-									DrawTimer(start_time, duration, 1.42, 1.475, 'LOCKPICKING')
-					end
-				end)
-				while GetGameTimer() - start_time < duration and isLockpicking do
-					Wait(0)
-					local x, y, z = table.unpack(GetEntityCoords(playerPed))
-					local car_coords = GetEntityCoords(veh, 1)
-					--print("IsEntityPlayingAnim(me, anim.dict, anim.name, 3): " .. tostring(IsEntityPlayingAnim(me, anim.dict, anim.name, 3)))
-					if not IsEntityPlayingAnim(playerPed, anim.dict, anim.name, 3) then
-								TaskPlayAnim(playerPed, anim.dict, anim.name, 8.0, 1.0, -1, 11, 1.0, false, false, false)
-								Citizen.Wait(2000)
-								ClearPedTasks(playerPed)
-								SetEntityCoords(playerPed, x, y, z - 1.0, false, false, false, false)
-							end
-					if Vdist(car_coords, x, y, z) > 3.0 then
-						TriggerEvent("usa:notify", "Lockpick ~y~failed~s~, out of range!")
-						ClearPedTasksImmediately(playerPed)
-						isLockpicking = false
-						return
-					end
+
+				if not IsEntityPlayingAnim(playerPed, anim.dict, anim.name, 3) then
+					TaskPlayAnim(playerPed, anim.dict, anim.name, 8.0, 1.0, -1, 31, 1.0, false, false, false)
 				end
-				if math.random() < 0.8 then
+
+				local success = lib.skillCheck({'easy', 'easy', 'medium', 'medium'})
+				if success then
 					SetVehicleDoorsLocked(veh, 1)
 					SetVehicleDoorsLockedForAllPlayers(veh, 0)
 					if not GetIsVehicleEngineRunning(veh) then
@@ -1106,11 +1081,14 @@ function interactionMenuUse(index, itemName, wholeItem)
 					end
 					TriggerEvent("usa:notify", "Lockpick was ~y~successful~s~!")
 				else
-					TriggerEvent("usa:notify", "Lockpick has ~y~broken~s~!")
-					TriggerServerEvent("usa:removeItem", wholeItem, 1)
+					TriggerEvent("usa:notify", "Lockpick has ~y~failed~s~!")
+					if math.random() > 0.65 then
+						TriggerEvent("usa:notify", "Lockpick has ~y~broken~s~!")
+						TriggerServerEvent("usa:removeItem", wholeItem, 1)
+					end
 				end
 				isLockpicking = false
-				ClearPedTasksImmediately(me)
+				ClearPedTasksImmediately(playerPed)
 			else
 				TriggerEvent("usa:notify", "Door is already unlocked!")
 			end
@@ -1193,7 +1171,7 @@ function interactionMenuUse(index, itemName, wholeItem)
 		local myped = PlayerPedId()
 		local pos = GetOffsetFromEntityInWorldCoords(myped, table.unpack(SPIKE_STRIP_OBJ_SPAWN_OFFSET)) -- in front of player
 		TriggerEvent("usa:playAnimation", "anim@move_m@trash", "pickup", -8, 1, -1, 48, 0, 0, 0, 0)
-		TriggerServerEvent("inventory:dropItem", itemName, index, pos.x, pos.y, pos.z)
+		TriggerServerEvent("inventory:dropItem", itemName, index, pos.x, pos.y, pos.z, GetEntityHeading(PlayerPedId()))
 	elseif itemName == "Radio" or itemName == "EMS Radio" or itemName == "Police Radio" then
 		TriggerServerEvent("rp-radio:checkForRadioItem")
 	elseif itemName == "Scuba Gear" then
@@ -1229,9 +1207,23 @@ function interactionMenuUse(index, itemName, wholeItem)
 	elseif itemName == "Roller Skates" then
 		TriggerEvent("skating:roller", wholeItem)
 	elseif itemName == "Ice Skates" then
-		TriggerEvent("skating:iceroller", wholeItem)
+		TriggerEvent("skating:iceroller", wholeItem)	
+	elseif itemName == "Armed Truck Bomb" then 
+		TriggerEvent("usa:notify", "Hmm... No use here... Maybe use it on an armored truck?")
 	elseif itemName == "RGB Controller" then
 		ExecuteCommand("rgbcontrolleritemlol")
+	elseif itemName == "Basketball Hoop" then
+		ExecuteCommand("placehoop")
+	elseif itemName == "Skateboard" then
+		TriggerEvent('usa_skateboard:PlaceDown')
+  elseif wholeItem.type == "magicPotion" then
+		TriggerServerEvent("magicPotion:used", wholeItem)
+	elseif itemName == "Drill" then
+		TriggerEvent("banking:DrillATM")
+	elseif itemName == "Christmas Present" then
+		TriggerServerEvent("usa:openChristmasPresent", wholeItem)
+	elseif itemName == "RC Car" then
+		TriggerEvent("rc:start")
 	else
 		TriggerEvent("interaction:notify", "There is no use action for that item!")
 	end
@@ -1433,7 +1425,7 @@ AddEventHandler("interaction:toggleWeapon", function(item, skipAnim)
 		if THROWABLES[item.name] then
 			toGiveAmmo = 1
 		end
-		if item.name:find("Fire Extinguisher") or item.name:find("Jerry Can") then
+		if item.name:find("Fire Extinguisher") or item.name:find("Jerry Can") or item.name:find("Noel Launcher") or item.name:find("Olaf Minigun") then
 			toGiveAmmo = 1000
 		end
 		TriggerEvent("interaction:equipWeapon", item, true, toGiveAmmo, (not skipAnim))
@@ -1509,7 +1501,7 @@ local draggingHelper = {
 	targetId = 0
 }
 
-function EnableGui(target_vehicle_plate)
+function EnableGui(target_vehicle_plate, goToPage)
 	local me = PlayerPedId()
 	SetNuiFocus(true, true)
 	menuEnabled = true
@@ -1528,7 +1520,8 @@ function EnableGui(target_vehicle_plate)
 		voip = voipLevel,
 		target_vehicle_plate = target_vehicle_plate,
 		isInVehicle = IsPedInAnyVehicle(me, true),
-		isCuffed = IsPedCuffed(me)
+		isCuffed = IsPedCuffed(me),
+		goToPage = goToPage
 	})
 	if target_vehicle_plate then
 		TriggerServerEvent("vehicle:AddPersonToInventory", target_vehicle_plate)

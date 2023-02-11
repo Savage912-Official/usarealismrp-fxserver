@@ -27,6 +27,32 @@ MechanicHelper.UPGRADE_FUNC_MAP = {
     ["topspeed4"] = function(veh, amountIncrease)
         ModifyVehicleTopSpeed(veh, 0.0) -- reset first to avoid doubling up issue
         ModifyVehicleTopSpeed(veh, amountIncrease)
+    end,
+    ["low-grip-tires"] = function(veh)
+        SetDriftTyresEnabled(veh, true)
+    end,
+    ["normal-tires"] = function(veh)
+        SetDriftTyresEnabled(veh, false)
+    end,
+    ["underglow-kit"] = function(veh)
+        SetVehicleNeonLightEnabled(veh, 0, true)
+		SetVehicleNeonLightEnabled(veh, 1, true)
+		SetVehicleNeonLightEnabled(veh, 2, true)
+		SetVehicleNeonLightEnabled(veh, 3, true)
+        -- get saved underglow state (saved by storing at garage after using RGB controller to apply desired color)
+        local rgb = TriggerServerCallback {
+            eventName = "mechanic:getUnderglow",
+            args = {GetVehicleNumberPlateText(veh)}
+        }
+        if rgb then
+            SetVehicleNeonLightsColour(veh, rgb.r,  rgb.g, rgb.b)
+        end
+    end,
+    ["xenon-headlights"] = function(veh)
+        if GetVehicleModKit(veh) ~= 0 then
+            SetVehicleModKit(veh, 0)
+        end
+        ToggleVehicleMod(veh, 22, true)
     end
 }
 
@@ -52,59 +78,80 @@ MechanicHelper.repairVehicle = function(veh, repairCount, cb)
     local success = false
     if beforeRepairHealth < 800 then
         SetVehicleDoorOpen(veh, 4, false, false)
-        local me = PlayerPedId()
-        exports["usa-crafting"]:CancellableProgress(
-        MechanicHelper.REPAIR_TIME, 
-        MechanicHelper.animations.repair.dict, 
-        MechanicHelper.animations.repair.name,
-        15,
-        function() -- finished
+
+        if lib.progressCircle({
+            duration = MechanicHelper.REPAIR_TIME,
+            label = 'Repairing...',
+            position = 'bottom',
+            useWhileDead = false,
+            canCancel = true,
+            disable = {
+                car = true,
+                move = true,
+                combat = true,
+            },
+            anim = {
+                dict = MechanicHelper.animations.repair.dict,
+                clip = MechanicHelper.animations.repair.name,
+                flag = 39,
+            },
+        }) then 
             local failChance = 0.5 - (0.005 * repairCount) -- larger successful repair count = smaller fail chance
+
             if math.random() > failChance then
                 if not IsVehicleDriveable(veh, true) then -- damaged and red
                     SetVehicleUndriveable(veh, false)
                     SetVehicleEngineHealth(veh, 500.0)
-                else -- damaged but not red, so prob orange
+                else -- Damaged but not red, so prob orange
                     SetVehicleEngineHealth(veh, 800.0)
                 end
                 FixAllTires(veh)
                 success = true
             end
+            
             Wait(500)
             SetVehicleDoorShut(veh, 4, false)
             cb(true)
-        end,
-        function() -- cancel
+        else 
             cb(false)
         end
-    )
+
     end
 end
 
 MechanicHelper.installUpgrade = function(veh, upgrade, cb)
     TriggerEvent("interaction:setBusy", true)
     SetVehicleDoorOpen(veh, 4, false, false)
-    local me = PlayerPedId()
-    local beginTime = GetGameTimer()
-    exports["usa-crafting"]:CancellableProgress(
-        MechanicHelper.UPGRADE_INSTALL_TIME, 
-        MechanicHelper.animations.repair.dict, 
-        MechanicHelper.animations.repair.name,
-        15,
-        function() -- finished
-            if MechanicHelper.UPGRADE_FUNC_MAP[upgrade.id] then
-                MechanicHelper.UPGRADE_FUNC_MAP[upgrade.id](veh, upgrade.increaseAmount) -- call appropriate native
-            end
-            Wait(500)
-            SetVehicleDoorShut(veh, 4, false)
-            cb(true)
-            TriggerEvent("interaction:setBusy", false)
-        end,
-        function() -- cancel
-            cb(false)
-            TriggerEvent("interaction:setBusy", false)
+
+    if lib.progressCircle({
+        duration = MechanicHelper.UPGRADE_INSTALL_TIME,
+        label = 'Installing Part...',
+        position = 'bottom',
+        useWhileDead = false,
+        canCancel = true,
+        disable = {
+            car = true,
+            move = true,
+            combat = true,
+        },
+        anim = {
+            dict = MechanicHelper.animations.repair.dict,
+            clip = MechanicHelper.animations.repair.name,
+            flag = 39,
+        },
+    }) then 
+        if MechanicHelper.UPGRADE_FUNC_MAP[upgrade.id] then
+            MechanicHelper.UPGRADE_FUNC_MAP[upgrade.id](veh, upgrade.increaseAmount) -- call appropriate native
         end
-    )
+        Wait(500)
+        SetVehicleDoorShut(veh, 4, false)
+        cb(true)
+        TriggerEvent("interaction:setBusy", false)
+    else 
+        cb(false)
+        TriggerEvent("interaction:setBusy", false)
+    end
+
 end
 
 MechanicHelper.installUpgradeNoAnim = function(veh, upgrade)

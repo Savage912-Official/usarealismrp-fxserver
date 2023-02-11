@@ -40,6 +40,11 @@ NO_TOOLTIP_WEAPONS.add("Ninja Star 2");
 NO_TOOLTIP_WEAPONS.add("Megaphone");
 NO_TOOLTIP_WEAPONS.add("Mace");
 NO_TOOLTIP_WEAPONS.add("Plasma Pistol");
+NO_TOOLTIP_WEAPONS.add("Snowhammer");
+NO_TOOLTIP_WEAPONS.add("Batxmas");
+NO_TOOLTIP_WEAPONS.add("Olaf Minigun");
+NO_TOOLTIP_WEAPONS.add("Noel Launcher");
+NO_TOOLTIP_WEAPONS.add("Candycrow");
 
 var itemImages = {
     "Driver's License": "https://i.imgur.com/dy0SpFh.png",
@@ -308,6 +313,9 @@ var itemImages = {
     "7.62mm Shell Casing": "https://i.imgur.com/JdD8Lf8.png",
     "5.56mm Shell Casing": "https://i.imgur.com/JdD8Lf8.png",
     "9x18mm Shell Casing": "https://i.imgur.com/pza2fXR.png",
+    "Crude Oil": "https://i.imgur.com/e4AsFbA.png",
+    "Plastic": "https://imgur.com/2LLDroM.png",
+    "Copper Wire": "https://i.imgur.com/aVnjUSE.png",
     // begin card images
     "Narlee": "https://i.imgur.com/KrPw4gk.png",
     "Red Eyes B. Dragon": "https://i.imgur.com/tKEcju1.png",
@@ -502,6 +510,8 @@ var itemImages = {
     "Megaphone": "https://i.imgur.com/C4ksHnA.png",
     "Crumpled Paper": "https://i.imgur.com/DpUUSZ8.png",
     "Bank Laptop": "https://i.imgur.com/5gefEBK.png",
+    "Armed Truck Bomb": "https://i.imgur.com/2blJKw0.png",
+    "Blackhat USB Drive": "https://i.imgur.com/JH9R9Nz.png",
     "Metal Scraps": "https://i.imgur.com/08oQInE.png",
     "Plasma Pistol": "https://i.imgur.com/a3D4tsI.png",
     "Ceramic Pistol": "https://i.imgur.com/zhZJdBq.png",
@@ -518,26 +528,48 @@ var itemImages = {
     "Ice Skates": "https://i.imgur.com/azeoyEp.png",
     "Casino Dongle": "https://i.imgur.com/phtNjqM.png",
     "RGB Controller": "https://i.imgur.com/bALMezu.png",
+    "Basketball Hoop": "https://i.imgur.com/R1PCP2d.png",
+    "Beanbag Shotgun": "https://i.imgur.com/PQI0yss.png",
+    "Beanbag Shell": "https://i.imgur.com/jLxpWGu.png",
+    "Skateboard": "https://i.imgur.com/lkKiOo4.png",
+    "Potion": "https://i.imgur.com/KLnPEd3.png",
+    "Christmas Present": "https://i.imgur.com/T9qmba7.png",
+    "Noel Launcher": "https://i.imgur.com/Wo8XMlu.png",
+    "Olaf Minigun": "https://i.imgur.com/rvgg4V9.png",
+    "Candycrow": "https://i.imgur.com/FBXMz6q.png",
+    "Batxmas": "https://i.imgur.com/nJpSAic.png",
+    "Snowhammer": "https://i.imgur.com/qgBfs19.png",
+    "Akorus Gun Cast": "https://i.imgur.com/3kvY24m.png",
+    "Steel": "https://i.imgur.com/o4sROlT.png",
+    "Refined Gold": "https://i.imgur.com/QYthPRN.png",
+    "Akorus": "https://i.imgur.com/5KYTXGp.png",
+    "Revolver Ultra": "https://i.imgur.com/QK4SEq3.png",
+    "Revolver Gun Cast": "https://i.imgur.com/l1nvTAE.png",
+    "Low Grip Tires": "https://i.imgur.com/dbnI2Fl.png",
+    "Normal Tires": "https://i.imgur.com/dbnI2Fl.png",
+    "Underglow Kit": "https://i.imgur.com/Py0qvzu.png",
+    "RC Car": "https://i.imgur.com/L7PtIAY.png",
+    "Xenon Headlights": "https://i.imgur.com/VS1f4HT.png"
 }
 
 var menuItems = [{
         name: "Actions",
         children: [
             { name: "Show ID" },
-            { name: "Give cash" },
+            //{ name: "Give cash" },
             { name: "Bank" },
             { name: "Glasses" },
             { name: "Mask" },
             { name: "Hat" },
             { name: "Tie" },
-            { name: "Untie" },
-            { name: "Drag" },
-            { name: "Blindfold" },
-            { name: "Remove blindfold" },
-            { name: "Place" },
-            { name: "Unseat" },
-            { name: "Rob" },
-            { name: "Search" },
+            //{ name: "Untie" },
+            //{ name: "Drag" },
+            //{ name: "Blindfold" },
+            //{ name: "Remove blindfold" },
+            //{ name: "Place" },
+            //{ name: "Unseat" },
+            //{ name: "Rob" },
+            //{ name: "Search" },
             { name: "Roll dice" },
             { name: "Walkstyle" }
         ]
@@ -916,7 +948,9 @@ var interactionMenu = new Vue({
                 return itemImages["Key"];
             } else if (itemImages[name]) {
                 return itemImages[name];
-            
+
+            } else if (name.includes(" Potion")) {
+                return itemImages.Potion
             } else {
                 return DEFAULT_ITEM_IMAGE;
             }
@@ -1187,6 +1221,24 @@ $(function() {
             /* Set misc variables from client */
             interactionMenu.isInVehicle = event.data.isInVehicle;
             interactionMenu.isCuffed = event.data.isCuffed;
+            /* Set current page if applicable */
+            if (event.data.goToPage) {
+                switch (event.data.goToPage) {
+                    case "vehicleActions.open": {
+                        interactionMenu.showVehicleActions();
+                        interactionMenu.onSubmenuItemClick(vehicleActions[2]);
+                        break;
+                    }
+                    case "vehicleActions.close": {
+                        interactionMenu.showVehicleActions();
+                        interactionMenu.onSubmenuItemClick(vehicleActions[3]);
+                        break;
+                    }
+                    case "inventory": {
+                        interactionMenu.onClick({ name: "Inventory" })
+                    }
+                }
+            }
         } else if (event.data.type == "inventoryLoaded") {
             interactionMenu.inventory = event.data.inventory;
             for (var i = 0; i < interactionMenu.inventory.MAX_CAPACITY; i++)

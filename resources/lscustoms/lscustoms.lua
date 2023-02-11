@@ -4,6 +4,17 @@ Credits - MythicalBro - modified by Minipunch for USARRP
 /////License/////
 Do not reupload/re release any part of this script without my permission
 ]]
+-- [1] = LS Customs (Eastborne Way)
+-- [2] = LS Customs (Popular Street)
+-- [3] = LS Customs (Airport)
+-- [4] = LS Customs (Harmony)
+-- [5] = LS Customs (Paleto)
+-- [6] = Bennys Motorsports
+-- [7] = Triple R Race and Repair
+-- [8] = Mcdougal Auto Care
+-- [9] = Auto Exotic
+-- [10] = The Cookie Jar
+
 local inside = false
 local currentpos = nil
 local currentgarage = 0
@@ -15,7 +26,11 @@ local garages = {
 	[3] = { locked = false, camera = {x = -1154.902, y = -2011.438, z = 13.18, heading = 95.49}, driveout = {x = -1150.379,y = -1995.845, z = 12.465, heading = 313.594}, drivein = {x = -1150.26,y = -1995.642, z = 12.266, heading = 136.859}, outside = {x = -1140.352,y = -1985.89, z = 12.45, heading = 314.406}, inside = {x = -1155.077,y = -2006.61, z = 12.465, heading = 162.58}},
 	[4] = { locked = false, camera = {x = 1177.98, y = 2636.059, z = 37.754, heading = 37.082}, driveout = {x = 1175.003,y = 2642.175, z = 37.045, heading = 0.759}, drivein = {x = 1174.701,y = 2643.764, z = 36.7, heading = 178.119}, outside = {x = 1175.565,y = 2652.819, z = 37.941, heading = 351.579}, inside = {x = 1174.823,y = 2637.807, z = 37.045, heading = 181.19}},
 	[5] = { locked = false, camera = {x = 105.825, y = 6627.562, z = 31.787, heading = 266.692}, driveout = {x = 112.326,y = 6625.148, z = 31.073, heading = 224.641}, drivein = {x = 112.738,y = 6624.644, z = 30.9, heading = 44.262}, outside = {x = 118.493,y = 6618.897, z = 31.13, heading = 224.701}, inside = {x = 108.842,y = 6628.447, z = 31.072, heading = 45.504}},
-	[6]= { locked = false, camera = {x = -215.518, y = -1329.135, z = 30.89, heading = 329.092}, driveout = {x = -205.935,y = -1316.642, z = 30.176, heading = 356.495}, drivein = {x = -205.626,y = -1314.99, z = 30.0, heading = 179.395}, outside = {x = -205.594,y = -1304.085, z = 30.614, heading = 359.792}, inside = {x = -212.368,y = -1325.486, z = 30.176, heading = 141.107} }
+	[6]= { locked = false, camera = {x = -210.518, y = -1325.135, z = 30.89, heading = 346.092}, driveout = {x = -207.626,y = -1315.40, z = 30.5, heading = 356.495}, drivein = {x = -207.626,y = -1315.40, z = 30.5, heading = 179.395}, outside = {x = -207.626,y = -1312.085, z = 30.614, heading = 358.792}, inside = {x = -207.626,y = -1319.40, z = 30.5, heading = 179.395} },
+	[7]= { locked = false, camera = {x = 132.42, y = -3035.56, z = 6.2, heading = 326.2}, driveout = {x = 136.1, y = -3030.37, z = 6.2, heading = 180.53}, drivein = {x = 136.1, y = -3030.37, z = 6.2, heading = 180.53}, outside = {x = 136.1, y = -3030.37, z = 6.2, heading = 180.53}, inside = {x = 136.1, y = -3030.37, z = 6.2, heading = 180.53} },
+    [8]= { locked = false, camera = {x = 919.62, y = -986.43, z = 40.53, heading = 338.69}, driveout = {x = 921.35, y = -981.01, z = 39.09, heading = 2.02}, drivein = {x = 921.35, y = -981.01, z = 38.52, heading = 181.42}, outside = {x = 921.35, y = -981.01, z = 39.09, heading = 2.02}, inside = {x = 921.35, y = -981.01, z = 39.09, heading = 181.42} },
+	[9]= { locked = false, camera = {x = 540.54, y = -167.73, z = 54.49, heading = 116.27}, driveout = {x = 537.24, y = -169.29, z = 54.08, heading = 178.49}, drivein = {x = 537.24, y = -169.29, z = 53.50, heading = 358.49}, outside = {x = 537.24, y = -169.29, z = 54.08, heading = 358.49}, inside = {x = 537.24, y = -169.29, z = 54.08, heading = 358.49} },
+	[10]= { locked = false, camera = {x = -28.89, y = -1059.17, z = 29.5, heading = 37.14}, driveout = {x = -38.1, y = -1045.71, z = 27.9, heading = 69.5}, drivein = {x = -41.52, y = -1044.57, z = 27.59, heading = 248.71}, outside = {x = -44.64, y = -1043.27, z = 28.23, heading = 69.5}, inside = {x = -33.54, y = -1053.52, z = 28.39, heading =  217.46} }
 }
 
 function getLocations()
@@ -75,25 +90,16 @@ AddEventHandler("customs:applyCustomizations", function(veh)
 
 		SetVehicleColours(currentvehicle, veh.color[1], veh.color[2])
 		SetVehicleExtraColours(currentvehicle, veh.extracolor[1], veh.extracolor[2])
-		SetVehicleNeonLightsColour(currentvehicle, veh.neoncolor[1],veh.neoncolor[2],veh.neoncolor[3])
 		SetVehicleTyreSmokeColor(currentvehicle,veh.smokecolor[1],veh.smokecolor[2],veh.smokecolor[3])
 		SetVehicleNumberPlateTextIndex(currentvehicle,veh.plateindex)
 		SetVehicleWheelType(currentvehicle, veh.wheeltype)
 		SetVehicleTyresCanBurst(currentvehicle, not not veh.bulletProofTyres)
 		SetVehicleWindowTint(currentvehicle,veh.windowtint)
-		SetVehicleNeonLightEnabled(currentvehicle, 0, not not veh.neonlightenabled)
-		SetVehicleNeonLightEnabled(currentvehicle, 1, not not veh.neonlightenabled)
-		SetVehicleNeonLightEnabled(currentvehicle, 2, not not veh.neonlightenabled)
-		SetVehicleNeonLightEnabled(currentvehicle, 3, not not veh.neonlightenabled)
-
-		print("(veh.driftTiresEnabled or false): " .. tostring((veh.driftTiresEnabled or false)))
-
-		SetDriftTyresEnabled(currentvehicle, (veh.driftTiresEnabled or false))
 
 		-- set mods --
     	SetVehicleModKit(currentvehicle,0)
 		for x = 0, 48 do
-			if x == 18 or x == 20 or x == 22 then -- turbo, xeon headlights, tyre smoke
+			if x == 18 or x == 20 then -- turbo, tyre smoke
 				print("toggling vehicle mod!")
 				if customizations[x] then
 					ToggleVehicleMod(currentvehicle, x, customizations[x].mod)
@@ -314,7 +320,7 @@ local function DriveInGarage()
 		myveh.model = GetDisplayNameFromVehicleModel(GetEntityModel(veh)):lower()
 		myveh.color =  table.pack(GetVehicleColours(veh))
 		myveh.extracolor = table.pack(GetVehicleExtraColours(veh))
-		myveh.neoncolor = table.pack(GetVehicleNeonLightsColour(veh))
+		--myveh.neoncolor = table.pack(GetVehicleNeonLightsColour(veh))
 		myveh.smokecolor = table.pack(GetVehicleTyreSmokeColor(veh))
 		myveh.plateindex = GetVehicleNumberPlateTextIndex(veh)
 		myveh.mods = {}
@@ -449,8 +455,9 @@ local function DriveInGarage()
 			end
 		end
 
-		local m = LSCMenu.categories:addSubMenu("LIGHTS", "Lights", "Improved night time visibility.",true)
-		AddMod(22,LSCMenu.categories.Lights,"HEADLIGHTS", "Headlights", nil, false)
+		--local m = LSCMenu.categories:addSubMenu("LIGHTS", "Lights", "Improved night time visibility.",true)
+		--AddMod(22,LSCMenu.categories.Lights,"HEADLIGHTS", "Headlights", nil, false)
+		--[[
 		if not IsThisModelABike(GetEntityModel(veh)) then
 			m = m:addSubMenu("NEON KITS", "Neon kits", nil, true)
 				m:addSubMenu("NEON LAYOUT", "Neon layout", nil, true)
@@ -464,6 +471,7 @@ local function DriveInGarage()
 					local btn = m:addPurchase(mod.name,mod.price)btn.neon = mod.neon
 				end
 		end
+		--]]
 
 
 		respray = LSCMenu.categories:addSubMenu("RESPRAY", "Respray", "Transforms vehicle appearance.",true)
@@ -718,7 +726,7 @@ local function DriveInGarage()
 				extraBtn.price = 500
 			end
 		end
-				
+
 		Citizen.CreateThread(function()
 			--NetworkFadeOutEntity(veh, 1,1)
 			--FadeOutLocalPlayer(1)
@@ -1012,7 +1020,7 @@ function LSCMenu:onSelectedIndexChanged(name, button)
 	elseif m == "license" then
 		SetVehicleNumberPlateTextIndex(veh,button.plateindex)
 	elseif m == "neon color" then
-		SetVehicleNeonLightsColour(veh,button.neon[1], button.neon[2], button.neon[3])
+		--SetVehicleNeonLightsColour(veh,button.neon[1], button.neon[2], button.neon[3])
 	elseif m == "windows" then
 		SetVehicleWindowTint(veh, button.tint)
 	else
@@ -1139,7 +1147,7 @@ AddEventHandler("LSC:buttonSelected", function(name, button, canpurchase)
 			myveh.neoncolor[2] = 255
 			myveh.neoncolor[3] = 255
 			myveh.neonlightenabled = false
-			SetVehicleNeonLightsColour(veh,255,255,255)
+			--SetVehicleNeonLightsColour(veh,255,255,255)
 		elseif button.purchased or CanPurchase(price, canpurchase) then
 			if not myveh.neoncolor[1] then
 				myveh.neoncolor[1] = 255
@@ -1147,7 +1155,7 @@ AddEventHandler("LSC:buttonSelected", function(name, button, canpurchase)
 				myveh.neoncolor[3] = 255
 			end
 			myveh.neonlightenabled = true
-			SetVehicleNeonLightsColour(veh,myveh.neoncolor[1],myveh.neoncolor[2],myveh.neoncolor[3])
+			--SetVehicleNeonLightsColour(veh,myveh.neoncolor[1],myveh.neoncolor[2],myveh.neoncolor[3])
 			SetVehicleNeonLightEnabled(veh,0,true)
 			SetVehicleNeonLightEnabled(veh,1,true)
 			SetVehicleNeonLightEnabled(veh,2,true)
@@ -1158,7 +1166,7 @@ AddEventHandler("LSC:buttonSelected", function(name, button, canpurchase)
 			myveh.neoncolor[1] = button.neon[1]
 			myveh.neoncolor[2] = button.neon[2]
 			myveh.neoncolor[3] = button.neon[3]
-			SetVehicleNeonLightsColour(veh,button.neon[1],button.neon[2],button.neon[3])
+			--SetVehicleNeonLightsColour(veh,button.neon[1],button.neon[2],button.neon[3])
 		end
 	elseif mname == "windows" then
 		if button.name == "None" or button.purchased or CanPurchase(price, canpurchase) then
@@ -1187,8 +1195,8 @@ AddEventHandler("LSC:buttonSelected", function(name, button, canpurchase)
 				SetVehicleMod(veh,24,myveh.mods[24].mod,false)
 				myveh.mods[24].variation = false
 			end
-			SetDriftTyresEnabled(veh, false)
-			myveh.driftTiresEnabled = false
+			--SetDriftTyresEnabled(veh, false)
+			--myveh.driftTiresEnabled = false
 		elseif button.name == "Custom Tires" and  (button.purchased or CanPurchase(price, canpurchase)) then
 			SetVehicleModKit(veh,0)
 			SetVehicleMod(veh,23,myveh.mods[23].mod,true)
@@ -1538,7 +1546,7 @@ function CheckPurchases(m)
 	elseif name == "wheel accessories" then
 		for i,b in pairs(m.buttons) do
 			if b.name == "Stock Tires" then
-				if GetVehicleModVariation(myveh.vehicle,23) == false and not GetDriftTyresEnabled(myveh.vehicle) then
+				if GetVehicleModVariation(myveh.vehicle,23) == false then
 					b.sprite = "garage"
 				else
 					b.sprite = nil
@@ -1610,7 +1618,7 @@ function UnfakeVeh()
 	SetVehicleModKit(veh,0)
 	SetVehicleWheelType(veh, myveh.wheeltype)
 	for i,m in pairs(myveh.mods) do
-		if i == 22 or i == 18 then
+		if i == 18 then
 			ToggleVehicleMod(veh,i,m.mod)
 		elseif i == 23 or i == 24 then
 			SetVehicleMod(veh,i,m.mod,m.variation)
@@ -1620,7 +1628,7 @@ function UnfakeVeh()
 	end
 	SetVehicleColours(veh,myveh.color[1], myveh.color[2])
 	SetVehicleExtraColours(veh,myveh.extracolor[1], myveh.extracolor[2])
-	SetVehicleNeonLightsColour(veh,myveh.neoncolor[1],myveh.neoncolor[2],myveh.neoncolor[3])
+	--SetVehicleNeonLightsColour(veh,myveh.neoncolor[1],myveh.neoncolor[2],myveh.neoncolor[3])
 	SetVehicleNumberPlateTextIndex(veh, myveh.plateindex)
 	SetVehicleWindowTint(veh, myveh.windowtint)
 end

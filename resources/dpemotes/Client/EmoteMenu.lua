@@ -225,6 +225,7 @@ function AddWalkMenu(menu)
       if item ~= walkreset then
         WalkMenuStart(WalkTable[index])
       else
+        TriggerEvent("stance:resetToStand")
         ResetPedMovementClipset(PlayerPedId())
       end
     end
@@ -253,9 +254,39 @@ function AddFaceMenu(menu)
     end
 end
 
-function OpenEmoteMenu()
-    mainMenu:Visible(not mainMenu:Visible())
+function vehicleDisallowRollover()
+  local disallow = false
+  local ped = PlayerPedId()
+  if IsPedInAnyVehicle(ped, true) then
+    local vehicle = GetVehiclePedIsIn(ped, false)
+    local roll = GetEntityRoll(vehicle)
+    if ((roll > 75.0 or roll < -75.0) and GetEntitySpeed(vehicle) < 2) or IsEntityInAir(vehicle) then
+        disallow = true
+    end
+  end
+  return disallow
 end
+
+function OpenEmoteMenu()
+  if not vehicleDisallowRollover() then
+    mainMenu:Visible(not mainMenu:Visible())
+  else
+    TriggerEvent("usa:notify", "You cannot use the emote menu right now!")
+  end
+end
+
+
+Citizen.CreateThread(function()
+  while true do
+    Citizen.Wait(1)
+    while mainMenu:Visible() do
+      Citizen.Wait(1)
+      if vehicleDisallowRollover() then
+        mainMenu:Visible(not mainMenu:Visible())
+      end
+    end
+  end
+end)
 
 function firstToUpper(str)
     return str:gsub("(%l)(%w*)", function(a,b) return string.upper(a)..b end)

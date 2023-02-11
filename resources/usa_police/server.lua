@@ -19,7 +19,8 @@ local armoryItems = {
     { name = "MK2 Pump Shotgun", type = "weapon", hash = 1432025498, price = 700, weight = 25 },
     { name = "MK2 Carbine Rifle", type = "weapon", hash = 4208062921, price = 700, weight = 15, minRank = 2 },
     { name = "Sniper Rifle", type = "weapon", hash = 100416529, price = 2000, weight = 30, minRank = 6 },
-    { name = "Carbine Rifle", type = "weapon", hash = -2084633992, price = 1000, weight = 15, minRank = 3},
+    { name = "Carbine Rifle", type = "weapon", hash = -2084633992, price = 1000, weight = 15, minRank = 3 },
+    { name = "Beanbag Shotgun", type = "weapon", hash = GetHashKey("WEAPON_BEANBAGSHOTGUN"), price = 700, weight = 10 },
     { name = "Spike Strips", price = 700 },
     { name = "Police Radio", price = 300, type = "misc", weight = 5, notStackable = true },
     { name = "9mm Bullets", type = "ammo", price = 50, weight = 0.5, quantity = 15 },
@@ -33,6 +34,7 @@ local armoryItems = {
     { name = "5.56mm Bullets", type = "ammo", price = 50, weight = 0.5, quantity = 30 },
     { name = "Empty 5.56mm Mag [30]", type = "magazine", price = 50, weight = 3, receives = "5.56mm", MAX_CAPACITY = 30, currentCapacity = 0 },
     { name = "Taser Cartridge", type = "ammo", price = 50, weight = 0.25, quantity = 1 },
+    { name = "Beanbag Shell", type = "ammo", price = 50, weight = 0.5, quantity = 8, objectModel = "prop_ld_ammo_pack_02" },
     { name = "Flashbang", type = "weapon", hash = GetHashKey("WEAPON_FLASHBANG"), price = 150, weight = 2, minRank = 6 }
 }
 
@@ -70,7 +72,7 @@ AddEventHandler('rconCommand', function(commandName, args)
             CancelEvent()
             return
         elseif not wl_type then
-            RconPrint("\nYou must enter a whitelist type: police, ems, corrections, da, judge or eventplanner")
+            RconPrint("\nYou must enter a whitelist type: police, ems, doctor, corrections, da, judge or eventplanner")
             CancelEvent()
             return
         elseif not rank then
@@ -88,6 +90,7 @@ AddEventHandler('rconCommand', function(commandName, args)
             else
                 char.set("policeRank", 0)
                 char.set("job", "civ")
+                TriggerClientEvent("thirdEye:updateActionsForNewJob", playerId, "civ")
                 RconPrint("DEBUG: " .. playerId .. " un-whitelisted as police.")
             end
         elseif wl_type == "ems" then
@@ -99,17 +102,31 @@ AddEventHandler('rconCommand', function(commandName, args)
             else
                 char.set("emsRank", 0)
                 char.set("job", "civ")
+                TriggerClientEvent("thirdEye:updateActionsForNewJob", playerId, "civ")
                 RconPrint("DEBUG: " .. playerId .. " un-whitelisted as EMS.")
+            end
+        elseif wl_type == "doctor" then
+            local char = exports["usa-characters"]:GetCharacter(playerId)
+            if rank > 0 then
+                char.set("doctorRank", rank)
+                RconPrint("DEBUG: " .. playerId .. "'s Doctor rank has been set to: " .. rank .. "!")
+                TriggerClientEvent('chatMessage', tonumber(playerId), "CONSOLE", {255, 255, 255}, "You have been whitelisted for Doctor, rank: " .. rank)
+            else
+                char.set("doctorRank", 0)
+                char.set("job", "civ")
+                TriggerClientEvent("thirdEye:updateActionsForNewJob", playerId, "civ")
+                RconPrint("DEBUG: " .. playerId .. " un-whitelisted as Doctor.")
             end
         elseif wl_type == "da" then
             local char = exports["usa-characters"]:GetCharacter(playerId)
             if rank > 0 then
                 char.set("daRank", rank)
                 RconPrint("DEBUG: " .. playerId .. "'s DA rank has been set to: " .. rank .. "!")
-                TriggerClientEvent('chatMessage', tonumber(playerId), "CONSOLE", {255, 255, 255}, "You have been whitelisted for EMS, rank: " .. rank)
+                TriggerClientEvent('chatMessage', tonumber(playerId), "CONSOLE", {255, 255, 255}, "You have been whitelisted for da, rank: " .. rank)
             else
                 char.set("daRank", 0)
                 char.set("job", "civ")
+                TriggerClientEvent("thirdEye:updateActionsForNewJob", playerId, "civ")
                 RconPrint("DEBUG: " .. playerId .. " un-whitelisted as DA.")
             end
         elseif wl_type == "judge" then
@@ -121,6 +138,7 @@ AddEventHandler('rconCommand', function(commandName, args)
             else
                 char.set("judgeRank", 0)
                 char.set("job", "civ")
+                TriggerClientEvent("thirdEye:updateActionsForNewJob", playerId, "civ")
                 RconPrint("DEBUG: " .. playerId .. " un-whitelisted as judge.")
             end
         elseif wl_type == "realtor" then
@@ -132,6 +150,7 @@ AddEventHandler('rconCommand', function(commandName, args)
             else
                 char.set("realtorRank", 0)
                 char.set("job", "civ")
+                TriggerClientEvent("thirdEye:updateActionsForNewJob", playerId, "civ")
                 RconPrint("DEBUG: " .. playerId .. " un-whitelisted as realtor.")
             end
         elseif wl_type == "corrections" then
@@ -143,6 +162,7 @@ AddEventHandler('rconCommand', function(commandName, args)
             else
                 char.set("bcsoRank", 0)
                 char.set("job", "civ")
+                TriggerClientEvent("thirdEye:updateActionsForNewJob", playerId, "civ")
                 RconPrint("DEBUG: " .. playerId .. " un-whitelisted from BCSO.")
             end
         elseif wl_type:lower() == "eventplanner" then
@@ -164,7 +184,7 @@ TriggerEvent('es:addCommand', 'whitelist', function(source, args, char)
         CancelEvent()
         return
     elseif not args[3] then
-        TriggerClientEvent("usa:notify", source, "You must enter a whitelist type: police, ems, corrections or da")
+        TriggerClientEvent("usa:notify", source, "You must enter a whitelist type: police, ems, doctor, corrections or da")
         CancelEvent()
         return
     elseif not args[4] then
@@ -181,6 +201,13 @@ TriggerEvent('es:addCommand', 'whitelist', function(source, args, char)
     local playerName = GetPlayerName(playerId)
     if type == "ems" then
         user_rank = tonumber(char.get("emsRank"))
+    elseif type == "doctor" then
+        user_rank = char.get("doctorRank")
+        if (user_rank == nil) then
+            user_rank = 0
+        else
+            user_rank = tonumber(user_rank)
+        end 
     elseif type == "police" then
         user_rank = tonumber(char.get("policeRank"))
     elseif type == "corrections" then 
@@ -214,8 +241,8 @@ TriggerEvent('es:addCommand', 'whitelist', function(source, args, char)
         TriggerClientEvent("usa:notify", source, "Error: player with id #" .. playerId .. " does not exist!")
         return
     elseif not type then
-        print("You must enter a whitelist type: police, ems or da")
-        TriggerClientEvent("usa:notify", source, "You must enter a whitelist type: police, corrections, ems or da")
+        print("You must enter a whitelist type: police, ems, doctor or da")
+        TriggerClientEvent("usa:notify", source, "You must enter a whitelist type: police, corrections, ems, doctor or da")
         return
     elseif not rank then
         print("You must enter a whitelist status for that player: true or false")
@@ -230,6 +257,8 @@ TriggerEvent('es:addCommand', 'whitelist', function(source, args, char)
             target.set("bcsoRank", rank)
         elseif type == "ems" then
             target.set("emsRank", rank)
+        elseif type == "doctor" then
+            target.set("doctorRank", rank)
         elseif type == "da" then
             target.set("daRank", rank)
         end
@@ -241,20 +270,23 @@ TriggerEvent('es:addCommand', 'whitelist', function(source, args, char)
             target.set("bcsoRank", 0)
         elseif type == "ems" then
             target.set("emsRank", 0)
+        elseif type == "doctor" then
+            target.set("doctorRank", 0)
         elseif type == "da" then
             target.set("daRank", 0)
         end
         local user_job = target.get("job")
-        if user_job == "ems" or user_job == "fire" or user_job == "sheriff" or user_job == "corrections" then
+        if user_job == "ems" or user_job == "doctor" or user_job == "fire" or user_job == "sheriff" or user_job == "corrections" then
             target.set("job", "civ")
+            TriggerClientEvent("thirdEye:updateActionsForNewJob", playerId, "civ")
         end
         TriggerClientEvent("usa:notify", source, "Player " .. playerName .. " has been un-whitelisted for " .. type)
     end
 end, {
-    help = "Set a person's police, corrections, EMS or DA rank.",
+    help = "Set a person's police, corrections, EMS, doctor or DA rank.",
     params = {
         { name = "id", help = "The player's server ID #" },
-        { name = "type", help = "'police', 'corrections', 'ems' or 'da'" },
+        { name = "type", help = "'police', 'corrections', 'ems', 'doctor' or 'da'" },
         { name = "rank", help = "0 to remove whitelist, 1 for lowest, 10 is max permissions" }
     }
 })
@@ -416,8 +448,9 @@ AddEventHandler("policestation2:loadOutfit", function(slot)
             db.getDocumentById(DB_NAME, docID, function(outfit)
                 TriggerClientEvent("policestation2:setCharacter", src, outfit)
                 if char.get("job") ~= 'sheriff' then
-                    char.set("job", "sheriff")
+                    char.set("job", JOB_NAME)
                     TriggerEvent('job:sendNewLog', src, JOB_NAME, true)
+                    TriggerClientEvent("thirdEye:updateActionsForNewJob", src, JOB_NAME)
                 end
                 TriggerClientEvent('interaction:setPlayersJob', src, 'sheriff')
                 TriggerEvent("eblips:add", {name = char.getName(), src = src, color = 3})
@@ -436,6 +469,7 @@ AddEventHandler("policestation2:offduty", function()
     TriggerClientEvent('interaction:setPlayersJob', source, 'civ')
     TriggerClientEvent("policestation2:setciv", source, char.get("appearance"), playerWeapons)
     char.set("job", "civ")
+    TriggerClientEvent("thirdEye:updateActionsForNewJob", source, "civ")
     TriggerEvent('job:sendNewLog', source, JOB_NAME, false)
     TriggerEvent("eblips:remove", source)
     TriggerClientEvent("radio:unsubscribe", source)

@@ -7,13 +7,13 @@ games {
   "gta5",
 }
 
-ui_page 'web/build/index.html'
+ui_page 'web/built-source/index.html'
 
 client_script "client/**/*"
 server_script "server/**/*"
 
 files {
-  'web/build/index.html',
-  'web/build/**/*'
+  'web/built-source/index.html',
+  'web/built-source/**/*'
 }
 dependency '/assetpacks'

@@ -392,3 +392,11 @@ function alertPolice(coords)
 	local lastStreetNAME = GetStreetNameFromHashKey(lastStreetHASH)
 	TriggerServerEvent('911:call', x, y, z, "Warehouse burglary alarm triggered (" .. lastStreetNAME .. ")", "Warehouse Burglary")
 end
+
+exports("getWarehouseLocations", function()
+	local locations = TriggerServerCallback {
+		eventName="av-warehouse:getLocations",
+		args = {}
+	}
+	return locations
+end)

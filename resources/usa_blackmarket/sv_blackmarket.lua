@@ -40,6 +40,7 @@ local markets = {
       { name = "Ninja Star 2 Kit", price = 200, type = "weaponParts", weight = 5.0, quantity = 1, stock = math.random(1, 10) },
       { name = "Throwing Knife", price = 300, type = "weapon", hash = GetHashKey("WEAPON_THROWINGKNIFE"), weight = 8.0, quantity = 1, stock = math.random(1, 10) },
       { name = "Bank Laptop", type = "misc",  quantity = 1,  legality = "legal", notStackable = true,  weight = 10, stock = math.random(1,2), price = tonumber(tostring(math.random(6, 10)) .. "000"), objectModel = "imp_prop_impexp_tablet" },
+      { name = "Blackhat USB Drive", type = "misc", quantity = 1, legality = "illegal", notStackable = true, weight = 1, stock = math.random(5,10), price = tonumber(tostring(math.random(5, 9)) .. "00"), objectModel = "hei_prop_hst_usb_drive"},
     },
     ["pedHash"] = -48477765
   },
@@ -64,7 +65,7 @@ local markets = {
       { name = "Empty 9mm Mag [12]", type = "magazine", legality = "legal", price = 70, weight = 5, receives = "9mm", MAX_CAPACITY = 12, currentCapacity = 0, objectModel = "w_pi_combatpistol_mag1" },
       { name = "Katana", hash = GetHashKey("WEAPON_KATANAS"), type = "weapon", legality = "illegal", price = 650, weight = 10, quantity = 1, stock = math.random(1,4), objectModel = "w_me_katana_lr"},
       { name = "Bank Laptop", type = "misc",  quantity = 1,  legality = "legal", notStackable = true,  weight = 10, stock = math.random(2,4), price = tonumber(tostring(math.random(8, 12)) .. "000"), objectModel = "imp_prop_impexp_tablet" },
-
+      { name = "Armed Truck Bomb", type = "misc", quantity = 1, legality = "illegal", notStackable = true, weight = 10, objectModel = "prop_ld_bomb", stock = math.random(4,7), price = tonumber(tostring(math.random(5, 9)) .. "000")}
     },
     ["pedHash"] = -1773333796
   },
@@ -91,7 +92,7 @@ local markets = {
     ['pedHash'] = 'mp_m_g_vagfun_01'
   },
   ['marketD'] = {
-    ['coords'] = {113.24684906006, -1967.5310058594, 21.317762374878}, -- Grove St. house interior /gotoc 113.24684906006 -1967.5310058594 21.317762374878
+    ['coords'] = {112.30765533447, -1961.1926269531, 20.95094871521}, -- Grove St.
     ['items'] = {
       { name = "Large Firework", type = "misc", price = 2000, legality = "illegal", quantity = 1, weight = 15, stock = math.random(1, 10), objectModel = "ind_prop_firework_03" },
       { name = "Firework Gun", type = "weapon", hash = 2138347493, price = 5000, legality = "illegal", quantity = 1, weight = 50, stock = math.random(1, 3), objectModel = "w_lr_firework" },
@@ -103,7 +104,8 @@ local markets = {
       { name = "9x18mm Bullets", type = "ammo", price = 350, weight = 0.5, quantity = 10, legality = "legal", objectModel = "prop_ld_ammo_pack_01" },
       { name = "5.56mm Bullets", type = "ammo", price = 600, weight = 0.5, quantity = 10, legality = "legal", objectModel = "prop_ld_ammo_pack_03"  },
       { name = "7.62mm Bullets", type = "ammo", price = 600, weight = 0.5, quantity = 10, legality = "legal", objectModel = "prop_ld_ammo_pack_03" },
-      { name = "Katana", hash = GetHashKey("WEAPON_KATANAS"), type = "weapon", legality = "illegal", price = 650, weight = 10, quantity = 1, stock = math.random(1,3), objectModel = "w_me_katana_lr"}
+      { name = "Katana", hash = GetHashKey("WEAPON_KATANAS"), type = "weapon", legality = "illegal", price = 650, weight = 10, quantity = 1, stock = math.random(1,3), objectModel = "w_me_katana_lr"},
+      { name = "Blackhat USB Drive", type = "misc", quantity = 1, legality = "illegal", notStackable = true, weight = 1, stock = math.random(2,5), price = tonumber(tostring(math.random(5, 9)) .. "00"), objectModel = "hei_prop_hst_usb_drive"},
     },
     ['pedHash'] = 'a_m_o_soucent_03',
     ['3dTextDistance'] = 7,

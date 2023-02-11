@@ -84,5 +84,33 @@ PARTS = {
 		weight = 5,
 		type = "misc",
 		notStackable = true
+	},
+	["Low Grip Tires"] = {
+		name = "Low Grip Tires",
+		price = 5000,
+		quantity = 1,
+		weight = 50,
+		type = "mechanicPart"
+	},
+	["Normal Tires"] = {
+		name = "Normal Tires",
+		price = 5000,
+		quantity = 1,
+		weight = 50,
+    type = "mechanicPart"
+	},
+	["Underglow Kit"] = {
+		name = "Underglow Kit",
+		price = 5000,
+		quantity = 1,
+		weight = 30,
+		type = "mechanicPart"
+	},
+	["Xenon Headlights"] = {
+		name = "Xenon Headlights",
+		price = 5000,
+		quantity = 1,
+		weight = 30,
+		type = "mechanicPart"
 	}
 }

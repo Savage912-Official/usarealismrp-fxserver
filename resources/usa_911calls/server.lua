@@ -196,6 +196,8 @@ RegisterServerEvent('911:USAF')
 RegisterServerEvent('911:NoTicket')
 RegisterServerEvent('911:NoTicketUpdate')
 RegisterServerEvent('911:NoTicketEnd')
+RegisterServerEvent('911:StolenTestDriveVehicle')
+RegisterServerEvent('911:ATMRobbery')
 
 
 local DISPATCH_DELAY_PERIOD_SECONDS = 60
@@ -513,12 +515,10 @@ AddEventHandler('911:Burglary', function(x, y, z, street, isMale)
     end
 end)
 
-AddEventHandler('911:BankTruck', function(x, y, z)
-    if not recentCalls["Bank Truck"] then
-        recentCalls["Bank Truck"] = true
-        local string = '^*Armored Truck Alarm^r: Attack on a armored money truck in progress.'
-        Send911Notification({'sheriff', 'corrections'}, string, x, y, z, 'Bank Truck')
-    end
+AddEventHandler('911:BankTruck', function(x, y, z, delay, message, title, bliptext)
+    Citizen.Wait(delay)
+    local string = '^*'..title..'^r: '..message..'.'
+    Send911Notification({'sheriff', 'corrections'}, string, x, y, z, bliptext)
 end)
 
 AddEventHandler('911:VehicleBoosting', function(x, y, z, street, plate, vehclass)
@@ -553,6 +553,23 @@ AddEventHandler("911:NoTicketEnd", function(coords)
         recentCalls["No Ticket End"] = true
         local string = '^*^rLS Transit^r: A person without a valid ticket has left the train or metro!'
         Send911Notification({'sheriff', 'corrections'}, string, coords.x, coords.y, coords.z, 'No Ticket End')
+    end
+end)
+
+AddEventHandler("911:StolenTestDriveVehicle", function(coords,plate,name)
+    if not recentCalls["Stolen Test Drive Vehicle"] then
+        recentCalls["Stolen Test Drive Vehicle"] = true
+        local string = '^*^rCar Dealership^r: ' .. name .. ' stole a test drive vehicle, the plate is ' .. plate .. '. It has a tracker fitted use /trackveh ' .. plate .. ' to add the tracker to your satnav!'
+        Send911Notification({'sheriff', 'corrections'}, string, coords.x, coords.y, coords.z, 'Stolen Test Drive Vehicle')
+    end
+end)
+
+AddEventHandler('911:ATMRobbery', function(x, y, z, street)
+    if not recentCalls["ATM Robbery"] then
+        recentCalls["ATM Robbery"] = true
+        local string = '^*ATM Robbery:^r '..street
+        Send911Notification({'sheriff', 'corrections', 'ems'}, string, x, y, z, 'ATM Robbery')
+        exports.usa_weazelnews:SendWeazelNewsAlert('Report of a ^ATM Robbery^r at ^3'..street..'^r, expose those robbers! Don\'t get too much attention!', x, y, z, 'ATM Robbery')
     end
 end)
 

@@ -749,6 +749,25 @@ AddEventHandler('mdt:addTempVehicle', function(vehName, vehOwner, vehPlate, stol
 	table.insert(tempVehicles, vehicleData)
 end)
 
+RegisterServerEvent('mdt:addTestDriveVehicle')
+AddEventHandler('mdt:addTestDriveVehicle', function(vehName, business, owner_name, vehPlate)
+	local vehicleData = {
+		veh_name = vehName,
+		registered_owner = business .. "[Rented by " .. owner_name .. "]",
+		plate = vehPlate
+	}
+	table.insert(tempVehicles, vehicleData)
+end)
+
+RegisterServerEvent('mdt:markTestDriveVehicleStolen')
+AddEventHandler('mdt:markTestDriveVehicleStolen', function(vehPlate)
+	for veh = 1, #tempVehicles do
+		if tempVehicles[veh].plate == vehPlate then
+			tempVehicles[veh].flags = 'FLAGGED STOLEN'
+		end
+	end
+end)
+
 RegisterServerEvent("mdt:fetchWarrants")
 AddEventHandler("mdt:fetchWarrants", function()
 	local usource = source

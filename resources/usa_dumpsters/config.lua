@@ -36,6 +36,8 @@ Config.DumpsterSearchItems = {
 	{ name = "7.62mm Shell Casing", legality = "legal", quantity = 2, type = "misc", weight = 0.2 },
 	{ name = "5.56mm Shell Casing", legality = "legal", quantity = 2, type = "misc", weight = 0.2 },
 	{ name = "9x18mm Shell Casing", legality = "legal", quantity = 2, type = "misc", weight = 0.2 },
+	{ name = "Plastic", legality = "legal", quantity = 1, type = "misc", weight = 2 },
+	{ name = "Copper Wire", legality = "legal", quantity = 1, type = "misc", weight = 3 },
 }
 
 Config.dumpsterObjects = {

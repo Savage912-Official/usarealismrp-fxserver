@@ -13,22 +13,33 @@ local isCarrying = false
 local jailed = false
 
 RegisterNetEvent("drag:attemptToDragNearest")
-AddEventHandler('drag:attemptToDragNearest', function()
+AddEventHandler('drag:attemptToDragNearest', function(playerId)
 	if exports["usa_rp2"]:areHandsTied() then
 		exports.globals:notify("Hands are tied! Can't drag!")
 		return
 	end
 	if not isDragging and not isDragged and not isCarrying and not isCarried and not jailed then
-		TriggerEvent("usa:getClosestPlayer", 1.65, function(player)
-    		if player then
-	        	local closestPed = GetPlayerPed(GetPlayerFromServerId(player.id))
-				if player.id ~= 0 and not IsPedInAnyVehicle(PlayerPedId()) and IsEntityVisible(closestPed) then
-					TriggerServerEvent('drag:sendDragPlayer', player.id)
-					-- print('sent??')
-					sourceDragged = player.id
+		if not playerId then
+			TriggerEvent("usa:getClosestPlayer", 1.65, function(player)
+				if player then
+					local closestPed = GetPlayerPed(GetPlayerFromServerId(player.id))
+					if player.id ~= 0 and not IsPedInAnyVehicle(PlayerPedId()) and IsEntityVisible(closestPed) then
+						TriggerServerEvent('drag:sendDragPlayer', player.id)
+						-- print('sent??')
+						sourceDragged = player.id
+					end
 				end
-			end
-        end)
+			end)
+		else
+			--local p1 = GetPlayerPed(GetPlayerFromServerId(playerId))
+			--local p1coords = GetEntityCoords(p1)
+			--local mycoords = GetEntityCoords(PlayerPedId())
+			--local dist = #(mycoords - p1coords)
+			--if dist < 1.65 then
+				TriggerServerEvent('drag:sendDragPlayer', playerId)
+				sourceDragged = playerId
+			--end
+		end
     elseif isDragging and sourceDragged then
     	TriggerServerEvent('drag:sendDragPlayer', sourceDragged)
 		sourceDragged = nil

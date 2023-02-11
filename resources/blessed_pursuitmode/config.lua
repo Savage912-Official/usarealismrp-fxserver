@@ -7,7 +7,8 @@ Config.PursuitVehicles = {
 	"npolchal",
 	"npolstang",
 	"npolvette",
-	"intchar"
+	"intchar",
+	"tolplam"
 }
 
 -- If you want to allow your non pursuit emergency vehicle change mode to A+ you can edit line 14, 15 and 16.
@@ -19,8 +20,8 @@ Config.NonPursuit = {
 
 Config.BoostPower = {
 	["A"] = 0.0,
-	["A+"] = 8.0,
-	["S"] = 10.0,
+	["A+"] = 10.0,
+	["S"] = 12.0,
 	["S+"] = 35.0
 }
 

@@ -15,7 +15,7 @@ return function(resource)
 
     function ParseCallContact(TargetData, CallId, AnonymousCall)
         local player = source
-        local target = qbCoreFramework.Functions.GetPlayerByPhone(TargetData.number)
+        local target = qbCoreFramework.Functions.GetPlayerByPhone(TargetData.number) or qbCoreFramework.Functions.GetPlayerByPhone(tonumber(TargetData.number))
 
         if (target ~= nil and (target.PlayerData and target.PlayerData.source or target.source)) then
             TriggerClientEvent('cs-video-call:custom:setCallee', player, target.PlayerData and target.PlayerData.source or target.source)

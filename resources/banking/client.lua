@@ -34,6 +34,19 @@ local atBank = false
 local atATM = false
 local bankOpen = false
 local atmOpen = false
+local THERMITE_REDRILL_TIME_LIMIT_MINUTES = 3
+local CASH_DISAPPEAR_TIME_LIMIT_SECONDS = 60 -- Also update serverside loop for checking player list that has blown up ATMS if this is changed
+
+local DRILLING = {
+  ANIM = {
+    DICT = "anim@heists@fleeca_bank@drilling",
+    NAME = "drill_straight_idle"
+  },
+  OBJECT = {
+    NAME = "hei_prop_heist_drill",
+    handle = nil
+  }
+}
 
 -- Open Gui and Focus NUI
 function openGui(bal)
@@ -65,7 +78,8 @@ if enableBankingGui then
             closeGui()
             bankOpen = false
           else
-            TriggerServerEvent("bank:getBalanceForGUI")
+            local coords = GetEntityCoords(GetClosestATM())
+            TriggerServerEvent("bank:getBalanceForGUI", coords)
             Wait(500)
           end
         end
@@ -154,6 +168,18 @@ function IsNearATM()
       return true
     end
   end
+end
+
+function GetClosestATM()
+  local ply = GetPlayerPed(-1)
+  local plyCoords = GetEntityCoords(ply, 0)
+  for i = 1, #atms do
+    local obj = GetClosestObjectOfType(plyCoords.x, plyCoords.y, plyCoords.z, CHECK_RADIUS, GetHashKey(atms[i]), false, false, false)
+    if DoesEntityExist(obj) then
+      return obj
+    end
+  end
+  return nil
 end
 
 -- Check if player is in a vehicle
@@ -312,4 +338,183 @@ function DrawText3D(x, y, z, distance, text)
     local factor = (string.len(text)) / 470
     DrawRect(_x,_y+0.0125, 0.015+factor, 0.03, 41, 11, 41, 68)
   end
+end
+
+function alert(msg)
+  SetTextComponentFormat("STRING")
+  AddTextComponentString(msg)
+  DisplayHelpTextFromStringLabel(0,0,1,-1)
+end
+
+local shouldBePlayingAnim = false
+local drilledATM = nil
+local drilledAt = nil
+local droppedMoney = {}
+
+RegisterNetEvent("banking:DrillATM")
+AddEventHandler("banking:DrillATM", function()
+  local ATM = GetClosestATM()
+  local coords = GetEntityCoords(ATM)
+  TriggerServerEvent("banking:checkATMDrill", coords)
+end)
+
+RegisterNetEvent("banking:StartDrillATM")
+AddEventHandler("banking:StartDrillATM", function()
+  if IsNearATM() then
+    shouldBePlayingAnim = true
+    local currentATM = GetClosestATM()
+    local location = GetEntityCoords(currentATM)
+    local lastStreetHASH = GetStreetNameAtCoord(location.x, location.y, location.z)
+    local lastStreetNAME = GetStreetNameFromHashKey(lastStreetHASH)
+    TriggerServerEvent("911:ATMRobbery",location.x, location.y, location.z, lastStreetNAME)
+    TriggerEvent("Drilling:Start", function(success)
+      if success then
+        TriggerEvent("usa:notify", "Hole drilled successfully now a little thermite should do the job!")
+        drilledATM = currentATM
+        drilledAt = GetGameTimer()
+      else
+        exports.globals:notify("The drill bit is too hot!")
+      end
+      shouldBePlayingAnim = false
+    end)
+    Wait(1000)
+    TriggerEvent('InteractSound_CL:PlayWithinDistance', PlayerId(), 10.0, "drill", 0.5)
+  else
+    TriggerEvent("usa:notify", "Nothing to drill")
+  end
+end)
+
+RegisterNetEvent('banking:blowATM')
+AddEventHandler("banking:blowATM", function()
+  local myped = PlayerPedId()
+  local start = GetGameTimer()
+  exports.globals:loadAnimDict("anim@move_m@trash")
+  while GetGameTimer() - start < 5000 do
+      exports.globals:DrawTimerBar(start, 5000, 1.42, 1.475, 'Planting Thermite')
+      if not IsEntityPlayingAnim(myped, "anim@move_m@trash", "pickup", 3) then
+          TaskPlayAnim(myped, "anim@move_m@trash", "pickup", 8.0, 1.0, -1, 11, 1.0, false, false, false)
+      end
+      Wait(1)
+  end
+  ClearPedTasksImmediately(myped)
+  TriggerServerEvent('InteractSound_SV:PlayWithinDistance', 7, 'thermite', 0.5)
+  Wait(1000)
+  local explCoords = GetOffsetFromEntityInWorldCoords(drilledATM, 0.0, -0.6, 1.0)
+  AddExplosion(explCoords.x, explCoords.y, explCoords.z, 2, 0, true, false, false, true)
+  spawnMoney()
+  TriggerServerEvent("banking:addPlayerToBlowList")
+end)
+
+function spawnMoney()
+  local randomMoneyAmount = math.random(4,10)
+  for i=1,randomMoneyAmount do
+    local randomXChange = math.random(-10, 10) / 10
+    local randomYChange = math.random(10) / 10
+    local dropMoneyCoords = GetOffsetFromEntityInWorldCoords(drilledATM, 0.0+randomXChange, -1.0-randomYChange, 0.0)
+    local cashDrop = CreateObject(-598402940, dropMoneyCoords.x, dropMoneyCoords.y, dropMoneyCoords.z, true, true, false)
+    PlaceObjectOnGroundProperly(cashDrop)
+    local timestamp = GetGameTimer()
+    table.insert(droppedMoney,{ object = cashDrop, timestamp = timestamp, coords = GetEntityCoords(cashDrop)})
+  end
+  drilledATM = nil
+  drilledAt = nil
+end
+
+Citizen.CreateThread(function()
+  while true do
+    if drilledATM ~= nil then
+      if GetGameTimer() - drilledAt > THERMITE_REDRILL_TIME_LIMIT_MINUTES * 60000 then
+        drilledATM = nil
+        drilledAt = nil
+        TriggerEvent("usa:notify", "You waited to long to blow the ATM your gonna have a drill it again!")
+      else
+        local playerPos = GetEntityCoords(PlayerPedId())
+        local atmPos = GetEntityCoords(drilledATM)
+        if #(playerPos - atmPos) < 2 then
+          alert("Insert Thermite ~INPUT_DETONATE~")
+          if IsControlJustPressed(0, 47) then
+            local coords = GetEntityCoords(drilledATM)
+            TriggerServerEvent("banking:checkATMBlow", coords)
+          end
+        end
+      end
+    end
+    Citizen.Wait(0)
+  end
+end)
+
+Citizen.CreateThread(function()
+  while true do
+    if shouldBePlayingAnim then
+      if not dictLoaded then
+        exports.globals:loadAnimDict(DRILLING.ANIM.DICT)
+        dictLoaded = true
+      end
+      local myped = PlayerPedId()
+      if not IsEntityPlayingAnim(myped, DRILLING.ANIM.DICT, DRILLING.ANIM.NAME, 3) then
+        TaskPlayAnim(myped, DRILLING.ANIM.DICT, DRILLING.ANIM.NAME, 2.0, 2.0, -1, 51, 0, false, false, false)
+        clearedAnim = false
+      end
+      if not DRILLING.OBJECT.handle then
+        giveDrillObject(myped)
+      end
+    else
+      if not clearedAnim then
+        local myped = PlayerPedId()
+        ClearPedTasksImmediately(myped)
+        clearedAnim = true
+      end
+      if DRILLING.OBJECT.handle then
+        DeleteObject(DRILLING.OBJECT.handle)
+        DRILLING.OBJECT.handle = nil
+      end
+    end
+    Wait(0)
+  end
+end)
+
+Citizen.CreateThread(function()
+  while true do
+    for i,v in ipairs(droppedMoney) do
+      if GetGameTimer() - v.timestamp > CASH_DISAPPEAR_TIME_LIMIT_SECONDS * 1000 then
+        DeleteObject(v.object)
+        table.remove(droppedMoney, i)
+        TriggerEvent("usa:notify", "A cash pile was blown away by the wind...")
+        break
+      end
+    end
+    Wait(1000)
+  end
+end)
+
+Citizen.CreateThread(function()
+  while true do
+    local playerPos = GetEntityCoords(PlayerPedId())
+    for i,v in ipairs(droppedMoney) do
+      if #(playerPos - v.coords) < 2 then
+        alert("Pickup Cash ~INPUT_DETONATE~")
+        if IsControlJustPressed(0, 47) then
+          TriggerServerEvent("banking:pickupMoney")
+          TriggerEvent("usa:playAnimation", "anim@move_m@trash", "pickup", -8, 1, -1, 53, 0, 0, 0, 0, 3)
+          DeleteObject(v.object)
+          table.remove(droppedMoney, i)
+          break
+        end
+      end
+    end
+    Wait(1)
+  end
+end)
+
+function giveDrillObject(ped)
+  local rightHandBoneId = 57005
+  local pedCoords = GetEntityCoords(ped, false)
+  local drillObjectHash = GetHashKey(DRILLING.OBJECT.NAME)
+  RequestModel(drillObjectHash)
+  while not HasModelLoaded(drillObjectHash) do
+    Wait(100)
+  end
+  DRILLING.OBJECT.handle = CreateObject(drillObjectHash, pedCoords.x, pedCoords.y, pedCoords.z+0.2,  true,  true, true)
+  SetEntityAsMissionEntity(DRILLING.OBJECT.handle, true, true)
+  AttachEntityToEntity(DRILLING.OBJECT.handle, ped, GetPedBoneIndex(ped, rightHandBoneId), 0.15, 0.0, -0.05, 100.0, -90.0, 150.0, true, true, false, true, 1, true)
 end

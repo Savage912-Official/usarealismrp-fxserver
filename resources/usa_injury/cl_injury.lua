@@ -97,8 +97,9 @@ injuries = { -- ensure this is the same as sv_injury.lua
     [GetHashKey("WEAPON_ASSAULTSMG")] = {type = 'penetrating', bleed = 300, string = 'High-speed Projectile', treatableWithBandage = false, treatmentPrice = 500, dropEvidence = 1.0},
     [GetHashKey("WEAPON_SMG_MK2")] = {type = 'penetrating', bleed = 300, string = 'High-speed Projectile', treatableWithBandage = false, treatmentPrice = 500, dropEvidence = 1.0},
     [GetHashKey("WEAPON_MICROSMG")] = {type = 'penetrating', bleed = 300, string = 'High-speed Projectile', treatableWithBandage = false, treatmentPrice = 500, dropEvidence = 1.0},
-	[GetHashKey("WEAPON_MINISMG")] = {type = 'penetrating', bleed = 300, string = 'High-speed Projectile', treatableWithBandage = false, treatmentPrice = 500, dropEvidence = 1.0},
+    [GetHashKey("WEAPON_MINISMG")] = {type = 'penetrating', bleed = 300, string = 'High-speed Projectile', treatableWithBandage = false, treatmentPrice = 500, dropEvidence = 1.0},
     [GetHashKey("WEAPON_ASSAULTRIFLE")] = {type = 'penetrating', bleed = 300, string = 'High-speed Projectile', treatableWithBandage = false, treatmentPrice = 500, dropEvidence = 1.0},
+    [GetHashKey("WEAPON_AKORUS")] = {type = 'penetrating', bleed = 300, string = 'High-speed Projectile', treatableWithBandage = false, treatmentPrice = 500, dropEvidence = 1.0},
     [GetHashKey("WEAPON_TACTICALRIFLE")] = {type = 'penetrating', bleed = 300, string = 'High-speed Projectile', treatableWithBandage = false, treatmentPrice = 500, dropEvidence = 1.0},
     [GetHashKey("WEAPON_MILITARYRIFLE")] = {type = 'penetrating', bleed = 300, string = 'High-speed Projectile', treatableWithBandage = false, treatmentPrice = 500, dropEvidence = 1.0},
     [GetHashKey("WEAPON_CARBINERIFLE")] = {type = 'penetrating', bleed = 300, string = 'High-speed Projectile', treatableWithBandage = false, treatmentPrice = 500, dropEvidence = 1.0}, -- WEAPON_CARBINERIFLE
@@ -115,8 +116,8 @@ injuries = { -- ensure this is the same as sv_injury.lua
     [GetHashKey("WEAPON_FLARE")] = {type = 'burn', bleed = 1800, string = 'Concentrated Heat', treatableWithBandage = true, treatmentPrice = 65, dropEvidence = 0.7}, -- WEAPON_FLARE
     [GetHashKey("WEAPON_EXPLOSION")] = {type = 'burn', bleed = 120, string = 'Explosion', treatableWithBandage = false, treatmentPrice = 500, dropEvidence = 1.0}, -- WEAPON_EXPLOSION
     --[GetHashKey("WEAPON_FALL")] = {type = 'blunt', bleed = 2700, string = 'Fall', treatableWithBandage = true, treatmentPrice = 30, dropEvidence = 0.2}, -- WEAPON_FALL
-    [GetHashKey("WEAPON_RAMMED_BY_CAR")] = {type = 'blunt', bleed = 1800, string = 'Vehicle Accident', treatableWithBandage = true, treatmentPrice = 50, dropEvidence = 0.0}, -- WEAPON_RAMMED_BY_CAR
-    [GetHashKey("WEAPON_RUN_OVER_BY_CAR")] = {type = 'blunt', bleed = 1500, string = 'Vehicle Accident', treatableWithBandage = true, treatmentPrice = 50, dropEvidence = 0.4}, -- WEAPON_RUN_OVER_BY_CAR
+    --[GetHashKey("WEAPON_RAMMED_BY_CAR")] = {type = 'blunt', bleed = 1800, string = 'Vehicle Accident', treatableWithBandage = true, treatmentPrice = 50, dropEvidence = 0.0}, -- WEAPON_RAMMED_BY_CAR
+    --[GetHashKey("WEAPON_RUN_OVER_BY_CAR")] = {type = 'blunt', bleed = 1500, string = 'Vehicle Accident', treatableWithBandage = true, treatmentPrice = 50, dropEvidence = 0.4}, -- WEAPON_RUN_OVER_BY_CAR
     [GetHashKey("WEAPON_FIRE")] = {type = 'burn', bleed = 600, string = 'Fire', treatableWithBandage = false, treatmentPrice = 50, dropEvidence = 1.0}, -- WEAPON_FIRE
     [GetHashKey("WEAPON_SNSPISTOL")] = {type = 'penetrating', bleed = 300, string = 'High-speed Projectile', treatableWithBandage = false, treatmentPrice = 500, dropEvidence = 1.0}, -- WEAPON_SNSPISTOL
     [GetHashKey("WEAPON_SNSPISTOL_MK2")] = {type = 'penetrating', bleed = 310, string = 'High-speed Projectile', treatableWithBandage = false, treatmentPrice = 500, dropEvidence = 1.0}, -- WEAPON_SNSPISTOL_MK2
@@ -133,6 +134,7 @@ injuries = { -- ensure this is the same as sv_injury.lua
     [GetHashKey("WEAPON_MACHETE")] = {type = 'laceration', bleed = 360, string = 'Large Sharp Object', treatableWithBandage = false, treatmentPrice = 300, dropEvidence = 1.0}, -- WEAPON_MACHETE
     [GetHashKey("WEAPON_SWITCHBLADE")] = {type = 'laceration', bleed = 480, string = 'Knife Puncture', treatableWithBandage = false, treatmentPrice = 70, dropEvidence = 1.0}, -- WEAPON_SWITCHBLADE
     [GetHashKey("WEAPON_REVOLVER")] = {type = 'penetrating', bleed = 120, string = 'High-speed Projectile', treatableWithBandage = false, treatmentPrice = 500, dropEvidence = 1.0}, -- WEAPON_REVOLVER
+    [GetHashKey("WEAPON_REVOLVERULTRA")] = {type = 'penetrating', bleed = 120, string = 'High-speed Projectile', treatableWithBandage = false, treatmentPrice = 500, dropEvidence = 1.0},
     [GetHashKey("WEAPON_NAVYREVOLVER")] = {type = 'penetrating', bleed = 120, string = 'High-speed Projectile', treatableWithBandage = false, treatmentPrice = 500, dropEvidence = 1.0}, -- WEAPON_NAVYREVOLVER
     [GetHashKey("WEAPON_DOUBLEACTION")] = {type = 'penetrating', bleed = 120, string = 'High-speed Projectile', treatableWithBandage = false, treatmentPrice = 500, dropEvidence = 1.0}, -- WEAPON_DOUBLEACTION
     [GetHashKey("WEAPON_REVOLVER_MK2")] = {type = 'penetrating', bleed = 125, string = 'High-speed Projectile', treatableWithBandage = false, treatmentPrice = 500, dropEvidence = 1.0}, -- WEAPON_REVOLVER_MK2
@@ -156,13 +158,6 @@ hospitalLocations = {
     {-251.8987, 6334.1558, 32.4272} -- Paleto Clinic
 }
 
-doctorLocations = {
-    {311.01, -599.24, 43.29}, -- pillbox
-    {-815.40, -1242.14, 7.33}, -- viceroy
-    {1839.8976, 3687.0020, 34.2749}, -- sandy
-    {-256.0696, 6306.1753, 32.4272}, -- paleto
-    {-176.41996765137, 406.39044189453, 110.77401733398}, -- blackmarket
-}
 
 effects = {} -- when you take damage for a specific reason, you may be put into an effect
 injuredParts = {} -- injured body parts, and their wounds as the value
@@ -230,9 +225,9 @@ function isConscious()
         for bone, injuries in pairs(injuredParts) do
             local boneName = parts[bone]
             for injury, data in pairs(injuredParts[bone]) do
-                local type = injuredParts[bone][injury].type
+                local injuryType = injuredParts[bone][injury].type
                 local cause = injuredParts[bone][injury].string
-                if type == 'penetrating' or type == 'laceration' or type == 'burn' then
+                if injuryType == 'penetrating' or injuryType == 'laceration' or injuryType == 'burn' then
                     if boneName == 'Head' or cause == "Explosion" then
                         seriousInjuries = seriousInjuries + 3
                     else
@@ -470,8 +465,8 @@ end)
 
 local displayingInjuries = false
 RegisterNetEvent('injuries:displayInspectedInjuries') -- display the injuries of ped in front to person who executed command
-AddEventHandler('injuries:displayInspectedInjuries', function(injuriesInspected, patientName, ped)
-    TriggerEvent('chatMessage', '^6^*[INJURIES]^r^7 Inspection of '..patientName..':')
+AddEventHandler('injuries:displayInspectedInjuries', function(injuriesInspected, displayName, ped)
+    TriggerEvent('chatMessage', '^6^*[INJURIES]^r^7 Inspection of '..displayName..':')
     local ped = NetToPed(ped)
     for bone, injuries in pairs(injuriesInspected) do
         local boneName = parts[bone]
@@ -637,15 +632,6 @@ Citizen.CreateThread(function()
                         local x, y, z = table.unpack(playerCoords)
                         TriggerServerEvent('injuries:validateCheckin', injuredParts, IsPedDeadOrDying(playerPed), x, y, z, IsPedMale(playerPed))
                     end
-                end
-            end
-        end
-        for i = 1, #doctorLocations do
-            local x, y, z = table.unpack(doctorLocations[i])
-            if Vdist(playerCoords, x, y, z) < 3 then
-                DrawText3Ds(x, y, z, '[E] - On/Off Duty (~r~Doctor~s~)')
-                if IsControlJustPressed(0, 38) and Vdist(playerCoords, x, y, z) < 2 then
-                    TriggerServerEvent('injuries:toggleOnDuty')
                 end
             end
         end

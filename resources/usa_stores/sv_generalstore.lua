@@ -65,7 +65,8 @@ local GENERAL_STORE_ITEMS = {
   ["Electronics"] = {
     { name = "Cell Phone", price = 650, type = "misc", quantity = 1, legality = "legal", weight = 3, objectModel = "prop_npc_phone_02", blockedInPrison = true},
     { name = "Tablet", price = 1000, type = "misc", quantity = 1, legality = "legal", weight = 3, objectModel = "imp_prop_impexp_tablet", blockedInPrison = true},
-    { name = "Vape", price = 400, type = "misc", quantity = 1, legality = "legal", weight = 3, objectModel = "ba_prop_battle_vape_01", blockedInPrison = true}
+    { name = "Vape", price = 400, type = "misc", quantity = 1, legality = "legal", weight = 3, objectModel = "ba_prop_battle_vape_01", blockedInPrison = true},
+    { name = "RC Car", price = 2000, type = "misc", quantity = 1, legality = "legal", weight = 30, objectModel = "prop_cs_cardbox_01", blockedInPrison = true}
   },
   ["Sports"] = {
     { name = "Roller Skates", price = 350, type = "misc", quantity = 1, legality = "legal", weight = 5, objectModel = "objectModel", blockedInPrison = true},
@@ -95,14 +96,14 @@ local HARDWARE_STORE_ITEMS = {
   },
   ["Misc"] = {
     { name = "Repair Kit", price = 500, type = "misc", quantity = 1, legality = "legal", weight = 20, objectModel = "imp_prop_tool_box_01a"},
-    {name = 'Razor Blade', type = 'misc', price = 60, legality = 'legal', quantity = 1, residue = false, weight = 3},
+    { name = 'Razor Blade', type = 'misc', price = 60, legality = 'legal', quantity = 1, residue = false, weight = 3},
     { name = "First Aid Kit", price = 100, type = "misc", quantity = 1, legality = "legal", weight = 15, objectModel = "v_ret_ta_firstaid"},
     { name = "Large Scissors", price = 15, type = "misc", quantity = 1, legality = "legal", weight = 5, objectModel = "prop_cs_scissors"},
     { name = "Sturdy Rope", price = 100, type = "misc", quantity = 1, legality = "legal", weight = 15, objectModel = "prop_devin_rope_01  "},
     { name = "Bag", price = 100, type = "misc", quantity = 1, legality = "legal", weight = 15, objectModel = "prop_paper_bag_01"},
     { name = "Ludde's Lube", price = 10, type = "misc", quantity = 1, legality = "legal", weight = 7, objectModel = "v_res_d_lube"},
     { name = "Tent", price = 200, type = "misc", quantity = 1, legality = "legal", weight = 50, objectModel = "prop_cs_box_step"},
-    { name = "Wood", price = 75, type = "misc", quantity = 1, legality = "legal", weight = 50, objectModel = "prop_cs_box_step"},
+    { name = "Wood", price = 200, type = "misc", quantity = 1, legality = "legal", weight = 15, objectModel = "prop_cs_box_step"},
     { name = "Chair", price = 100, type = "misc", quantity = 1, legality = "legal", weight = 60, objectModel = "prop_cs_box_step"},
     { name = "Vortex Optics Binoculars", price = 150, type = "misc", quantity = 1, legality = "legal", weight = 10, objectModel = "prop_binoc_01"},
     { name = "Shovel", price = 75, type = "misc", quantity = 1, legality = "legal", weight = 30, objectModel = "prop_tool_shovel"},
@@ -124,7 +125,9 @@ local HARDWARE_STORE_ITEMS = {
     { name = "Rag", price = 200, type = "misc", quantity = 1, legality = "legal", weight = 5, objectModel = "prop_shower_towel"},
     { name = "Sign Kit", price = 200, type = "misc", quantity = 1, legality = "legal", weight = 5, objectModel = "prop_cd_paper_pile1"},
     { name = "Drill", price = 2000, legality = "legal", quantity = 1, type = "misc", weight = 10, objectModel = "hei_prop_heist_drill" },
-    { name = "Beer Pong Kit", price = 300, type = "misc", quantity = 1, legality = "legal", weight = 5, objectModel = "apa_prop_cs_plastic_cup_01"}
+    { name = "Beer Pong Kit", price = 300, type = "misc", quantity = 1, legality = "legal", weight = 5, objectModel = "apa_prop_cs_plastic_cup_01"},
+    { name = "Basketball Hoop", price = 1500, type = "misc", quantity = 1, legality = "legal", weight = 10, objectModel = "prop_basketball_net2"},
+    { name = "Skateboard", price = 1500, type = "misc", quantity = 1, legality = "legal", weight = 10, objectModel = "v_res_skateboard"}
   }
 }
 

@@ -214,7 +214,8 @@ RegisterNetEvent('cs-stories:initialize', function(serverConfig, hookFiles, reso
     end)
 
     RegisterNUICallback('cs-stories:storyPreUpload', function(data, callback)
-        TriggerServerEvent('cs-stories:storyPreUpload')
+        local coords = GetEntityCoords(PlayerPedId())
+        TriggerServerEvent('cs-stories:storyPreUpload', CS_STORIES.GetStoryLocationName and CS_STORIES.GetStoryLocationName(coords) or _CSS.config.lang.unknownLocation)
         callback(true)
     end)
 
@@ -231,6 +232,11 @@ RegisterNetEvent('cs-stories:initialize', function(serverConfig, hookFiles, reso
 
     RegisterNUICallback('cs-stories:delete', function(data, callback)
         TriggerServerEvent('cs-stories:deleteStory', data.tempId)
+        callback(true)
+    end)
+
+    RegisterNUICallback('cs-stories:usingMouse', function(data, callback)
+        CS_STORIES.SetKeyLabels(not data.state)
         callback(true)
     end)
 

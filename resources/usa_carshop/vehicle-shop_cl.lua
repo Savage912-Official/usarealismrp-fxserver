@@ -11,8 +11,8 @@ local MENU_KEY = 38
 
 local SHOPS = {
 	--{name = "Paleto Bay", store_x = 120.9, store_y = 6624.605, store_z = 32.0, vehspawn_x = 131.04, vehspawn_y = 6625.39, vehspawn_z = 31.71, vehspawn_heading = 315.0},
-	{name = "Los Santos", store_x = -33.40, store_y = -1102.03, store_z = 26.4523, vehspawn_x = -48.884, vehspawn_y = -1113.75, vehspawn_z = 26.4358, vehspawn_heading = 315.0, blipName = "PDM - Downtown LS"},
-	{name = "Sandy Shores", store_x = 1224.7, store_y = 2727.3, store_z = 37.0, vehspawn_x = 1228.5, vehspawn_y = 2718.0, vehspawn_z = 38.0, vehspawn_heading = 260.0, blipName = "PDM - Sandy Shores"},
+	{name = "Los Santos", store_x = -33.40, store_y = -1102.03, store_z = 26.4523, vehspawn_x = -48.884, vehspawn_y = -1113.75, vehspawn_z = 26.4358, vehspawn_heading = 315.0,TDreturn = vector3(-31.6935, -1090.8186, 25.3), blipName = "PDM - Downtown LS"},
+	{name = "Sandy Shores", store_x = 1224.7, store_y = 2727.3, store_z = 37.0, vehspawn_x = 1228.5, vehspawn_y = 2718.0, vehspawn_z = 38.0, vehspawn_heading = 260.0,TDreturn = vector3(1228.9268, 2723.4272, 37.0046), blipName = "PDM - Sandy Shores"},
 	{
 		name = "Benefactor",
 		store_x = -56.239898681641, 
@@ -22,6 +22,7 @@ local SHOPS = {
 		vehspawn_y = 69.345016479492,
 		vehspawn_z = 71.842216491699,
 		vehspawn_heading = 291.0,
+		TDreturn = vector3(-59.7604, 78.8104, 70.5),
 		onlySellsCustom = true,
 		blipName = "Benefactor Dealership",
 		displayVehicles = {
@@ -58,6 +59,10 @@ TriggerServerEvent("vehicle-shop:loadItems")
 
 local sell_submenu = nil
 local buy_submenu = nil
+
+local isTestDriving = false
+local returnLocation = nil
+local returnBlip = nil
 
 _menuPool = NativeUI.CreatePool()
 mainMenu = NativeUI.CreateMenu("Car Dealership", "Welcome!", 0 --[[X COORD]], 320 --[[Y COORD]])
@@ -175,9 +180,20 @@ function UpdatePreviewMenu()
 	local item = NativeUI.CreateItem("Purchase", "Purchase this vehicle for $" .. comma_value(menu_data.preview.vehicle.price))
 	item.Activated = function(parentmenu, selected)
 			EndPreview()
-			local business = exports["usa-businesses"]:GetClosestStore(15)
+			local business = exports["usa-businesses"]:GetClosestStore(30)
 			TriggerServerEvent("mini:checkVehicleMoney", menu_data.preview.vehicle, business)
 			previewMenu:Visible(false)
+	end
+	previewMenu:AddItem(item)
+	-----------------
+	-- test drive  --
+	-----------------
+	local item = NativeUI.CreateItem("Test Drive", "Test drive vehicle for 10 minutes")
+	item.Activated = function(parentmenu, selected)
+		EndPreview()
+		local business = exports["usa-businesses"]:GetClosestStore(30)
+		TriggerServerEvent("mini:checkPlayerTestDrive", menu_data.preview.vehicle, business)
+		previewMenu:Visible(false)
 	end
 	previewMenu:AddItem(item)
 end
@@ -220,7 +236,7 @@ AddEventHandler("vehicle-shop:loadItems", function(items)
 end)
 
 RegisterNetEvent("vehShop:spawnPlayersVehicle")
-AddEventHandler("vehShop:spawnPlayersVehicle", function(hash, plate)
+AddEventHandler("vehShop:spawnPlayersVehicle", function(hash, plate, testDrive)
 	local numberHash = tonumber(hash)
 	-- thread code stuff below was taken from an example on the wiki
 	-- Create a thread so that we don't 'wait' the entire game
@@ -240,6 +256,19 @@ AddEventHandler("vehShop:spawnPlayersVehicle", function(hash, plate)
 		--SetVehicleAsNoLongerNeeded(vehicle)
 		SetEntityAsMissionEntity(vehicle, true, true)
 		SetVehicleHasBeenOwnedByPlayer(vehicle, true)
+		if testDrive then
+			TriggerServerEvent("vehShop:spawnTestDriveCallback", plate, NetworkGetNetworkIdFromEntity(vehicle))
+			returnLocation = menu_data.closest.TDreturn
+			isTestDriving = true
+			returnBlip = AddBlipForCoord(returnLocation)
+			SetBlipSprite(returnBlip, 225)
+			SetBlipColour(returnBlip, 26)
+			SetBlipScale(returnBlip, 0.5)
+			SetBlipRoute(returnBlip,  true)
+			BeginTextCommandSetBlipName("STRING")
+			AddTextComponentString("Return Test Drive Vehicle")
+			EndTextCommandSetBlipName(returnBlip)
+		end
 	end)
 
 end)
@@ -413,3 +442,61 @@ function DrawText3D(x, y, z, distance, text)
 	    DrawRect(_x,_y+0.0125, 0.015+factor, 0.03, 41, 11, 41, 68)
 	end
 end
+
+function alert(msg)
+	SetTextComponentFormat("STRING")
+	AddTextComponentString(msg)
+	DisplayHelpTextFromStringLabel(0,0,1,-1)
+end
+
+local trackedVehBlip = nil
+
+RegisterNetEvent("vehShop:trackStolenVeh")
+AddEventHandler("vehShop:trackStolenVeh", function(coords)
+	if trackedVehBlip ~= nil then
+		SetBlipCoords(trackedVehBlip, coords)
+		SetBlipRoute(trackedVehBlip,  false)
+		SetBlipRoute(trackedVehBlip,  true)
+	else
+		trackedVehBlip = AddBlipForCoord(coords)
+		SetBlipSprite(trackedVehBlip, 225)
+		SetBlipColour(trackedVehBlip, 1)
+		SetBlipScale(trackedVehBlip, 0.5)
+		SetBlipRoute(trackedVehBlip,  true)
+		BeginTextCommandSetBlipName("STRING")
+		AddTextComponentString("Tracked Stolen Vehicle")
+		EndTextCommandSetBlipName(trackedVehBlip)
+	end
+end)
+
+RegisterNetEvent("vehShop:stopTrackStolenVeh")
+AddEventHandler("vehShop:stopTrackStolenVeh", function()
+	if trackedVehBlip ~= nil then
+		RemoveBlip(trackedVehBlip)
+		trackedVehBlip = nil
+	end
+end)
+
+RegisterNetEvent("vehShop:endTestDrive")
+AddEventHandler("vehShop:endTestDrive", function()
+	isTestDriving = false
+	returnLocation = nil
+	RemoveBlip(returnBlip)
+	returnBlip = nil
+end)
+
+Citizen.CreateThread(function()
+	while true do
+		Citizen.Wait(0)
+		if isTestDriving then
+			DrawMarker(1, returnLocation.x, returnLocation.y, returnLocation.z, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 3.5, 3.5, 0.5, 0, 255, 255, 155, false, true, 2, nil, nil, false)
+			if #(GetEntityCoords(PlayerPedId()) - returnLocation) < 2.5 then
+				alert("Return Car ~INPUT_CONTEXT~")
+				if IsControlJustPressed(1, 51) then
+					local vehicle = GetVehiclePedIsIn(PlayerPedId(), false)
+					TriggerServerEvent("vehShop:returnVehicle", GetVehicleNumberPlateText(vehicle), GetEntityModel(vehicle))
+				end
+			end
+		end
+	end
+end)

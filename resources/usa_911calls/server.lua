@@ -198,6 +198,7 @@ RegisterServerEvent('911:NoTicketUpdate')
 RegisterServerEvent('911:NoTicketEnd')
 RegisterServerEvent('911:StolenTestDriveVehicle')
 RegisterServerEvent('911:ATMRobbery')
+RegisterServerEvent('911:IllegalRacing')
 
 
 local DISPATCH_DELAY_PERIOD_SECONDS = 60
@@ -571,6 +572,13 @@ AddEventHandler('911:ATMRobbery', function(x, y, z, street)
         Send911Notification({'sheriff', 'corrections', 'ems'}, string, x, y, z, 'ATM Robbery')
         exports.usa_weazelnews:SendWeazelNewsAlert('Report of a ^ATM Robbery^r at ^3'..street..'^r, expose those robbers! Don\'t get too much attention!', x, y, z, 'ATM Robbery')
     end
+end)
+
+AddEventHandler('911:IllegalRacing', function(x, y, z)
+    local time = math.random(10000, 20000)
+    Citizen.Wait(time)
+    local string = '^*Illegal Street Racing ^1^*|^r Caller reports race in progress. ^1^*|^r ^*Recommended Response:^r Interceptors, Air One, and Patrol Units.'
+    Send911Notification({'sheriff', 'corrections'}, string, x, y, z, 'Illegal Street Race')
 end)
 
 RegisterServerEvent('carjack:playHandsUpOnAll')

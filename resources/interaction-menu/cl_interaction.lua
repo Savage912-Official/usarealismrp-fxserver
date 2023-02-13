@@ -1222,6 +1222,8 @@ function interactionMenuUse(index, itemName, wholeItem)
 		TriggerServerEvent("usa:openChristmasPresent", wholeItem)
 	elseif itemName == "RC Car" then
 		TriggerEvent("rc:start")
+	elseif itemName == "Lottery Ticket" then
+		TriggerServerEvent('usa_lottery:checkticketnumber')
 	else
 		TriggerEvent("interaction:notify", "There is no use action for that item!")
 	end

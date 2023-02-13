@@ -14,12 +14,6 @@ clConfig = {
     -- Height of 3D checkpoints, meters
     checkpointHeight = 0.0,
 
-    -- Color of the point blips (when racing, when creating a track). By default - 7 (purple)
-    checkpointBlipColor = 7,
-
-    -- Color of the GPS route (when racing). By default - 7 (purple)
-    routeColor = 7,
-
     -- The distance from which track objects are created
     objectRenderDistance = 300,
 

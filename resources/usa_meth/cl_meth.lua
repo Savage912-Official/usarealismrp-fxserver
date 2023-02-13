@@ -29,6 +29,12 @@ local BUY_PSEUDOPHEDRINE_COORDS = {x = 704.62, y = 4185.3, z = 40.70}
 local PACKAGE_COORDS = {x = 2434.78, y = 4964.29, z = 42.34}
 local COOK_COORDS = {x = 738.85601806641, y = -773.63940429688, z = 25.093187332153}
 
+local methRank = nil
+
+local blowChances = {0.45, 0.55, 0.65, 0.75, 0.85}
+local produceTimes = {23000, 19000, 15000, 12000, 10000}
+local packageTimes = {7500,6500,5500,4500,3500}
+
 -- JOB HANDLING
 Citizen.CreateThread(function()
     local cooldown = GetGameTimer()
@@ -55,16 +61,16 @@ Citizen.CreateThread(function()
                 else
                   TriggerEvent("chatMessage", "", {}, "^3Chemical Dealer:^0 You can take these chemicals to my bud's lab in Los Santos. It's just east of the canal and just North of San Andreas Ave. If you look you should see a door to get into the building to process the chemicals in an alley behind some buildings.")
                 end
-            elseif GetDistanceBetweenCoords(playerCoords, COOK_COORDS.x, COOK_COORDS.y, COOK_COORDS.z, true) < 3 and not meth.producingMeth and GetGameTimer() - cooldown > 2000 then -- produce meth rocks
+            elseif GetDistanceBetweenCoords(playerCoords, COOK_COORDS.x, COOK_COORDS.y, COOK_COORDS.z, true) < 3 and not meth.producingMeth and GetGameTimer() - cooldown > 2000 and not IsPedDeadOrDying(playerPed, true) then -- produce meth rocks
                 Wait(500)
                 if not IsControlPressed(0, INPUT_KEY) then
-                  TriggerServerEvent("methJob:checkUserJobSupplies", meth.suppliesProduce, meth.suppliesProduceQuality)
+                  TriggerServerEvent("methJob:checkUserJobSupplies", meth.suppliesProduce, meth.suppliesProduceQuality, methRank)
                   cooldown = GetGameTimer()
                 else
                   TriggerEvent("chatMessage", "", {}, "^3HINT: ^0You can take cooked meth to get packaged at the O'Neill's Ranch in Grapeseed.")
                 end
-            elseif GetDistanceBetweenCoords(playerCoords, PACKAGE_COORDS.x, PACKAGE_COORDS.y, PACKAGE_COORDS.z, true) < 3 and not meth.processingMeth and GetGameTimer() - cooldown > 2000 then -- process/package meth rocks
-                  TriggerServerEvent("methJob:checkUserJobSupplies", meth.suppliesProcess, meth.suppliesProcessQuality)
+            elseif GetDistanceBetweenCoords(playerCoords, PACKAGE_COORDS.x, PACKAGE_COORDS.y, PACKAGE_COORDS.z, true) < 3 and not meth.processingMeth and GetGameTimer() - cooldown > 2000 and not IsPedDeadOrDying(playerPed, true) then -- process/package meth rocks
+                TriggerServerEvent("methJob:checkUserJobSupplies", meth.suppliesProcess, meth.suppliesProcessQuality, methRank)
                 cooldown = GetGameTimer()
             elseif GetDistanceBetweenCoords(playerCoords, BUY_RED_PHOS_COORDS.x, BUY_RED_PHOS_COORDS.y, BUY_RED_PHOS_COORDS.z, true) < 3 and not meth.pedIsBusy and GetGameTimer() - cooldown > 2000 then -- purchase quality supplies
               Wait(500)
@@ -198,6 +204,18 @@ AddEventHandler("methJob:getSupplies", function(supplyType)
     end
 end)
 
+RegisterNetEvent("methJob:setRank")
+AddEventHandler("methJob:setRank", function(rank)
+    if methRank == nil then
+        methRank = rank
+    else
+        if rank ~= methRank then
+            methRank = rank
+            TriggerEvent("usa:notify", "Level Up! Your meth rank is now "..methRank)
+        end
+    end
+end)
+
 Citizen.CreateThread(function()
     while true do
         if meth.producingMeth then
@@ -209,10 +227,10 @@ Citizen.CreateThread(function()
                 Citizen.Wait(100)
             end
             TaskPlayAnim(GetPlayerPed(-1), animDict, animName, 8.0, -8, -1, 49, 0, 0, 0, 0)
-            while GetGameTimer() - beginTime < 23000 do
+            while GetGameTimer() - beginTime < produceTimes[methRank] do
                 Citizen.Wait(0)
                 if meth.producingMeth then
-                    DrawTimer(beginTime, 23000, 1.42, 1.475, 'COOKING')
+                    DrawTimer(beginTime, produceTimes[methRank], 1.42, 1.475, 'COOKING')
                     if not IsEntityPlayingAnim(GetPlayerPed(-1), animDict, animName, 3) then
                         TaskPlayAnim(GetPlayerPed(-1), animDict, animName, 8.0, -8, -1, 49, 0, 0, 0, 0)
                     end
@@ -221,31 +239,32 @@ Citizen.CreateThread(function()
                     break
                 end
             end
-if math.random() > 0.965 then
-    if math.random() > 0.45 then
-        AddExplosion(GetEntityCoords(PlayerPedId()), 9, 1.0, true, false, 1.0)
-        --[[
-        local lastStreetHASH = GetStreetNameAtCoord(138.18, 2295.25, 94.09)
-        local lastStreetNAME = GetStreetNameFromHashKey(lastStreetHASH)
-        TriggerServerEvent('911:MethExplosion', 138.18, 2295.25, 94.09, lastStreetNAME)
-        --]]
-    end
-end
-            ClearPedTasksImmediately(GetPlayerPed(-1))
-            StopAnimTask(GetPlayerPed(-1), animDict,animName, false)
-            local methProduced = "Meth Rock"
-            if meth.producingMeth then
+            if math.random() > blowChances[methRank] then
+                AddExplosion(GetEntityCoords(PlayerPedId()), 9, 1.0, true, false, 1.0)
                 meth.producingMeth = false
-                for i = 1, #meth.methIngredients do
-                    if meth.methIngredients[i] == 'Red Phosphorus' then
-                        methProduced = "Blue Meth Rock"
+                ClearPedTasksImmediately(GetPlayerPed(-1))
+                StopAnimTask(PlayerPedId(), animDict,animName, false)
+                local coords = GetEntityCoords(PlayerPedId())
+                local lastStreetHASH = GetStreetNameAtCoord(coords.x, coords.y, coords.z)
+                local lastStreetNAME = GetStreetNameFromHashKey(lastStreetHASH)
+                TriggerServerEvent('911:MethExplosion', coords.x, coords.y, coords.z, lastStreetNAME)
+            else
+                ClearPedTasksImmediately(GetPlayerPed(-1))
+                StopAnimTask(GetPlayerPed(-1), animDict,animName, false)
+                local methProduced = "Meth Rock"
+                if meth.producingMeth then
+                    meth.producingMeth = false
+                    for i = 1, #meth.methIngredients do
+                        if meth.methIngredients[i] == 'Red Phosphorus' then
+                            methProduced = "Blue Meth Rock"
+                        end
                     end
+                    meth.methIngredients = {}
+                    while securityToken == nil do
+                        Wait(1)
+                    end
+                    TriggerServerEvent("methJob:methProduced", methProduced, securityToken)
                 end
-                meth.methIngredients = {}
-                while securityToken == nil do
-                    Wait(1)
-                end
-                TriggerServerEvent("methJob:methProduced", methProduced, securityToken)
             end
         elseif meth.processingMeth then
             beginTime = GetGameTimer()
@@ -257,9 +276,9 @@ end
             end
             TaskPlayAnim(GetPlayerPed(-1), animDict, animName, 8.0, -8, -1, 49, 0, 0, 0, 0)
             local failed = false
-            while GetGameTimer() - beginTime < 5000 do
+            while GetGameTimer() - beginTime < packageTimes[methRank] do
                 Citizen.Wait(0)
-                DrawTimer(beginTime, 5000, 1.42, 1.475, 'PACKAGING')
+                DrawTimer(beginTime, packageTimes[methRank], 1.42, 1.475, 'PACKAGING')
                 if meth.processingMeth then
                     if not IsEntityPlayingAnim(GetPlayerPed(-1), animDict, animName, 3) then
                         TaskPlayAnim(GetPlayerPed(-1), animDict, animName, 8.0, -8, -1, 49 , 0, 0, 0, 0)

@@ -47,7 +47,7 @@ TRANSLATIONS.GENERAL.HEADER_LEAVE = 'Leave race'
 TRANSLATIONS.HOME_TAB = {}
 
 TRANSLATIONS.HOME_TAB.COMPETITIONS = 'Competitions'
-TRANSLATIONS.HOME_TAB.COMPETITIONS_DAY = 'Competitions every day at 19:00!'
+TRANSLATIONS.HOME_TAB.COMPETITIONS_DAY = 'Competitions every day between 12:00 and 18:00 PST!'
 
 TRANSLATIONS.HOME_TAB.WELCOME_TEXT = 'Welcome,'
 TRANSLATIONS.HOME_TAB.SUMMARY_FIRST = 'You last participated in a competition'
@@ -90,6 +90,9 @@ TRANSLATIONS.TRACKS_TAB.DETAILS_CIRCUIT = 'Circuit'
 TRANSLATIONS.TRACKS_TAB.DETAILS_TIMES_DRIVEN = 'Times driven'
 TRANSLATIONS.TRACKS_TAB.DETAILS_FINISH_PERCENTAGE = 'Finish percentage'
 TRANSLATIONS.TRACKS_TAB.DETAILS_PEOPLE_FINISHED = 'People driven'
+
+TRANSLATIONS.TRACKS_TAB.DETAILS_FILTER_BEST_RESULTS = 'Track best results'
+TRANSLATIONS.TRACKS_TAB.DETAILS_FILTER_ALL = 'ALL'
 
 TRANSLATIONS.TRACKS_TAB.NEW_PAGE_HEADER = 'New track creation'
 TRANSLATIONS.TRACKS_TAB.NEW_INFO_HEADER = '1. Track information'
@@ -148,6 +151,13 @@ TRANSLATIONS.RACES_TAB.RACE_TABLE_PARTICIPATION = 'PARTICIPATION'
 TRANSLATIONS.RACES_TAB.RACE_TABLE_DRIVERS = 'drivers'
 TRANSLATIONS.RACES_TAB.RACE_TABLE_FINISHED = 'finished'
 
+TRANSLATIONS.RACES_TAB.RACE_DETAILS_HEADER = 'Race results'
+TRANSLATIONS.RACES_TAB.RACE_DETAILS_TABLE_DRIVER = 'Driver'
+TRANSLATIONS.RACES_TAB.RACE_DETAILS_TABLE_TIME = 'Time'
+TRANSLATIONS.RACES_TAB.RACE_DETAILS_TABLE_VEHICLE = 'Vehicle'
+TRANSLATIONS.RACES_TAB.RACE_DETAILS_TABLE_RATING = 'Rating'
+TRANSLATIONS.RACES_TAB.RACE_DETAILS_TABLE_MONEY = 'Money'
+
 
 // // // // //
 // LEADERBOARD TAB (TABLET)
@@ -170,11 +180,13 @@ TRANSLATIONS.LEADER_TAB.AVG_POS = 'AVERAGE POSITION'
 TRANSLATIONS.PROFILE_TAB = {}
 
 TRANSLATIONS.PROFILE_TAB.HEADER_DRIVER = 'Driver'
-TRANSLATIONS.PROFILE_TAB.HEADER_DATA = 'data'
 TRANSLATIONS.PROFILE_TAB.MEMBER_SINCE = 'Application user since'
 
 TRANSLATIONS.PROFILE_TAB.BUTTON_NAME = 'Change name'
 TRANSLATIONS.PROFILE_TAB.PICTURE_NAME = 'Change picture'
+
+TRANSLATIONS.PROFILE_TAB.CHECKPOINT_COLOR = 'Checkpoint color'
+TRANSLATIONS.PROFILE_TAB.GPS_COLOR = 'GPS color'
 
 TRANSLATIONS.PROFILE_TAB.FAQ_TITLE = 'Frequently asked questions'
 TRANSLATIONS.PROFILE_TAB.FAQ_DESC = 'If you have questions about the application or just want to learn more, then read the questions answered below.'
@@ -191,8 +203,8 @@ TRANSLATIONS.PROFILE_TAB.FAQ_2_A = 'The system calculates a rating change for ev
 
 TRANSLATIONS.PROFILE_TAB.FAQ_3_Q = 'When do competitions take place?'
 TRANSLATIONS.PROFILE_TAB.FAQ_3_A = 'An anonymous person organizes competitions for each\n' +
-    '                                                    day, which take place 19:00 - 22:00. The person also sponsors each race with a prize.\n' +
-    '                                                    The competitions are inserted into the application every day at 14:00.'
+    '                                                    day, which can take place between 12:00 - 18:00 PST. The person also sponsors each race with a prize.\n' +
+    '                                                    The competitions are inserted into the application every day at 08:00 PST.'
 
 TRANSLATIONS.PROFILE_TAB.FAQ_4_Q = 'How are tracks selected for the competitions?'
 TRANSLATIONS.PROFILE_TAB.FAQ_4_A = 'The anonymous man makes his choice randomly. A track qualifies for a certain\n' +

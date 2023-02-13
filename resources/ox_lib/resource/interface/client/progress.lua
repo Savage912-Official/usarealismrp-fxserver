@@ -61,16 +61,19 @@ local controls = {
 local function startProgress(data)
     playerState.invBusy = true
     progress = data
-    local anim = data.anim
 
-    if anim then
-        if anim.dict then
-            lib.requestAnimDict(anim.dict)
+    if data.anim then
+        if data.anim.dict then
+            lib.requestAnimDict(data.anim.dict)
 
-            TaskPlayAnim(cache.ped, anim.dict, anim.clip, anim.blendIn or 3.0, anim.blendOut or 1.0, anim.duration or -1, anim.flag or 49, anim.playbackRate or 0, anim.lockX, anim.lockY, anim.lockZ)
-            RemoveAnimDict(anim.dict)
-        elseif anim.scenario then
-            TaskStartScenarioInPlace(cache.ped, anim.scenario, 0, anim.playEnter ~= nil and anim.playEnter or true)
+            TaskPlayAnim(cache.ped, data.anim.dict, data.anim.clip, data.anim.blendIn or 3.0, data.anim.blendOut or 1.0, data.anim.duration or -1, data.anim.flag or 49, data.anim.playbackRate or 0, data.anim.lockX, data.anim.lockY, data.anim.lockZ)
+            RemoveAnimDict(data.anim.dict)
+
+            data.anim = true
+        elseif data.anim.scenario then
+            TaskStartScenarioInPlace(cache.ped, data.anim.scenario, 0, data.anim.playEnter ~= nil and data.anim.playEnter or true)
+
+            data.anim = true
         end
     end
 
@@ -103,7 +106,6 @@ local function startProgress(data)
                 DisableControlAction(0, controls.INPUT_MOVE_LR, true)
                 DisableControlAction(0, controls.INPUT_MOVE_UD, true)
                 DisableControlAction(0, controls.INPUT_DUCK, true)
-                DisableControlAction(0, 23, true)
             end
 
             if disable.car then
@@ -120,15 +122,15 @@ local function startProgress(data)
             end
         end
 
-        if progress?.canCancel then
-            TriggerEvent('usa:showHelp', true, 'Cancel Progress Bar: ~INPUT_FRONTEND_RRIGHT~')
-        end
-
         if interruptProgress(progress) then
             progress = false
         end
 
         Wait(0)
+    end
+
+    if data.anim then
+        ClearPedTasks(cache.ped)
     end
 
     if data.prop then
@@ -139,15 +141,6 @@ local function startProgress(data)
             if prop then
                 DeleteEntity(prop)
             end
-        end
-    end
-
-    if anim then
-        if anim.dict then
-            StopAnimTask(cache.ped, anim.dict, anim.clip, 1.0)
-            Wait(0) -- This is needed here otherwise the StopAnimTask is cancelled
-        else
-            ClearPedTasks(cache.ped)
         end
     end
 
@@ -220,8 +213,8 @@ RegisterNUICallback('progressComplete', function(data, cb)
     progress = nil
 end)
 
-RegisterCommand('cancelprogressbar', function()
+RegisterCommand('cancelprogress', function()
     if progress?.canCancel then progress = false end
 end)
 
-RegisterKeyMapping('cancelprogressbar', 'Cancel current progress bar', 'keyboard', 'BACK')
+RegisterKeyMapping('cancelprogress', 'Cancel current progress bar', 'keyboard', 'x')

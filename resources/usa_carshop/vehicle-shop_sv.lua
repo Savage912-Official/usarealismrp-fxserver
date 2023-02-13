@@ -461,6 +461,7 @@ local vehicleShopItems = {
 			{make = "Chevrolet", model = "Caprice (Donk)", price = 60000, hash = "trixbox", storage_capacity = 200.0},
 			{make = "Chevrolet", model = "Corvette C3 (1970)", price = 50000, hash = "corvette70", storage_capacity = 170.0},
 			{make = "Chevrolet", model = "Corvette C7", price = 95000, hash = "c7", storage_capacity = 160.0},
+			{make = "Chevrolet", model = "Corvette C7R GTLM (NOT ROAD LEGAL)", price = 210000, hash = "C7R", storage_capacity = 120.0},
 			{make = "Chevrolet", model = "Corvette C8", price = 180000, hash = "stingray", storage_capacity = 130.0},
 			{make = "Chevrolet", model = "Hoonigan K5 Blazer (1979)", price = 150000, hash = "k5", storage_capacity = 220.0},
 			{make = "Chevrolet", model = "Impala (1959)", price = 70000, hash = "impala59c", storage_capacity = 250.0},
@@ -597,6 +598,7 @@ local vehicleShopItems = {
 			{make = "Mclaren", model = "600LT", price = 500000, hash = "600lt", storage_capacity = 145.0},
 			{make = "Mclaren", model = "Elva", price = 2300000, hash = "elva", storage_capacity = 145.0},
 			{make = "Mclaren", model = "P1", price = 1600000, hash = "p1", storage_capacity = 125.0},
+			{make = "Mclaren", model = "P1 GTR", price = 1900000, hash = "rmodp1gtr", storage_capacity = 120.0},
 			{make = "Mclaren", model = "Senna", price = 2000000, hash = "sennas", storage_capacity = 125.0},
 			{make = "Mclaren", model = "Senna GTR (NOT ROAD LEGAL)", price = 2200000, hash = "sennasgtr", storage_capacity = 120.0},
 			--
@@ -631,6 +633,7 @@ local vehicleShopItems = {
 			{make = "Pontiac", model = "G8", price = 80000, hash = "pontiacg8", storage_capacity = 165.0},
 			--
 			{make = "Porsche", model = "356", price = 100000, hash = "356ac", storage_capacity = 165.0},
+			{make = "Porsche", model = "718 Cayman GT4", price = 270000, hash = "por718gt4", storage_capacity = 160.0},
 			{make = "Porsche", model = "911 Turbo S", price = 280000, hash = "pts21", storage_capacity = 160.0},
 			{make = "Porsche", model = "911 (1973)", price = 60000, hash = "porrs73", storage_capacity = 165.0},
 			{make = "Porsche", model = "918", price = 1400000, hash = "918", storage_capacity = 120.0},

@@ -405,6 +405,9 @@ supportedVehicles = {
     { name = "Ferrari LaFerrari", model = "laferrari", class = "S" },
     { name = "McLaren P1", model = "p1", class = "S" },
     { name = "Porsche 918", model = "918", class = "S" },
+    { name = "McLaren P1 GTR", model = "rmodp1gtr", class = "S" },
+    { name = "2020 Porsche 718 Cayman GT4", model = "por718gt4", class = "S" },
+    { name = "Chevrolet Corvette C7R GTLM", model = "C7R", class = "S" },
     -- A CLASS
     { name = "Sultan RS", model = "sultanrs", class = "A" },
     { name = "Annis Elegy Retro", model = "elegy", class = "A" },

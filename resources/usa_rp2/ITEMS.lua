@@ -262,13 +262,15 @@ local ITEMS = {
     { name = "Low Grip Tires", price = 5000, type = "mechanicPart", quantity = 1, weight = 50, objectModel = "prop_wheel_03"},
     { name = "Normal Tires", price = 5000, type = "mechanicPart", quantity = 1, weight = 50, objectModel = "prop_wheel_03"},
     { name = "Underglow Kit", price = 5000, type = "mechanicPart", quantity = 1, weight = 30},
-    {
-		name = "Xenon Headlights",
-		price = 5000,
-		quantity = 1,
-		weight = 30,
-		type = "mechanicPart"
-	}
+    { name = "Pseudoephedrine",legality = "illegal",quantity = 1,type = "chemical",weight = 5,objectModel = "bkr_prop_meth_acetone"},
+    { name = "Red Phosphorus",legality = "illegal",quantity = 1,type = "chemical",weight = 5,objectModel = "bkr_prop_meth_ammonia"},
+    { name = "Xenon Headlights",price = 5000,quantity = 1,weight = 30,type = "mechanicPart"},
+    { name = "Stage 1 Brakes", price = 5000, type = "mechanicPart", quantity = 1, weight = 10},
+    { name = "Stage 2 Brakes", price = 5000, type = "mechanicPart", quantity = 1, weight = 10},
+    { name = "Tint Remover", price = 5000, type = "mechanicPart", quantity = 1, weight = 10},
+    { name = "5% Window Tint", price = 5000, type = "mechanicPart", quantity = 1, weight = 10},
+    { name = "20% Window Tint", price = 5000, type = "mechanicPart", quantity = 1, weight = 10},
+    { name = "35% Window Tint", price = 5000, type = "mechanicPart", quantity = 1, weight = 10},
 }
 
 

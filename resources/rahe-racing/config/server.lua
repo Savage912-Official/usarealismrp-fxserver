@@ -10,7 +10,7 @@ svConfig = {
     competitionDnfPrizeMoney = 1000,
 
     -- At what time are the competitions inserted into the application
-    competitionGenerationHour = 13,
+    competitionGenerationHour = 8, -- 800 PST Race times will be posted
 
     -- The Discord webhook URL where notifications should be sent. It will send the starting races, times & classes
     competitionNotificationWebHook = WEBHOOK_URL,
@@ -19,7 +19,7 @@ svConfig = {
     competitionDiscordLogo = 'https://i.imgur.com/vGZj9jQ.png',
 
     -- At what time do the competitions start (this specifies the start for the first race)
-    competitionHour = 18,
+    competitionHour = math.random(12,18),
     competitionMinute = 0,
 
     -- A limit to how much competitions can be generated at once. Limit is suggested, because when you only have results on very short tracks, you will generate a huge amount of competitions.
@@ -82,15 +82,18 @@ svConfig = {
 
     -- This value is only used when phasingEnabled is true. Set it as 0 to have it on for the entire race. Any other value than 0 will mean seconds
     -- from the start of the race. For example a value of 15 means that after the first 15 seconds of the race, phasing will be disabled.
-    phasingDuration = 0,
+    phasingDuration = 120,
 
     -- Used to alert players after the race start to alert about the phasing disabling. So when this is set to 10, there will be a notification
     -- 10 seconds after the race start. After 15, the phasing will stop (phasingDuration). Set this to 0 if you don't wish to send a notification.
-    phasingNotification = 0,
+    phasingNotification = 115,
 
     -- This value is only used when phasingEnabled is true. Determines when should phasing be used, values possible: 'ALL', 'COMPETITION', 'NORMAL'
     -- ALL: Phasing is enabled in both (normal races and competition races).
     -- COMPETITION: Phasing is only enabled only in competition races.
     -- NORMAL: Phasing is only enabled only in normal races.
-    phasingMode = 'ALL'
+    phasingMode = 'ALL',
+
+    -- The classes displayed on the track information page. Used by the player to filter best results by class.
+    filterVehicleClasses = {'S', 'A', 'B', 'C', 'D'}
 }

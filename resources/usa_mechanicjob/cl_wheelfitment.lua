@@ -8,7 +8,7 @@ veh_fitmentZones = {
 	{928.7614, -959.3999, 38.56202}, -- ACG Vespucci Blvd
 	{-774.0516, -234.1788, 36.20964}, -- RPG Mad Wayne Thunder Drive
 	{124.7456, -3047.19, 7.040889},-- Rezitto's Shop
-	{-29.00017, -1041.434, 28.6331} -- The Cookie Jar
+	{-208.51, -1336.91, 30.3} -- Benny's
 }
 
 local locationsData = {}

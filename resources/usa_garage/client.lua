@@ -63,7 +63,7 @@ locations = {
 	{x = 1110.33, y = -780.18, z = 58.34, noBlip = true}, -- mirror park repair shop
 	{x = -1080.6645507813, y = -1257.9010009766, z = 5.5575938224792, noBlip = true},
 	{x = -2187.1748046875, y = 1135.5759277344, z = -23.259094238281, noBlip = true}, -- LS Car Meet
-	{x =  1013.5130004883, y = -2358.1096191406, z = 30.509565353394, noBlip = true}, -- LS Fight Club 
+	{x =  1013.5130004883, y = -2358.1096191406, z = 30.509565353394, noBlip = true}, -- LS Fight Club
 	{x = -424.23614501953, y = -38.142559051514, z = 46.215244293213, noBlip = true}, -- cocaktoos
 	{x = 550.98217773438, y = -206.7356262207, z = 54.104431152344, noBlip = true}, -- auto exotic repair on elgin ave
 	{x = 2524.6560058594, y = 4109.4716796875, z = 38.584625244141, noBlip = true}, -- lunatix garage
@@ -79,12 +79,13 @@ locations = {
 	{x = -581.46343994141, y = -242.82208251953, z = 35.965721130371, noBlip = true}, -- Court House, Rockford Drive
     {x = 234.1309, y = -2492.6128, z = 6.5814, noBlip = true}, -- Train Clock in
 	{x = -935.0384, y = -2316.2700, z =  6.7091, noBlip = true}, -- metro Clock in
-	{x = -2315.1484375, y = 283.1760559082, z = 169.46704101563, noBlip = true}, -- plasma kart 
+	{x = -2315.1484375, y = 283.1760559082, z = 169.46704101563, noBlip = true}, -- plasma kart
 	{x = 897.21588134766, y = -1019.8331298828, z = 34.966979980469, noBlip = true}, -- Auto Repair Place
 	{x = -1669.1839599609, y = -541.4306640625, z = 35.10620880127, noBlip = true},
 	{x = 471.7410, y = -1873.5828, z = 26.8678, noBlip = true}, -- Atomic Autos
 	{x = -1916.8400878906, y = 2030.8366699219, z = 140.73731994629, noBlip = false}, -- Orange Farm
-	{x = 436.27728271484, y = 6529.9682617188, z = 27.877355575562, noBlip = false} -- Orange Farm Paleto
+	{x = 436.27728271484, y = 6529.9682617188, z = 27.877355575562, noBlip = false}, -- Orange Farm Paleto
+	{x = -181.43, y = -1289.32, z = 31.3, noBlip = true} -- Benny's
 }
 
 local VEHICLE_DAMAGES = {}

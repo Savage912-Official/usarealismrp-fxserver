@@ -32,5 +32,6 @@ clConfig.translations = {
     NOTIFICATION_TABLET_ERROR_TRACK_NAME_LENGTH = 'The track name must be 5 - 40 characters long.',
     NOTIFICATION_TABLET_ERROR_TRACK_DESC_LENGTH = 'The track description must be 10 - 50 characters long.',
     NOTIFICATION_TABLET_ERROR_TYPE_MISSING = 'To create the track, you must select the type.',
-    NOTIFICATION_TABLET_INFO_TRACK_CREATED = "New track '%s' successfully created."
+    NOTIFICATION_TABLET_INFO_TRACK_CREATED = "New track '%s' successfully created.",
+    NOTIFICATION_TABLET_INFO_COLOR_CHANGED = 'Color successfully changed.'
 }

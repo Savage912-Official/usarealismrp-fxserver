@@ -8,6 +8,7 @@ svConfig.translations = {
     TIME_HOURS_SINGULAR = 'hour',
     TIME_HOURS_PLURAL = 'hours',
 
+    TEXT_CHAT_NOTIFICATION_JOIN_NOT_ALLOWED = 'You are not allowed to join the race.',
     TEXT_CHAT_NOTIFICATION_FINISHED_RACE = 'Race ended, you earned $%d for your finish position.',
     TEXT_CHAT_NOTIFICATION_FINISHED_RACE_AS_WINNER = 'You are the race winner and earned $%d!',
     TEXT_CHAT_NOTIFICATION_NOT_ENOUGH_MONEY = "You don't have enough money to join the race!",

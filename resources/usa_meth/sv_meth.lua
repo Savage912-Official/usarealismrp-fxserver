@@ -3,6 +3,8 @@
 -- A player will get close to a designated blip on the map within this script, press "E", and begin gathering.
 -- This same concept within the script will handle all aspects of a job from getting supplies, processing, to selling, etc.
 
+exports["globals"]:PerformDBCheck("usa_meth", "methjob")
+
 RegisterServerEvent("methJob:methProduced")
 AddEventHandler("methJob:methProduced", function(itemName, securityToken)
 	local src = source
@@ -32,6 +34,7 @@ AddEventHandler("methJob:methProduced", function(itemName, securityToken)
 	if char.canHoldItem(methProduced) then
 		char.giveItem(methProduced)
 		TriggerClientEvent("usa:notify", src, "You have successfully proccessed the materials into a meth rock!")
+		addXP(char,100)
     else
 		TriggerEvent("interaction:addDroppedItem", methProduced)
 		TriggerClientEvent("usa:notify", src, "Your inventory is full. Can't carry anymore! Item was dropped on the floor!")
@@ -53,28 +56,46 @@ AddEventHandler("methJob:methProcessed", function(itemName, securityToken)
 		weight = 4,
 		objectModel = 'bkr_prop_meth_smallbag_01a'
 	}
+	methProduced.coords = GetEntityCoords(GetPlayerPed(src))
+	local newCoords = {
+		x = methProduced.coords.x,
+		y = methProduced.coords.y,
+		z = methProduced.coords.z
+	}
+	newCoords.x = newCoords.x + (math.random() * 0.5)
+	newCoords.y = newCoords.y + (math.random() * 0.5)
+	newCoords.z = newCoords.z - 0.85
+	methProduced.coords = newCoords
 	if char.canHoldItem(methProduced) then
 		char.giveItem(methProduced)
 		TriggerClientEvent("usa:notify", src, "You have successfully processed meth rock into packaged product!")
+		addXP(char,50)
 	else
+		TriggerEvent("interaction:addDroppedItem", methProduced)
 		TriggerClientEvent("usa:notify", src, "Your inventory is full. Can't carry anymore!")
 	end
 end)
 
 RegisterServerEvent("methJob:checkUserJobSupplies")
-AddEventHandler("methJob:checkUserJobSupplies", function(supply, supply2)
+AddEventHandler("methJob:checkUserJobSupplies", function(supply, supply2, clientRank)
+	local usource = source
 	local hasBasicSupply = false
-	local char = exports["usa-characters"]:GetCharacter(source)
+	local char = exports["usa-characters"]:GetCharacter(usource)
+
+	if clientRank == nil then
+		levelSetup(char)
+	end
+
 	local found_supply = char.getItemWithExactName(supply)
 	if found_supply then
 		char.removeItem(found_supply, 1)
-		TriggerClientEvent('methJob:doesUserHaveJobSupply', source, true, supply)
+		TriggerClientEvent('methJob:doesUserHaveJobSupply', usource, true, supply)
 		return
 	end
 
 	if supply2 and char.hasItemWithExactName(supply2) then
 		char.removeItem(supply2, 1)
-		TriggerClientEvent('methJob:doesUserHaveJobSupply', source, true, supply2)
+		TriggerClientEvent('methJob:doesUserHaveJobSupply', usource, true, supply2)
 		return
 	end
 end)
@@ -184,3 +205,38 @@ AddEventHandler("methJob:checkUserMoney", function(supplyType)
 		TriggerClientEvent("usa:notify", source, "Inventory is full!")
 	end
 end)
+
+function levelSetup(char)
+	local docCont = {}
+	docCont.xp = 0
+	local doc = exports.essentialmode:getDocument("methjob", char.get("_id"))
+	if doc then
+        setRank(char,doc.xp)
+	else
+		exports.essentialmode:createDocumentWithId("methjob",char.get("_id"),docCont)
+		setRank(char,0)
+	end
+	return
+end
+
+function setRank(char,xp)
+	local rank = 1
+	if xp >= 1000 and xp < 2000 then
+		rank = 2
+	elseif xp >= 2000 and xp < 3000 then
+		rank = 3
+	elseif xp >= 3000 and xp < 4000 then
+		rank = 4
+	elseif xp >= 4000 then
+		rank = 5
+	end
+	TriggerClientEvent("methJob:setRank", char.get("source"), rank)
+end
+
+function addXP(char, xp)
+	local doc = exports.essentialmode:getDocument("methjob", char.get("_id"))
+	local newxp = doc.xp + xp
+	exports.essentialmode:updateDocument("methjob", char.get("_id"), {xp = newxp}, true)
+	setRank(char,newxp)
+    TriggerClientEvent("usa:notify", char.get("source"), "You have gained "..xp.." Meth XP")
+end

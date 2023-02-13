@@ -140,5 +140,53 @@ UPGRADES = {
         displayName = "Xenon Headlights",
         requiresItem = "Xenon Headlights",
         postInstall = function(vehPlate) end
+    },
+    ["stage-1-brakes"] = {
+        id = "stage-1-brakes",
+        displayName = "Stage 1 Brakes",
+        requiresItem = "Stage 1 Brakes",
+        postInstall = function(vehPlate)
+            MechanicHelper.removeVehicleUpgrades(vehPlate, {"stage-1-brakes"})
+        end
+    },
+    ["stage-2-brakes"] = {
+        id = "stage-2-brakes",
+        displayName = "Stage 2 Brakes",
+        requiresItem = "Stage 2 Brakes",
+        postInstall = function(vehPlate)
+            MechanicHelper.removeVehicleUpgrades(vehPlate, {"stage-2-brakes"})
+        end
+    },
+    ["tint-remover"] = {
+        id = "tint-remover",
+        displayName = "Tint Remover",
+        requiresItem = "Tint Remover",
+        postInstall = function(vehPlate)
+            MechanicHelper.removeVehicleUpgrades(vehPlate, {"5-percent-tint", "20-percent-tint", "35-percent-tint", "tint-remover"})
+        end
+    },
+    ["5-percent-tint"] = {
+        id = "5-percent-tint",
+        displayName = "5% Window Tint",
+        requiresItem = "5% Window Tint",
+        postInstall = function(vehPlate)
+            MechanicHelper.removeVehicleUpgrades(vehPlate, {"20-percent-tint", "35-percent-tint"})
+        end
+    },
+    ["20-percent-tint"] = {
+        id = "20-percent-tint",
+        displayName = "20% Window Tint",
+        requiresItem = "20% Window Tint",
+        postInstall = function(vehPlate)
+            MechanicHelper.removeVehicleUpgrades(vehPlate, {"5-percent-tint", "35-percent-tint"})
+        end
+    },
+    ["35-percent-tint"] = {
+        id = "35-percent-tint",
+        displayName = "35% Window Tint",
+        requiresItem = "35% Window Tint",
+        postInstall = function(vehPlate)
+            MechanicHelper.removeVehicleUpgrades(vehPlate, {"20-percent-tint", "5-percent-tint"})
+        end
     }
 }

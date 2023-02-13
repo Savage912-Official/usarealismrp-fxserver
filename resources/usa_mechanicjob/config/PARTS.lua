@@ -112,5 +112,47 @@ PARTS = {
 		quantity = 1,
 		weight = 30,
 		type = "mechanicPart"
+	},
+	["Stage 1 Brakes"] = {
+		name = "Stage 1 Brakes",
+		price = 4000,
+		quantity = 1,
+		weight = 25,
+		type = "mechanicPart"
+	},
+	["Stage 2 Brakes"] = {
+		name = "Stage 2 Brakes",
+		price = 8000,
+		quantity = 1,
+		weight = 25,
+		type = "mechanicPart"
+	},
+	["Tint Remover"] = {
+		name = "Tint Remover",
+		price = 1000,
+		quantity = 1,
+		weight = 5,
+		type = "mechanicPart"
+	},
+	["5% Window Tint"] = {
+		name = "5% Window Tint",
+		price = 3000,
+		quantity = 1,
+		weight = 15,
+		type = "mechanicPart"
+	},
+	["20% Window Tint"] = {
+		name = "20% Window Tint",
+		price = 2000,
+		quantity = 1,
+		weight = 15,
+		type = "mechanicPart"
+	},
+	["35% Window Tint"] = {
+		name = "35% Window Tint",
+		price = 2000,
+		quantity = 1,
+		weight = 15,
+		type = "mechanicPart"
 	}
 }

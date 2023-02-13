@@ -269,14 +269,6 @@ BUSINESSES = {
 		price = 8000,
 		purchasePercentage = 0.05
 	},
-	["Benny's Auto Garage (Strawberry)"] = {
-		position = {-207.4, -1341.2, 34.9},
-		cameraID = 'store24',
-		isBeingRobbed = false,
-		lastRobbedTime = 0,
-		price = 20000,
-		purchasePercentage = 0.05
-	},
 	["LS Customs (Route 68)"] = {
 		position = {1187.4, 2636.7, 38.4},
 		cameraID = 'store25',
@@ -432,7 +424,7 @@ BUSINESSES = {
 		notRobbable = true
 	},
 	["The Cookie Jar"] = {
-		position = {-21.77, -1053.07, 32.4},
+		position = {-195.55, -1319.27, 30.3},
 		cameraID = 'store59',
 		isBeingRobbed = false,
 		lastRobbedTime = 0,

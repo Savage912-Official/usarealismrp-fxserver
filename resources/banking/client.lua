@@ -139,7 +139,7 @@ RegisterNUICallback('transfer', function(data, cb)
 end)
 
 RegisterNUICallback('quickCash', function(data, cb)
-  TriggerEvent('bank:withdraw', 100)
+  TriggerEvent('bank:withdraw', 1000)
   cb('ok')
 end)
 

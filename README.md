@@ -164,6 +164,10 @@ if char.get("bank") > 100 then
 	-- do something
 end
 
+if char.hasEnoughMoneyOrBank(500) then
+	-- do something
+end
+
 if char.hasItem("Tuna Fish") then
 	-- do something
 end
@@ -182,6 +186,7 @@ char.giveMoney(5000) -- give $5,000 cash to player
 char.removeMoney(5000) -- remove $5,000 cash from player
 char.giveBank(5000) -- give $5,000 bank to player
 char.removeBank(5000) -- remove $5,000 bank from player
+char.removeMoneyOrBank(500) -- removes $500 from cash or bank (If a player doesn't have enough in cash it's taken from bank)
 
 char.set("bank", char.get("bank") + math.random(100, 500)) -- give player random amount of money from $100 to $500 directly to their bank
 ```

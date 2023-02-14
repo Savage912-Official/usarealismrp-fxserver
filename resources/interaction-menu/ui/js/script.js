@@ -551,7 +551,12 @@ var itemImages = {
     "Xenon Headlights": "https://i.imgur.com/VS1f4HT.png",
     "Stage 1 Brakes": "https://i.imgur.com/7MYCnsc.png",
     "Stage 2 Brakes": "https://i.imgur.com/DZNm0GX.png",
-    "Lottery Ticket": "https://i.imgur.com/km5NQpX.png"
+    "Lottery Ticket": "https://i.imgur.com/km5NQpX.png",
+    "5% Window Tint": "https://i.imgur.com/26HppIQ.png",
+    "20% Window Tint": "https://i.imgur.com/26HppIQ.png",
+    "35% Window Tint": "https://i.imgur.com/26HppIQ.png",
+    "Stage 1 Transmission": "https://i.imgur.com/X2WCTTL.png",
+    "Stage 2 Transmission": "https://i.imgur.com/X2WCTTL.png"
 }
 
 var menuItems = [{

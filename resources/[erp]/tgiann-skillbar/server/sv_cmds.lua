@@ -88,8 +88,12 @@ TriggerEvent('es:addCommand', 'erp', function(source, args, char, location)
 		TriggerClientEvent("usa:notify", source, "Can't use that here")
 		return
 	end
-    local id = args[2]
-    TriggerClientEvent("erp:erp", source, id)
+   	local id = args[2]
+	if source ~= id then
+    		TriggerClientEvent("erp:erp", source, id)
+	else
+		TriggerClientEvent("usa:notify", source, "Can't do this to yourself.")
+	end
 end, {
     help = "Send E-RP Request to Player!",
     params = {

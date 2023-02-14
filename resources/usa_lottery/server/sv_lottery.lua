@@ -104,3 +104,20 @@ RegisterServerCallback {
         end
     end
 }
+
+RegisterServerCallback { 
+    eventName = "usa_lottery:daycheck",
+    eventCallback = function()
+        local check = 'placeholder'
+        local result = MySQL.query.await('SELECT * FROM lotterytotal where lotto = ?', {check})
+        local math = 14 - result[1].day
+
+        if math == 0 then
+            return "Lottery ends Today"
+        elseif math == 1 then
+            return "Lottery ends Tomorrow"
+        else
+            return "Lottery ends in "..math.." days."
+        end
+    end
+}

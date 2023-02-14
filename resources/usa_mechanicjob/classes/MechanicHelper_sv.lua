@@ -1,7 +1,7 @@
 MechanicHelper = {}
 
 MechanicHelper.LEVEL_2_RANK_THRESH = 70
-MechanicHelper.LEVEL_3_RANK_THRESH = 350
+MechanicHelper.LEVEL_3_RANK_THRESH = 300
 
 TriggerEvent("es:exposeDBFunctions", function(db)
     MechanicHelper.db = db

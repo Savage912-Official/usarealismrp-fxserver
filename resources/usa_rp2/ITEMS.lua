@@ -271,6 +271,8 @@ local ITEMS = {
     { name = "5% Window Tint", price = 5000, type = "mechanicPart", quantity = 1, weight = 10},
     { name = "20% Window Tint", price = 5000, type = "mechanicPart", quantity = 1, weight = 10},
     { name = "35% Window Tint", price = 5000, type = "mechanicPart", quantity = 1, weight = 10},
+    { name = "Stage 1 Transmission", price = 5000, type = "mechanicPart", quantity = 1, weight = 10},
+    { name = "Stage 2 Transmission", price = 5000, type = "mechanicPart", quantity = 1, weight = 10},
 }
 
 

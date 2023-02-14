@@ -146,7 +146,7 @@ UPGRADES = {
         displayName = "Stage 1 Brakes",
         requiresItem = "Stage 1 Brakes",
         postInstall = function(vehPlate)
-            MechanicHelper.removeVehicleUpgrades(vehPlate, {"stage-1-brakes"})
+            MechanicHelper.removeVehicleUpgrades(vehPlate, {"stage-2-brakes"})
         end
     },
     ["stage-2-brakes"] = {
@@ -154,7 +154,7 @@ UPGRADES = {
         displayName = "Stage 2 Brakes",
         requiresItem = "Stage 2 Brakes",
         postInstall = function(vehPlate)
-            MechanicHelper.removeVehicleUpgrades(vehPlate, {"stage-2-brakes"})
+            MechanicHelper.removeVehicleUpgrades(vehPlate, {"stage-1-brakes"})
         end
     },
     ["tint-remover"] = {
@@ -187,6 +187,22 @@ UPGRADES = {
         requiresItem = "35% Window Tint",
         postInstall = function(vehPlate)
             MechanicHelper.removeVehicleUpgrades(vehPlate, {"20-percent-tint", "5-percent-tint"})
+        end
+    },
+    ["stage-1-transmission"] = {
+        id = "stage-1-transmission",
+        displayName = "Stage 1 Transmission",
+        requiresItem = "Stage 1 Transmission",
+        postInstall = function(vehPlate)
+            MechanicHelper.removeVehicleUpgrades(vehPlate, {"stage-2-transmission"})
+        end
+    },
+    ["stage-2-transmission"] = {
+        id = "stage-2-transmission",
+        displayName = "Stage 2 Transmission",
+        requiresItem = "Stage 2 Transmission",
+        postInstall = function(vehPlate)
+            MechanicHelper.removeVehicleUpgrades(vehPlate, {"stage-1-transmission"})
         end
     }
 }

@@ -63,6 +63,11 @@ function CreateLotteryPed()
 end
 
 RegisterNetEvent("usa_lottery:menu", function()
+    local DayCheck = TriggerServerCallback {
+        eventName = "usa_lottery:daycheck",
+        args = {}
+    }
+
     lib.registerContext({
 		id = 'usa_lottery:lottomenu',
 		title =  "Welcome To Los Santos Lottery!",
@@ -75,7 +80,11 @@ RegisterNetEvent("usa_lottery:menu", function()
 			{
 				title = "Claim the Lottery prize!",
                 description = "If your number matches you will be given your winnings!",
-				event = "usa_lottery:claim",
+				event = "usa_lottery:claim"
+			},
+            {
+				title = "Lottery End Date",
+                description = DayCheck
 			},
 			--[[{
 				title = "Testing",

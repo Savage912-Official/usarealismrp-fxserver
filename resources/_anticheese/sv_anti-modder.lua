@@ -72,7 +72,7 @@ local BLACKLISTED_MODELS = {
     ["stt_prop_stunt_tube_crn"] = true,
     ["stt_prop_stunt_tube_crn_15d"] = true,
     ["cargoplane"] = true,
-    ["jet"] = true,
+    --["jet"] = true,
     -- buildings
     ["dt1_02_w01"] = true,
     ["dt1_02_ground"] = true,

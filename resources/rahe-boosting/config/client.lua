@@ -33,7 +33,7 @@ clConfig = {
 
     -- The distance (in meters) from which the drop off NPC will be created and UI shown. The default value of 20 means that when the player
     -- gets into a 20 meter radius of the drop off spot, the drop off will be available. This value also shouldn't be too high / low.
-    dropOffCreationDistance = 20,
+    dropOffCreationDistance = 35,
 
     -- The icon which will be created at the drop-off place (to where the player has to deliver the vehicle, values found at https://docs.fivem.net/docs/game-references/blips/.
     dropOffAreaBlipSprite = 596,

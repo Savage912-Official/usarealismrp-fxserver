@@ -122,6 +122,10 @@ local function startProgress(data)
             end
         end
 
+        if progress?.canCancel then
+            TriggerEvent('usa:showHelp', true, 'Cancel Progress Bar: ~INPUT_FRONTEND_RRIGHT~')
+        end
+
         if interruptProgress(progress) then
             progress = false
         end
@@ -213,8 +217,8 @@ RegisterNUICallback('progressComplete', function(data, cb)
     progress = nil
 end)
 
-RegisterCommand('cancelprogress', function()
+RegisterCommand('cancelprogressbar', function()
     if progress?.canCancel then progress = false end
 end)
 
-RegisterKeyMapping('cancelprogress', 'Cancel current progress bar', 'keyboard', 'x')
+RegisterKeyMapping('cancelprogressbar', 'Cancel current progress bar', 'keyboard', 'BACK')

@@ -177,14 +177,30 @@ function UpdatePreviewMenu()
 	-----------------
 	-- purchase  --
 	-----------------
+	local c = false
 	local item = NativeUI.CreateItem("Purchase", "Purchase this vehicle for $" .. comma_value(menu_data.preview.vehicle.price))
 	item.Activated = function(parentmenu, selected)
+		if c then
 			EndPreview()
 			local business = exports["usa-businesses"]:GetClosestStore(30)
 			TriggerServerEvent("mini:checkVehicleMoney", menu_data.preview.vehicle, business)
 			previewMenu:Visible(false)
+			c = false
+		else
+			TriggerEvent("usa:notify", "Please confirm your purchase.")
+		end
 	end
 	previewMenu:AddItem(item)
+	-----------------
+	-- confirmation  --
+	-----------------
+	local checkbox = NativeUI.CreateCheckboxItem("Confirm Purchase", c, "Confirm your vehicle purchase")
+	previewMenu:AddItem(checkbox)
+	previewMenu.OnCheckboxChange = function (sender, item, checked_)
+		if item == checkbox then
+			c = checked_
+		end
+	end
 	-----------------
 	-- test drive  --
 	-----------------

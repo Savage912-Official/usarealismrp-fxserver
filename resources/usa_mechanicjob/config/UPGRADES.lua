@@ -204,5 +204,11 @@ UPGRADES = {
         postInstall = function(vehPlate)
             MechanicHelper.removeVehicleUpgrades(vehPlate, {"stage-1-transmission"})
         end
+    },
+    ["turbo"] = {
+        id = "turbo",
+        displayName = "Turbo",
+        requiresItem = "Turbo",
+        postInstall = function(vehPlate) end
     }
 }

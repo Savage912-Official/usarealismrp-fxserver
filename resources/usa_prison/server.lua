@@ -30,7 +30,8 @@ local WEAPONS = {
 	{ name = "12 Gauge Shells", type = "ammo", price = 50, weight = 0.5, quantity = 10 },
 	{ name = "Taser Cartridge", type = "ammo", price = 50, weight = 0.25, quantity = 1 },
     { name = "Beanbag Shell", type = "ammo", price = 50, weight = 0.5, quantity = 8, objectModel = "prop_ld_ammo_pack_02" },
-    { name = "Flashbang", type = "weapon", hash = GetHashKey("WEAPON_FLASHBANG"), price = 150, weight = 2, rank = 5 }
+    { name = "Flashbang", type = "weapon", hash = GetHashKey("WEAPON_FLASHBANG"), price = 150, weight = 2, rank = 5 },
+	{ name = "Tint Meter", price = 50, weight = 2 },
 }
 
 for i = 1, #WEAPONS do

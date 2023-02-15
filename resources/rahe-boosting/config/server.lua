@@ -28,7 +28,7 @@ svConfig = {
     penalizeForDamagedEngine = true,
 
     -- The amount in dollars that's the maximum penalty for having a damaged engine when dropping off.
-    maximumEngineDamagePenalty = 1250,
+    maximumEngineDamagePenalty = 750,
 
     -- If the vehicle were in the center of the indicated area, it would be found instantly. To prevent this, an offset is used. This value determines
     -- the min/max offset of the x and y axis (randomly generated between 0 and this value) from the vehicle spawn point (in meters).

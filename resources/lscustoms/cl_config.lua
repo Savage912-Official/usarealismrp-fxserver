@@ -760,11 +760,12 @@ backwheel = {
 	--]]
 
 ----------Turbo---------
+--[[
 	[18] = {
 		{ name = "None", mod = 0, price = 0},
 		{ name = "Turbo Tuning", mod = 1, price = 10000},
 	},
-
+--]]
 -----------Armor-------------
 	[16] = {
 		{name = "Armor Upgrade 20%",modtype = 16, mod = 0, price = 12000}

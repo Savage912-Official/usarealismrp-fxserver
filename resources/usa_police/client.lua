@@ -391,3 +391,49 @@ function comma_value(amount)
   end
   return formatted
 end
+
+-- Check Window Tint --
+RegisterNetEvent("usa_police:checkwindowtint")
+AddEventHandler("usa_police:checkwindowtint", function()
+	local vehicle = exports.globals:getClosestVehicle(1.5)
+	local me = PlayerPedId()
+	local GetTint = GetVehicleWindowTint(vehicle)
+
+    if vehicle then
+		if not IsPedInVehicle(me, vehicle, false) then
+			TriggerEvent("dpemotes:command", 'e', GetPlayerServerId(PlayerId()), {"parkingmeter"})
+			if lib.progressCircle({
+				duration = 7 * 1000,
+				label = 'Checking Tint...',
+				position = 'bottom',
+				useWhileDead = false,
+				canCancel = true,
+				disable = {
+					car = true,
+					move = true,
+					combat = true,
+				},
+			}) then
+				TriggerServerEvent('InteractSound_SV:PlayWithinDistance', 1, '1beep', 1.0)
+				TriggerEvent("dpemotes:command", 'e', GetPlayerServerId(PlayerId()), {"c"})
+				if GetTint == -1  then
+					TriggerEvent("chatMessage", '', {0,0,0}, "^1[Tint Meter]^0 None")
+				elseif GetTint == 0 then
+					TriggerEvent("chatMessage", '', {0,0,0}, "^1[Tint Meter]^0 Stock")
+				elseif GetTint == 1 then
+					TriggerEvent("chatMessage", '', {0,0,0}, "^1[Tint Meter]^0 Pure Black (5%)")
+				elseif GetTint == 2 then
+					TriggerEvent("chatMessage", '', {0,0,0}, "^1[Tint Meter]^0 Dark Smoke (20%)")
+				elseif GetTint == 3 then
+					TriggerEvent("chatMessage", '', {0,0,0}, "^1[Tint Meter]^0 Light Smoke (35%)")
+				end
+			else
+				TriggerEvent("dpemotes:command", 'e', GetPlayerServerId(PlayerId()), {"c"})
+			end
+		else
+			exports.globals:notify("Can't do this while in vehicle.")
+		end
+    else 
+        exports.globals:notify("No Vehicle Nearby")
+    end
+end)

@@ -37,10 +37,6 @@ Citizen.CreateThread(function()
 					local texture = GetPedTextureVariation(ped, 7)
 					SetPedComponentVariation(ped, 7, 5, texture, 0)
 
-				elseif GetPedDrawableVariation(ped, 8) == 30 or GetPedDrawableVariation(ped, 8) == 22 then -- Shoulder Holster
-					local texture = GetPedTextureVariation(ped, 8)
-					SetPedComponentVariation(ped, 8, 32, texture, 0)
-
 				elseif GetPedDrawableVariation(ped, 7) == 16 then -- Legdrop Holster
 					local texture = GetPedTextureVariation(ped, 7)
 					SetPedComponentVariation(ped, 7, 41, texture, 0)
@@ -96,10 +92,6 @@ Citizen.CreateThread(function()
 				elseif GetPedDrawableVariation(ped, 7) == 5 then -- Side holster with mags
 					local texture = GetPedTextureVariation(ped, 7)
 					SetPedComponentVariation(ped, 7, 6, texture, 0)
-
-				elseif GetPedDrawableVariation(ped, 8) == 32 then -- Shoulder Holster
-					local texture = GetPedTextureVariation(ped, 8)
-					SetPedComponentVariation(ped, 8, 30, texture, 0)
 
 				elseif GetPedDrawableVariation(ped, 7) == 41 then -- Legdrop Holster
 					local texture = GetPedTextureVariation(ped, 7)

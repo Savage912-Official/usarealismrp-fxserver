@@ -390,7 +390,7 @@ local function DriveInGarage()
 		AddMod(14,LSCMenu.categories,"HORN", "Horn", "Custom air horns.",true)
 		--AddMod(15,LSCMenu.categories,"SUSPENSION","Suspension","Upgrade to a sports oriented suspension setup.",true)
 		AddMod(16,LSCMenu.categories,"ARMOR","Armor","Protect your car's occupants with military spec composite body panels.",true)
-		AddMod(18, LSCMenu.categories, "TURBO", "Turbo", "Reduced lag turbocharger.",false)
+		--AddMod(18, LSCMenu.categories, "TURBO", "Turbo", "Reduced lag turbocharger.",false)
 
 		if chassis then
 			LSCMenu.categories:addSubMenu("CHASSIS", "Chassis",nil, true)

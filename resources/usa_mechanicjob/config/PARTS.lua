@@ -168,5 +168,12 @@ PARTS = {
 		quantity = 1,
 		weight = 55,
 		type = "mechanicPart"
-	}
+	},
+	["Turbo"] = {
+		name = "Turbo",
+		price = 10000,
+		quantity = 1,
+		weight = 30,
+		type = "mechanicPart"
+	},
 }

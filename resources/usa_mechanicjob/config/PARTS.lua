@@ -157,14 +157,14 @@ PARTS = {
 	},
 	["Stage 1 Transmission"] = {
 		name = "Stage 1 Transmission",
-		price = 6500,
+		price = 8000,
 		quantity = 1,
 		weight = 55,
 		type = "mechanicPart"
 	},
 	["Stage 2 Transmission"] = {
 		name = "Stage 2 Transmission",
-		price = 10000,
+		price = 13000,
 		quantity = 1,
 		weight = 55,
 		type = "mechanicPart"
@@ -176,4 +176,25 @@ PARTS = {
 		weight = 30,
 		type = "mechanicPart"
 	},
+	["20% Armor"] = {
+		name = "20% Armor",
+		price = 12000,
+		quantity = 1,
+		weight = 50,
+		type = "mechanicPart"
+	},
+	["Stage 1 Intake"] = {
+		name = "Stage 1 Intake",
+		price = 5000,
+		quantity = 1,
+		weight = 30,
+		type = "mechanicPart"
+	},
+	["Stage 2 Intake"] = {
+		name = "Stage 2 Intake",
+		price = 10000,
+		quantity = 1,
+		weight = 30,
+		type = "mechanicPart"
+	}
 }

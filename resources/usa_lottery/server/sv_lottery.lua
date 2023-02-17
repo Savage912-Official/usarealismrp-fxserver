@@ -121,3 +121,14 @@ RegisterServerCallback {
         end
     end
 }
+
+RegisterServerCallback { 
+    eventName = "usa_lottery:lottototal",
+    eventCallback = function()
+        local check = 'placeholder'
+        local result = MySQL.query.await('SELECT * FROM lotterytotal where lotto = ?', {check})
+        local total = result[1].total
+
+        return "Current lottery total is  $"..exports.globals:comma_value(total).."."
+    end
+}

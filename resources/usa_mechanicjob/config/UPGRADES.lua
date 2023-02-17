@@ -210,5 +210,27 @@ UPGRADES = {
         displayName = "Turbo",
         requiresItem = "Turbo",
         postInstall = function(vehPlate) end
+    },
+    ["20-percent-armor"] = {
+        id = "20-percent-armor",
+        displayName = "20% Armor",
+        requiresItem = "20% Armor",
+        postInstall = function(vehPlate) end
+    },
+    ["stage-1-intake"] = {
+        id = "stage-1-intake",
+        displayName = "Stage 1 Intake",
+        requiresItem = "Stage 1 Intake",
+        postInstall = function(vehPlate)
+            MechanicHelper.removeVehicleUpgrades(vehPlate, {"stage-2-intake"})
+        end
+    },
+    ["stage-2-intake"] = {
+        id = "stage-2-intake",
+        displayName = "Stage 2 Intake",
+        requiresItem = "Stage 2 Intake",
+        postInstall = function(vehPlate)
+            MechanicHelper.removeVehicleUpgrades(vehPlate, {"stage-1-intake"})
+        end
     }
 }

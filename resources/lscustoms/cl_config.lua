@@ -767,6 +767,7 @@ backwheel = {
 	},
 --]]
 -----------Armor-------------
+--[[
 	[16] = {
 		{name = "Armor Upgrade 20%",modtype = 16, mod = 0, price = 12000}
 		--{name = "Armor Upgrade 40%",modtype = 16, mod = 1, price = 5000},
@@ -774,7 +775,7 @@ backwheel = {
 		--{name = "Armor Upgrade 80%",modtype = 16, mod = 3, price = 10000},
 		--{name = "Armor Upgrade 100%",modtype = 16, mod = 4, price = 12500},
 	},
-
+--]]
 ---------Suspension-----------
 --[[
 	[15] = {
@@ -840,12 +841,13 @@ backwheel = {
 --]]
 
 ------------Engine----------
+--[[
 	[11] = {
 		{name = "EMS Upgrade, Level 2", mod = 0, price = 6000},
 		{name = "EMS Upgrade, Level 3", mod = 1, price = 9000},
 		{name = "EMS Upgrade, Level 4", mod = 2, price = 12000},
 	},
-
+--]]
 -------------Roof----------
 	[10] = {
 		startprice = 600,

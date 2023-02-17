@@ -1,3 +1,7 @@
+Config = {
+	MapEnabled = false
+}
+
 SetFollowPedCamViewMode(0)
 SetFollowVehicleCamViewMode(0)
 RegisterNetEvent('usa:toggleImmersion')
@@ -104,11 +108,23 @@ Citizen.CreateThread(function()
 				else
 					DrawTxt(0.663, 1.455, 1.0, 1.0, 0.40, hud.time, 255, 255, 255, 255)
 				end
-				DisplayRadar(true)
+				if Config.MapEnabled then
+					DisplayRadar(true)
+				else
+					DisplayRadar(false)
+				end
 			elseif GetVehicleClass(playerVeh) == 21 then
-				DisplayRadar(true)
+				if Config.MapEnabled then
+					DisplayRadar(true)
+				else
+					DisplayRadar(false)
+				end
 			else -- on foot
-				DisplayRadar(false)
+				if not Config.MapEnabled then
+					DisplayRadar(false)
+				else
+					DisplayRadar(true)
+				end
 				DrawRect(0.08555, 0.976, 0.14, 0.0149999999999998, 0, 0, 0, 140)
 				DrawTxt(0.664, 1.455, 1.0, 1.0, 0.40, hud.time, 255, 255, 255, 255)
 				DrawTxt(0.737, 1.455, 1.0, 1.0, 0.37, hud.direction , 255, 255, 255, 255)
@@ -234,3 +250,21 @@ function IsBeltVehicle(vehicle)
 		return false
 	end
 end
+
+RegisterNetEvent("usa_hud:ToggleMinimap") 
+AddEventHandler("usa_hud:ToggleMinimap", function(status)
+	if not status then status = not Config.MapEnabled end
+	Config.MapEnabled = status
+	if status then
+		exports.globals:notify("Minimap enabled")
+	else
+		exports.globals:notify("Minimap disabled")
+	end
+end)
+
+Citizen.CreateThread(function()
+	Config.MapEnabled = TriggerServerCallback { 
+		eventName = "usa_hud:GetMapSettings",
+		args = {}
+	}
+end)

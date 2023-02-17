@@ -279,7 +279,16 @@ local ITEMS = {
 		quantity = 1,
 		weight = 30,
 		type = "mechanicPart"
-	}
+	},
+    {
+		name = "20% Armor",
+		price = 12000,
+		quantity = 1,
+		weight = 50,
+		type = "mechanicPart"
+	},
+    { name = "Stage 1 Intake", price = 5000, type = "mechanicPart", quantity = 1, weight = 10},
+    { name = "Stage 2 Intake", price = 5000, type = "mechanicPart", quantity = 1, weight = 10},
 }
 
 

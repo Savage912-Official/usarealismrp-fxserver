@@ -68,6 +68,11 @@ RegisterNetEvent("usa_lottery:menu", function()
         args = {}
     }
 
+    local LottoTotal = TriggerServerCallback {
+        eventName = "usa_lottery:lottototal",
+        args = {}
+    }
+
     lib.registerContext({
 		id = 'usa_lottery:lottomenu',
 		title =  "Welcome To Los Santos Lottery!",
@@ -81,6 +86,10 @@ RegisterNetEvent("usa_lottery:menu", function()
 				title = "Claim the Lottery prize!",
                 description = "If your number matches you will be given your winnings!",
 				event = "usa_lottery:claim"
+			},
+            {
+				title = "Lottery Total",
+                description = LottoTotal
 			},
             {
 				title = "Lottery End Date",

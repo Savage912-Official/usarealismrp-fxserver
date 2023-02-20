@@ -312,18 +312,19 @@ function GetMinutesFromTime(time)
 end
 
 AddEventHandler('rconCommand', function(commandName, args)
-    if commandName:lower() == 'showcharacterstable' then
-        for id, char in pairs(CHARACTERS) do
-            print("id: " .. id .. ", name: " .. char.getFullName())
-        end
-    elseif commandName:lower() == 'countcharacterstable' then
-        print("# characters loaded: "  .. #CHARACTERS)
-    elseif commandName:lower() == 'typeofcharacterstable' then
-        print("type: " .. type(CHARACTERS))
-    elseif commandName:lower() == 'showcharacter' then
-        local id = tonumber(args[1])
-        for k, v in pairs(CHARACTERS[id]) do
-            print("key: " .. k)
-        end
+  if commandName == "charlist" then
+    local target = args[1]
+    if target and target:find("steam:") then
+      local query = {
+        ["created.ownerIdentifier"] = target
+      }
+      local chars = exports.essentialmode:getDocumentsByRows("characters", query)
+      for i = 1, #chars do
+        print(i .. ": " .. chars[i].name.first .. " " .. chars[i].name.middle .. " " .. chars[i].name.last .. " [Created: " .. chars[i].created.date .. "]")
+      end
+    else
+      print("Missing target steam identifier")
+      CancelEvent()
     end
+  end
 end)

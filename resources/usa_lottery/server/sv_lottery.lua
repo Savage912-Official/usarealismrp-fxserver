@@ -21,11 +21,25 @@ RegisterNetEvent("usa_lottery:choosewinner", function()
     local winningticket = math.random(1, 500)
     local check = 'placeholder'
     local result = MySQL.query.await('SELECT * FROM lotterytotal where lotto = ?', {check})
-    local amount = result[1].total
+    local govAmount = Config.Gov_Percentage * result[1].total
+    local restAmount = result[1].total - govAmount
+    -- etc...
     local reset = 1
+    local fundAccount = Config.GovAccounts[math.random(1, #Config.GovAccounts)]
     MySQL.Async.execute("UPDATE lotterytotal SET winner = '"..winningticket.."'")
     TriggerClientEvent("chatMessage", -1, "[^2Los Santos Lottery^0] Lottery winner has been chosen! Winning Number: " .. winningticket .. "\n Head over to Life Invader to claim your winnings.")
-    MySQL.Async.execute("UPDATE lotterytotal SET total = '"..amount.."'")
+
+    GetCurrentBalance(fundAccount, function(bal)
+        local finishedBalance = bal + govAmount
+        SaveNewBalance(finishedBalance, fundAccount)
+        
+        amountChanged = govAmount
+        agencyName = fundAccount
+        typeChanged = "Deposit"
+        SendToDiscordLog()
+    end, fundAccount)
+    
+    MySQL.Async.execute("UPDATE lotterytotal SET total = '"..math.floor(restAmount).."'")
     MySQL.Async.execute("UPDATE lotterytotal SET day = '"..reset.."'")
 end)
 
@@ -132,3 +146,34 @@ RegisterServerCallback {
         return "Current lottery total is  $"..exports.globals:comma_value(total).."."
     end
 }
+
+function SaveNewBalance(finishedBalance, fundAccount)
+    exports.essentialmode:updateDocument("govfunds", fundAccount, { content = finishedBalance })
+end
+
+function GetCurrentBalance(ident, cb)
+    local doc = exports.essentialmode:getDocument("govfunds", ident)
+    if doc then
+        cb(doc.content)
+    end
+end
+
+function SendToDiscordLog()
+    local desc = "\n**Name:** Los Santos Lottery \n**".. typeChanged ..":** $" .. exports.globals:comma_value(amountChanged) ..  "\n**Agency:** " .. agencyName
+	local url = GetConvar("gov-funds-webhook", "")
+    PerformHttpRequest(url, function(err, text, headers)
+      if text then
+        print(text)
+      end
+    end, "POST", json.encode({
+      embeds = {
+        {
+          description = desc,
+          color = 524288,
+          author = {
+            name = "Government Funds Log"
+          }
+        }
+      }
+    }), { ["Content-Type"] = 'application/json', ['Authorization'] = "Basic " .. exports["essentialmode"]:getAuth() })
+end

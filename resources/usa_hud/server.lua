@@ -28,32 +28,35 @@ end, {
 RegisterServerCallback {
     eventName = "usa_hud:GetMapSettings",
     eventCallback = function(source)
-        local enabled = false
-        local doc = exports.essentialmode:getDocument("minimap-settings", GetPlayerIdentifiers(source)[1])
-
-        if doc then
-            enabled = doc.enabled
+        local id = GetPlayerIdentifiers(source)[1]
+        local settings = exports.essentialmode:getDocument("minimap-settings", id)
+        if not settings then
+            settings = {
+                foot = Config.Defaults.Radar.foot,
+                veh = Config.Defaults.Radar.veh
+            }
+            exports.essentialmode:createDocumentWithId("minimap-settings", id, settings)
         end
-        return enabled
+        return settings
     end
 }
 
 TriggerEvent('es:addCommand', 'minimap', function(src, args, char)
     local id = GetPlayerIdentifiers(src)[1]
-    TriggerEvent('es:exposeDBFunctions', function(db)
-        db.getDocumentById("minimap-settings", id, function(doc)
-            if doc then
-                doc.enabled = not doc.enabled
-                db.updateDocument("minimap-settings", id, {enabled = doc.enabled}, function() end)
-                TriggerClientEvent("usa_hud:ToggleMinimap", src, doc.enabled)
-            else
-                db.createDocumentWithId("minimap-settings", {enabled = true}, id, function() end)
-                TriggerClientEvent("usa_hud:ToggleMinimap", src, true)
-            end
-        end)
-    end)
+    local minimapSettings = exports.essentialmode:getDocument("minimap-settings", id)
+    local mapType = args[2]
+    if mapType ~= "foot" and mapType ~= "veh" then
+        TriggerClientEvent("usa:notify", src, "Invalid usage")
+        return
+    end
+    minimapSettings[mapType] = not minimapSettings[mapType]
+    exports.essentialmode:updateDocument("minimap-settings", id, minimapSettings, true)
+    TriggerClientEvent("usa_hud:ToggleMinimap", src, mapType, minimapSettings[mapType])
 end, {
-	help = "Enable or disable minimap"
+	help = "Enable or disable minimap",
+    params = {
+        { name = "type", help = "either 'foot' or 'veh'"}
+    }
 })
 
 exports["globals"]:PerformDBCheck("usa_hud", "minimap-settings", nil)

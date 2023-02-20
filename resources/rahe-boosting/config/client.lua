@@ -1,4 +1,7 @@
 clConfig = {
+    -- This is for weepers to check if there is anything wrong with Boosting.
+    debugMode = true,
+
     -- If the default commands (/boosting, /usehackingdevice, /usegpshackingdevice) should be enabled. Disable this if you have them as inventory items.
     commandsEnabled = false,
 
@@ -33,7 +36,7 @@ clConfig = {
 
     -- The distance (in meters) from which the drop off NPC will be created and UI shown. The default value of 20 means that when the player
     -- gets into a 20 meter radius of the drop off spot, the drop off will be available. This value also shouldn't be too high / low.
-    dropOffCreationDistance = 35,
+    dropOffCreationDistance = 30,
 
     -- The icon which will be created at the drop-off place (to where the player has to deliver the vehicle, values found at https://docs.fivem.net/docs/game-references/blips/.
     dropOffAreaBlipSprite = 596,
@@ -45,7 +48,7 @@ clConfig = {
     dropOffPedAnim = 'WORLD_HUMAN_SMOKING',
 
     -- A comma separated list of pedestrian models which will be used to spawn the NPCs at drop-off points.
-    dropOffNpcModels = {"s_m_y_dealer_01", "ig_djgeneric_01"},
+    dropOffNpcModels = {"s_m_y_dealer_01", "ig_djgeneric_01", "cs_chengs", "s_m_y_devinsec_01", "s_m_y_casino_01"},
 
     -- The location where the UI should display when near the drop-off place. Check ox_lib documentation for other positions.
     dropOffUiPosition = 'left-center',
@@ -92,3 +95,7 @@ clConfig = {
     -- The location where you can pick up your store orders from.
     orderLocation = vector3(152.69528198242, -3011.0795898438, 10.70342540741)
 }
+
+if clConfig.debugMode then
+    print("DEBUG MODE - ENABLED")
+end

@@ -261,6 +261,15 @@ AddEventHandler('rahe-boosting:server:vinScratchSuccessful', function(playerId, 
     print("Vehicle successfully added to DB")
     -- notify
     notifyPlayer(playerId, "Your vehicle has been dropped off.", G_NOTIFICATION_TYPE_SUCCESS)
+
+    if svConfig.debugMode then
+        print("Vehicle VIN Scratch Stats")
+        print("Player ID = ["..char.getName().."]")
+        print("Vehicle hash = ["..vehicleModel.."]")
+        print("Vehicle Model Name = ["..vehicleModelName.."]")
+        print("License Plate = ["..licensePlate.."]")
+        print("Owner Contract ID = ["..contractOwnerIdentifier.."]")
+    end
 end)
 
 -- Testing Phase

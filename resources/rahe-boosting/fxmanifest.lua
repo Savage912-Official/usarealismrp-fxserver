@@ -8,7 +8,7 @@ game         'gta5'
 name 'rahe-boosting'
 author 'RAHE Development'
 description 'RAHE Boosting Extended'
-version '1.4.1'
+version '1.4.2'
 
 --[[ Manifest ]]--
 dependencies {

@@ -1,4 +1,7 @@
 svConfig = {
+    -- This is for weepers to check if there is anything wrong with Boosting.
+    debugMode = true,
+
     -- The currency settings which are used to display money amount in the tablet's HTML.
     -- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toLocaleString
     -- The first variable (currencyLocale) defines how the number is formatted. For example in 'en-US': '$60,890.00', 'et': '60 890,00 $'
@@ -75,7 +78,7 @@ svConfig = {
             class = "S",
             xpRequired = 2500,
             generationPercentage = 1,
-            timeBetweenGenerations = 120,
+            timeBetweenGenerations = 80,
             isImportant = true,
             gpsHacksRequired = 20,
             gpsHackMinTime = 20,
@@ -91,7 +94,7 @@ svConfig = {
             rewardCryptoMin = 1000,
             rewardCryptoMax = 1400,
             experiencePerJob = 27,
-            tuningChance = 60,
+            tuningChance = 70,
             riskChances = {
                 doorsLocked = 100,
                 advancedLockChance = 0,
@@ -108,18 +111,18 @@ svConfig = {
             gpsHacksRequired = 10,
             gpsHackMinTime = 25,
             gpsHackMaxTime = 30,
-            maxContractsOfType = 1,
-            maxContractsPerSession = 2,
+            maxContractsOfType = 2,
+            maxContractsPerSession = 3,
             priceMin = 250,
             priceMax = 450,
             minScratchPrice = 2500,
             maxScratchPrice = 4500,
             rewardCashMin = 27500,
-            rewardCashMax = 42000,
+            rewardCashMax = 51000,
             rewardCryptoMin = 500,
             rewardCryptoMax = 700,
             experiencePerJob = 19,
-            tuningChance = 35,
+            tuningChance = 45,
             riskChances = {
                 doorsLocked = 100,
                 advancedLockChance = 0,
@@ -143,7 +146,7 @@ svConfig = {
             rewardCashMax = 4000,
             rewardCryptoMin = 60,
             rewardCryptoMax = 90,
-            experiencePerJob = 11,
+            experiencePerJob = 12,
             tuningChance = 25,
             riskChances = {
                 doorsLocked = 100,
@@ -154,7 +157,7 @@ svConfig = {
         },
         [4] = {
             class = "C",
-            xpRequired = 6,
+            xpRequired = 10,
             generationPercentage = 50,
             timeBetweenGenerations = 0,
             isImportant = false,
@@ -164,10 +167,10 @@ svConfig = {
             priceMax = 6,
             minScratchPrice = 30,
             maxScratchPrice = 60,
-            rewardCashMin = 1500,
-            rewardCashMax = 2500,
-            rewardCryptoMin = 6,
-            rewardCryptoMax = 9,
+            rewardCashMin = 1750,
+            rewardCashMax = 3100,
+            rewardCryptoMin = 9,
+            rewardCryptoMax = 18,
             experiencePerJob = 3,
             tuningChance = 25,
             riskChances = {
@@ -183,20 +186,20 @@ svConfig = {
             generationPercentage = 70,
             timeBetweenGenerations = 0,
             isImportant = false,
-            maxContractsOfType = 3,
+            maxContractsOfType = 2,
             maxContractsPerSession = 0,
             priceMin = 0,
             priceMax = 0,
             minScratchPrice = 20,
             maxScratchPrice = 40,
-            rewardCashMin = 1000,
-            rewardCashMax = 1800,
+            rewardCashMin = 1250,
+            rewardCashMax = 1950,
             rewardCryptoMin = 1,
-            rewardCryptoMax = 1,
+            rewardCryptoMax = 2,
             experiencePerJob = 1,
             tuningChance = 25,
             riskChances = {
-                doorsLocked = 0,
+                doorsLocked = 25,
                 advancedLockChance = 0,
                 advancedSystemChance = 0,
                 npcChance = 0
@@ -207,8 +210,8 @@ svConfig = {
     storeItems = {
         ['nospacka'] = {
             cashRequired = 6000,
-            cryptoRequired = 100,
-            availablePerRestart = math.random(5,10),
+            cryptoRequired = 25,
+            availablePerRestart = math.random(2,5),
             isSoldOut = false,
             title = "Nitrous oxide (Stage 1)",
             description = "When you need that extra bit of boost.",
@@ -218,9 +221,9 @@ svConfig = {
             }
         },
         ['nospackb'] = {
-            cashRequired = 17500,
-            cryptoRequired = 210,
-            availablePerRestart = math.random(3,7),
+            cashRequired = 13000,
+            cryptoRequired = 75,
+            availablePerRestart = math.random(1,3),
             isSoldOut = false,
             title = "Nitrous oxide (Stage 1 & 2)",
             description = "When you need that extra bit of boost.",
@@ -255,7 +258,7 @@ svConfig = {
             }
         },
         ['hotwiringkit'] = {
-            cashRequired = 350 * math.random(2,4), -- Blackmarket price multiplied by a rand number BECAUSE INFLATION MY BOYS
+            cashRequired = 450 * math.random(2,4), -- Blackmarket price multiplied by a rand number BECAUSE INFLATION MY BOYS
             cryptoRequired = math.random(2,5),
             availablePerRestart = math.random(7,15),
             isSoldOut = false,
@@ -735,3 +738,7 @@ supportedVehicles = {
     { name = "1932 Ford V-8 Coupé", model = "fordc32", class = "D" },
     { name = "1980 Ford Bronco", model = "80bronco", class = "D" },
 }
+
+if svConfig.debugMode then
+    print("DEBUG MODE - ENABLED")
+end

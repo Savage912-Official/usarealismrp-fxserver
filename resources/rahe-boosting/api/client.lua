@@ -85,6 +85,9 @@ AddEventHandler("rahe-boosting:client:openTablet", function()
         tabletObject = nil
     end
     openTablet()
+    if clConfig.debugMode then
+        print("Tablet opened.")
+    end
 end)
 
 
@@ -147,6 +150,10 @@ RegisterNetEvent('rahe-boosting:client:tabletClosed', function()
     DeleteEntity(tabletObject)
     ClearPedTasks(playerPed)
     tabletObject = nil
+    
+    if clConfig.debugMode then
+        print("Tablet closed.")
+    end
 end)
 
 -- The event which can be used to give vehicle keys to the player after completing the hack of a special boost (A / S class).
@@ -161,6 +168,10 @@ AddEventHandler('rahe-boosting:client:giveKeys', function(vehicleId, licensePlat
 		plate = licensePlate
 	}
     TriggerServerEvent("garage:giveKey", key)
+
+    if clConfig.debugMode then
+        print("You have been handed keys with the plate ["..key.."]")
+    end
 end)
 
 -- The event which will be triggered when a player hacks the engine of an important boost. This marks the start of a high priority boost.
@@ -170,6 +181,10 @@ AddEventHandler('rahe-boosting:client:importantBoostStarted', function(location,
     streetName = GetStreetNameFromHashKey(streetName)
     local licenseplate = GetVehicleNumberPlateText(vehicleId)
     TriggerServerEvent('911:VehicleBoosting', location.x, location.y, location.z, streetName, licenseplate, vehicleClass)
+
+    if clConfig.debugMode then
+        print("Important boost starting! Vehicle ID ["..vehicleId.."] | Vehicle Class ["..vehicleClass.."]")
+    end
 end)
 
 -- The event which will be triggered when the players fails a GPS hack.
@@ -181,6 +196,10 @@ AddEventHandler('rahe-boosting:client:failedGpsHack', function()
     streetName = GetStreetNameFromHashKey(streetName)
 
     TriggerServerEvent('911:call', playerCoords.x, playerCoords.y, playerCoords.z, "^*Vehicle Boosting in Progress:^r OnStar reports failed GPS tampering near ["..streetName.."]")
+
+    if clConfig.debugMode then
+        print("GPS Hack failed.")
+    end
 end)
 
 -- The event which will be triggered when the players successfully completes one GPS hack.
@@ -188,6 +207,10 @@ end)
 RegisterNetEvent('rahe-boosting:client:successfulGpsHack')
 AddEventHandler('rahe-boosting:client:successfulGpsHack', function(hacksCompleted, hacksRequired, gainedDelay)
     notifyPlayer(translations.NOTIFICATION_GAME_HACK_SUCCESSFUL:format(gainedDelay, hacksCompleted, hacksRequired), G_NOTIFICATION_TYPE_SUCCESS)
+
+    if clConfig.debugMode then
+        print("GPS Hack passed.")
+    end
 end)
 
 -- Create Store Ped

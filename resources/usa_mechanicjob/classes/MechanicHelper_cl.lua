@@ -5,7 +5,7 @@ MechanicHelper.animations.repair = {}
 MechanicHelper.animations.repair.dict = "mini@repair"
 MechanicHelper.animations.repair.name = "fixing_a_player"
 
-MechanicHelper.REPAIR_TIME = 60000
+MechanicHelper.LVL_1_REPAIR_TIME = 90000
 MechanicHelper.UPGRADE_INSTALL_TIME = 300000
 
 MechanicHelper.LEVEL_2_RANK_THRESH = 50
@@ -148,11 +148,19 @@ end
 MechanicHelper.repairVehicle = function(veh, repairCount, cb)
     local beforeRepairHealth = GetVehicleEngineHealth(veh)
     local success = false
+    local calculatedRepairTime = MechanicHelper.LVL_1_REPAIR_TIME
+
+    if repairCount >= MechanicHelper.LEVEL_3_RANK_THRESH then
+        calculatedRepairTime = 45000
+    elseif repairCount >= MechanicHelper.LEVEL_2_RANK_THRESH then
+        calculatedRepairTime = 60000
+    end
+
     if beforeRepairHealth < 800 then
         SetVehicleDoorOpen(veh, 4, false, false)
 
         if lib.progressCircle({
-            duration = MechanicHelper.REPAIR_TIME,
+            duration = calculatedRepairTime,
             label = 'Repairing...',
             position = 'bottom',
             useWhileDead = false,

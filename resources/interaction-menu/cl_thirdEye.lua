@@ -30,7 +30,7 @@ end
 function onPersonOptionSelect(a, b, hitHandle) end
 
 function addCivPlayerOptions()
-    target.addPlayer("personOptions", "Person", "fas fa-male", 3.0, onPersonOptionSelect, {
+    target.addPlayer("personOptions", "Person", "fas fa-male", 1.75, onPersonOptionSelect, {
         {
             name = 'give-money',
             label = 'Give Money',
@@ -134,7 +134,7 @@ function addCivPlayerOptions()
 end
 
 function addLEOPlayerOptions()
-    target.addPlayer("personOptions", "Person", "fas fa-male", 3.0, onPersonOptionSelect, {
+    target.addPlayer("personOptions", "Person", "fas fa-male", 2.0, onPersonOptionSelect, {
         {
             name = 'cuff',
             label = 'Cuff',
@@ -228,7 +228,7 @@ function addLEOPlayerOptions()
 end
 
 function addEMSPlayerOptions()
-    target.addPlayer("personOptions", "Person", "fas fa-male", 3.0, onPersonOptionSelect, {
+    target.addPlayer("personOptions", "Person", "fas fa-male", 2.0, onPersonOptionSelect, {
         {
             name = 'bandage',
             label = 'Bandage',

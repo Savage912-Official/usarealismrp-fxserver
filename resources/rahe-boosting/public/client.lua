@@ -2,13 +2,28 @@ function spawnBoostVehicle(contract)
     local modelHash = GetHashKey(contract.vehicleModel)
     requestModel(modelHash)
     while not HasModelLoaded(modelHash) do
-        -- print("VEHICLE LOADING, PLEASE WAIT") -- debug
+        if clConfig.debugMode then
+            print("Boosting vehicle is loading")
+        end
         Wait(1)
+    end
+
+    if not HasModelLoaded(modelHash) then
+        print("Boosting Vehicle failed to load | Possible reasons : (1) Desync between client and server | (2) Client device failed to low high texture value in time.")
+    end
+
+    if clConfig.debugMode then
+        print("Boosting vehicle finished loading")
     end
 
     local vehicle = CreateVehicle(modelHash, contract.pickUpLocation.x, contract.pickUpLocation.y, contract.pickUpLocation.z, contract.pickUpLocation.h, true, true)
     while not DoesEntityExist(vehicle) do
+        print("Does Entity Exist value is ["..DoesEntityExist(vehicle).."] | Retryiny existence")
         Wait(0)
+    end
+
+    if clConfig.debugMode then
+        print("Does Entity Exist value is ["..DoesEntityExist(vehicle).."] | Vehicle exists")
     end
 
     SetEntityHeading(vehicle, contract.pickUpLocation.h)
@@ -21,16 +36,25 @@ function spawnBoostVehicle(contract)
 
     if contract.isVehicleTuned == 1 then
         applyVehicleTuning(vehicle)
+        if clConfig.debugMode then
+            print("Boosting vehicle is tuned.")
+        end
     end
 
     if contract.risks.doorsLocked then
         SetVehicleDoorsLocked(vehicle, 2)
+        if clConfig.debugMode then
+            print("Boosting vehicle is locked.")
+        end
     end
 end
 
 -- Used to unlock the vehicle doors after hacking device has been used to hack the vehicle.
 function unlockVehicleDoors(vehicle)
     SetVehicleDoorsLocked(vehicle, 1)
+    if clConfig.debugMode then
+        print("Hacking Device unlocked vehicle")
+    end
 end
 
 -- Used to create vehicle guarding peds after the player has started the outside hack with the hacking device.

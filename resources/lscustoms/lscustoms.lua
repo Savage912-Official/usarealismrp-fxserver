@@ -338,6 +338,7 @@ local function DriveInGarage()
 			else
 				t.mod = GetVehicleMod(veh,i)
 			end
+			print('veh mod index: ' .. i .. ", value: " .. tostring(GetVehicleMod(veh, i)))
 		end
 		if GetVehicleWindowTint(veh) == -1 or GetVehicleWindowTint(veh) == 0 then
 			myveh.windowtint = false
@@ -352,7 +353,7 @@ local function DriveInGarage()
 
 		-- get set mods
 		for i = 0,48 do
-			print("# mods for mod " .. i .. ": " .. json.encode(GetNumVehicleMods(veh, i)))
+			--print("# mods for mod " .. i .. ": " .. json.encode(GetNumVehicleMods(veh, i)))
 			if GetNumVehicleMods(veh,i) ~= nil and GetNumVehicleMods(veh,i) ~= false and GetNumVehicleMods(veh,i) > 0 then
 				if i == 1 then
 					bumper = true

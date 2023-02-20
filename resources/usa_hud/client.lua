@@ -1,7 +1,3 @@
-Config = {
-	MapEnabled = false
-}
-
 SetFollowPedCamViewMode(0)
 SetFollowVehicleCamViewMode(0)
 RegisterNetEvent('usa:toggleImmersion')
@@ -16,7 +12,11 @@ local hud = {
 		beltColor = '~r~',
 		maxSpeed = false,
 		maxSpeedVehicle = nil,
-		enabled = true
+		enabled = true,
+		radar = {
+			foot = Config.Defaults.Radar.foot,
+			veh = Config.Defaults.Radar.veh
+		}
 	}
 
 local zones = { ['AIRP'] = "Los Santos International Airport", ['ALAMO'] = "Alamo Sea", ['ALTA'] = "Alta", ['ARMYB'] = "Fort Zancudo", ['BANHAMC'] = "Banham Canyon Dr", ['BANNING'] = "Banning", ['BEACH'] = "Vespucci Beach", ['BHAMCA'] = "Banham Canyon", ['BRADP'] = "Braddock Pass", ['BRADT'] = "Braddock Tunnel", ['BURTON'] = "Burton", ['CALAFB'] = "Calafia Bridge", ['CANNY'] = "Raton Canyon", ['CCREAK'] = "Cassidy Creek", ['CHAMH'] = "Chamberlain Hills", ['CHIL'] = "Vinewood Hills", ['CHU'] = "Chumash", ['CMSW'] = "Chiliad Mountain State Wilderness", ['CYPRE'] = "Cypress Flats", ['DAVIS'] = "Davis", ['DELBE'] = "Del Perro Beach", ['DELPE'] = "Del Perro", ['DELSOL'] = "La Puerta", ['DESRT'] = "Grand Senora Desert", ['DOWNT'] = "Downtown", ['DTVINE'] = "Downtown Vinewood", ['EAST_V'] = "East Vinewood", ['EBURO'] = "El Burro Heights", ['ELGORL'] = "El Gordo Lighthouse", ['ELYSIAN'] = "Elysian Island", ['GALFISH'] = "Galilee", ['GOLF'] = "GWC and Golfing Society", ['GRAPES'] = "Grapeseed", ['GREATC'] = "Great Chaparral", ['HARMO'] = "Harmony", ['HAWICK'] = "Hawick", ['HORS'] = "Vinewood Racetrack", ['HUMLAB'] = "Humane Labs and Research", ['JAIL'] = "Bolingbroke Penitentiary", ['KOREAT'] = "Little Seoul", ['LACT'] = "Land Act Reservoir", ['LAGO'] = "Lago Zancudo", ['LDAM'] = "Land Act Dam", ['LEGSQU'] = "Legion Square", ['LMESA'] = "La Mesa", ['LOSPUER'] = "La Puerta", ['MIRR'] = "Mirror Park", ['MORN'] = "Morningwood", ['MOVIE'] = "Richards Majestic", ['MTCHIL'] = "Mount Chiliad", ['MTGORDO'] = "Mount Gordo", ['MTJOSE'] = "Mount Josiah", ['MURRI'] = "Murrieta Heights", ['NCHU'] = "North Chumash", ['NOOSE'] = "N.O.O.S.E", ['OCEANA'] = "Pacific Ocean", ['PALCOV'] = "Paleto Cove", ['PALETO'] = "Paleto Bay", ['PALFOR'] = "Paleto Forest", ['PALHIGH'] = "Palomino Highlands", ['PALMPOW'] = "Palmer-Taylor Power Station", ['PBLUFF'] = "Pacific Bluffs", ['PBOX'] = "Pillbox Hill", ['PROCOB'] = "Procopio Beach", ['RANCHO'] = "Rancho", ['RGLEN'] = "Richman Glen", ['RICHM'] = "Richman", ['ROCKF'] = "Rockford Hills", ['RTRAK'] = "Redwood Lights Track", ['SANAND'] = "San Andreas", ['SANCHIA'] = "San Chianski Mountain Range", ['SANDY'] = "Sandy Shores", ['SKID'] = "Mission Row", ['SLAB'] = "Stab City", ['STAD'] = "Maze Bank Arena", ['STRAW'] = "Strawberry", ['TATAMO'] = "Tataviam Mountains", ['TERMINA'] = "Terminal", ['TEXTI'] = "Textile City", ['TONGVAH'] = "Tongva Hills", ['TONGVAV'] = "Tongva Valley", ['VCANA'] = "Vespucci Canals", ['VESP'] = "Vespucci", ['VINE'] = "Vinewood", ['WINDF'] = "Ron Alternates Wind Farm", ['WVINE'] = "West Vinewood", ['ZANCUDO'] = "Zancudo River", ['ZP_ORT'] = "Port of South Los Santos", ['ZQ_UAR'] = "Davis Quartz" }
@@ -86,7 +86,7 @@ Citizen.CreateThread(function()
 		local playerPed = PlayerPedId()
 		local playerVeh = GetVehiclePedIsIn(playerPed, false)
 		if hud.enabled then
-			if playerVeh ~= 0 and GetVehicleClass(playerVeh) ~= 13 and GetVehicleClass(playerVeh) ~= 21 then
+			if playerVeh ~= 0 and GetVehicleClass(playerVeh) ~= 13 then
 				local streets = hud.street1
 				if hud.street2 and hud.street2 ~= "" then
 					streets = streets .. " & " .. hud.street2
@@ -108,23 +108,9 @@ Citizen.CreateThread(function()
 				else
 					DrawTxt(0.663, 1.455, 1.0, 1.0, 0.40, hud.time, 255, 255, 255, 255)
 				end
-				if Config.MapEnabled then
-					DisplayRadar(true)
-				else
-					DisplayRadar(false)
-				end
-			elseif GetVehicleClass(playerVeh) == 21 then
-				if Config.MapEnabled then
-					DisplayRadar(true)
-				else
-					DisplayRadar(false)
-				end
+				DisplayRadar(hud.radar.veh)
 			else -- on foot
-				if not Config.MapEnabled then
-					DisplayRadar(false)
-				else
-					DisplayRadar(true)
-				end
+				DisplayRadar(hud.radar.foot)
 				DrawRect(0.08555, 0.976, 0.14, 0.0149999999999998, 0, 0, 0, 140)
 				DrawTxt(0.664, 1.455, 1.0, 1.0, 0.40, hud.time, 255, 255, 255, 255)
 				DrawTxt(0.737, 1.455, 1.0, 1.0, 0.37, hud.direction , 255, 255, 255, 255)
@@ -252,19 +238,22 @@ function IsBeltVehicle(vehicle)
 end
 
 RegisterNetEvent("usa_hud:ToggleMinimap") 
-AddEventHandler("usa_hud:ToggleMinimap", function(status)
-	if not status then status = not Config.MapEnabled end
-	Config.MapEnabled = status
-	if status then
-		exports.globals:notify("Minimap enabled")
-	else
-		exports.globals:notify("Minimap disabled")
-	end
+AddEventHandler("usa_hud:ToggleMinimap", function(mapType, status)
+	hud.radar[mapType] = status
+	exports.globals:notify(mapType .. " map: " .. tostring(status))
 end)
 
 Citizen.CreateThread(function()
-	Config.MapEnabled = TriggerServerCallback { 
+	local hudSettings = TriggerServerCallback { 
 		eventName = "usa_hud:GetMapSettings",
 		args = {}
 	}
+	if hudSettings then
+		if hudSettings.foot ~= nil then
+			hud.radar.foot = hudSettings.foot
+		end
+		if hudSettings.veh ~= nil then
+			hud.radar.veh = hudSettings.veh
+		end
+	end
 end)

@@ -52,16 +52,13 @@ tr {
 }
 
 tr.heading {
-		color: #e81b00; /* Table Heading Text Color */
+		color: #B22234; /* Table Heading Text Color */
 		font-weight: 500; /* Makes the header font bold */
 }
 
-#tit {
-		color: #e81b00; /* Table Heading Text Color */
-		font-weight: 500; /* Makes the header font bold */
-		font-size: 120%;
-	    font-family: 'Segoe UI';
-		text-align: center;
+#title {
+	text-align: center;
+	padding-top: 0.5em;
 }
 
 #tit1 {

@@ -137,33 +137,6 @@ locations = {
 			disable_blip = true
 		}
 	},
-	["Power St"] = {
-		duty = {
-			x = -39.881568908691,
-			y = -1056.2325439453,
-			z = 27.39649772644
-		},
-		truck_spawn = {
-			x = -19.854124069214,
-			y = -1019.0305175781,
-			z = 28.914356231689,
-			heading = 70.0
-		},
-		impound = {
-			x = -238.21029663086,
-			y = -1181.4978027344,
-			z = 22.044040679932
-		},
-		ped = {
-			x = -41.055442810059,
-			y = -1055.7590332031,
-			z = 28.39649772644,
-			heading = 300.0
-		},
-		show_blip = {
-			disable_blip = true
-		}
-	},
 	["Mirror Park"] = {
 		duty = {
 			x = 1154.6276,
@@ -180,29 +153,6 @@ locations = {
 		ped = nil,
 		show_blip = {
 			disable_blip = true
-		}
-	},
-	["Otto's Auto Repair - Popular St."] = {
-		duty = {
-			x = 838.67279052734,
-			y = -799.18878173828,
-			z = 26.279302597046,
-		},
-		truck_spawn = {
-			x = 826.77111816406,
-			y = -797.47302246094,
-			z = 26.20956993103,
-			heading = 90.0
-		},
-		impound = nil,
-		ped = {
-			x = 838.67279052734,
-			y = -799.18878173828,
-			z = 26.279302597046,
-			heading = 75.0
-		},
-		show_blip = {
-			disable_blip = false
 		}
 	},
 	["Tuner Shop"] = {
@@ -335,17 +285,29 @@ locations = {
 			heading = 89.5
 		},
 		impound = nil,
-		ped = {
-			x = -224.849609375,
-			y = -1314.9272460938,
-			z = 32.301332473755,
-			heading = 230.1,
-			model = "mpf_bennymech_01"
-		},
+		ped = nil,
 		show_blip = {
 			disable_blip = false
 		}
-	}
+	},
+	["Alpha Auto Service Center"] = {
+        duty = {
+            x = -328.0699,
+            y = -105.7707,
+            z = 39.064,
+        },
+        truck_spawn = {
+            x = -370.5532,
+            y = -108.3915,
+            z = 38.6822,
+            heading = 70.2
+        }
+				impound = nil,
+				ped = nil,
+				show_blip = {
+					disable_blip = false
+				}
+    }
 }
 
 -- S P A W N  J O B  P E D S

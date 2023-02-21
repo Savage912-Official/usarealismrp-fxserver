@@ -534,12 +534,14 @@ end)
 -----------------------
 RegisterNetEvent("usa:notify")
 AddEventHandler("usa:notify", function(msg, chatMsg)
+  if msg ~= false then
     SetNotificationTextEntry("STRING")
-	AddTextComponentString(msg)
-	DrawNotification(0,1)
-    if chatMsg then
-        TriggerEvent('chatMessage', '', {0,0,0}, '^0' .. chatMsg)
-    end
+    AddTextComponentString(msg)
+    DrawNotification(0,1)
+  end
+  if chatMsg then
+      TriggerEvent('chatMessage', '', {0,0,0}, '^0' .. chatMsg)
+  end
 end)
 
 RegisterNetEvent('usa:showHelp')

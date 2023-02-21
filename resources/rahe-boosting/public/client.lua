@@ -8,22 +8,26 @@ function spawnBoostVehicle(contract)
         Wait(1)
     end
 
-    if not HasModelLoaded(modelHash) then
-        print("Boosting Vehicle failed to load | Possible reasons : (1) Desync between client and server | (2) Client device failed to low high texture value in time.")
-    end
-
     if clConfig.debugMode then
-        print("Boosting vehicle finished loading")
+        if not HasModelLoaded(modelHash) then
+            print("Boosting Vehicle failed to load | Possible reasons : (1) Desync between client and server | (2) Client device failed to low high texture value in time.")
+        else
+            print("Boosting vehicle finished loading")
+        end
     end
 
     local vehicle = CreateVehicle(modelHash, contract.pickUpLocation.x, contract.pickUpLocation.y, contract.pickUpLocation.z, contract.pickUpLocation.h, true, true)
     while not DoesEntityExist(vehicle) do
-        print("Does Entity Exist value is ["..DoesEntityExist(vehicle).."] | Retryiny existence")
         Wait(0)
     end
 
     if clConfig.debugMode then
-        print("Does Entity Exist value is ["..DoesEntityExist(vehicle).."] | Vehicle exists")
+        if DoesEntityExist(vehicle) then
+            print("Vehicle exists.")
+        else
+            print("Vehicle doesn't exist. Possible reasons : (1) Desync between client and server | (2) Client device failed to low high texture value in time.")
+            print("You can use this F8 error to submit a ticket. Model : ["..contract.vehicleModel.."] | LP : ["..contract.licensePlate.."]")
+        end
     end
 
     SetEntityHeading(vehicle, contract.pickUpLocation.h)

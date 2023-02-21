@@ -311,20 +311,23 @@ function GetMinutesFromTime(time)
 	return wholemins
 end
 
-AddEventHandler('rconCommand', function(commandName, args)
-  if commandName == "charlist" then
-    local target = args[1]
-    if target and target:find("steam:") then
-      local query = {
-        ["created.ownerIdentifier"] = target
-      }
-      local chars = exports.essentialmode:getDocumentsByRows("characters", query)
-      for i = 1, #chars do
-        print(i .. ": " .. chars[i].name.first .. " " .. chars[i].name.middle .. " " .. chars[i].name.last .. " [Created: " .. chars[i].created.date .. "]")
-      end
-    else
-      print("Missing target steam identifier")
-      CancelEvent()
+TriggerEvent("es:addGroupCommand", "charlist", {'superadmin', 'owner'}, function(src, args, char, location)
+  local target = args[2]
+  if target and target:find("steam:") then
+    local query = {
+      ["created.ownerIdentifier"] = target
+    }
+    local chars = exports.essentialmode:getDocumentsByRows("characters", query)
+    TriggerClientEvent("usa:notify", src, false, "^3INFO:^0 Characters for " .. target ..":")
+    for i = 1, #chars do
+      TriggerClientEvent("usa:notify", src, false, i .. ": " .. chars[i].name.first .. " " .. chars[i].name.middle .. " " .. chars[i].name.last .. " [Created: " .. chars[i].created.date .. "]")
     end
+  else
+    TriggerClientEvent("usa:notify", src, false, "Missing target steam identifier")
   end
-end)
+end, {
+  help = "Display all chars for a given steam identifier",
+  params = {
+    { name = "identifier", help = "player's steam identifier"}
+  }
+})

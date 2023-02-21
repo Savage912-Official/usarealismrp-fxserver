@@ -28,7 +28,7 @@ local GENERAL_STORE_LOCATIONS = {
     { x = -1486.119140625, y = -378.06628417969, z = 40.163429260254}, -- prosperity st
     { x = 1335.2287597656, y = -1650.7325439453, z = 52.239276885986}, -- near fudge (secret coke lab mlo)
     { x = -549.00360107422, y = -584.84045410156, z = 34.681770324707}, -- MLO Mall Convenient Store
-    { x = 814.14544677734, y = -782.78338623047, z = 26.175024032593}, -- Otto's Garage
+    --{ x = 814.14544677734, y = -782.78338623047, z = 26.175024032593}, -- Otto's Garage
     { x = -1516.9525146484, y = 113.37051391602, z = 55.644451141357, prison = true}, -- Staff Mansion
     { x = -2070.3002929688, y = -331.97927856445, z = 13.31582069397}, -- GOH | 24/7
     { x = -2540.9128417969, y = 2313.5590820313, z = 33.221008300781}, -- Route 68 (Lago Zancudo)| 24/7
@@ -347,7 +347,7 @@ Citizen.CreateThread(function()
           TaskStartScenarioInPlace(ped, "WORLD_HUMAN_HANG_OUT_STREET", 0, true)
           JOB_PEDS[i].pedHandle = ped
         end
-      else 
+      else
         if JOB_PEDS[i].pedHandle then
           DeletePed(JOB_PEDS[i].pedHandle)
           JOB_PEDS[i].pedHandle = nil
@@ -372,7 +372,7 @@ AddEventHandler('generalStore:performShoplift', function(area)
     local isMale = true
     if GetEntityModel(playerPed) == GetHashKey("mp_f_freemode_01") then
       isMale = false
-    elseif GetEntityModel(playerPed) == GetHashKey("mp_m_freemode_01") then 
+    elseif GetEntityModel(playerPed) == GetHashKey("mp_m_freemode_01") then
       isMale = true
     else
       isMale = IsPedMale(playerPed)

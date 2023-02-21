@@ -73,7 +73,7 @@ locations = {
 	{x = -464.47183227539, y = -619.52258300781, z = 31.174465179443, noBlip = false}, -- Shopping Mall Garage
 	{x = -1293.5942382813, y = -274.45895385742, z = 39.047008514404, noBlip = false}, -- Arcade Garage
 	{x = -100.82892608643, y = 93.411506652832, z = 71.825096130371, noBlip = true}, -- Benefactor
-	{x = -24.549116134644, y = -1024.7790527344, z = 28.883750915527, noBlip = true}, -- PDM
+	{x = -22.231557846069, y = -1019.7150878906, z = 28.892908096313, noBlip = true}, -- PDM 
 	{x = -3142.0212402344, y = 1091.0336914063, z = 20.686082839966, noBlip = false}, -- Great Ocean Highway (tattoo Shop)
 	{x = -1520.6877441406, y = 4957.5854492188, z = 62.234802246094, noBlip = false}, -- Great Ocean Highway (hunting blip)
 	{x = -581.46343994141, y = -242.82208251953, z = 35.965721130371, noBlip = true}, -- Court House, Rockford Drive

@@ -119,7 +119,7 @@ function fetchPlayerListData()
                 local tableRows = {}
                 for i = 1, #data do
                     table.insert(tableRows, 
-                    '<tr style=\"color: rgb(' .. 255 .. ', ' .. 255 .. ', ' .. 255 .. ')\"><td>' .. data[i].serverId .. '</td><td>' .. sanitize(data[i].identifier) .. '</td><td>' .. '</td></tr>'
+                    '<tr><td>' .. data[i].serverId .. '</td><td>' .. sanitize(data[i].identifier) .. '</td><td>' .. '</td></tr>'
                     )
                 end
                 SendNUIMessage({ text = table.concat(tableRows) })

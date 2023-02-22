@@ -311,7 +311,7 @@ function GetMinutesFromTime(time)
 	return wholemins
 end
 
-TriggerEvent("es:addGroupCommand", "charlist", {'superadmin', 'owner'}, function(src, args, char, location)
+TriggerEvent("es:addGroupCommand", "charlist", "superadmin", function(src, args, char, location)
   local target = args[2]
   if target and target:find("steam:") then
     local query = {

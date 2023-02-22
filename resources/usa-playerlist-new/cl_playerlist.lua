@@ -17,7 +17,7 @@ Citizen.CreateThread(function()
             if IsControlPressed(0, OPEN_KEY) and GetLastInputMethod(0) then
                 if not listOn then
                     listOn = true
-                    SendNUIMessage({ text = "" })
+                    SendNUIMessage({ type = "toggle" })
                     fetchPlayerListData()
                     while listOn do
                         Wait(0)
@@ -25,7 +25,7 @@ Citizen.CreateThread(function()
                         if not IsNuiFocused() and not IsControlPressed(0, OPEN_KEY) and GetGameTimer() - lastNuiUnfocusedTime > 1000 then
                             listOn = false
                             SendNUIMessage({
-                                meta = 'close'
+                                type = "toggle"
                             })
                             SetNuiFocus(false, false)
                             nuiFocusOn = false
@@ -44,18 +44,6 @@ Citizen.CreateThread(function()
         end
     end
 end)
-
-function sanitize(txt)
-    local replacements = {
-        ['&' ] = '&amp;', 
-        ['<' ] = '&lt;', 
-        ['>' ] = '&gt;', 
-        ['\n'] = '<br/>'
-    }
-    return txt
-        :gsub('[&<>\n]', replacements)
-        :gsub(' +', function(s) return ' '..('&nbsp;'):rep(#s-1) end)
-end
 
 function ShowIds()
 	local myCoords = GetEntityCoords(PlayerPedId())
@@ -112,20 +100,12 @@ end
 function fetchPlayerListData()
     if not fetchingData then
         fetchingData = true
-        TriggerServerCallback {
+        local data = TriggerServerCallback {
             eventName = "playerlist:getData",
-            args = {},
-            callback = function(data)
-                local tableRows = {}
-                for i = 1, #data do
-                    table.insert(tableRows, 
-                    '<tr><td>' .. data[i].serverId .. '</td><td>' .. sanitize(data[i].identifier) .. '</td><td>' .. '</td></tr>'
-                    )
-                end
-                SendNUIMessage({ text = table.concat(tableRows) })
-                fetchingData = false
-            end
+            args = {}
         }
+        SendNUIMessage({ type = "playerData", data = data })
+        fetchingData = false
     end
 end
 

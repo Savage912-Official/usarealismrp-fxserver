@@ -16,6 +16,7 @@ server_scripts {
 }
 
 shared_scripts {
+  '@pmc-callbacks/import.lua',
   '@ox_lib/init.lua',
 }
 

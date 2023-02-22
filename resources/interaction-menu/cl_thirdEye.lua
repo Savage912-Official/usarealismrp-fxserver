@@ -24,6 +24,19 @@ function onVehicleOptionSelect(a, buttonInfo, hitHandle)
         TriggerEvent('towJob:towVehicle')
     elseif buttonInfo.label == "Repair" then
         TriggerEvent("mechanic:repairJobCheck")
+    elseif buttonInfo.label == "Check Upgrades" then
+        local upgrades = TriggerServerCallback { 
+            eventName = "mechanic:getVehicleUpgrades",
+            args = {vehPlate}
+        }
+        if upgrades then
+            exports.globals:notify(false, "^3INFO: ^0Vehicle upgrades")
+            for i = 1, #upgrades do
+                exports.globals:notify(false, upgrades[i])
+            end
+        else
+            exports.globals:notify("No upgrades found!", "INFO: No upgrades found on vehicle with plate " .. vehPlate)
+        end
     end
 end
 
@@ -377,6 +390,10 @@ function addMechanicVehicleOptions()
         {
             name = "hideTrunk",
             label = "Hide Trunk"
+        },
+        {
+            name = "checkUpgrades",
+            label = "Check Upgrades"
         }
     })
 end

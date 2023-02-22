@@ -33,6 +33,10 @@ html {
 	width: 100%;
 }
 
+#footer p {
+	height: 50%;
+}
+
 table {
 	text-align: left;
 }

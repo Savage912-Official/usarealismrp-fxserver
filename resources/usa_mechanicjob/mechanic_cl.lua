@@ -301,12 +301,12 @@ locations = {
             y = -108.3915,
             z = 38.6822,
             heading = 70.2
-        }
-				impound = nil,
-				ped = nil,
-				show_blip = {
-					disable_blip = false
-				}
+        },
+		impound = nil,
+		ped = nil,
+		show_blip = {
+			disable_blip = false
+		}
     }
 }
 

@@ -85,7 +85,8 @@ locations = {
 	{x = 471.7410, y = -1873.5828, z = 26.8678, noBlip = true}, -- Atomic Autos
 	{x = -1916.8400878906, y = 2030.8366699219, z = 140.73731994629, noBlip = false}, -- Orange Farm
 	{x = 436.27728271484, y = 6529.9682617188, z = 27.877355575562, noBlip = false}, -- Orange Farm Paleto
-	{x = -181.43, y = -1289.32, z = 31.3, noBlip = true} -- Benny's
+	{x = -181.43, y = -1289.32, z = 31.3, noBlip = true}, -- Benny's
+	{x = -372.1146, y = -109.6916, z = 38.70002, noBlip = true} -- AASC
 }
 
 local VEHICLE_DAMAGES = {}

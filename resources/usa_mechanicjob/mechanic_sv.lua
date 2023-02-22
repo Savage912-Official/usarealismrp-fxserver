@@ -433,6 +433,15 @@ RegisterServerCallback {
 	end
 }
 
+RegisterServerCallback {
+	eventName = "mechanic:getVehicleUpgrades",
+	eventCallback = function(src, vehPlate)
+		vehPlate = exports.globals:trim(vehPlate)
+		local doc = exports.essentialmode:getDocument("vehicles", vehPlate)
+		return doc and doc.upgrades or nil
+	end
+}
+
 RegisterServerEvent("mechanic:saveUnderglow")
 AddEventHandler("mechanic:saveUnderglow", function(plate, r, g, b)
 	exports.essentialmode:updateDocument("vehicle-underglow", plate, { r = r, g = g, b = b }, true)

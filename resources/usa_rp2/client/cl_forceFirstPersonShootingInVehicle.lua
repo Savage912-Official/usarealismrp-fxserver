@@ -1,3 +1,13 @@
+local BLACKLISTED_VEHICLES = {
+    [`impala`] = true,
+    [`16charger`] = true,
+    [`16challenger`] = true,
+    [`tahoe08`] = true,
+    [`srt8`] = true,
+    [`pontiacg8`] = true,
+    [`models`] = true
+}
+
 local LEFT_CLICK = 24
 
 local modeBeforeChange = nil
@@ -25,16 +35,18 @@ Citizen.CreateThread(function()
     while true do
         local me = PlayerPedId()
         if IsPedInAnyVehicle(me) then
-            local selectedPedWeapon = GetSelectedPedWeapon(me)
-            if IsPedDoingDriveby(me) then
-                forceFirstPerson(me)
-            elseif IsControlPressed(0, LEFT_CLICK) then
-                local veh = GetVehiclePedIsIn(me)
-                if me ~= GetPedInVehicleSeat(veh, -1) then -- not in driver seat
+            local veh = GetVehiclePedIsIn(me)
+            if me == GetPedInVehicleSeat(veh, -1) or not BLACKLISTED_VEHICLES[GetEntityModel(veh)] then
+                local selectedPedWeapon = GetSelectedPedWeapon(me)
+                if IsPedDoingDriveby(me) then
                     forceFirstPerson(me)
+                elseif IsControlPressed(0, LEFT_CLICK) then
+                    if me ~= GetPedInVehicleSeat(veh, -1) then -- not in driver seat
+                        forceFirstPerson(me)
+                    end
+                elseif modeBeforeChange ~= nil then
+                    undoFirstPerson(me)
                 end
-            elseif modeBeforeChange ~= nil then
-                undoFirstPerson(me)
             end
         end
         Wait(1)

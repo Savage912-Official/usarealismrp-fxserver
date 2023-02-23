@@ -23,10 +23,12 @@ RegisterNetEvent("usa_lottery:choosewinner", function()
     local result = MySQL.query.await('SELECT * FROM lotterytotal where lotto = ?', {check})
     local govAmount = Config.Gov_Percentage * result[1].total
     local restAmount = result[1].total - govAmount
+    local previoustotal = result[1].total - govAmount
     -- etc...
     local reset = 1
     local fundAccount = Config.GovAccounts[math.random(1, #Config.GovAccounts)]
     MySQL.Async.execute("UPDATE lotterytotal SET winner = '"..winningticket.."'")
+    MySQL.Async.execute("UPDATE lotterytotal SET previoustotal = '"..previoustotal.."'")
     TriggerClientEvent("chatMessage", -1, "[^2Los Santos Lottery^0] Lottery winner has been chosen! Winning Number: " .. winningticket .. "\n Head over to Life Invader to claim your winnings.")
 
     GetCurrentBalance(fundAccount, function(bal)
@@ -62,6 +64,10 @@ RegisterNetEvent("usa_lottery:claimtotal", function()
             MySQL.Async.execute("UPDATE lotterytotal SET total = '"..reset.."'")
             MySQL.Async.execute("UPDATE lotterytotal SET winner = '"..reset.."'")
             MySQL.query('DELETE FROM lottery WHERE cid = ?', {cid})
+            local charDoc = exports.essentialmode:getDocument("characters", cid)
+            local name = charDoc.name.first .. " " .. charDoc.name.middle .. " " .. charDoc.name.last
+            MySQL.update('UPDATE lotterytotal SET previouswinner = ?', { json.encode(name) })
+            MySQL.query('DELETE FROM lottery') -- This is so when the lottery is claimed by winner it will delete all other users from the database so they can buy a new ticket for the new lottery.
         else
             TriggerClientEvent('usa:notify', src, 'Sorry but this ticket doesn\'t match.')
             char.removeItem(Item)
@@ -127,11 +133,11 @@ RegisterServerCallback {
         local math = 14 - result[1].day
 
         if math == 0 then
-            return "Lottery ends Today"
+            return "Today"
         elseif math == 1 then
-            return "Lottery ends Tomorrow"
+            return "Tomorrow"
         else
-            return "Lottery ends in "..math.." days."
+            return "In "..math.." days"
         end
     end
 }
@@ -143,7 +149,37 @@ RegisterServerCallback {
         local result = MySQL.query.await('SELECT * FROM lotterytotal where lotto = ?', {check})
         local total = result[1].total
 
-        return "Current lottery total is  $"..exports.globals:comma_value(total).."."
+        return "$"..exports.globals:comma_value(total)..""
+    end
+}
+
+RegisterServerCallback { 
+    eventName = "usa_lottery:previouswinner",
+    eventCallback = function()
+        local check = 'placeholder'
+        local result = MySQL.query.await('SELECT * FROM lotterytotal where lotto = ?', {check})
+        local previouswinner = result[1].previouswinner
+
+        if previouswinner ~= nil then
+            return previouswinner
+        else
+            return "Not Available"
+        end
+    end
+}
+
+RegisterServerCallback { 
+    eventName = "usa_lottery:previoustotal",
+    eventCallback = function()
+        local check = 'placeholder'
+        local result = MySQL.query.await('SELECT * FROM lotterytotal where lotto = ?', {check})
+        local previoustotal = result[1].previoustotal
+
+        if previoustotal ~= nil then
+            return "$".. exports.globals:comma_value(previoustotal)
+        else
+            return "Not Available"
+        end
     end
 }
 

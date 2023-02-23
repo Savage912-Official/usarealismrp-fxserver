@@ -424,12 +424,20 @@ BUSINESSES = {
 		notRobbable = true
 	},
 	["The Cookie Jar"] = {
-		position = {-195.55, -1319.27, 30.3},
+		position = {-196.38, -1314.95, 30.80},
 		cameraID = 'store59',
 		isBeingRobbed = false,
 		lastRobbedTime = 0,
 		price = 10000,
 		notRobbable = true
+	},
+	["Benny's Auto Garage (Strawberry)"] = {
+		position = {-195.55, -1319.27, 50.3},
+		cameraID = 'store24',
+		isBeingRobbed = false,
+		lastRobbedTime = 0,
+		price = 20000,
+		purchasePercentage = 0.05
 	},
 	["Ammunation (Chumash)"] = {
 		position = {-3169.29, 1088.35, 20.83},

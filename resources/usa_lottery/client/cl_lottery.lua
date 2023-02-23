@@ -73,12 +73,22 @@ RegisterNetEvent("usa_lottery:menu", function()
         args = {}
     }
 
+    local PreviousWinner = TriggerServerCallback {
+        eventName = "usa_lottery:previouswinner",
+        args = {}
+    }
+
+    local PreviousTotal = TriggerServerCallback {
+        eventName = "usa_lottery:previoustotal",
+        args = {}
+    }
+
     lib.registerContext({
 		id = 'usa_lottery:lottomenu',
 		title =  "Welcome To Los Santos Lottery!",
 		options = {
 			{           
-				title = "Purchase a Lottery ticket for $"..Config.TicketPrice..".",
+				title = "Purchase a Lottery ticket for $"..exports.globals:comma_value(Config.TicketPrice)..".",
                 description = "Purchasing this ticket gives you a chance to win the lottery!",
 				event = "usa_lottery:purchase"
 			},
@@ -88,12 +98,14 @@ RegisterNetEvent("usa_lottery:menu", function()
 				event = "usa_lottery:claim"
 			},
             {
-				title = "Lottery Total",
-                description = LottoTotal
+				title = "Current Lottery Info",
+                arrow = true,
+                metadata = {['Total'] = LottoTotal, ['End Date'] = DayCheck}
 			},
             {
-				title = "Lottery End Date",
-                description = DayCheck
+				title = "Previous Lottery Info",
+                arrow = true,
+                metadata = {Winner = PreviousWinner, Total = PreviousTotal}
 			},
 			--[[{
 				title = "Testing",

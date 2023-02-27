@@ -115,7 +115,7 @@ local RECOILS = {
 	[GetHashKey("WEAPON_MINISMG")] = 0.8, -- MINI SMG		
 }
 
-local CAR_INNACURACY_PITCH = 2.0
+local CAR_INNACURACY_PITCH = 3.1
 local HELI_INNACURACY_PITCH = 0.25
 
 

@@ -83,7 +83,7 @@ AddEventHandler("insurance:loadVehicles", function(check_insurance)
 								price = data.rows[i].value[3], -- price
 								stored = data.rows[i].value[4], -- 'stored' bool value
 								stored_location = data.rows[i].value[5], -- stored_location
-								plate = data.rows[i].value[6] -- plate
+								plate = data.rows[i].value[6], -- plate
 							}
 							if not veh.stored then
 								table.insert(responseVehArray, veh)

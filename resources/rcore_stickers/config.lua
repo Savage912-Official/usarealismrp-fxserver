@@ -750,6 +750,18 @@ Config.Stickers = {
                 price = 95,
                 flip = false,
                 dict = 'others'
+            },
+			{
+                name = 'Boom',
+                price = 95,
+                flip = false,
+                dict = 'others'
+            },
+			{
+                name = 'Tag! Youre Dead!',
+                price = 95,
+                flip = false,
+                dict = 'others'
             }
         }
     }

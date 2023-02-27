@@ -1,4 +1,5 @@
 local ITEMS = {
+    { name = "Micro SMG", type = "weapon", hash = GetHashKey("WEAPON_MICROSMG"), weight = 25.0, quantity = 1 },
     { name = "Akorus", type = "weapon", hash = GetHashKey("WEAPON_AKORUS"), weight = 25.0, quantity = 1 },
     { name = "Revolver Ultra", type = "weapon", hash = GetHashKey("WEAPON_REVOLVERULTRA"), weight = 25.0, quantity = 1 },
     { name = "Christmas Present", type = "misc", price = 10000, legality = "legal", quantity = 1, weight = 15, objectModel = "hei_prop_heist_box" },

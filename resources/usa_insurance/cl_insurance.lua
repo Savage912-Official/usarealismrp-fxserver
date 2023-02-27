@@ -17,7 +17,7 @@ AddEventHandler("insurance:loadedVehicles", function(vehicles)
 		--menu.vehicles = vehicles
 		vehiclesToClaim = {}
 		for i = 1, #vehicles do
-			if not vehicles[i].stored_location  or vehicles[i].stored_location == "" then
+			if not vehicles[i].stored_location or vehicles[i].stored_location == "" then
 				table.insert(vehiclesToClaim, vehicles[i]) -- add only vehicles not stored at a property (prevent duplication by making a claim when stored at your house)
 			end
 		end

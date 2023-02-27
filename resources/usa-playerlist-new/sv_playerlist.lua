@@ -8,7 +8,7 @@ RegisterServerCallback {
         for i = 1, #players do
             local playerInfo = { serverId = players[i], identifier = GetPlayerIdentifiers(players[i])[1]}
             if user.getGroup() ~= "user" then
-                local targetChar = exports["usa-characters"]:GetCharacter(source)
+                local targetChar = exports["usa-characters"]:GetCharacter(tonumber(playerInfo.serverId))
                 if targetChar then
                     playerInfo.currentCharacter = {
                         name = targetChar.getFullName(),

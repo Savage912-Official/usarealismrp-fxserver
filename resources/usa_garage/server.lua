@@ -3,9 +3,10 @@
 --# By: minipunch
 
 local WITHDRAW_FEE = 50
-local IMPOUND_FEE = 500
+local IMPOUND_BASE_FEE = 500
 local AUTOMATIC_TOW_SERVICE_FEE = 500
 local AUTOMATIC_TOW_DISTANCE_PER_UNIT_FEE = 0.85
+local POLICE_IMPOUND_STORAGE_COST_PER_DAY = 800
 
 local recentlyChangedPlates = {}
 
@@ -100,6 +101,7 @@ AddEventHandler("garage:vehicleSelected", function(vehicle, business, playerCoor
 	local char = exports["usa-characters"]:GetCharacter(source)
 	local vehicles = char.get("vehicles")
 	local money = char.get("money")
+	local wasPoliceImpounded = false
 
 	if vehicle.stored_location then
 		local varType = type(vehicle.stored_location)
@@ -119,22 +121,37 @@ AddEventHandler("garage:vehicleSelected", function(vehicle, business, playerCoor
 
 	vehicle.upgrades = exports["usa_mechanicjob"]:GetUpgradeObjectsFromIds(vehicle.upgrades)
 	if vehicle.impounded == true then
-		if hasEnoughMoney(char, IMPOUND_FEE) then
-			TriggerClientEvent("usa:notify", usource, "~y~STATE IMPOUND: ~s~Vehicle retrieved from the impound! Fee: ~y~$"..IMPOUND_FEE..".00")
+		local impoundStorageFee = IMPOUND_BASE_FEE
+		local policeImpoundInfo = exports.essentialmode:getDocument("police-impounded-vehicles", vehicle.plate)
+		if policeImpoundInfo then
+			local daysSinceImpound = exports.globals:GetHoursFromTime(policeImpoundInfo.time) / 24
+			if daysSinceImpound <= policeImpoundInfo.days then
+				TriggerClientEvent("usa:notify", usource, false, "^3STATE IMPOUND: ^0Your vehicle is being held by police for " .. (policeImpoundInfo.days - daysSinceImpound) .. " more day(s)")	
+				return
+			else
+				impoundStorageFee = impoundStorageFee + (POLICE_IMPOUND_STORAGE_COST_PER_DAY * policeImpoundInfo.days)
+				wasPoliceImpounded = true
+			end
+		end
+		if hasEnoughMoney(char, impoundStorageFee) then
+			TriggerClientEvent("usa:notify", usource, "~y~STATE IMPOUND: ~s~Vehicle retrieved from the impound! Fee: ~y~$"..impoundStorageFee..".00")
 			GetVehicleCustomizations(vehicle.plate, function(customizations)
 				vehicle.customizations = customizations
 				TriggerClientEvent("garage:vehicleStored", usource, vehicle)
 				TriggerEvent('es:exposeDBFunctions', function(couchdb)
 					couchdb.updateDocument("vehicles", vehicle.plate, { impounded = false, stored = false, stored_location = "deleteMePlz!" }, function()
-						removeMoney(char, IMPOUND_FEE)
+						removeMoney(char, impoundStorageFee)
 						if business then
-							exports["usa-businesses"]:GiveBusinessCashPercent(business, IMPOUND_FEE)
+							exports["usa-businesses"]:GiveBusinessCashPercent(business, impoundStorageFee)
+						end
+						if wasPoliceImpounded then
+							exports.essentialmode:deleteDocument("police-impounded-vehicles", vehicle.plate)
 						end
 					end)
 				end)
 			end)
 		else
-			TriggerClientEvent("usa:notify", usource, "~y~STATE IMPOUND: ~s~Your vehicle is impounded and can be retrieved for ~y~$"..IMPOUND_FEE..".00~s~!")
+			TriggerClientEvent("usa:notify", usource, "~y~STATE IMPOUND: ~s~Your vehicle is impounded and can be retrieved for ~y~$"..impoundStorageFee..".00~s~!")
 		end
 	elseif vehicle.stored == true then
 		local doPay = true
@@ -225,7 +242,7 @@ function GetVehiclesForMenu(plates, cb)
 						owner = data.rows[i].value[7], -- owner
 						stats = data.rows[i].value[8], -- vehicle stats
 						upgrades = data.rows[i].value[9], -- vehicle upgrades
-						stored_location = data.rows[i].value[10] -- stored_location
+						stored_location = data.rows[i].value[10], -- stored_location
 					}
 					table.insert(responseVehArray, veh)
 				end

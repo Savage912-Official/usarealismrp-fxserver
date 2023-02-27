@@ -608,3 +608,41 @@ exports("createDocumentWithId", function(db, id, doc)
 	end
 	return ret
 end)
+
+exports("deleteDocument", function(db, docId)
+	local retVal = nil
+	PerformHttpRequest("http://" .. ip .. ":" .. port .. "/" .. db .. "/" .. docId, function(errGet, rTextGet, headersGet)
+		local doc = json.decode(rTextGet)
+		PerformHttpRequest("http://" .. ip .. ":" .. port .. "/" .. db .. "/" .. docId .. "?rev=" .. doc._rev, function(err, rText, headers)
+			retVal = json.decode(rText).ok
+		end, "DELETE", "", { ["Content-Type"] = 'application/json', ['Authorization'] = "Basic " .. exports["essentialmode"]:getAuth() })
+	end, "GET", "", { ["Content-Type"] = 'application/json', ['Authorization'] = "Basic " .. exports["essentialmode"]:getAuth() })
+	while retVal == nil do
+		Wait(1)
+	end
+	return retVal
+end)
+
+exports("getAllDocumentsWithLimit", function(db, limit)
+	local retVal = nil
+	local qParams = {
+		["include_docs"] = true,
+		["limit"] = limit
+	}
+	PerformHttpRequest("http://" .. ip .. ":" .. port .. "/" .. db .. "/_all_docs?include_docs=true&limit=" .. limit, function(err, rText, headers)
+		local docs = {}
+		if rText then
+			local data = json.decode(rText)
+			if data.rows then
+				for i = 1, #data.rows do
+					table.insert(docs, data.rows[i].doc)
+				end
+			end
+		end
+		retVal = docs
+	end, "POST", json.encode(qParams), { ["Content-Type"] = 'application/json', ['Authorization'] = "Basic " .. exports["essentialmode"]:getAuth() })
+	while retVal == nil do
+		Wait(1)
+	end
+	return retVal
+end)

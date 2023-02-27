@@ -100,11 +100,13 @@ RegisterNetEvent("usa_lottery:menu", function()
             {
 				title = "Current Lottery Info",
                 arrow = true,
+                icon = "info-circle",
                 metadata = {['Total'] = LottoTotal, ['End Date'] = DayCheck}
 			},
             {
 				title = "Previous Lottery Info",
                 arrow = true,
+                icon = "info-circle",
                 metadata = {Winner = PreviousWinner, Total = PreviousTotal}
 			},
 			--[[{

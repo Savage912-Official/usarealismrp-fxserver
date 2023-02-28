@@ -82,11 +82,11 @@ svConfig = {
 
     -- This value is only used when phasingEnabled is true. Set it as 0 to have it on for the entire race. Any other value than 0 will mean seconds
     -- from the start of the race. For example a value of 15 means that after the first 15 seconds of the race, phasing will be disabled.
-    phasingDuration = 120,
+    phasingDuration = 0,
 
     -- Used to alert players after the race start to alert about the phasing disabling. So when this is set to 10, there will be a notification
     -- 10 seconds after the race start. After 15, the phasing will stop (phasingDuration). Set this to 0 if you don't wish to send a notification.
-    phasingNotification = 115,
+    phasingNotification = 0,
 
     -- This value is only used when phasingEnabled is true. Determines when should phasing be used, values possible: 'ALL', 'COMPETITION', 'NORMAL'
     -- ALL: Phasing is enabled in both (normal races and competition races).

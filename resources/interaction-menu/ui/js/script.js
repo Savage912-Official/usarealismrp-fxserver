@@ -561,7 +561,8 @@ var itemImages = {
     "Turbo": "https://i.imgur.com/LSRmWx9.png",
     "20% Armor": "https://i.imgur.com/So29uLb.png",
     "Stage 1 Intake": "https://i.imgur.com/q6V2VNi.png",
-    "Stage 2 Intake": "https://i.imgur.com/q6V2VNi.png"
+    "Stage 2 Intake": "https://i.imgur.com/q6V2VNi.png",
+    "Battering Ram": "https://i.imgur.com/84WaJLq.png"
 }
 
 var menuItems = [{

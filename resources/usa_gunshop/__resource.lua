@@ -34,7 +34,8 @@ client_scripts {
 }
 
 server_exports {
-	"ShowCCWTerms"
+	"ShowCCWTerms",
+    "checkPermit"
 }
 
 exports {

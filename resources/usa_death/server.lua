@@ -21,6 +21,16 @@ AddEventHandler("death:respawn", function()
 	TriggerEvent("usa_rp:checkJailedStatusOnPlayerJoin", source)
 	TriggerClientEvent("evidence:updateData", source, "levelBAC", 0.0)
 	TriggerEvent("chat:sendToLogFile", source, "Player respawned at Timestamp: ".. os.date('%m-%d-%Y %H:%M:%S', os.time()))
+
+	-- Remove Illegals --
+	local permitStatus = exports["usa_gunshop"]:checkPermit(char)
+	if job == "police" or job == "sheriff" or job == "corrections" or job == "ems" or job == "doctor" then return end
+	if exports.globals:hasFelonyOnRecord(source) or permitStatus == 'suspended' or permitStatus == 'none' then
+		char.removeWeapons()
+		TriggerClientEvent("usa:notify", source, "Your illegal weapons have been taken.")
+	end
+	char.removeIllegalItems()
+	TriggerClientEvent("usa:notify", source, "Your illegal items have been taken.")
 end)
 
 RegisterServerEvent('death:revivePerson')

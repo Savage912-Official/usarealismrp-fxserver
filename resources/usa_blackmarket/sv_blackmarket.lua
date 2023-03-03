@@ -34,7 +34,7 @@ local markets = {
       { name = "Empty .50 Cal Mag [9]", type = "magazine", legality = "legal", price = 200, weight = 5, receives = ".50 Cal", MAX_CAPACITY = 9, currentCapacity = 0, objectModel = "w_pi_combatpistol_mag1" },
       { name = "Empty 9x18mm Mag [18]", type = "magazine", legality = "legal", price = 100, weight = 5, receives = "9x18mm", MAX_CAPACITY = 18, currentCapacity = 0, objectModel = "w_pi_heavypistol_mag2" },
       { name = "Empty .45 Mag [16]", type = "magazine", legality = "legal", price = 200, weight = 5, receives = ".45", MAX_CAPACITY = 16, currentCapacity = 0, objectModel = "w_pi_heavypistol_mag2" },
-      { name = "Empty 9mm Mag [30]", type = "magazine", legality = "legal", price = 200, weight = 5, receives = "9mm", MAX_CAPACITY = 12, currentCapacity = 0, objectModel = "w_sb_gusenberg_mag1" },
+      { name = "Empty 9mm Mag [30]", type = "magazine", legality = "legal", price = 200, weight = 5, receives = "9mm", MAX_CAPACITY = 30, currentCapacity = 0, objectModel = "w_sb_gusenberg_mag1" },
       { name = "Katana", hash = GetHashKey("WEAPON_KATANAS"), type = "weapon", legality = "illegal", price = 650, weight = 10, quantity = 1, stock = math.random(1,2), objectModel = "w_me_katana_lr"},
       { name = "Ninja Star Kit", price = 200, type = "weaponParts", weight = 5.0, quantity = 1, stock = math.random(1, 10) },
       { name = "Ninja Star 2 Kit", price = 200, type = "weaponParts", weight = 5.0, quantity = 1, stock = math.random(1, 10) },

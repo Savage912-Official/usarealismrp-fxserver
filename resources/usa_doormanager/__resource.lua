@@ -14,5 +14,8 @@ files {
 server_exports {
 	"toggleDoorLock",
 	"toggleDoorLockByName",
-	"getNearestDoor"
+	"getNearestDoor",
+	"SetPropertyDoors",
+	"AddPropertyDoor",
+	"RemovePropertyDoor",
 }

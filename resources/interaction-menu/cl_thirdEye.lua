@@ -37,6 +37,8 @@ function onVehicleOptionSelect(a, buttonInfo, hitHandle)
         else
             exports.globals:notify("No upgrades found!", "INFO: No upgrades found on vehicle with plate " .. vehPlate)
         end
+    elseif buttonInfo.label == "Stickers" then
+        TriggerEvent("rcore_stickers:open")
     end
 end
 
@@ -336,6 +338,10 @@ function addCivVehicleOptions()
         {
             name = "hideTrunk",
             label = "Hide Trunk"
+        },
+        {
+            name = "stickers",
+            label = "Stickers"
         }
     })
 end

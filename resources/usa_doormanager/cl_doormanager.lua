@@ -121,70 +121,112 @@ Citizen.CreateThread(function()
     end
     Wait(1)
   end
-
-
 end)
 
-Citizen.CreateThread(function()
-  local lastKeyPress = 0
+local loopCheckIn = nil
+local removingDoor = false
 
-	while true do
-		Wait(1)
-		if FIRST_JOIN then
-			TriggerServerEvent("doormanager:firstJoin")
-			FIRST_JOIN = false
-		end
-
-		playerPed = GetPlayerPed(-1)
-    playerCoords = GetEntityCoords(playerPed)
-    
-    if IsControlJustPressed(1, LOCK_KEY) and GetGameTimer() - lastKeyPress > KEY_PRESS_DELAY then
-      lastKeyPress = GetGameTimer()
-      for i = 1, #DOORS_TO_MANAGE do
-        local door = DOORS_TO_MANAGE[i]
-        if not doorsBeingLocked[door.name] and Vdist(door.x, door.y, door.z, playerCoords.x, playerCoords.y, playerCoords.z) <= door._dist and not door.static then
-          PlayLockAnim()
-          Citizen.Wait(400)
-          TriggerServerEvent("doormanager:checkDoorLock", i, door.x, door.y, door.z)
-          --if SOUND_ENABLE then TriggerServerEvent("InteractSound_SV:PlayWithinDistance", 1.2, "cell-lock", 0.2) end
+function doorLoop()
+  Citizen.CreateThread(function()
+    local lastKeyPress = 0
+    while true do
+      Wait(1)
+      loopCheckIn = GetGameTimer()
+      if not removingDoor then
+        if FIRST_JOIN then
+          TriggerServerEvent("doormanager:firstJoin")
+          FIRST_JOIN = false
         end
+
+        playerPed = GetPlayerPed(-1)
+        playerCoords = GetEntityCoords(playerPed)
+        
+        if IsControlJustPressed(1, LOCK_KEY) and GetGameTimer() - lastKeyPress > KEY_PRESS_DELAY then
+          lastKeyPress = GetGameTimer()
+          for i = 1, #DOORS_TO_MANAGE do
+            if removingDoor then
+              break
+            end
+            local door = DOORS_TO_MANAGE[i]
+            if not doorsBeingLocked[door.name] and Vdist(door.x, door.y, door.z, playerCoords.x, playerCoords.y, playerCoords.z) <= door._dist and not door.static then
+              PlayLockAnim()
+              Citizen.Wait(400)
+              TriggerServerEvent("doormanager:checkDoorLock", i, door.x, door.y, door.z)
+              --if SOUND_ENABLE then TriggerServerEvent("InteractSound_SV:PlayWithinDistance", 1.2, "cell-lock", 0.2) end
+            end
+          end
+        end
+
+        for i = 1, #lastRecordedNearbyDoors do
+          if removingDoor then
+            break
+          end
+          local index = lastRecordedNearbyDoors[i]
+          local door = DOORS_TO_MANAGE[index]
+          doorRadius = 1.0
+          drawTextRange = 2.0
+          if door.gate then drawTextRange = 7.0 doorRadius = 6.0 end
+          if Vdist(door.x, door.y, door.z, playerCoords.x, playerCoords.y, playerCoords.z) < drawTextRange then
+            if not door.static and door.offset and not doorsBeingLocked[door.name] then
+              local doorObject = GetClosestObjectOfType(door.x, door.y, door.z, doorRadius, door.model, false, false, false)
+              local doorCoords = GetEntityCoords(doorObject)
+              if not door.gate then
+                --print("heading: " .. GetEntityHeading(doorObject))
+                local offsetX, offsetY, offsetZ = table.unpack(door.offset)
+                local angle = math.rad(180+GetEntityHeading(doorObject))
+                local x=doorCoords.x+offsetY*math.cos(angle)
+                local y=doorCoords.y+offsetY*math.sin(angle)
+                if door.locked then DrawText3Ds(x+offsetX, y, doorCoords.z+offsetZ, "[E] - Locked") else DrawText3Ds(x+offsetX, y, doorCoords.z+offsetZ, "[E] - Unlocked") end
+              else
+                local offsetX, offsetY, offsetZ = table.unpack(door.offset)
+                local x, y, z = table.unpack(doorCoords)
+                --print(doorCoords)
+                if door.locked and not doorsBeingLocked[door.name] then DrawText3Ds(x+offsetX, y+offsetY, z+offsetZ, "[E] - Locked") else DrawText3Ds(x+offsetX, y+offsetY, z+offsetZ, "[E] - Unlocked") end
+              end
+            elseif not door.static and not doorsBeingLocked[door.name] and not door.offset then
+              if door.locked then
+                DrawText3Ds(door.x, door.y, door.z, "[E] - Locked")
+              else
+                DrawText3Ds(door.x, door.y, door.z, "[E] - Unlocked")
+              end
+            end
+          end
+        end
+      else
+        break
       end
     end
+  end)
+end
 
-		for i = 1, #lastRecordedNearbyDoors do
-      local index = lastRecordedNearbyDoors[i]
-      local door = DOORS_TO_MANAGE[index]
-      doorRadius = 1.0
-      drawTextRange = 2.0
-      if door.gate then drawTextRange = 7.0 doorRadius = 6.0 end
-      if Vdist(door.x, door.y, door.z, playerCoords.x, playerCoords.y, playerCoords.z) < drawTextRange then
-        if not door.static and door.offset and not doorsBeingLocked[door.name] then
-          local doorObject = GetClosestObjectOfType(door.x, door.y, door.z, doorRadius, door.model, false, false, false)
-          local doorCoords = GetEntityCoords(doorObject)
-          if not door.gate then
-            --print("heading: " .. GetEntityHeading(doorObject))
-            local offsetX, offsetY, offsetZ = table.unpack(door.offset)
-            local angle = math.rad(180+GetEntityHeading(doorObject))
-            local x=doorCoords.x+offsetY*math.cos(angle)
-            local y=doorCoords.y+offsetY*math.sin(angle)
-            if door.locked then DrawText3Ds(x+offsetX, y, doorCoords.z+offsetZ, "[E] - Locked") else DrawText3Ds(x+offsetX, y, doorCoords.z+offsetZ, "[E] - Unlocked") end
-          else
-            local offsetX, offsetY, offsetZ = table.unpack(door.offset)
-            local x, y, z = table.unpack(doorCoords)
-            --print(doorCoords)
-            if door.locked and not doorsBeingLocked[door.name] then DrawText3Ds(x+offsetX, y+offsetY, z+offsetZ, "[E] - Locked") else DrawText3Ds(x+offsetX, y+offsetY, z+offsetZ, "[E] - Unlocked") end
-          end
-        elseif not door.static and not doorsBeingLocked[door.name] and not door.offset then
-          if door.locked then
-            DrawText3Ds(door.x, door.y, door.z, "[E] - Locked")
-          else
-            DrawText3Ds(door.x, door.y, door.z, "[E] - Unlocked")
-          end
-        end
+local loopStopped = false
+RegisterNetEvent("doormanager:setRemovingDoor")
+AddEventHandler("doormanager:setRemovingDoor", function(bool)
+  if not bool then
+    while not loopStopped do
+      Citizen.Wait(1)
+    end
+    loopStopped = false
+    removingDoor = bool
+    doorLoop()
+  else
+    removingDoor = bool
+    print("Do not worry if you see an error below this, its just staff removing a door")
+  end
+end)
+
+loopCheckIn = GetGameTimer()
+doorLoop()
+
+Citizen.CreateThread(function()
+  while true do
+    Citizen.Wait(1000)
+    if loopCheckIn ~= nil then
+      if GetGameTimer() - loopCheckIn > 1000 then
+        loopStopped = true
       end
-		end
-    
-	end
+    end
+  end
 end)
 
 ------------------------------------------------------------------------------------

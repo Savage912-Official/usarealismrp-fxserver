@@ -34,6 +34,8 @@ local waitingForWardrobeToLoad = false
 
 local currentMapBlips = {} -- used to mark owned properties as blips on map on character load
 
+local PROPERTY_NAME_MAX_LENGTH = 35
+
 RegisterNetEvent("properties:setPropertyBlips")
 AddEventHandler("properties:setPropertyBlips", function(propertyLocations)
     RemoveBlips()
@@ -230,7 +232,397 @@ AddEventHandler("properties:getPropertyGivenCoords", function(x,y,z, cb)
     end
 end)
 
+function DrawText3Ds(x,y,z, text)
+    local onScreen,_x,_y=World3dToScreen2d(x,y,z)
+    local px,py,pz=table.unpack(GetGameplayCamCoords())
+
+    SetTextScale(0.35, 0.35)
+    SetTextFont(4)
+    SetTextProportional(1)
+    SetTextColour(255, 255, 255, 215)
+    SetTextEntry("STRING")
+    SetTextCentre(1)
+    AddTextComponentString(text)
+    DrawText(_x,_y)
+    local factor = (string.len(text)) / 370
+    DrawRect(_x,_y+0.0125, 0.015+ factor, 0.03, 41, 11, 41, 68)
+end
+
+RegisterNetEvent("properties:startAddDoor")
+AddEventHandler("properties:startAddDoor", function()
+    local closestDist = 1000000000.0
+    local closestDoor = nil
+    for object in exports["globals"]:EnumerateObjects() do
+        local dist = #(GetEntityCoords(object) - GetEntityCoords(PlayerPedId()))
+        if dist < 2.5 and dist < closestDist then
+            closestDist = dist
+            closestDoor = object 
+        end
+    end
+    if closestDoor ~= nil then
+        SetEntityDrawOutline(closestDoor, true)
+        local confirmed = false
+        local canceled = false
+        local before = GetGameTimer()
+        local lockedOffset = {x = 0.0, y = 0.0, z = 0.0}
+        local doorCoords = GetEntityCoords(closestDoor)
+        while not confirmed and not canceled and (GetGameTimer() - before) < 30000 do
+            Citizen.Wait(0)
+            alert("~b~Add Door? ~INPUT_MP_TEXT_CHAT_TEAM~ ~INPUT_REPLAY_ENDPOINT~\n~b~Move text with arrow keys")
+            -- local angle = math.rad(180+GetEntityHeading(closestDoor))
+            -- local x=doorCoords.x+lockedOffset.y*math.cos(angle)
+            -- local y=doorCoords.y+lockedOffset.y*math.sin(angle)
+            local offset = GetOffsetFromEntityInWorldCoords(closestDoor, lockedOffset.x, lockedOffset.y, lockedOffset.z)
+            DrawText3Ds(offset.x, offset.y, offset.z, "[E] - Locked")
+            if IsControlJustPressed(0, 246) then
+                confirmed = true
+            elseif IsControlJustPressed(0, 306) then
+                canceled = true
+                TriggerEvent("usa:notify", "Adding Door Cancelled!")
+            elseif IsControlPressed(0, 187) then -- down
+                lockedOffset.z = lockedOffset.z - 0.025
+            elseif IsControlPressed(0, 188) then -- up
+                lockedOffset.z = lockedOffset.z + 0.025
+            elseif IsControlPressed(0, 189) then -- left
+                lockedOffset.x = lockedOffset.x - 0.025
+            elseif IsControlPressed(0, 190) then -- right
+                lockedOffset.x = lockedOffset.x + 0.025
+            end
+        end
+        if not confirmed and not canceled then
+            TriggerEvent("usa:notify", "Timed Out")
+            canceled = true
+        end
+        SetEntityDrawOutline(closestDoor, false)
+        if not canceled then
+            local closestPDist = 1000000000000.0
+            local closest_property = ""
+            for name, info in pairs(NEARBY_PROPERTIES) do
+                local dist = #(GetEntityCoords(PlayerPedId()) - vector3(info.x, info.y, info.z))
+                if dist < 50.0 and dist < closestPDist then
+                    closestPDist = dist
+                    closest_property = info
+                end
+            end
+            local name = nil
+            canceled = false
+            TriggerEvent("hotkeys:enable", false)
+            DisplayOnscreenKeyboard( false, "", "", closest_property.name, "", "", "", PROPERTY_NAME_MAX_LENGTH )
+            while true do
+                alert("~b~Enter property door is in")
+                if ( UpdateOnscreenKeyboard() == 1 ) then
+                    local input = GetOnscreenKeyboardResult()
+                    if ( string.len( input ) > 0 ) then
+                            name = input
+                        break
+                    else
+                        DisplayOnscreenKeyboard( false, "", "", closest_property.name, "", "", "", PROPERTY_NAME_MAX_LENGTH )
+                    end
+                elseif ( UpdateOnscreenKeyboard() == 2 ) then
+                    canceled = true
+                    TriggerEvent("usa:notify", "Adding Door Cancelled!")
+                    break
+                end
+                Wait( 0 )
+            end
+            TriggerEvent("hotkeys:enable", true)
+
+            if not canceled then
+                local hash = GetEntityModel(closestDoor)
+                local coords = GetEntityCoords(closestDoor)
+                local heading = round(GetEntityHeading(closestDoor), 0)
+                TriggerServerEvent("properties:AddDoor", name, hash, coords, heading, lockedOffset)
+            end
+        end
+    else
+        TriggerEvent("usa:notify", "No object found nearby!")
+    end
+end)
+
+RegisterNetEvent("properties:startRemDoor")
+AddEventHandler("properties:startRemDoor", function()
+    local closestDist = 1000000000.0
+    local closestDoor = nil
+    for object in exports["globals"]:EnumerateObjects() do
+        local dist = #(GetEntityCoords(object) - GetEntityCoords(PlayerPedId()))
+        if dist < 2.5 and dist < closestDist then
+            closestDist = dist
+            closestDoor = object 
+        end
+    end
+    if closestDoor ~= nil then
+        SetEntityDrawOutline(closestDoor, true)
+        local confirmed = false
+        local canceled = false
+        local before = GetGameTimer()
+        while not confirmed and not canceled and (GetGameTimer() - before) < 30000 do
+            Citizen.Wait(0)
+            alert("~b~Remove Door? ~INPUT_MP_TEXT_CHAT_TEAM~ ~INPUT_REPLAY_ENDPOINT~")
+            if IsControlJustPressed(0, 246) then
+                confirmed = true
+            elseif IsControlJustPressed(0, 306) then
+                canceled = true
+                TriggerEvent("usa:notify", "Removing Door Cancelled!")
+            end
+        end
+        if not confirmed and not canceled then
+            TriggerEvent("usa:notify", "Timed Out")
+            canceled = true
+        end
+        SetEntityDrawOutline(closestDoor, false)
+        if not canceled then
+            local coords = GetEntityCoords(closestDoor)
+            TriggerServerEvent("properties:RemDoor", coords)
+        end
+    else
+        TriggerClientEvent("usa:notify", "No object found nearby!")
+    end
+end)
+
+RegisterNetEvent("properties:startEditProperty")
+AddEventHandler("properties:startEditProperty", function(param)
+    local closest = 1000000000000.0
+    local closest_property = nil
+    for name, info in pairs(NEARBY_PROPERTIES) do
+        local dist = #(GetEntityCoords(PlayerPedId()) - vector3(info.x, info.y, info.z))
+        if dist < 50.0 and dist < closest then
+            closest = dist
+            closest_property = info
+        end
+    end
+    if closest_property then
+        if param == "door" then
+            local prop_coords = nil
+            local confirmed = false
+            local canceled = false
+            local before = GetGameTimer()
+            while not confirmed and not canceled and (GetGameTimer() - before) < 60000 do
+                Citizen.Wait(0)
+                alert("~b~Select Property Location ~INPUT_MP_TEXT_CHAT_TEAM~\n~r~Cancel ~INPUT_REPLAY_ENDPOINT~")
+                if IsControlJustPressed(0, 246) then
+                    confirmed = true
+                    prop_coords = GetEntityCoords(PlayerPedId())
+                elseif IsControlJustPressed(0, 306) then
+                    canceled = true
+                    TriggerEvent("usa:notify", "Stopped Editing Property!")
+                end
+            end
+            if not confirmed and not canceled then
+                TriggerEvent("usa:notify", "Timed Out")
+                canceled = true
+            end
+            if not canceled then
+                TriggerServerEvent("properties:editProperty", param, prop_coords, closest_property.name)
+            end
+        elseif param == "garage" then
+            local garage_coords = nil
+            local confirmed = false
+            local canceled = false
+            local before = GetGameTimer()
+            while not confirmed and not canceled and (GetGameTimer() - before) < 60000 do
+                Citizen.Wait(0)
+                alert("~b~Select Garage Location Location ~INPUT_MP_TEXT_CHAT_TEAM~\n~r~Cancel ~INPUT_REPLAY_ENDPOINT~")
+                if IsControlJustPressed(0, 246) then
+                    confirmed = true
+                    garage_coords = GetEntityCoords(PlayerPedId())
+                elseif IsControlJustPressed(0, 306) then
+                    canceled = true
+                    TriggerEvent("usa:notify", "Stopped Editing Property!")
+                end
+            end
+            if not confirmed and not canceled then
+                TriggerEvent("usa:notify", "Timed Out")
+                canceled = true
+            end
+
+            if not canceled then
+                TriggerServerEvent("properties:editProperty", param, garage_coords, closest_property.name)
+            end
+        elseif param == "name" then
+            local newName = nil
+            local canceled = false
+            TriggerEvent("hotkeys:enable", false)
+            DisplayOnscreenKeyboard( false, "", "", closest_property.name, "", "", "", PROPERTY_NAME_MAX_LENGTH )
+            while true do
+                alert("~b~Enter New Property Name")
+                if ( UpdateOnscreenKeyboard() == 1 ) then
+                    local input = GetOnscreenKeyboardResult()
+                    if ( string.len( input ) > 0 ) then
+                            newName = input
+                        break
+                    else
+                        DisplayOnscreenKeyboard( false, "", "", closest_property.name, "", "", "", PROPERTY_NAME_MAX_LENGTH )
+                    end
+                elseif ( UpdateOnscreenKeyboard() == 2 ) then
+                    canceled = true
+                    TriggerEvent("usa:notify", "Stopped Adding Property!")
+                    break
+                end
+                Wait( 0 )
+            end
+            TriggerEvent("hotkeys:enable", true)
+
+            if not canceled then
+                TriggerServerEvent("properties:editProperty", param, newName, closest_property.name)
+            end
+        elseif param == "price" then
+            local newPrice = nil
+            local oldPrice = tostring(closest_property.fee.price)
+            local canceled = false
+            TriggerEvent("hotkeys:enable", false)
+            DisplayOnscreenKeyboard( false, "", "", oldPrice, "", "", "", 9 )
+            while true do
+                alert("~b~Enter Property Price")
+                if ( UpdateOnscreenKeyboard() == 1 ) then
+                    local input = GetOnscreenKeyboardResult()
+                    if ( string.len( input ) > 0 ) then
+                        input = tonumber(input)
+                        if input == nil then
+                            TriggerEvent("usa:notify", "Not a valid price!")
+                            DisplayOnscreenKeyboard( false, "", "", oldPrice, "", "", "", 9 )
+                        else
+                            if input > 0 then
+                                newPrice = input
+                                break
+                            else
+                                TriggerEvent("usa:notify", "Price needs to be more than 0!")
+                                DisplayOnscreenKeyboard( false, "", "", oldPrice, "", "", "", 9 )
+                            end
+                        end
+                    else
+                        DisplayOnscreenKeyboard( false, "", "", oldPrice, "", "", "", 9 )
+                    end
+                elseif ( UpdateOnscreenKeyboard() == 2 ) then
+                    canceled = true
+                    TriggerEvent("usa:notify", "Stopped Adding Property!")
+                    break
+                end
+                Wait( 0 )
+            end
+            TriggerEvent("hotkeys:enable", true)
+
+            if not canceled then
+                TriggerServerEvent("properties:editProperty", param, newPrice, closest_property.name)
+            end
+        end
+    else
+        TriggerEvent("usa:notify", "No Properties nearby")
+    end
+end)
+
+RegisterNetEvent("properties:startAddNewProperty")
+AddEventHandler("properties:startAddNewProperty", function()
+    local prop_coords = nil
+    local garage_coords = nil
+    local prop_name = nil
+    local prop_price = nil
+
+    local confirmed = false
+    local canceled = false
+    local before = GetGameTimer()
+    while not confirmed and not canceled and (GetGameTimer() - before) < 60000 do
+        Citizen.Wait(0)
+        alert("~b~Select Property Location ~INPUT_MP_TEXT_CHAT_TEAM~\n~r~Cancel ~INPUT_REPLAY_ENDPOINT~")
+        if IsControlJustPressed(0, 246) then
+            confirmed = true
+            prop_coords = GetEntityCoords(PlayerPedId())
+        elseif IsControlJustPressed(0, 306) then
+            canceled = true
+            TriggerEvent("usa:notify", "Stopped Adding Property!")
+        end
+    end
+    if not confirmed and not canceled then
+        TriggerEvent("usa:notify", "Timed Out")
+        canceled = true
+    end
+
+    if not canceled then
+        confirmed = false
+        canceled = false
+        before = GetGameTimer()
+        while not confirmed and not canceled and (GetGameTimer() - before) < 60000 do
+            Citizen.Wait(0)
+            alert("~b~Select Garage Location Location ~INPUT_MP_TEXT_CHAT_TEAM~\n~r~Cancel ~INPUT_REPLAY_ENDPOINT~")
+            if IsControlJustPressed(0, 246) then
+                confirmed = true
+                garage_coords = GetEntityCoords(PlayerPedId())
+            elseif IsControlJustPressed(0, 306) then
+                canceled = true
+                TriggerEvent("usa:notify", "Stopped Adding Property!")
+            end
+        end
+        if not confirmed and not canceled then
+            TriggerEvent("usa:notify", "Timed Out")
+            canceled = true
+        end
+
+        if not canceled then
+            canceled = false
+            TriggerEvent("hotkeys:enable", false)
+            DisplayOnscreenKeyboard( false, "", "", "Name", "", "", "", 20 )
+            while true do
+                alert("~b~Enter Property Name")
+                if ( UpdateOnscreenKeyboard() == 1 ) then
+                    local input = GetOnscreenKeyboardResult()
+                    if ( string.len( input ) > 0 ) then
+                            prop_name = input
+                        break
+                    else
+                        DisplayOnscreenKeyboard( false, "", "", "Name", "", "", "", 20 )
+                    end
+                elseif ( UpdateOnscreenKeyboard() == 2 ) then
+                    canceled = true
+                    TriggerEvent("usa:notify", "Stopped Adding Property!")
+                    break
+                end
+                Wait( 0 )
+            end
+            TriggerEvent("hotkeys:enable", true)
+
+            if not canceled then
+                canceled = false
+                TriggerEvent("hotkeys:enable", false)
+                DisplayOnscreenKeyboard( false, "", "", "Price", "", "", "", 9 )
+                while true do
+                    alert("~b~Enter Property Price")
+                    if ( UpdateOnscreenKeyboard() == 1 ) then
+                        local input = GetOnscreenKeyboardResult()
+                        if ( string.len( input ) > 0 ) then
+                            input = tonumber(input)
+                            if input == nil then
+                                TriggerEvent("usa:notify", "Not a valid price!")
+                                DisplayOnscreenKeyboard( false, "", "", "Price", "", "", "", 9 )
+                            else
+                                if input > 0 then
+                                    prop_price = input
+                                    break
+                                else
+                                    TriggerEvent("usa:notify", "Price needs to be more than 0!")
+                                    DisplayOnscreenKeyboard( false, "", "", "Price", "", "", "", 9 )
+                                end
+                            end
+                        else
+                            DisplayOnscreenKeyboard( false, "", "", "Price", "", "", "", 9 )
+                        end
+                    elseif ( UpdateOnscreenKeyboard() == 2 ) then
+                        canceled = true
+                        TriggerEvent("usa:notify", "Stopped Adding Property!")
+                        break
+                    end
+                    Wait( 0 )
+                end
+                TriggerEvent("hotkeys:enable", true)
+
+                if not canceled then
+                    TriggerServerEvent("properties:addNewProperty", prop_coords, garage_coords, prop_name, prop_price)
+                end
+            end
+        end
+    end
+end)
+
 Citizen.CreateThread(function()
+    local last_check_toggle = 0
 	while true do
 		if IsControlJustPressed(0, MENU_KEY) then
 			local me = GetPlayerPed(-1)
@@ -284,7 +676,34 @@ Citizen.CreateThread(function()
                                         ---------------------------
                                         -- next fee due date  --
                                         ---------------------------
-                                        local item = NativeUI.CreateItem("Next Fee Due: " .. nearest_property_info.fee.end_date, "This property expires on: " .. nearest_property_info.fee.end_date)
+                                        local item = NativeUI.CreateItem("Next Fee Due: " .. nearest_property_info.fee.end_date, "Fee of $" .. nearest_property_info.fee.price .. " due on: " .. nearest_property_info.fee.end_date)
+                                        mainMenu:AddItem(item)
+                                        ---------------------------
+                                        -- leave property        --
+                                        ---------------------------
+                                        if nearest_property_info.will_leave == nil then
+                                            nearest_property_info.will_leave = false
+                                        end
+                                        local item = nil
+                                        if can_open.owner == true then
+                                            item = NativeUI.CreateCheckboxItem("Continue Tennancy", not nearest_property_info.will_leave, "Enable/Disable if you want to continue paying for this property", 1)
+                                            item.CheckboxEvent = function(parentmenu, selected, checked)
+                                                if GetGameTimer() - last_check_toggle > 10000 then
+                                                    last_check_toggle = GetGameTimer()
+                                                    nearest_property_info.will_leave = not checked
+                                                    TriggerServerEvent("properties:willLeave", nearest_property_info.name, not checked)
+                                                else
+                                                    TriggerEvent("usa:notify", "You are doing that too fast!")
+                                                    RemoveMenuPool(_menuPool)
+                                                end
+                                            end
+                                        else
+                                            if nearest_property_info.will_leave then
+                                                item = NativeUI.CreateItem("Tennancy Ending", "The owner has chosen not to continue paying and the house will go up for sale")
+                                            else
+                                                item = NativeUI.CreateItem("Tennancy Continuing", "The Tennancy will continue as normal")
+                                            end
+                                        end
                                         mainMenu:AddItem(item)
                                         ------------------------------
                                         -- load /display money --
@@ -448,6 +867,49 @@ Citizen.CreateThread(function()
                                           -- add / remove property co-owners --
                                           ----------------------------
                                           local coowners_submenu = _menuPool:AddSubMenu(mainMenu, "Owners", "Manage property co-owners.", true --[[KEEP POSITION]])
+                                          -- transfer ownership
+                                          local transferOwner = NativeUI.CreateItem("Transfer Ownership", "Transfer the property to another player")
+                                          transferOwner.Activated = function(parentmenu, selected)
+                                            RemoveMenuPool(_menuPool)
+                                            Citizen.CreateThread( function()
+                                                TriggerEvent("hotkeys:enable", false)
+                                                DisplayOnscreenKeyboard( false, "", "", "", "", "", "", 9 )
+                                                while true do
+                                                    if ( UpdateOnscreenKeyboard() == 1 ) then
+                                                        local server_id = GetOnscreenKeyboardResult()
+                                                        if ( string.len( server_id ) > 0 ) then
+                                                            local server_id = tonumber( server_id )
+                                                            if ( server_id > 0 ) then
+                                                                local confirmed = false
+                                                                local before = GetGameTimer()
+                                                                while not confirmed and (GetGameTimer() - before) < 30000 do
+                                                                    Citizen.Wait(0)
+                                                                    alert("~r~Transfer Ownership to "..server_id.."? ~INPUT_MP_TEXT_CHAT_TEAM~~r~/~INPUT_REPLAY_ENDPOINT~")
+                                                                    if IsControlJustPressed(0, 246) then
+                                                                        confirmed = true
+                                                                        TriggerServerEvent("properties:changeOwner", nearest_property_info.name, server_id)
+                                                                    elseif IsControlJustPressed(0, 306) then
+                                                                        confirmed = true
+                                                                        TriggerEvent("usa:notify", "You stopped the transfer!")
+                                                                    end
+                                                                end
+                                                                if not confirmed then
+                                                                    TriggerEvent("usa:notify", "Transfer Timed Out")
+                                                                end
+                                                            end
+                                                            break
+                                                        else
+                                                            DisplayOnscreenKeyboard( false, "", "", "", "", "", "", 9 )
+                                                        end
+                                                    elseif ( UpdateOnscreenKeyboard() == 2 ) then
+                                                        break
+                                                    end
+                                                    Wait( 0 )
+                                                end
+                                                TriggerEvent("hotkeys:enable", true)
+                                            end )
+                                          end
+                                          coowners_submenu.SubMenu:AddItem(transferOwner)
                                           TriggerServerEvent("properties:getCoOwners", nearest_property_info.name)
                                           while not menu_data.coowners do
                                             Wait(1)
@@ -462,7 +924,7 @@ Citizen.CreateThread(function()
                                             end
                                             coowner_submenu.SubMenu:AddItem(removeownerbtn)
                                           end
-                                          local add_owner_btn = NativeUI.CreateItem("Add Owner", "Add a co-owner to this property.")
+                                          local add_owner_btn = NativeUI.CreateItem("Add Co-Owner", "Add a co-owner to this property.")
                                           add_owner_btn.Activated = function(parentmenu, selected)
                                             ------------------------------------------------
                                             -- get server ID of player to add as co-owner --
@@ -817,6 +1279,11 @@ function GetPedOutfit()
     return clothing
 end
 
+function round(num, numDecimalPlaces)
+    local mult = 10^(numDecimalPlaces or 0)
+    return math.floor(num * mult + 0.5) / mult
+end
+
 function GetUserInput()
     -- get withdraw amount from user input --
     TriggerEvent("hotkeys:enable", false)
@@ -873,6 +1340,12 @@ function RemoveMenuPool(pool)
     menu_data.wardrobe = nil
     menu_data.coowners = nil
     _menuPool = nil
+end
+
+function alert(msg)
+    SetTextComponentFormat("STRING")
+    AddTextComponentString(msg)
+    DisplayHelpTextFromStringLabel(0,0,1,-1)
 end
 
 function AddBlips(locations)

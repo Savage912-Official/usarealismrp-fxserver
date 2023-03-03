@@ -478,91 +478,98 @@ RegisterNUICallback('playEmote', function(data, cb)
 		-- play anim / scenario  --
 		-------------------------------
 		local scenarioName = data.emoteName:lower()
-			if scenarioName == "cancel" or scenarioName == "stop" or scenarioName == "c" then
-				playing_scenario = false
-				playing_anim = nil
-				TriggerEvent("drugs:cancel")
-				return
-			elseif scenarioName == "surrender" then
-				TriggerEvent("KneelHU")
-				playing_scenario = true
-				return
-			elseif scenarioName == "mechanic" or scenarioName == "sit" or scenarioName == "drill" or scenarioName == "chillin'" or scenarioName == "golf" then
-				TriggerServerEvent("interaction:checkJailedStatusBeforeEmote", scenarioName)
-				playing_scenario = true
-				return
-			end
-			for i = 1, #scenarios do
-				if scenarioName == string.lower(scenarios[i].name) then
-					if ped then
-						if scenarios[i].type ~= "emote" then
-							TaskStartScenarioInPlace(ped, scenarios[i].scenarioName, 0, true)
-							playing_scenario = true
-						elseif scenarios[i].type == "emote" then
-							if string.find(scenarioName, "shag") or string.find(scenarioName, "dance") then
-								--TriggerEvent("usa:playAnimation", scenarios[i].animname, scenarios[i].dict, false, 6.5, true, flag)
-								--TriggerEvent("usa:playAnimation", scenarios[i].dict, scenarios[i].animname, 5, 1, 1000, 7, 0, 0, 0, 0)
-								TriggerEvent("usa:playAnimation", scenarios[i].dict, scenarios[i].animname, -8, 1, -1, 7, 0, 0, 0, 0)
-								playing_anim = {
-									dict = scenarios[i].dict,
-									name = scenarios[i].animname,
-									flag = 7
-								}
-							elseif string.find(scenarioName, "cpr") or string.find(scenarioName, "salute") or string.find(scenarioName, "airplane") or string.find(scenarioName, "cross arms") or string.find(scenarioName, "typing") or string.find(scenarioName, "gang 1") or string.find(scenarioName, "gang 2") then
-								--TriggerEvent("usa:playAnimation", scenarios[i].animname, scenarios[i].dict, false, 6.5, true)
-								--TriggerEvent("usa:playAnimation", scenarios[i].dict, scenarios[i].animname, 5, 1, 1000, 31, 0, 0, 0, 0)
-								TriggerEvent("usa:playAnimation", scenarios[i].dict, scenarios[i].animname, -8, 1, -1, 53, 0, 0, 0, 0)
-								playing_anim = {
-									dict = scenarios[i].dict,
-									name = scenarios[i].animname,
-									flag = 53
-								}
-							elseif string.find(scenarioName, "notepad") then
-								-----------------------------
-								-- give notepad object --
-								-----------------------------
-								GivePedObject(left_hand, "prop_notepad_01")
-								---------------------------
-								-- play notepad anim --
-								---------------------------
-								TriggerEvent("usa:playAnimation", scenarios[i].dict, scenarios[i].animname, -8, 1, -1, 53, 0, 0, 0, 0)
-								playing_anim = {
-									dict = scenarios[i].dict,
-									name = scenarios[i].animname,
-									flag = 53
-								}
-							elseif string.find(scenarioName, "smoke") then
-								-------------------------------
-								-- give cigarrette object --
-								-------------------------------
-								GivePedObject(right_hand, "prop_cs_ciggy_01", 0.05, 0.00, 0.02, -270.0, 90.0, 0.0)
-								-----------------------------
-								-- play smoking anim --
-								-----------------------------
-								TriggerEvent("usa:playAnimation", scenarios[i].dict, scenarios[i].animname, -8, 1, -1, 53, 0, 0, 0, 0)
-								playing_anim = {
-									dict = scenarios[i].dict,
-									name = scenarios[i].animname,
-									flag = 53
-								}
-							else
-								TriggerEvent("usa:playAnimation", scenarios[i].dict, scenarios[i].animname, -8, 1, -1, 53, 0, 0, 0, 0, 4)
-								if scenarios[i].cancelTime then
-									Wait(scenarios[i].cancelTime * 1000)
-									ClearPedTasksImmediately(GetPlayerPed(-1))
-								end
+		if scenarioName == "cancel" or scenarioName == "stop" or scenarioName == "c" then
+			playing_scenario = false
+			playing_anim = nil
+			TriggerEvent("drugs:cancel")
+			return
+		elseif scenarioName == "surrender" then
+			TriggerEvent("KneelHU")
+			playing_scenario = true
+			return
+		elseif scenarioName == "mechanic" or scenarioName == "sit" or scenarioName == "drill" or scenarioName == "chillin'" or scenarioName == "golf" then
+			TriggerServerEvent("interaction:checkJailedStatusBeforeEmote", scenarioName)
+			playing_scenario = true
+			return
+		end
+		for i = 1, #scenarios do
+			if scenarioName == string.lower(scenarios[i].name) then
+				if ped then
+					if scenarios[i].type ~= "emote" then
+						TaskStartScenarioInPlace(ped, scenarios[i].scenarioName, 0, true)
+						playing_scenario = true
+					elseif scenarios[i].type == "emote" then
+						if string.find(scenarioName, "shag") or string.find(scenarioName, "dance") then
+							--TriggerEvent("usa:playAnimation", scenarios[i].animname, scenarios[i].dict, false, 6.5, true, flag)
+							--TriggerEvent("usa:playAnimation", scenarios[i].dict, scenarios[i].animname, 5, 1, 1000, 7, 0, 0, 0, 0)
+							TriggerEvent("usa:playAnimation", scenarios[i].dict, scenarios[i].animname, -8, 1, -1, 7, 0, 0, 0, 0)
+							playing_anim = {
+								dict = scenarios[i].dict,
+								name = scenarios[i].animname,
+								flag = 7
+							}
+						elseif string.find(scenarioName, "cpr") or string.find(scenarioName, "salute") or string.find(scenarioName, "airplane") or string.find(scenarioName, "cross arms") or string.find(scenarioName, "typing") or string.find(scenarioName, "gang 1") or string.find(scenarioName, "gang 2") then
+							--TriggerEvent("usa:playAnimation", scenarios[i].animname, scenarios[i].dict, false, 6.5, true)
+							--TriggerEvent("usa:playAnimation", scenarios[i].dict, scenarios[i].animname, 5, 1, 1000, 31, 0, 0, 0, 0)
+							TriggerEvent("usa:playAnimation", scenarios[i].dict, scenarios[i].animname, -8, 1, -1, 53, 0, 0, 0, 0)
+							playing_anim = {
+								dict = scenarios[i].dict,
+								name = scenarios[i].animname,
+								flag = 53
+							}
+						elseif string.find(scenarioName, "notepad") then
+							-----------------------------
+							-- give notepad object --
+							-----------------------------
+							GivePedObject(left_hand, "prop_notepad_01")
+							---------------------------
+							-- play notepad anim --
+							---------------------------
+							TriggerEvent("usa:playAnimation", scenarios[i].dict, scenarios[i].animname, -8, 1, -1, 53, 0, 0, 0, 0)
+							playing_anim = {
+								dict = scenarios[i].dict,
+								name = scenarios[i].animname,
+								flag = 53
+							}
+						elseif string.find(scenarioName, "smoke") then
+							-------------------------------
+							-- give cigarrette object --
+							-------------------------------
+							GivePedObject(right_hand, "prop_cs_ciggy_01", 0.05, 0.00, 0.02, -270.0, 90.0, 0.0)
+							-----------------------------
+							-- play smoking anim --
+							-----------------------------
+							TriggerEvent("usa:playAnimation", scenarios[i].dict, scenarios[i].animname, -8, 1, -1, 53, 0, 0, 0, 0)
+							playing_anim = {
+								dict = scenarios[i].dict,
+								name = scenarios[i].animname,
+								flag = 53
+							}
+						else
+							TriggerEvent("usa:playAnimation", scenarios[i].dict, scenarios[i].animname, -8, 1, -1, 53, 0, 0, 0, 0, 4)
+							if scenarios[i].cancelTime then
+								Wait(scenarios[i].cancelTime * 1000)
+								ClearPedTasksImmediately(GetPlayerPed(-1))
 							end
-						elseif scenarios[i].type =="cancel" then
-							playing_scenario = false
-							playing_anim = nil
-							ClearPedTasksImmediately(GetPlayerPed(-1))
 						end
+					elseif scenarios[i].type =="cancel" then
+						playing_scenario = false
+						playing_anim = nil
+						ClearPedTasksImmediately(GetPlayerPed(-1))
 					end
 				end
 			end
-		else
-			exports.globals:notify("Can't play emote when lockpicking!")
 		end
+	else
+		exports.globals:notify("Can't play emote when lockpicking!")
+	end
+end)
+
+RegisterNetEvent("interaction:cancelAnimation")
+AddEventHandler("interaction:cancelAnimation", function()
+  playing_scenario = false
+  playing_anim = nil
+  ClearPedTasksImmediately(PlayerPedId())
 end)
 
 RegisterNetEvent("drugs:use") -- see usa_drugEffects
@@ -1226,6 +1233,8 @@ function interactionMenuUse(index, itemName, wholeItem)
 		TriggerServerEvent('usa_lottery:checkticketnumber')
 	elseif itemName == "Tint Meter" then
 		TriggerEvent("usa_police:checkwindowtint")
+	elseif itemName == "Battering Ram" then
+		TriggerServerEvent("doormanager:BatteringRam", GetEntityCoords(PlayerPedId()))
 	else
 		TriggerEvent("interaction:notify", "There is no use action for that item!")
 	end

@@ -13,6 +13,8 @@ local NEARBY_DISTANCE = 500
 
 local CLIENT_UPDATE_INTERVAL = 10
 
+local PROPERTY_TRANSFER_TIMEOUT_HOURS = 48
+
 local peopleAccessingProperties = {}
 
 local recentlyChangedPlates = {}
@@ -474,6 +476,30 @@ AddEventHandler("properties:retrieveVehicle", function(property_name, vehicle) -
   end)
 end)
 
+function InitDoors()
+  local doors = {}
+  for k,v in pairs(PROPERTIES) do
+    if v.doors ~= nil then
+      for index,door in ipairs(v.doors) do
+        if v.owner.name == nil then
+          door.locked = false
+        end
+        table.insert(doors, door)
+      end
+    end
+  end
+  exports["usa_doormanager"]:SetPropertyDoors(doors)
+end
+
+function AddDoorToDoormanager(door)
+  exports["usa_doormanager"]:AddPropertyDoor(door)
+end
+
+function RemoveDoorToDoormanager(doorName)
+  exports["usa_doormanager"]:RemovePropertyDoor(doorName)
+end
+
+
 -----------------------------
 -- LOAD PROPERTIES FROM DB --
 -----------------------------
@@ -502,12 +528,29 @@ function loadProperties()
 			print("finished loading properties...")
 			print("checking for owners to evict...")
 			Evict_Owners()
+      InitDoors()
 		end
 	end, "GET", "", { ["Content-Type"] = 'application/json', ['Authorization'] = "Basic " .. exports["essentialmode"]:getAuth() })
 end
 
 -- PERFORM FIRST TIME DB CHECK --
 exports["globals"]:PerformDBCheck("usa-properties", "properties", loadProperties)
+
+--------------------------------
+-- Set will_leave               --
+--------------------------------
+
+RegisterServerEvent("properties:willLeave")
+AddEventHandler("properties:willLeave", function(name, willLeave)
+  local sourceIdent = exports["usa-characters"]:GetCharacter(source).get("_id")
+  local ownerIdent = PROPERTIES[name].owner.identifier
+  if sourceIdent == ownerIdent then
+    PROPERTIES[name].will_leave = willLeave
+    print(name.." set will leave to ".. tostring(willLeave))
+    -- save property --
+    SavePropertyData(name)
+  end
+end)
 
 --------------------------------
 -- ADD MONEY (from purchases) --
@@ -588,6 +631,13 @@ AddEventHandler("properties:purchaseProperty", function(property)
 			PROPERTIES[property.name].owner.name = char_name
 			PROPERTIES[property.name].owner.purchase_date = os.date("%x", os.time())
 			PROPERTIES[property.name].owner.identifier = player.get("_id")
+      if PROPERTIES[property.name].doors == nil then
+        PROPERTIES[property.name].doors = {}
+      end
+      for i,v in ipairs(PROPERTIES[property.name].doors) do
+        v.locked = true
+        exports["usa_doormanager"]:toggleDoorLockByName(v.name, true)
+      end
 			-- update all clients property info --
             local PROPERTY_FOR_CLIENT = { -- only give client needed information for each property for performance reasons
                 name = property.name,
@@ -600,7 +650,8 @@ AddEventHandler("properties:purchaseProperty", function(property)
                 z = PROPERTIES[property.name].z,
                 garage_coords = PROPERTIES[property.name].garage_coords,
                 owner = PROPERTIES[property.name].owner,
-                type = PROPERTIES[property.name].type
+                type = PROPERTIES[property.name].type,
+                will_leave = PROPERTIES[property.name].will_leave
             }
 			TriggerClientEvent("properties:update", -1, PROPERTY_FOR_CLIENT, true)
 			-- subtract money --
@@ -676,6 +727,75 @@ AddEventHandler("properties:addCoOwner", function(property_name, id)
     TriggerClientEvent("usa:notify", source, coowner.name .. " has been successfully added!")
   else
     TriggerClientEvent("usa:notify", source, "Person does not exist!")
+  end
+end)
+
+RegisterServerEvent("properties:changeOwner")
+AddEventHandler("properties:changeOwner", function(property_name, id)
+  local sourceIdent = exports["usa-characters"]:GetCharacter(source).get("_id")
+  local oldOwnerIdent = PROPERTIES[property_name].owner.identifier
+  if sourceIdent == oldOwnerIdent then
+    if source ~= id then
+      if GetPlayerName(id) then
+        -- create person --
+        local person = exports["usa-characters"]:GetCharacter(id)
+        if GetNumberOfOwnedProperties(person.get("_id")) < MAX_NUM_OF_PROPERTIES_SINGLE_PERSON then
+          if PROPERTIES[property_name].lastTransfer == nil then
+            PROPERTIES[property_name].lastTransfer = 0
+          end
+          if os.time() - tonumber(PROPERTIES[property_name].lastTransfer) > PROPERTY_TRANSFER_TIMEOUT_HOURS * 3600 then
+            local new_owner = {
+              name = person.getFullName(),
+              purchase_date = PROPERTIES[property_name].owner.purchase_date,
+              identifier = person.get("_id")
+            }
+            local oldOwner = PROPERTIES[property_name].owner.name
+            PROPERTIES[property_name].owner = new_owner
+            PROPERTIES[property_name].lastTransfer = os.time()
+            -- save --
+            SavePropertyData(property_name)
+            -- update all clients --
+            TriggerClientEvent("properties:update", -1, PROPERTIES[property_name])
+            -- add blip for co owner --
+            TriggerClientEvent("properties:setPropertyBlips", id, GetOwnedPropertyCoords(new_owner.identifier, true))
+            TriggerClientEvent("properties:setPropertyBlips", source, GetOwnedPropertyCoords(exports["usa-characters"]:GetCharacter(source).get("_id"), true))
+            -- notify --
+            TriggerClientEvent("usa:notify", source, "The property has been transfered to "..new_owner.name)
+            TriggerClientEvent("usa:notify", id, property_name .. " has been transfered into your ownership!")
+
+            local desc = "**Property Transfer**:\n\n**Property:** " .. property_name .. "\n**Old Owner:** " .. oldOwner .. "\n**New Owner:** ".. new_owner.name
+            local url = GetConvar("property-log-webhook", "")
+            PerformHttpRequest(url, function(err, text, headers)
+              if text then
+                print(text)
+              end
+            end, "POST", json.encode({
+              embeds = {
+                {
+                  description = desc,
+                  color = 524288,
+                  author = {
+                    name = "SAN ANDREAS PROPERTY MGMT"
+                  }
+                }
+              }
+            }), { ["Content-Type"] = 'application/json' })
+          else
+            local timeSinceTrans = (os.time() - PROPERTIES[property_name].lastTransfer)/3600
+            timeSinceTrans = exports["globals"]:round(timeSinceTrans, 1)
+            TriggerClientEvent("usa:notify", source,"This property was transfered " .. timeSinceTrans .. " hours ago, there is a limit of 48 hours between transfers!")
+          end
+        else
+          TriggerClientEvent("usa:notify", source,"This person has too many properties already!")
+        end
+      else
+        TriggerClientEvent("usa:notify", source, "Person does not exist!")
+      end
+    else
+      TriggerClientEvent("usa:notify", source, "You cant transfer a house to yourself!")
+    end
+  else
+    TriggerClientEvent("usa:notify", source, "That is not your house!")
   end
 end)
 
@@ -854,34 +974,41 @@ function Evict_Owners()
       end
       if GetWholeDaysFromTime(info.fee.paid_time) >= max_ownable_days then
         if info.type == "house" then
-          if info.storage.money >= info.fee.price then
-            print("** Money from property (" .. name .. ") storage was used to pay for a month of rent. **")
-            PROPERTIES[name].storage.money = PROPERTIES[name].storage.money - info.fee.price
-            PROPERTIES[name].fee.paid_time = os.time()
-            PROPERTIES[name].fee.paid = true
-            local final_time = nil
-            local today = os.date("*t", os.time())
-            PROPERTIES[name].fee.due_days = HOUSE_PAY_PERIOD_DAYS
-            final_time = {day = today.day, month = today.month + 1, year = today.year}
-            local endtime = os.time(final_time)
-            PROPERTIES[name].fee.due_time = endtime
-            PROPERTIES[name].fee.end_date = os.date("%x", endtime)
-            SavePropertyData(name)
+          local ownerPlayer = exports["essentialmode"]:getDocument("characters", PROPERTIES[name].owner.identifier)
+          if type(ownerPlayer) ~= "boolean" then
+            if ownerPlayer.bank >= info.fee.price and not info.will_leave then
+              print("** Money from bank of (" .. ownerPlayer.name.first .. " " .. ownerPlayer.name.last .. ") was used to pay for a month of rent. **")
+              ownerPlayer.bank = ownerPlayer.bank - info.fee.price
+              exports["essentialmode"]:updateDocument("characters", PROPERTIES[name].owner.identifier, ownerPlayer, true)
+              PROPERTIES[name].fee.paid_time = os.time()
+              PROPERTIES[name].fee.paid = true
+              local final_time = nil
+              local today = os.date("*t", os.time())
+              PROPERTIES[name].fee.due_days = HOUSE_PAY_PERIOD_DAYS
+              final_time = {day = today.day, month = (today.month + 1) % 12, year = today.year}
+              local endtime = os.time(final_time)
+              PROPERTIES[name].fee.due_time = endtime
+              PROPERTIES[name].fee.end_date = os.date("%x", endtime)
+              SavePropertyData(name)
+            else
+              print("***Not enough money or choosing not to stay, evicting owner of the " .. name .. " today, owner identifier: " .. PROPERTIES[name].owner.identifier .. "***")
+              -- remove property owner information, make available for purchase --
+              PROPERTIES[name].fee.end_date = 0
+              PROPERTIES[name].fee.due_days = 0
+              PROPERTIES[name].fee.paid_time = 0
+              PROPERTIES[name].fee.paid = 0
+              PROPERTIES[name].will_leave = false
+              PROPERTIES[name].owner.name = nil
+              PROPERTIES[name].owner.purchase_date = 0
+              PROPERTIES[name].owner.identifier = "undefined"
+              PROPERTIES[name].coowners = {}
+              --PROPERTIES[name].storage.money = 0
+              --PROPERTIES[name].storage.items = {}
+              -- save property --
+              SavePropertyData(name)
+            end
           else
-            print("***Not enough money, evicting owner of the " .. name .. " today, owner identifier: " .. PROPERTIES[name].owner.identifier .. "***")
-            -- remove property owner information, make available for purchase --
-            PROPERTIES[name].fee.end_date = 0
-            PROPERTIES[name].fee.due_days = 0
-            PROPERTIES[name].fee.paid_time = 0
-            PROPERTIES[name].fee.paid = 0
-            PROPERTIES[name].owner.name = nil
-            PROPERTIES[name].owner.purchase_date = 0
-            PROPERTIES[name].owner.identifier = "undefined"
-            PROPERTIES[name].coowners = {}
-            --PROPERTIES[name].storage.money = 0
-            --PROPERTIES[name].storage.items = {}
-            -- save property --
-            SavePropertyData(name)
+            print("noone owns this house")
           end
         else
           print("***Evicting owner of the " .. name .. " business today, owner identifier: " .. PROPERTIES[name].owner.identifier .. "***")
@@ -940,96 +1067,244 @@ end, {
 })
 --]]
 
---TriggerEvent('es:addCommand','addproperty', function(source, args, user)
 TriggerEvent('es:addGroupCommand', 'addproperty', "mod", function(source, args, char)
-  local usource = source
-  local user = exports["essentialmode"]:getPlayerFromId(usource)
-  print("inside /addproperty command!")
-  -- usage: /addproperty [door X] [door Y] [door Z] [garage X] [garage Y] [garage Z] [price] [name]
-  local price = tonumber(args[8])
-  local coords = {
-    door = {
-      x = tonumber(args[2]),
-      y = tonumber(args[3]),
-      z = tonumber(args[4])
-    },
-    garage = {
-      x = tonumber(args[5]),
-      y = tonumber(args[6]),
-      z = tonumber(args[7])
-    }
-  }
-  table.remove(args, 1)
-  table.remove(args, 1)
-  table.remove(args, 1)
-  table.remove(args, 1)
-  table.remove(args, 1)
-  table.remove(args, 1)
-  table.remove(args, 1)
-  table.remove(args, 1)
-  local name = table.concat(args, " ")
-  local new_property = {
-    owner = {
-      name = null,
-      purchase_date = 0,
-      identifier = "undefined"
-    },
-    type = "house",
-    name = name,
-    fee = {
-      price =  price,
-      paid_time = 0,
-      due_time = 0,
-      paid =  false,
-      end_date = 0,
-      due_days = 0
-      },
-    y = coords.door.y,
-    x = coords.door.x,
-    z = coords.door.z,
-    storage =  {
-      money = 0,
-      items = {}
-    },
-      garage_coords = {
-      x = coords.garage.x,
-      y = coords.garage.y,
-      z = coords.garage.z,
-      heading = 214.7
-      },
-    vehicles = {},
-    wardrobe = {},
-    coowners = {}
-  }
-  if name and price and coords.door.x and coords.garage.x then
-    -- add to db --
-    TriggerEvent('es:exposeDBFunctions', function(GetDoc)
-      -- insert into db
-      GetDoc.createDocument("properties", new_property, function(docID)
-        -- notify:
-        print("**Property [" .. name .. "] added successfully! Make sure the circles are there!**")
-        TriggerClientEvent("usa:notify", usource, "Property [" .. name .. "] added successfully! Make sure the circles are there!")
-        -- update server --
-        new_property._id = docID
-        PROPERTIES[name] = new_property
-      end)
-    end)
-  else
-    TriggerClientEvent("usa:notify", usource, "Invalid command format! Usage: /addproperty [door X] [door Y] [door Z] [garage X] [garage Y] [garage Z] [price] [name]")
-  end
+
+  TriggerClientEvent("properties:startAddNewProperty", source)
+
 end, {
-	help = "Add a new residential property",
+  help = "Add a new residential property",
+    params = {}
+})
+
+TriggerEvent('es:addGroupCommand', 'editproperty', "mod", function(source, args, char)
+
+  TriggerClientEvent("properties:startEditProperty", source, args[2])
+
+end, {
+  help = "Edit a residential property",
     params = {
-        { name = "Circle X", help = "Main circle X coordinate" },
-        { name = "Circle Y", help = "Main circle Y coordinate" },
-        { name = "Circle Z", help = "Main circle Z coordinate" },
-        { name = "Garage X", help = "Garage circle X coordinate" },
-        { name = "Garage Y", help = "Garage circle Y coordinate" },
-        { name = "Garage Z", help = "Garage circle Z coordinate" },
-        { name = "Price", help = "Price of house (ex: 40000). NO COMMAS OR DOLLAR SIGN!" },
-        { name = "Name", help = "The name of the property" }
+        { name = "Edit Parameter", help = "What to edit {door, garage, name, price}" },
     }
 })
+
+TriggerEvent('es:addGroupCommand', 'addpropertydoor', "mod", function(source, args, char)
+
+  TriggerClientEvent("properties:startAddDoor", source)
+
+end, {
+  help = "Add Door to Property",
+    params = {
+    }
+})
+
+RegisterServerEvent("properties:AddDoor")
+AddEventHandler("properties:AddDoor", function(name, hash, coords, heading, offset)
+  local group = exports["essentialmode"]:getPlayerFromId(source).getGroup()
+  if group == "owner" or group == "superadmin" or group == "admin" or group == "mod" then
+    if PROPERTIES[name] ~= nil then
+      if PROPERTIES[name].doors == nil then
+        PROPERTIES[name].doors = {}
+      end
+      local door_id = ""
+      local array = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"}
+      for i=1,8 do
+        local random = math.random(#array)
+        door_id = door_id .. array[random]
+      end
+      local doorName = name:gsub("%s+", "").."Door"..door_id
+      if string.sub(hash, 1, 1) == "-" then
+          hash = tonumber(string.sub(hash, 2, string.len(hash)))
+          hash = hash * -1
+      else
+          hash = tonumber(hash)
+      end
+      local locked = true
+      if PROPERTIES[name].owner.name == nil then
+        locked = false
+      end
+      local door = {
+        name = doorName,
+        x = coords.x,
+        y = coords.y,
+        z = coords.z,
+        model = hash,
+        locked = locked,
+        offset = {offset.y, offset.x * -1, offset.z}, -- yes y is the first one dunno why but thats how doormanager works
+        heading = heading,
+        _dist = 1.5,
+        property = true,
+        property_name = name
+      }
+      table.insert(PROPERTIES[name].doors, door)
+      AddDoorToDoormanager(door)
+      SavePropertyData(name)
+    else
+      TriggerClientEvent("usa:notify", source, "Property Does not exist!")
+    end
+  end
+end)
+
+TriggerEvent('es:addGroupCommand', 'removepropertydoor', "mod", function(source, args, char)
+
+  TriggerClientEvent("properties:startRemDoor", source)
+
+end, {
+  help = "Remove Door from Property",
+    params = {
+    }
+})
+
+RegisterServerEvent("properties:RemDoor")
+AddEventHandler("properties:RemDoor", function(coords)
+  local group = exports["essentialmode"]:getPlayerFromId(source).getGroup()
+  if group == "owner" or group == "superadmin" or group == "admin" or group == "mod" then
+    local FoundName = nil
+    for name,property in pairs(PROPERTIES) do
+      if property.doors ~= nil then
+        for i,door in ipairs(property.doors) do
+          if #(vector3(door.x,door.y,door.z) - coords) < 1.0 then
+            TriggerClientEvent("doormanager:setRemovingDoor", -1, true)
+            exports["usa_doormanager"]:toggleDoorLockByName(door.name, false)
+            local doorName = door.name
+            FoundName = door.property_name
+            table.remove(property.doors, i)
+            RemoveDoorToDoormanager(doorName)
+            SavePropertyData(FoundName)
+            TriggerClientEvent("doormanager:setRemovingDoor", -1, false)
+          end
+        end
+      end
+    end
+
+    if FoundName == nil then
+      TriggerClientEvent("usa:notify", source, "The selected object is not a property door")
+    end
+  end
+end)
+
+RegisterServerEvent("properties:editProperty")
+AddEventHandler("properties:editProperty", function(arg, value, name)
+  local group = exports["essentialmode"]:getPlayerFromId(source).getGroup()
+  if group == "owner" or group == "superadmin" or group == "admin" or group == "mod" then
+    local usource = source
+    local name_already_exists = false
+    if arg == "name" then
+      for property_name,info in pairs(PROPERTIES) do
+        if value == property_name then
+          name_already_exists = true
+        end
+      end
+    end
+    if name_already_exists then
+      TriggerClientEvent("usa:notify", usource, "A property with name already exists")
+    else
+      local property_to_edit = PROPERTIES[name]
+      PROPERTIES[name] = nil
+      if arg == "door" then
+        property_to_edit.x = value.x
+        property_to_edit.y = value.y
+        property_to_edit.z = value.z
+      elseif arg == "garage" then
+        property_to_edit.garage_coords.x = value.x
+        property_to_edit.garage_coords.y = value.y
+        property_to_edit.garage_coords.z = value.z
+      elseif arg == "name" then
+          name = value
+          property_to_edit.name = value
+      elseif arg == "price" then
+        property_to_edit.fee.price = value
+      end
+      TriggerEvent('es:exposeDBFunctions', function(db) -- this has to be exposeDBFunctions to allow the waiting until the update is done until the next bit is executed
+        db.updateDocument("properties", property_to_edit._id, property_to_edit, function()
+            local doc = exports.essentialmode:getDocument("properties", property_to_edit._id)
+            property_to_edit._rev = doc._rev
+            PROPERTIES[name] = property_to_edit
+
+            exports["usa-characters"]:GetCharacters(function(serverChars)
+            local owners = {}
+            for k,v in pairs(serverChars) do
+              if v.get("_id") == PROPERTIES[name].owner.identifier then
+                table.insert(owners, {id = v.get("source"), ident = v.get("_id")}) 
+              end
+              for i,coowner in ipairs(PROPERTIES[name].coowners) do
+                if v.get("_id") == coowner.identifier then
+                  table.insert(owners, {id = v.get("source"), ident = v.get("_id")})
+                end
+              end
+            end
+            for i,v in ipairs(owners) do
+              TriggerClientEvent("properties:setPropertyBlips", tonumber(v.id), GetOwnedPropertyCoords(v.ident, true))
+            end
+          end)
+        end)
+      end)
+    end
+  end
+end)
+
+RegisterServerEvent("properties:addNewProperty")
+AddEventHandler("properties:addNewProperty", function(pLoc, gLoc, name, price)
+  local group = exports["essentialmode"]:getPlayerFromId(source).getGroup()
+  if group == "owner" or group == "superadmin" or group == "admin" or group == "mod" then
+    local usource = source
+    local name_already_exists = false
+    for property_name,info in pairs(PROPERTIES) do
+      if name == property_name then
+        name_already_exists = true
+      end
+    end
+    if not name_already_exists then
+      local new_property = {
+        owner = {
+          name = null,
+          purchase_date = 0,
+          identifier = "undefined"
+        },
+        type = "house",
+        name = name,
+        will_leave = false,
+        fee = {
+          price =  price,
+          paid_time = 0,
+          due_time = 0,
+          paid =  false,
+          end_date = 0,
+          due_days = 0,
+        },
+        y = pLoc.y,
+        x = pLoc.x,
+        z = pLoc.z,
+        storage =  {
+          money = 0,
+          items = {}
+        },
+        garage_coords = {
+          x = gLoc.x,
+          y = gLoc.y,
+          z = gLoc.z,
+          heading = 214.7
+        },
+        vehicles = {},
+        wardrobe = {},
+        coowners = {}
+      }
+      -- add to db --
+      TriggerEvent('es:exposeDBFunctions', function(GetDoc)
+        -- insert into db
+        GetDoc.createDocument("properties", new_property, function(docID)
+          -- notify:
+          print("**Property [" .. name .. "] added successfully! Make sure the circles are there!**")
+          TriggerClientEvent("usa:notify", usource, "Property [" .. name .. "] added successfully! Make sure the circles are there!")
+          -- update server --
+          new_property._id = docID
+          PROPERTIES[name] = new_property
+        end)
+      end)
+    else
+      TriggerClientEvent("usa:notify", usource, "A property with name already exists")
+    end
+  end
+end)
 
 -- To add business properties --
 TriggerEvent('es:addGroupCommand', 'addbusinessproperty', 'admin', function(source, args, char)
@@ -1106,9 +1381,8 @@ end, {
 
 AddEventHandler('rconCommand', function(commandName, args)
 	if commandName == "refreshproperties" then
-		--loadProperties(function(status)
-			--if status then 
-        exports["usa-characters"]:GetCharacters(function(players)
+		loadProperties()
+    exports["usa-characters"]:GetCharacters(function(players)
           for id, player in pairs(players) do
             if id and player then
               local newIdent = player.get("_id")
@@ -1119,8 +1393,6 @@ AddEventHandler('rconCommand', function(commandName, args)
 						end
 					end
         end)
-			--end
-		--end)
 
 	elseif commandName == "properties" then
         -- TODO: pass in property name as argument and only display its data instead of all properties
@@ -1346,6 +1618,7 @@ function TrimPropertyTableForClient(propertyInfo)
   toSendInfo.coowners = propertyInfo.coowners
   toSendInfo.fee = propertyInfo.fee
   toSendInfo.type = propertyInfo.type
+  toSendInfo.will_leave = propertyInfo.will_leave
   return toSendInfo
 end
 

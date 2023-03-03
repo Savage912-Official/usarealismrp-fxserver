@@ -198,11 +198,12 @@ function EmoteCommandStart(source, args)
   if #args > 0 then
     local name = string.lower(args[1])
     if name == "c" then
-        if IsInAnimation then
-            EmoteCancel()
-        else
-            EmoteChatMessage(Config.Languages[lang]['nocancel'])
-        end
+      if not IsPedInAnyVehicle(PlayerPedId()) then
+        TriggerEvent("interaction:cancelAnimation")
+      end
+      if IsInAnimation then
+        EmoteCancel()
+      end
       return
     elseif name == "help" then
       EmotesOnCommand()

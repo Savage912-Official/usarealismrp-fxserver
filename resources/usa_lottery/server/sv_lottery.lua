@@ -23,12 +23,12 @@ RegisterNetEvent("usa_lottery:choosewinner", function()
     local result = MySQL.query.await('SELECT * FROM lotterytotal where lotto = ?', {check})
     local govAmount = Config.Gov_Percentage * result[1].total
     local restAmount = result[1].total - govAmount
-    local previoustotal = result[1].total - govAmount
     -- etc...
     local reset = 1
     local fundAccount = Config.GovAccounts[math.random(1, #Config.GovAccounts)]
     MySQL.Async.execute("UPDATE lotterytotal SET winner = '"..winningticket.."'")
-    MySQL.Async.execute("UPDATE lotterytotal SET previoustotal = '"..previoustotal.."'")
+    MySQL.Async.execute("UPDATE lotterytotal SET previoustotal = '"..restAmount.."'")
+    MySQL.Async.execute("UPDATE lotterytotal SET previouswinnernum = '"..winningticket.."'")
     TriggerClientEvent("chatMessage", -1, "[^2Los Santos Lottery^0] Lottery winner has been chosen! Winning Number: " .. winningticket .. "\n Head over to Life Invader to claim your winnings.")
 
     GetCurrentBalance(fundAccount, function(bal)
@@ -159,9 +159,10 @@ RegisterServerCallback {
         local check = 'placeholder'
         local result = MySQL.query.await('SELECT * FROM lotterytotal where lotto = ?', {check})
         local previouswinner = result[1].previouswinner
+        local previouswinnernum = result[1].previouswinnernum
 
-        if previouswinner ~= nil then
-            return previouswinner
+        if previouswinner ~= nil and previouswinnernum ~= nil then
+            return previouswinner .. "   Winning Number: " .. previouswinnernum
         else
             return "Not Available"
         end

@@ -118,6 +118,7 @@ supportedVehicles = {
     { name = "Truffade Nero (Custom)", model = "nero2", class = "X" },
     { name = "Truffade Thrax", model = "thrax", class = "X" },
     { name = "Benefactor LM87", model = "lm87", class = "X" },
+    { name = "Overflod Entity MT", model = "entity3", class = "X" },
     -- CUSTOM- X Class:
     { name = "2011 Bugatti Veyron Super Sport", model = "supersport", class = "X" },
     { name = "2017 Koenigsegg Agera RS", model = "agerars", class = "X" },
@@ -176,6 +177,7 @@ supportedVehicles = {
     { name = "Obey 10F", model = "tenf", class = "S" },
     { name = "Obey 10F Widebody", model = "tenf2", class = "S" },
     { name = "Pegassi Torero XO", model = "torero2", class = "S" },
+    { name = "Karin Hotring Everon", model = "everon2", class = "S" },
     -- CUSTOM- S Class:
     { name = "1999 Lamborghini Diablo GTR", model = "500gtrlam", class = "S" },
     { name = "Mclaren 600LT", model = "600lt", class = "S" },
@@ -303,6 +305,10 @@ supportedVehicles = {
     { name = "Ocelot Lynx", model = "lynx", class = "A" },
     { name = "Maibatsu Penumbra FF", model = "penumbra2", class = "A" },
     { name = "Obey 8F Drafter", model = "drafter", class = "A" },
+    { name = "Toundra Panthere", model = "panthere", class = "A" },
+    { name = "Annis 300R", model = "r300", class = "A" },
+    { name = "Declasse Tahoma Coupe", model = "tahoma", class = "A" },
+    { name = "Declasse Tulip M-100", model = "tulip2", class = "A" },
     -- CUSTOM- A Class:
     { name = "Dodge Challenger", model = "16challenger", class = "A" },
     { name = "2016 Dodge Charger", model = "16charger", class = "A" },
@@ -477,6 +483,7 @@ supportedVehicles = {
     { name = "Vapid Retinue", model = "retinue", class = "B" },
     { name = "Vapid Retinue MkII", model = "retinue2", class = "B" },
     { name = "Maxwell Vagrant", model = "vagrant", class = "B" },
+    { name = "Weeny Issi Sport", model = "issi8", class = "B" },
     -- CUSTOM- B Class:
     { name = "Toyota 4Runner", model = "4runner", class = "B" },
     { name = "2019 Mercedes-Benz S650 Maybach", model = "19S650", class = "B" },
@@ -638,6 +645,9 @@ supportedVehicles = {
     { name = "Dundreary Landstalker XL", model = "landstlkr2", class = "C" },
     { name = "Coil Brawler HOA", model = "hoabrawler", class = "C" },
     { name = "Canis Freecrawler", model = "freecrawler", class = "C" },
+    { name = "Karin Boor", model = "boor", class = "C" },
+    { name = "Classique Broadway", model = "broadway", class = "C" },
+    { name = "Bravado", model = "eudora", class = "C" },
     -- CUSTOM- C Class:
     { name = "1996 Chevrolet Impala SS", model = "impala", class = "C" },
     { name = "1959 Chevrolet Impala", model = "impala59c", class = "C" },
@@ -689,6 +699,7 @@ supportedVehicles = {
     { name = "Vapid Sandking XL", model = "sandking", class = "D" },
     { name = "BF Surfer", model = "surfer", class = "D" },
     { name = "BF Surfer Kona", model = "surfer2", class = "D" },
+    { name = "BF Surfer Custom", model = "surfer3", class = "D" },
     { name = "Albany Hermes", model = "hermes", class = "D" },
     { name = "Albany Virgo Custom", model = "virgo2", class = "D" },
     { name = "Albany Virgo Classic", model = "virgo3", class = "D" },
@@ -702,6 +713,7 @@ supportedVehicles = {
     { name = "Declasse Tornado Custom", model = "tornado5", class = "D" },
     { name = "Lampadati Pigalle", model = "pigalle", class = "D" },
     { name = "Zirconium Journey", model = "journey", class = "D" },
+    { name = "Zirconium Journey II", model = "journey2", class = "D" },
     { name = "Bravado Youga Classic", model = "youga2", class = "D" },
     { name = "BF Weevil", model = "weevil", class = "D" },
     { name = "Chillybin", model = "chillybin", class = "D" },

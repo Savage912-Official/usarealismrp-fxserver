@@ -11,6 +11,7 @@ CREATE TABLE IF NOT EXISTS `lotterytotal` (
   `winner` int(4) DEFAULT NULL,
   `previoustotal` int(4) DEFAULT NULL,
   `previouswinner` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL
+  `previouswinnernum` int(4) DEFAULT NULL,
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 INSERT INTO `lotterytotal` (`lotto`, `total`, `day`, `winner`) VALUES

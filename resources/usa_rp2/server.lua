@@ -38,6 +38,8 @@ local civSkins = {
 		"A_F_M_Tramp_01"
 }
 
+local MECHS_ON_TO_BLOCK_IMPOUND_CMD = nil
+
 AddEventHandler('es:playerLoaded', function(source, user)
 	if GetPlayerName(source) then
 		print("Player " .. GetPlayerName(source) .. " has loaded.")
@@ -237,7 +239,7 @@ AddEventHandler("usa:loadPlayerComponents", function(id)
 end)
 
 TriggerEvent('es:addJobCommand', 'impound', { "sheriff", "ems", "corrections" }, function(source, args, char)
-	if exports["usa-characters"]:GetNumCharactersWithJob("mechanic") < 5 then
+	if MECHS_ON_TO_BLOCK_IMPOUND_CMD == nil or exports["usa-characters"]:GetNumCharactersWithJob("mechanic") < MECHS_ON_TO_BLOCK_IMPOUND_CMD then
 		local msg = "Calls for State Tow"
 		TriggerEvent('display:shareDisplayBySource', source, msg, 5, 370, 10, 8000, true)
 		TriggerClientEvent('impoundVehicle', source)

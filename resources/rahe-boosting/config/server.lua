@@ -360,6 +360,8 @@ supportedVehicles = {
     { name = "Obey 10F", model = "tenf", class = "S" },
     { name = "Obey 10F Widebody", model = "tenf2", class = "S" },
     { name = "Pegassi Torero XO", model = "torero2", class = "S" },
+    { name = "Karin Hotring Everon", model = "everon2", class = "S" },
+    { name = "Ocelot Virtue", model = "virtue", class = "S" },
     -- Custom S Class
     { name = "1999 Lamborghini Diablo GTR", model = "500gtrlam", class = "S" },
     { name = "Mclaren 600LT", model = "600lt", class = "S" },
@@ -467,6 +469,10 @@ supportedVehicles = {
     { name = "Bravado Gauntlet", model = "gauntlet", class = "A" },
     { name = "Bravado Gauntlet Hellfire", model = "gauntlet4", class = "A" },
     { name = "Declasse Vigero ZX", model = "vigero2", class = "A" },
+    { name = "Toundra Panthere", model = "panthere", class = "A" },
+    { name = "Annis 300R", model = "r300", class = "A" },
+    { name = "Declasse Tahoma Coupe", model = "tahoma", class = "A" },
+    { name = "Declasse Tulip M-100", model = "tulip2", class = "A" },
     -- Custom A Class
     { name = "Dodge Challenger", model = "16challenger", class = "A" },
     { name = "2016 Dodge Charger", model = "16charger", class = "A" },
@@ -575,7 +581,7 @@ supportedVehicles = {
     { name = "Rhinehart", model = "rhinehart", class = "B" },
     { name = "Imponte Ruiner ZZ-8", model = "ruiner4", class = "B" },
     { name = "Ubermacht Sentinel Classic Widebody", model = "sentinel4", class = "B" },
-
+    { name = "Weeny Issi Sport", model = "issi8", class = "B" },
     -- Custom B Class
     { name = "Toyota 4Runner", model = "4runner", class = "B" },
     { name = "2019 Mercedes-Benz S650 Maybach", model = "19S650", class = "B" },
@@ -683,6 +689,9 @@ supportedVehicles = {
     { name = "Dinka Kanjo SJ", model = "kanjosj", class = "C" },
     { name = "Dinka Postlude", model = "postlude", class = "C" },
     { name = "Bravado Greenwood", model = "greenwood", class = "C" },
+    { name = "Karin Boor", model = "boor", class = "C" },
+    { name = "Classique Broadway", model = "broadway", class = "C" },
+    { name = "Bravado", model = "eudora", class = "C" },
     -- Custom C Class
     { name = "1996 Chevrolet Impala SS", model = "impala", class = "C" },
     { name = "1959 Chevrolet Impala", model = "impala59c", class = "C" },
@@ -723,6 +732,7 @@ supportedVehicles = {
     -- Vintage D Class
     { name = "BF Surfer", model = "surfer", class = "D" },
     { name = "BF Surfer Kona", model = "surfer2", class = "D" },
+    { name = "BF Surfer Custom", model = "surfer3", class = "D" },
     { name = "Albany Hermes", model = "hermes", class = "D" },
     { name = "Albany Virgo Custom", model = "virgo2", class = "D" },
     { name = "Albany Virgo Classic", model = "virgo3", class = "D" },
@@ -736,6 +746,7 @@ supportedVehicles = {
     { name = "Declasse Tornado Custom", model = "tornado5", class = "D" },
     { name = "Lampadati Pigalle", model = "pigalle", class = "D" },
     { name = "Zirconium Journey", model = "journey", class = "D" },
+    { name = "Zirconium Journey II", model = "journey2", class = "D" },
     { name = "Bravado Youga Classic", model = "youga2", class = "D" },
     { name = "BF Weevil", model = "weevil", class = "D" },
     -- Custom D Class

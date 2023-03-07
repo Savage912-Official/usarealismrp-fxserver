@@ -17,7 +17,7 @@ if Config.SharedEmotesEnabled then
                 if DP.Shared[emotename] ~= nil then
                     dict, anim, ename = table.unpack(DP.Shared[emotename])
                     TriggerServerEvent("ServerEmoteRequest", GetPlayerServerId(target), emotename)
-                    SimpleNotify(Config.Languages[lang]['sentrequestto']..GetPlayerName(target).." ~w~(~g~"..ename.."~w~)")
+                    SimpleNotify(Config.Languages[lang]['sentrequestto']..GetPlayerServerId(target).." ~w~(~g~"..ename.."~w~)")
                 else
                     EmoteChatMessage("'"..emotename.."' "..Config.Languages[lang]['notvalidsharedemote'].."")
                 end

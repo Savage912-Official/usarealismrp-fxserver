@@ -1538,7 +1538,7 @@ TriggerEvent('es:addGroupCommand', 'giveitem', "owner", function(source, args, c
 	local ammo_12guage = { name = "12 Gauge Shells", type = "ammo", price = 50, weight = 0.5, quantity = 10 }
 	local tearGas = { name = "Tear Gas", type = "weapon", hash = `WEAPON_SMOKEGRENADE`, quantity = 1, weight = 10 }
 	local razorBlade = { name = "Razor Blade", type = "misc", quantity = 1, weight = 5 }
-	local speakerItem = { name = "Speaker", price = 10000, legality = "legal", quantity = 1, type = "misc", weight = 20, objectModel = "sm_prop_smug_speaker" }
+	local speakerItem = { name = "Speaker", price = 10000, legality = "legal", quantity = 1, type = "misc", weight = 20, objectModel = "sm_prop_smug_speaker", doNotAutoRemove = true }
 	local joint = { name = "Joint", type = "drug", weight = 2.0, quantity = 1, objectModel = "prop_sh_joint_01" }
 	local lighter = { name = "Bic Lighter", type = "misc", weight = 2.0, quantity = 1 }
 	local glockParts = { name = "Glock Parts", type = "weaponParts", weight = 15.0, quantity = 1 }

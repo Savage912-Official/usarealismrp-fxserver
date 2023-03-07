@@ -46,7 +46,7 @@ TEBEX_PACKAGE_FUNCTIONS = {
         -- give random item
         local itemPool = {
             {name = "Jack Daniels Whiskey (40%)", price = 80, type = "alcohol", substance = 10.0, quantity = 2, legality = "legal", weight = 12, strength = 0.08, objectModel = "prop_whiskey_bottle"},
-            { name = "Speaker", price = 5000, legality = "legal", quantity = 1, type = "misc", weight = 20, objectModel = "sm_prop_smug_speaker" },
+            { name = "Speaker", price = 5000, legality = "legal", quantity = 1, type = "misc", weight = 20, objectModel = "sm_prop_smug_speaker", doNotAutoRemove = true },
             { name = "Sturdy Rope", price = 100, type = "misc", quantity = 5, legality = "legal", weight = 15, objectModel = "prop_devin_rope_01  "},
             { name = "Beer Pong Kit", price = 300, type = "misc", quantity = 1, legality = "legal", weight = 5, objectModel = "apa_prop_cs_plastic_cup_01"},
             { name = "AK-47 Parts", price = tonumber(tostring(math.random(20, 40)) .. "000"), type = "weaponParts", weight = 45.0, quantity = 1 },

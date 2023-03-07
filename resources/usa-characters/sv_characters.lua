@@ -217,6 +217,7 @@ function InitializeCharacter(src, characterID)
             TriggerClientEvent("es:activateMoney", src, character.get("money")) -- make /cash work
             TriggerEvent("twitter:lastCharCheck", src, character.getFullName()) -- sign out of twitter if playing on different character than their last session
             TriggerEvent("character:loaded", character)
+            TriggerClientEvent("max_trains:loaded", src)
         end)
     end)
 end

@@ -139,8 +139,8 @@ end)
 
 local isPassanger = false
 
-RegisterNetEvent("usa_trains:setExportPassager")
-AddEventHandler("usa_trains:setExportPassager", function(bool)
+RegisterNetEvent("max_trains:setExportPassager")
+AddEventHandler("max_trains:setExportPassager", function(bool)
   isPassanger = bool
 end)
 

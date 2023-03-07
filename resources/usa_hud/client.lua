@@ -86,7 +86,7 @@ Citizen.CreateThread(function()
 		local playerPed = PlayerPedId()
 		local playerVeh = GetVehiclePedIsIn(playerPed, false)
 		if hud.enabled then
-			if playerVeh ~= 0 and GetVehicleClass(playerVeh) ~= 13 then
+			if playerVeh ~= 0 and GetVehicleClass(playerVeh) ~= 13 and GetVehicleClass(playerVeh) ~= 21 then
 				local streets = hud.street1
 				if hud.street2 and hud.street2 ~= "" then
 					streets = streets .. " & " .. hud.street2

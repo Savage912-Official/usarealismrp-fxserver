@@ -241,7 +241,7 @@ end
 
 local isPassanger = false
 
-AddEventHandler("usa_trains:setExportPassager", function(bool)
+AddEventHandler("max_trains:setExportPassager", function(bool)
   isPassanger = bool
 end)
 

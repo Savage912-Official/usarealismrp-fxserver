@@ -1,6 +1,6 @@
 local speakers = {}
 
-local speakerItem = { name = "Speaker", price = 10000, legality = "legal", quantity = 1, type = "misc", weight = 20, objectModel = "sm_prop_smug_speaker" }
+local speakerItem = { name = "Speaker", price = 10000, legality = "legal", quantity = 1, type = "misc", weight = 20, objectModel = "sm_prop_smug_speaker", doNotAutoRemove = true }
 
 RegisterServerEvent("speaker:load")
 AddEventHandler("speaker:load", function()

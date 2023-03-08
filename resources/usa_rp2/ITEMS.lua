@@ -291,6 +291,12 @@ local ITEMS = {
     { name = "Stage 1 Intake", price = 5000, type = "mechanicPart", quantity = 1, weight = 10},
     { name = "Stage 2 Intake", price = 5000, type = "mechanicPart", quantity = 1, weight = 10},
     { name = "Battering Ram", type = "misc", price = 250, weight = 25, quantity = 1 },
+    {name = "Repair Kit",
+    price = 2000,
+    quantity = 1,
+    weight = 10,
+    type = "misc",
+    notStackable = true}
 }
 
 

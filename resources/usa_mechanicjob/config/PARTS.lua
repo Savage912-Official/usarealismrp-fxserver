@@ -196,5 +196,13 @@ PARTS = {
 		quantity = 1,
 		weight = 30,
 		type = "mechanicPart"
-	}
+	},
+	["Repair Kit"] = {
+		name = "Repair Kit",
+		price = 2000,
+		quantity = 1,
+		weight = 10,
+		type = "misc",
+		notStackable = true
+	},
 }

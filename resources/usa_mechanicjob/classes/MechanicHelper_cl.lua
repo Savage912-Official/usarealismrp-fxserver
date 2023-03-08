@@ -145,57 +145,91 @@ MechanicHelper.getClosestVehicle = function(maxRange)
     return closest.veh
 end
 
-MechanicHelper.repairVehicle = function(veh, repairCount, cb)
+MechanicHelper.useMechanicTools = function(veh, repairCount, cb)
     local beforeRepairHealth = GetVehicleEngineHealth(veh)
     local success = false
-    local calculatedRepairTime = MechanicHelper.LVL_1_REPAIR_TIME
-
-    if repairCount >= MechanicHelper.LEVEL_3_RANK_THRESH then
-        calculatedRepairTime = 45000
-    elseif repairCount >= MechanicHelper.LEVEL_2_RANK_THRESH then
-        calculatedRepairTime = 60000
-    end
 
     if beforeRepairHealth < 800 then
-        SetVehicleDoorOpen(veh, 4, false, false)
+        if not IsPedInVehicle(PlayerPedId(), veh, false) then
+            SetVehicleDoorOpen(veh, 4, false, false)
+            TriggerEvent("dpemotes:command", 'e', GetPlayerServerId(ped), {"mechanic"})
+            local calculatedRepairTime = MechanicHelper.LVL_1_REPAIR_TIME
+            if repairCount >= MechanicHelper.LEVEL_3_RANK_THRESH then
+                calculatedRepairTime = 45000
+            elseif repairCount >= MechanicHelper.LEVEL_2_RANK_THRESH then
+                calculatedRepairTime = 60000
+            end
 
-        if lib.progressCircle({
-            duration = calculatedRepairTime,
-            label = 'Repairing...',
-            position = 'bottom',
-            useWhileDead = false,
-            canCancel = true,
-            disable = {
-                car = true,
-                move = true,
-                combat = true,
-            },
-            anim = {
-                dict = MechanicHelper.animations.repair.dict,
-                clip = MechanicHelper.animations.repair.name,
-                flag = 39,
-            },
-        }) then 
-            local failChance = 0.5 - (0.005 * repairCount) -- larger successful repair count = smaller fail chance
+            if lib.progressCircle({
+                duration = calculatedRepairTime,
+                label = 'Repairing...',
+                position = 'bottom',
+                useWhileDead = false,
+                canCancel = true,
+                disable = {
+                    car = true,
+                    move = true,
+                    combat = true,
+                }
+            }) then 
+                local failChance = 0.5 - (0.005 * repairCount) -- larger successful repair count = smaller fail chance
 
-            if math.random() > failChance then
-                if not IsVehicleDriveable(veh, true) then -- damaged and red
+                if math.random() > failChance then
+                    if not IsVehicleDriveable(veh, true) then -- damaged and red
+                        SetVehicleUndriveable(veh, false)
+                        SetVehicleEngineHealth(veh, 500.0)
+                    else -- Damaged but not red, so prob orange
+                        SetVehicleEngineHealth(veh, 800.0)
+                    end
+                    FixAllTires(veh)
+                    success = true
+                end
+                
+                cb(true)
+            else 
+                cb(false)
+            end
+            Wait(500)
+            TriggerEvent("dpemotes:command", 'e', GetPlayerServerId(ped), {"c"})
+            SetVehicleDoorShut(veh, 4, false)
+        else
+            TriggerEvent("usa:notify", "Must be outside vehicle!")
+        end
+    end
+end
+
+MechanicHelper.useRepairKit = function(veh, cb)
+    local beforeRepairHealth = GetVehicleEngineHealth(veh)
+    local success = false
+    if beforeRepairHealth < 800 then
+        if not IsPedInVehicle(PlayerPedId(), veh, false) then
+            SetVehicleDoorOpen(veh, 4, false, false)
+            TriggerEvent("dpemotes:command", 'e', GetPlayerServerId(ped), {"mechanic"})
+            local regskillcheck = lib.skillCheck({'easy', 'easy', 'medium', 'medium', 'hard', 'hard'})
+            if regskillcheck then
+                TriggerServerEvent("usa:removeItem", "Repair Kit", 1)
+                SetVehicleDoorShut(veh, 4, false)
+                if not IsVehicleDriveable(veh, true) then
                     SetVehicleUndriveable(veh, false)
                     SetVehicleEngineHealth(veh, 500.0)
-                else -- Damaged but not red, so prob orange
-                    SetVehicleEngineHealth(veh, 800.0)
+                else
+                    SetVehicleEngineHealth(veh, 600.0)
                 end
-                FixAllTires(veh)
                 success = true
+                cb(true)
+            else
+                if math.random() > 0.50 then
+                    TriggerServerEvent("usa:removeItem", "Repair Kit", 1)
+                    TriggerEvent("usa:notify", "Repair Kit have worn out!")
+                end
+                cb(false)
             end
-            
             Wait(500)
+            TriggerEvent("dpemotes:command", 'e', GetPlayerServerId(ped), {"c"})
             SetVehicleDoorShut(veh, 4, false)
-            cb(true)
-        else 
-            cb(false)
+        else
+            TriggerEvent("usa:notify", "Must be outside vehicle!")
         end
-
     end
 end
 

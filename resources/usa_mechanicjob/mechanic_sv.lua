@@ -14,7 +14,7 @@ local TRUCKS_FOR_RANK = {
 local PARTS_FOR_RANK = {
 	[1] = {},
 	[2] = {"NOS Install Kit", "NOS Bottle (Stage 1)", "NOS Bottle (Stage 2)", "Top Speed Tune", "NOS Gauge", "Custom Radio", "Low Grip Tires", "Normal Tires", "RGB Controller", "Underglow Kit", "Xenon Headlights", "Stage 1 Brakes", "5% Window Tint", "20% Window Tint", "35% Window Tint", "Tint Remover", "Stage 1 Transmission", "Stage 1 Intake", "Turbo"},
-	[3] = {"NOS Install Kit", "NOS Bottle (Stage 1)", "NOS Bottle (Stage 2)", "NOS Bottle (Stage 3)", "Top Speed Tune", "NOS Gauge", "Custom Radio", "Manual Conversion Kit", "Auto Conversion Kit", "RGB Controller", "Low Grip Tires", "Normal Tires", "Underglow Kit", "Xenon Headlights", "Stage 1 Brakes", "Stage 2 Brakes", "5% Window Tint", "20% Window Tint", "35% Window Tint", "Tint Remover", "Stage 1 Transmission", "Stage 2 Transmission", "Stage 1 Intake", "Stage 2 Intake", "Turbo", "20% Armor"}
+	[3] = {"NOS Install Kit", "NOS Bottle (Stage 1)", "NOS Bottle (Stage 2)", "NOS Bottle (Stage 3)", "Top Speed Tune", "NOS Gauge", "Custom Radio", "Manual Conversion Kit", "Auto Conversion Kit", "RGB Controller", "Low Grip Tires", "Normal Tires", "Underglow Kit", "Xenon Headlights", "Stage 1 Brakes", "Stage 2 Brakes", "5% Window Tint", "20% Window Tint", "35% Window Tint", "Tint Remover", "Stage 1 Transmission", "Stage 2 Transmission", "Stage 1 Intake", "Stage 2 Intake", "Turbo", "20% Armor", "Repair Kit"}
 }
 
 local PARTS_DELIVERY_TIME_DAYS = 1
@@ -108,7 +108,7 @@ AddEventHandler("mechanic:repairJobCheck", function()
 		TriggerClientEvent("usa:notify", source, "Must be on duty as mechanic!")
 		return
 	end
-	local kit = char.getItem("Repair Kit")
+	local kit = char.getItem("Mechanic Tools")
 	if kit then
 		local ident = char.get("_id")
 		MechanicHelper.getMechanicRepairCount(ident, function(repairCount)
@@ -155,7 +155,7 @@ end)
 RegisterServerEvent("mechanic:giveRepairKit")
 AddEventHandler("mechanic:giveRepairKit", function(plate)
 	plate = exports.globals:trim(plate)
-	local repairKit = { name = "Repair Kit", price = 250, type = "vehicle", quantity = 1, legality = "legal", weight = 20, objectModel = "imp_prop_tool_box_01a"}
+	local repairKit = { name = "Mechanic Tools", price = 250, type = "vehicle", quantity = 1, legality = "legal", weight = 20, objectModel = "imp_prop_tool_box_01a"}
 	TriggerEvent("vehicle:storeItemInFirstFreeSlot", source, plate, repairKit, false, function(success, inv) end)
 end)
 

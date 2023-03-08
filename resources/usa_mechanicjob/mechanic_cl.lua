@@ -594,13 +594,11 @@ AddEventHandler("mechanic:repair", function(repairCount)
 		isRepairing = true
 		local veh = MechanicHelper.getClosestVehicle(5)
 		if veh then
-			MechanicHelper.repairVehicle(veh, repairCount, function(success)
+			MechanicHelper.useMechanicTools(veh, repairCount, function(success)
 				if success then
-					print("repair succeeded!")
 					TriggerServerEvent("mechanic:vehicleRepaired")
 					exports.globals:notify("Vehicle repaired!")
 				else
-					print("repair failed")
 					exports.globals:notify("Vehicle repair failed!")
 				end
 			end)
@@ -666,6 +664,29 @@ AddEventHandler("mechanic:usedPart", function(part)
 	local nearbyVeh = MechanicHelper.getClosestVehicle(5)
 	local vehPlate = exports.globals:trim(GetVehicleNumberPlateText(nearbyVeh))
 	TriggerServerEvent("mechanic:usedPart", part, vehPlate)
+end)
+
+RegisterNetEvent("mechanic:repairtools")
+AddEventHandler("mechanic:repairtools", function()
+	if not isRepairing then
+		isRepairing = true
+		local veh = MechanicHelper.getClosestVehicle(5)
+		if veh then
+			MechanicHelper.useRepairKit(veh, function(success)
+				if success then
+					TriggerServerEvent("mechanic:vehicleRepaired")
+					exports.globals:notify("Vehicle repaired!")
+				else
+					exports.globals:notify("Vehicle repair failed!")
+				end
+			end)
+		else
+			exports.globals:notify("No vehicle found!")
+		end
+		isRepairing = false
+	else
+		exports.globals:notify("Busy")
+	end
 end)
 
 function isNearAnyRepairShop()
@@ -904,20 +925,21 @@ function ApplyUpgrades(veh, upgrades)
 end
 
 function ShowHelp(isRank3)
-	TriggerEvent("chatMessage", "", {}, "^3INFO: ^0Use ^3/dispatch [id] [msg]^0 to respond to a tow request!")
+	TriggerEvent("chatMessage", "", {}, "^3INFO: ^0Use your cell phone to respond to tow requests.")
 	Wait(3000)
-	TriggerEvent("chatMessage", "", {}, "^3INFO: ^0Use ^3/ping [id]^0 to request a person\'s location.")
+	TriggerEvent("chatMessage", "", {}, "^3INFO: ^0You can also use ^3/dispatch [targetPlayerId] [msg]^0 to respond to a tow request!")
+	Wait(3000)
+	TriggerEvent("chatMessage", "", {}, "^3INFO: ^0Use ^3/ping [targetPlayerId]^0 to request a person\'s location.")
+	Wait(3000)
+	TriggerEvent("chatMessage", "", {}, "^3INFO: ^0For the flatbed: use ^3/tow^0 when near a vehicle to load/unload it.")
 	Wait(3000)
 	if isRank3 then
-		TriggerEvent("chatMessage", "", {}, "^3INFO: ^0Use ^3NUMPAD 8^0 to raise the tow arm and ^3NUMPAD 5^0 to lower the arm. Hold ^3H^0 to release the vehicle. Press ^3E^0 to toggle light bar.")
-		Wait(3000)
-	else
-		TriggerEvent("chatMessage", "", {}, "^3INFO: ^0Use ^3/tow^0 when near a vehicle to load/unload it from the flatbed.")
-		Wait(3000)
+		TriggerEvent("chatMessage", "", {}, "^3INFO: ^0For the hook tow: use ^3NUMPAD 8^0 to raise the tow arm and ^3NUMPAD 5^0 to lower the arm. Hold ^3H^0 to release the vehicle. Press ^3E^0 to toggle light bar.")
+		Wait(4500)
 	end
 	TriggerEvent("chatMessage", "", {}, "^3INFO: ^0You can order parts from the parts store and install them by 'using' them in your inventory near a vehicle (must be lvl 2 mechanic).")
-	Wait(3000)
-	TriggerEvent("chatMessage", "", {}, "^3INFO: ^0You can use the repair kit that is in your truck to repair vehicles.")
+	Wait(4500)
+	TriggerEvent("chatMessage", "", {}, "^3INFO: ^0You can use the mechanic tools that are in your truck to repair vehicles.")
 end
 
 function isNearSignOnSpot(range)

@@ -77,7 +77,7 @@ var itemImages = {
     "Corona Light Beer (4%)": "https://i.imgur.com/sDAAijo.png",
     "Jack Daniels Whiskey (40%)": "https://i.imgur.com/QQIY60D.png",
     "Everclear Vodka (90%)": "https://i.imgur.com/eCptoIY.png",
-    "Repair Kit": "https://i.imgur.com/ch7wTIi.png",
+    "Mechanic Tools": "https://i.imgur.com/ch7wTIi.png",
     "First Aid Kit": "https://i.imgur.com/q3GjQKH.png",
     "Large Scissors": "https://i.imgur.com/d8pMdHO.png",
     "Shovel": "https://i.imgur.com/n2vAjfz.png",
@@ -562,7 +562,8 @@ var itemImages = {
     "20% Armor": "https://i.imgur.com/So29uLb.png",
     "Stage 1 Intake": "https://i.imgur.com/q6V2VNi.png",
     "Stage 2 Intake": "https://i.imgur.com/q6V2VNi.png",
-    "Battering Ram": "https://i.imgur.com/84WaJLq.png"
+    "Battering Ram": "https://i.imgur.com/84WaJLq.png",
+    "Repair Kit": "https://i.imgur.com/3kXO54l.png"
 }
 
 var menuItems = [{

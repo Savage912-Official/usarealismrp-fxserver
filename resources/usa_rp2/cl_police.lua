@@ -126,6 +126,7 @@ RegisterClientCallback {
 
 RegisterNetEvent("search:attemptToSearchNearestPerson")
 AddEventHandler("search:attemptToSearchNearestPerson", function(playerId)
+  print("inside search:attemptToSearchNearestPerson")
   if playerId then
     if IsEntityVisible(GetPlayerPed(GetPlayerFromServerId(playerId))) then
       TriggerServerEvent("search:foundPlayerToSearch", playerId)
@@ -133,6 +134,7 @@ AddEventHandler("search:attemptToSearchNearestPerson", function(playerId)
   else
     TriggerEvent("usa:getClosestPlayer", 1.6, function(player)
       if player.id ~= 0 and IsEntityVisible(GetPlayerPed(GetPlayerFromServerId(player.id))) then
+        print("found player to search!")
         TriggerServerEvent("search:foundPlayerToSearch", player.id)
       elseif IsPedInAnyVehicle(PlayerPedId(), false) then
         TriggerEvent("veh:searchVeh")

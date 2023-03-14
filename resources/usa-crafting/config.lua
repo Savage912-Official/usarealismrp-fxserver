@@ -894,6 +894,29 @@ Config.recipes = {
             requiredCraftingLevel = 3,
             type = "weapons"
         },
+        {
+            name = "FN SCAR SC",
+            image = "https://i.imgur.com/m2C9Z7x.png",
+            requires = {
+                { name = "FN SCAR SC Gun Cast", quantity = 1 },
+                { name = "Metal Spring", quantity = 3 },
+                { name = "Steel", quantity = 6 },
+                { name = "Aluminum", quantity = 3 },
+            },
+            produces = {
+                {
+                    name = "FN SCAR SC",
+                    hash = GetHashKey("WEAPON_SCARSC"),
+                    quantity = 1,
+                    type = "weapon",
+                    weight = 28,
+                    objectModel = "w_sb_smg",
+                    notStackable = true
+                }
+            },
+            requiredCraftingLevel = 3,
+            type = "weapons"
+        },
     },
     refineryGoods = {
         {
@@ -906,6 +929,23 @@ Config.recipes = {
             produces = {
                 {
                     name = "Akorus Gun Cast",
+                    quantity = 1,
+                    type = "misc",
+                    weight = 10
+                }
+            },
+            requiredCraftingLevel = 1,
+            type = "refineryGoods"
+        },
+        {
+            name = "FN SCAR SC Gun Cast",
+            image = "https://i.imgur.com/ICqVr4r.png",
+            requires = {
+                { name = "Steel", quantity = 6 }
+            },
+            produces = {
+                {
+                    name = "FN SCAR SC Gun Cast",
                     quantity = 1,
                     type = "misc",
                     weight = 10
@@ -1002,6 +1042,23 @@ Config.recipes = {
             type = "refineryGoods",
             craftDurationSeconds = 4 * 60
         },
+        {
+            name = "Aluminum",
+            image = "https://i.imgur.com/o4sROlT.png",
+            requires = {
+                { name = "Bauxite", quantity = 5 },
+            },
+            produces = {
+                {
+                    name = "Aluminum",
+                    quantity = 1,
+                    type = "misc",
+                    weight = 15
+                }
+            },
+            requiredCraftingLevel = 1,
+            type = "refineryGoods"
+        }
     }
 }
 

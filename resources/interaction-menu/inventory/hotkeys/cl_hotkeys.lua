@@ -15,7 +15,7 @@ end)
 
 RegisterNetEvent("hotkeys:setCurrentSlotPassive")
 AddEventHandler("hotkeys:setCurrentSlotPassive", function(slot)
-    if type(slot) == "number" and slot >= 1 and slot <= 4 or type(slot) == "nil" then
+    if type(slot) == "number" and slot >= 1 and slot <= 5 or type(slot) == "nil" then
         currentSelectedSlot = slot
     end
 end)
@@ -40,7 +40,7 @@ Citizen.CreateThread(function()
     end
 end)
 
--- Handle 1, 2, 3, 4, TAB, SCROLL WHEEL UP/DOWN hot keys --
+-- Handle 1, 2, 3, 4, 5, TAB, SCROLL WHEEL UP/DOWN hot keys --
 Citizen.CreateThread(function()
     while true do
         if KEYS then
@@ -74,7 +74,7 @@ Citizen.CreateThread(function()
                         if currentSelectedSlot == nil then
                             currentSelectedSlot = 1
                         else
-                            if currentSelectedSlot + 1 > 4 then
+                            if currentSelectedSlot + 1 > 5 then
                                 currentSelectedSlot = 1
                             else
                                 currentSelectedSlot = currentSelectedSlot + 1
@@ -83,10 +83,10 @@ Citizen.CreateThread(function()
                         TriggerServerEvent("interaction:hotkeyPressed", currentSelectedSlot, isModifierKeyPressed, vehiclePlate)
                     elseif not SCROLL_DISABLED and IsControlJustPressed(0, KEYS.SCROLL_UP) then
                         if currentSelectedSlot == nil  then
-                            currentSelectedSlot = 4
+                            currentSelectedSlot = 5
                         else
                             if currentSelectedSlot - 1 <= 0 then
-                                currentSelectedSlot = 4
+                                currentSelectedSlot = 5
                             else
                                 currentSelectedSlot = currentSelectedSlot - 1
                             end
@@ -104,6 +104,9 @@ Citizen.CreateThread(function()
                         TriggerServerEvent("interaction:hotkeyPressed", currentSelectedSlot, isModifierKeyPressed, vehiclePlate)
                     elseif IsDisabledControlJustPressed(24, KEYS.FOUR) then
                         currentSelectedSlot = 4
+                        TriggerServerEvent("interaction:hotkeyPressed", currentSelectedSlot, isModifierKeyPressed, vehiclePlate)
+                    elseif IsDisabledControlJustPressed(24, KEYS.FIVE) then
+                        currentSelectedSlot = 5
                         TriggerServerEvent("interaction:hotkeyPressed", currentSelectedSlot, isModifierKeyPressed, vehiclePlate)
                     end
                 end

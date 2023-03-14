@@ -191,7 +191,8 @@ char.removeMoneyOrBank(500) -- removes $500 from cash or bank (If a player doesn
 char.set("bank", char.get("bank") + math.random(100, 500)) -- give player random amount of money from $100 to $500 directly to their bank
 ```
 
-Check out the `exposedDB.*` functions in the `resources/essentialmode/db.lua` file for a bunch of functions you can call from other scripts to create/read/delete/edit data.
+Check out the `exposedDB.*` functions in the `resources/essentialmode/server/db.lua` file for a bunch of functions you can call from other scripts to create/read/delete/edit data.
+
 
 To access the DB API from a server script with the above mentioned functions:
 

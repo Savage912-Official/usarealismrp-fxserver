@@ -10,6 +10,7 @@ local WEAPONS = {
 	{ name = "Heavy Pistol", type = "weapon", hash = GetHashKey("WEAPON_HEAVYPISTOL"), rank = 1, price = 400, weight = 7 },
 	{ hash = -1600701090, type = "weapon", name = "Tear Gas", rank = 2, weight = 3, price = 150},
 	{ name = "SMG", type = "weapon", hash = 736523883, rank = 2, price = 500, weight = 10 },
+	{ name = "FN SCAR SC", type = "weapon", hash = GetHashKey("WEAPON_SCARSC"), price = 5000, weight = 10, rank = 2 },
 	{ name = "MK2 Pump Shotgun", type = "weapon", hash = 1432025498, rank = 2, price = 500, weight = 25 },
 	{ name = "MK2 Carbine Rifle", type = "weapon", hash = 4208062921, rank = 2, price = 700, weight = 15},
 	{ name = "Carbine Rifle", type = "weapon", hash = -2084633992, rank = 3, price = 1000, weight = 15},

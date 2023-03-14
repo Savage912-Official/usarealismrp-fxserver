@@ -23,6 +23,7 @@ local ITEMS = {
       ["Voodoo"] = {name = "Voodoo", price = 60, type = "alcohol", substance = 15.0, quantity = 1, legality = "legal", weight = 10, strength = 0.3, caption = "Ketel One Vodka and Chambord, shaken ice cold with fresh blueberries, smoked jalapenos and lemon juice."},
       ["Mi Casa Es Su Casa"] = {name = "Mi Casa Es Su Casa", price = 60, type = "alcohol", substance = 15.0, quantity = 1, legality = "legal", weight = 10, strength = 0.28, caption = "A premium blend of Casamigos Blanco Tequila and Cointreau, shaken ice cold with fresh lime juice, agave, a hint of orange and olive juice."},
       ["Back Porch Strawberry Lemonade"] = {name = "Back Porch Strawberry Lemonade", price = 60, type = "alcohol", substance = 15.0, quantity = 1, legality = "legal", weight = 10, strength = 0.28, caption = "Skyy Infusions Wild Strawberry, Triple Sec, Strawberry Lemonade and a splash of soda. Served over ice in our 22 oz mug with fresh strawberries."},
+      ["Pepsi"] = {name = "Pepsi", price = 75, type = "drink", substance = 38.0, quantity = 1, legality = "legal", weight = 5, caption = "A refreshing carbonated drink with a citrusy flavor burst."},
   },
   ["Food"] = {
       ["Fried Dill Pickles"] = { name = "Fried Dill Pickles", price = 30, type = "food", substance = 18.0, quantity = 1, legality = "legal", weight = 10, caption = "Dill pickle slices are breaded, then deep fried in peanut oil." },
@@ -36,7 +37,8 @@ local ITEMS = {
       ["2 Topping Pizza"] = { name = "Pizza", price = 45, type = "food", substance = 20.0, quantity = 1, legality = "legal", weight = 10, caption = "Personal pizzas, your choice of 2 toppings." },
       ["Pesto Chicken Sandwich"] = { name = "Chicken Sandwich", price = 45, type = "food", substance = 30.0, quantity = 1, legality = "legal", weight = 10, caption = "A pesto chicken sandwhich between Focaccia bread." },
       ["Ahi Tuna Sandwich"] = { name = "Ahi Tuna Sandwich", price = 50, type = "food", substance = 30.0, quantity = 1, legality = "legal", weight = 10, caption = "An Ahi Tuna Sandwich with  your  choice of bread." },
-      ["French Dip Au Jus"] = { name = "French Dip Au Jus", price = 55, type = "food", substance = 30.0, quantity = 1, legality = "legal", weight = 10, caption = "Warm Roast beef on a baguette topped with Swiss Cheese, and onions and a side of beef juice." }
+      ["French Dip Au Jus"] = { name = "French Dip Au Jus", price = 55, type = "food", substance = 30.0, quantity = 1, legality = "legal", weight = 10, caption = "Warm Roast beef on a baguette topped with Swiss Cheese, and onions and a side of beef juice." },
+      ["Cheeseburger"] = { name = "Cheeseburger", price = 85, type = "food", substance = 15.0, quantity = 1, legality = "legal", weight = 10, caption = "Angus beef on a Brioche Bun with American Cheese." }
   }
 }
 
@@ -57,7 +59,7 @@ AddEventHandler("bars:buy", function(itemCategory, itemName, business)
               if business then
                 exports["usa-businesses"]:GiveBusinessCashPercent(business, item.price)
               end
-          else 
+          else
             TriggerClientEvent("usa:notify", source, "Inventory full.")
           end
       else

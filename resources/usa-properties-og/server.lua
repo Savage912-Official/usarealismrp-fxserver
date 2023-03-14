@@ -302,6 +302,10 @@ end)
 
 RegisterServerEvent("properties-og:moveItemFromProperty")
 AddEventHandler("properties-og:moveItemFromProperty", function(src, data)
+  if not ownsProperty(data.propertyName, src) then
+    TriggerClientEvent("usa:notify", src, "Not property owner")
+    return
+  end
   data.fromSlot = tostring(data.fromSlot)
   data.quantity = tonumber(data.quantity)
   if data.quantity <= 0 then
@@ -568,11 +572,14 @@ end)
 ------------------
 RegisterServerEvent("properties:withdraw")
 AddEventHandler("properties:withdraw", function(name, amount, savedSource, give_money_to_player)
+  if savedSource then source = savedSource end -- if called from server file
+  if not ownsProperty(name, source) then
+    TriggerClientEvent("usa:notify", source, "Not property owner")
+    return
+  end
   if PROPERTIES[name].storage.money - amount >= 0 then
     -- remove from store --
     PROPERTIES[name].storage.money = PROPERTIES[name].storage.money - amount
-    -- see if called from server file --
-    if savedSource then source = savedSource end
     -- only take money if asked to --
     if give_money_to_player then
       -- add to player --
@@ -1620,6 +1627,17 @@ function TrimPropertyTableForClient(propertyInfo)
   toSendInfo.type = propertyInfo.type
   toSendInfo.will_leave = propertyInfo.will_leave
   return toSendInfo
+end
+
+function ownsProperty(name, src)
+  local char = exports["usa-characters"]:GetCharacter(src)
+  local owned = GetOwnedProperties(char.get("_id"), true)
+  for i = 1, #owned do
+    if owned[i].name == name then
+      return true
+    end
+  end
+  return false
 end
 
 -- send nearby property data to clients every CLIENT_UPDATE_INTERVAL seconds

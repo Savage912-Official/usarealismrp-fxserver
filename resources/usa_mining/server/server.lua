@@ -1,7 +1,7 @@
 math.randomseed(os.time())
 
 local common = {
-    {name = "Aluminum", type = "misc", price = 175, legality = "legal", quantity = 1, weight = 5.0},
+    {name = "Bauxite", type = "misc", price = 175, legality = "legal", quantity = 1, weight = 5.0},
     {name = "Copper", type = "misc", price = 125, legality = "legal", quantity = 1, weight = 10.0},
     {name = "Iron", type = "misc", price = 200, legality = "legal", quantity = 1, weight = 15.0},
     {name = "Rock", type = "weapon", price = 50, hash = GetHashKey("WEAPON_ROCK"), weight = 5.0, quantity = 1 },

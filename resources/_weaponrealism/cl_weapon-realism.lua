@@ -58,6 +58,7 @@ local RECOILS = {
 	[GetHashKey("WEAPON_PISTOL50")] = 1.85, -- PISTOL .50
 	[GetHashKey("WEAPON_MICROSMG")] = 1.1, -- MICRO SMG
 	[GetHashKey("WEAPON_SMG")] = 0.5, -- SMG
+	[GetHashKey("WEAPON_SCARSC")] = 0.47,
 	[GetHashKey("WEAPON_SMG_MK2")] = 0.65, -- SMG MK2
 	[GetHashKey("WEAPON_ASSAULTSMG")] = 1.0, -- ASSAULT SMG
 	[GetHashKey("WEAPON_ASSAULTRIFLE")] = 0.45, -- ASSAULT RIFLE

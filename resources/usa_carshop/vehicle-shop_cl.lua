@@ -11,7 +11,7 @@ local MENU_KEY = 38
 
 local SHOPS = {
 	--{name = "Paleto Bay", store_x = 120.9, store_y = 6624.605, store_z = 32.0, vehspawn_x = 131.04, vehspawn_y = 6625.39, vehspawn_z = 31.71, vehspawn_heading = 315.0},
-	{name = "Los Santos", store_x = -33.40, store_y = -1102.03, store_z = 26.4523, vehspawn_x = -48.884, vehspawn_y = -1113.75, vehspawn_z = 26.4358, vehspawn_heading = 315.0,TDreturn = vector3(-31.6935, -1090.8186, 25.3), blipName = "PDM - Downtown LS"},
+	{name = "Los Santos", store_x = -33.40, store_y = -1102.03, store_z = 26.4523, vehspawn_x = -48.884, vehspawn_y = -1113.75, vehspawn_z = 26.4358, vehspawn_heading = 315.0,TDreturn = vector3(-28.11048, -1081.39, 26.63753), blipName = "PDM - Downtown LS"},
 	{name = "Sandy Shores", store_x = 1224.7, store_y = 2727.3, store_z = 37.0, vehspawn_x = 1228.5, vehspawn_y = 2718.0, vehspawn_z = 38.0, vehspawn_heading = 260.0,TDreturn = vector3(1228.9268, 2723.4272, 37.0046), blipName = "PDM - Sandy Shores"},
 	{
 		name = "Benefactor",

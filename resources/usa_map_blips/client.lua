@@ -115,7 +115,7 @@ local blips = {
 	{ title = "Fight Club", x = 1059.5687255859, y = -2409.5798339844, id = 210, colour = 0, scale = 0.4, group = "entertainment"},
 	{ title = "RPG", x = -795.98742675781, y = -219.36700439453, id = 402, colour = 5, scale = 0.9},
 	{ title = "Dock Container Job", x = 1192.2296142578, y = -3254.0080566406, id = 371, colour = 62, scale = 0.7, group = "jobs"},
-	{ title = "Cat Cafe", x = -582.01025390625, y = -1060.6533203125, id = 214, colour = 82, scale = 0.9, group = "entertainment"},
+	{ title = "Cat Cafe", x = -582.01025390625, y = -1060.6533203125, id = 214, colour = 82, scale = 0.8, group = "entertainment"},
 	{ title = "Hayes Auto", x = -1419.1739501953, y = -445.88775634766, id = 402, colour = 5, scale = 0.9},
 	{ title = "Autocare Garage", x = 945.94091796875, y = -986.71118164063, id = 402, colour = 5, scale = 0.9},
 	{ title = "Apartments", x = -914.08343505859, y = -1306.4748535156, id = 40, colour = 0, scale = 0.7},

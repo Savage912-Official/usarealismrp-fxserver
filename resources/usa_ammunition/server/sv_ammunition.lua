@@ -14,6 +14,7 @@ local WEPS_WITH_MAGS = {
     -- smg --
     [GetHashKey("WEAPON_MICROSMG")] = { accepts = ".45", magAmmoCounts = {16, 30}},
     [GetHashKey("WEAPON_SMG")] = { accepts = "9mm", magAmmoCounts = {30, 60, 100} },
+    [GetHashKey("WEAPON_SCARSC")] = { accepts = "9mm", magAmmoCounts = {30, 60} },
     [GetHashKey("WEAPON_SMG_MK2")] = { accepts = "9mm", magAmmoCounts = {20, 30, 60} },
     [GetHashKey("WEAPON_ASSAULTSMG")] = { accepts = "9mm", magAmmoCounts = {30, 60} },
     [GetHashKey("WEAPON_MACHINEPISTOL")] = { accepts = "9mm", magAmmoCounts = {12, 20, 30} },

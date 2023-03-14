@@ -15,6 +15,7 @@ local armoryItems = {
     { name = "Heavy Pistol", type = "weapon", hash = GetHashKey("WEAPON_HEAVYPISTOL"), price = 450, weight = 7 },
     { name = "Stun Gun", type = "weapon", hash = 911657153, price = 400, weight = 5 },
     { name = "SMG", type = "weapon", hash = 736523883, price = 750, weight = 10, minRank = 3 },
+    { name = "FN SCAR SC", type = "weapon", hash = GetHashKey("WEAPON_SCARSC"), price = 5000, weight = 10, minRank = 3 },
     { name = "MK2", type = "weapon", hash = -1075685676, price = 400, weight = 5, minRank = 2 },
     { name = "MK2 Pump Shotgun", type = "weapon", hash = 1432025498, price = 700, weight = 25 },
     { name = "MK2 Carbine Rifle", type = "weapon", hash = 4208062921, price = 700, weight = 15, minRank = 2 },

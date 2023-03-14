@@ -6,6 +6,7 @@ local KEYS = {
   TWO = 158,
   THREE = 160,
   FOUR = 164,
+  FIVE = 165,
   E = 46,
   P = 199,
   V = 0,

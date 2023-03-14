@@ -258,12 +258,13 @@ var itemImages = {
     "Drill": "https://i.imgur.com/7lMxrcm.png",
     "Gold": "https://i.imgur.com/QYthPRN.png",
     "Diamond": "https://i.imgur.com/F1arH11.png",
-    "Aluminum": "https://i.imgur.com/FAhri6J.png",
+    "Aluminum": "https://i.imgur.com/TkzOdC6.png",
     "Copper": "https://i.imgur.com/7sC2n9I.png",
     "Iron": "https://i.imgur.com/362wJPk.png",
     "Pick Axe": "https://i.imgur.com/fEmIfhj.png",
     "Ceramic Tubing": "https://i.imgur.com/Fg1pZNH.png",
     "Aluminum Powder": "https://i.imgur.com/FcoUYM4.png",
+    "Bauxite": "https://i.imgur.com/FAhri6J.png",
     "Iron Oxide": "https://i.imgur.com/pBhnwQl.png",
     "Vape": "https://i.imgur.com/d8BS61Q.png",
     "Black Powder": "https://i.imgur.com/Zct2dcM.png",
@@ -486,6 +487,7 @@ var itemImages = {
     "Vintage Pistol Extended Mag": "https://i.imgur.com/3m72QvM.png",
     "SMG Extended Mag": "https://i.imgur.com/2b0Qdsq.png",
     "SMG Drum Mag": "https://i.imgur.com/pjAU6wN.png",
+    "FN SCAR SC Drum Mag": "https://i.imgur.com/pjAU6wN.png",
     "AP Pistol Extended Mag": "https://i.imgur.com/NyFuIwH.png",
     "Micro SMG Extended Mag": "https://i.imgur.com/AupbtAw.png",
     "Gusenberg Extended Mag": "https://i.imgur.com/c7yP4cm.png",
@@ -563,7 +565,8 @@ var itemImages = {
     "Stage 1 Intake": "https://i.imgur.com/q6V2VNi.png",
     "Stage 2 Intake": "https://i.imgur.com/q6V2VNi.png",
     "Battering Ram": "https://i.imgur.com/84WaJLq.png",
-    "Repair Kit": "https://i.imgur.com/3kXO54l.png"
+    "Repair Kit": "https://i.imgur.com/3kXO54l.png",
+    "FN SCAR SC": "https://i.imgur.com/m2C9Z7x.png"
 }
 
 var menuItems = [{

@@ -66,6 +66,13 @@ local ITEMS = {
             ["Sniper Rifle"] = {
                 { name = "Suppressor", value = "COMPONENT_AT_AR_SUPP_02", price = 250, weapon_hash = 100416529 },
                 { name = "Etched Wood Grip Finish", value = "COMPONENT_SNIPERRIFLE_VARMOD_LUXE", price = 350, weapon_hash = 100416529 }
+            },
+            ["FN SCAR SC"] = {
+                { name = "Empty FN SCAR SC Drum Mag", quantity = 1, type = "magazine", price = 1000, weight = 7, receives = "9mm", MAX_CAPACITY = 60, currentCapacity = 0, notStackable = true, magComponent = "COMPONENT_SCARSC_CLIP_03", compatibleWeapon = GetHashKey("WEAPON_SCARSC") },
+                { name = "Suppressor", value = "COMPONENT_AT_SCARSC_SUPP_02", price = 3000, weapon_hash = GetHashKey("WEAPON_SCARSC") },
+                { name = "Flashlight", value = "COMPONENT_AT_SCARSC_FLSH", price = 1000, weapon_hash = GetHashKey("WEAPON_SCARSC") },
+                { name = "Scope", value = "COMPONENT_AT_SCOPE_SCARSC", price = 6000, weapon_hash = GetHashKey("WEAPON_SCARSC") },
+                { name = "Grip", value = "COMPONENT_AT_SCARSC_AFGRIP", price = 4000, weapon_hash = GetHashKey("WEAPON_SCARSC") },
             }
         },
         -- missing from below: Heavy shotgun
@@ -277,6 +284,13 @@ local ITEMS = {
                 { name = "Empty Machine Pistol Extended Mag", quantity = 1, type = "magazine", price = 300, weight = 7, receives = "9mm", MAX_CAPACITY = 20, currentCapacity = 0, legality = "illegal", notStackable = true, magComponent = "COMPONENT_MACHINEPISTOL_CLIP_02", compatibleWeapon = GetHashKey("WEAPON_MACHINEPISTOL") },
                 { name = "Empty Machine Pistol Drum Mag", quantity = 1, type = "magazine", price = 500, weight = 7, receives = "9mm", MAX_CAPACITY = 30, currentCapacity = 0, legality = "illegal", notStackable = true, magComponent = "COMPONENT_MACHINEPISTOL_CLIP_03", compatibleWeapon = GetHashKey("WEAPON_MACHINEPISTOL") },
                 { name = "Suppressor", value = "COMPONENT_AT_PI_SUPP", price = 1500, weapon_hash = -619010992 }
+            },
+            ["FN SCAR SC"] = {
+                { name = "Empty FN SCAR SC Drum Mag", quantity = 1, type = "magazine", price = 1000, weight = 7, receives = "9mm", MAX_CAPACITY = 60, currentCapacity = 0, notStackable = true, magComponent = "COMPONENT_SCARSC_CLIP_03", compatibleWeapon = GetHashKey("WEAPON_SCARSC") },
+                { name = "Suppressor", value = "COMPONENT_AT_SCARSC_SUPP_02", price = 3000, weapon_hash = GetHashKey("WEAPON_SCARSC") },
+                { name = "Flashlight", value = "COMPONENT_AT_SCARSC_FLSH", price = 1000, weapon_hash = GetHashKey("WEAPON_SCARSC") },
+                { name = "Scope", value = "COMPONENT_AT_SCOPE_SCARSC", price = 6000, weapon_hash = GetHashKey("WEAPON_SCARSC") },
+                { name = "Grip", value = "COMPONENT_AT_SCARSC_AFGRIP", price = 4000, weapon_hash = GetHashKey("WEAPON_SCARSC") },
             }
         }
     }

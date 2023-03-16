@@ -1237,6 +1237,10 @@ function interactionMenuUse(index, itemName, wholeItem)
 		TriggerServerEvent("doormanager:BatteringRam", GetEntityCoords(PlayerPedId()))
 	elseif itemName == "Repair Kit" then
 		TriggerEvent("mechanic:repairtools", source)
+	elseif itemName == "Spray Paint" then
+		TriggerServerEvent("rcore_spray:spray")
+	elseif itemName == "Rag" then
+		TriggerServerEvent("rcore_spray:sprayremover")
 	else
 		TriggerEvent("interaction:notify", "There is no use action for that item!")
 	end

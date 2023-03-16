@@ -26,7 +26,7 @@ local anim = {
 --# apply visual effects for x minutes
 AddEventHandler("drugs:use", function(name)
     local me = PlayerPedId()
-    if name == CONFIG.cannabis.itemName then
+    if name == Config.cannabis.itemName then
         if isBusy then 
             exports.globals:notify("You are already rolling!")
             return
@@ -34,8 +34,8 @@ AddEventHandler("drugs:use", function(name)
         isBusy = true
         -- # playing emote / rolling joint
         local startTime = GetGameTimer()
-        while GetGameTimer() - startTime < (CONFIG.cannabis.jointRollTimeSeconds) * 1000 and not wasCanceled do 
-            exports.globals:DrawTimerBar(startTime, CONFIG.cannabis.jointRollTimeSeconds * 1000, 1.42, 1.475, 'Rolling Joint')
+        while GetGameTimer() - startTime < (Config.cannabis.jointRollTimeSeconds) * 1000 and not wasCanceled do 
+            exports.globals:DrawTimerBar(startTime, Config.cannabis.jointRollTimeSeconds * 1000, 1.42, 1.475, 'Rolling Joint')
             if not IsEntityPlayingAnim(me, anim.rolling.dict, anim.rolling.name, 3) then
                 TriggerEvent("usa:playAnimation", anim.rolling.dict, anim.rolling.name, -8, 1, -1, 16, 0, 0, 0, 0)
                 Wait(10)
@@ -55,7 +55,7 @@ AddEventHandler("drugs:use", function(name)
         TriggerServerEvent("drugs:rolledCannabis")
 
         isBusy = false
-    elseif name == CONFIG.joint.itemName then
+    elseif name == Config.joint.itemName then
         if isBusy then 
             exports.globals:notify("You are already smoking!")
             return
@@ -63,10 +63,10 @@ AddEventHandler("drugs:use", function(name)
         isBusy = true
         local jointObj = GivePedObject(60309, anim.smoking.object, 0.00, 0.0, 0.0, -270.0, 0.0, -0.06)
         local startTime = GetGameTimer()
-        while GetGameTimer() - startTime < CONFIG.joint.smokeTimeSeconds * 1000 and not wasCanceled do 
-            exports.globals:DrawTimerBar(startTime, CONFIG.joint.smokeTimeSeconds * 1000, 1.42, 1.475, 'Consuming')
+        while GetGameTimer() - startTime < Config.joint.smokeTimeSeconds * 1000 and not wasCanceled do 
+            exports.globals:DrawTimerBar(startTime, Config.joint.smokeTimeSeconds * 1000, 1.42, 1.475, 'Consuming')
             if not IsEntityPlayingAnim(me, anim.smoking.dict, anim.smoking.name, 3) then
-                TriggerEvent("usa:playAnimation", anim.smoking.dict, anim.smoking.name, -8, 1, -1, 16, 0, 0, 0, 0)
+                TriggerEvent("usa:playAnimation", anim.smoking.dict, anim.smoking.name, -8, 1, -1, 48, 0, 0, 0, 0)
                 Wait(10)
             end
             Wait(0)
@@ -118,7 +118,7 @@ function ApplyVisualEffect(me)
     SetPedMotionBlur(me, true)
 
     startTime = GetGameTimer()
-    while GetGameTimer() - startTime < CONFIG.joint.effectTimeMinutes * 60 * 1000 do 
+    while GetGameTimer() - startTime < Config.joint.effectTimeMinutes * 60 * 1000 do 
         Wait(1)
     end
 

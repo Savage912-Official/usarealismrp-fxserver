@@ -3,7 +3,7 @@ Config = {}
 Config.debug = false
 
 -- The amount of damage the wheels will take on collisions (10-30 seems reasonable to me, for more realistic experience I'd recommend values between 50-100)
-Config.collisionDamageAmount = 10
+Config.collisionDamageAmount = 15
 
 -- If you define a model specific multiplier it will be used instead of the class multiplier
 -- Vehicle classes https://docs.fivem.net/natives/?_0x29439776AAA00A62
@@ -38,16 +38,16 @@ Config.collisionDamageMultiplier = {
 }
 
 -- The amount of damage the wheels will take on falls (10-30 seems reasonable to me, for more realistic experience I'd recommend values between 50-100)
-Config.fallDamageAmount = 25
+Config.fallDamageAmount = 35
 
 -- Multiplier for the fall damage for vehicles that are using off-road tires/wheels
 Config.offroadTireFallDamageMultiplier = 0.6
 
 -- Threshold of the fall speed required to deal wheel damage (3.8 by default. If you don't want smaller jumps to deal damage set it higher)
-Config.fallThreshold = 4.0
+Config.fallThreshold = 3.9
 
 -- Minimum fall airtime (in seconds) for the wheels to get damaged. This only counts for the duration the car was falling (going downwards)
-Config.minimumAirTime = 2
+Config.minimumAirTime = 3
 
 -- If you define a model specific multiplier it will be used instead of the class multiplier
 -- Vehicle classes https://docs.fivem.net/natives/?_0x29439776AAA00A62
@@ -85,10 +85,10 @@ Config.fallDamageMultiplier = {
 }
 
 -- Chance of the wheel falling off when it reaches critical damage (0 - 100)
-Config.fallOffChance = 35
+Config.fallOffChance = 40
 
 -- Chance of the tire bursting when it reaches critical damage (0 - 100)
-Config.tireBurstChance = 80
+Config.tireBurstChance = 50
 
 -- Whether or not to respect bulletproof tires for popping (wheels will still fall off)
 Config.respectBulletproofTires = false

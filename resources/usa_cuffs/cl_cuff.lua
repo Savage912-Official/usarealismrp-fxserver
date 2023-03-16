@@ -290,30 +290,17 @@ AddEventHandler("cuff:Handcuff", function(arrestingPlayerId, x, y, z, playerHead
 		            	SetPedComponentVariation(lPed, 7, prevMaleVariation, 0, 0)
 		        	end
 				else
-					if count >= 3 then
-						count = 0
-						
+					if count >= 3 then						
 						while IsEntityPlayingAnim(GetPlayerPed(-1), "mp_arrest_paired", "crook_p2_back_right", 3) or cuffanimplaying or IsPedRagdoll(GetPlayerPed(-1)) do
 							Citizen.Wait(5)
 						end
+
 						if arrestingPlayerId then
 							TriggerServerEvent("cuff:triggerAnimType", arrestingPlayerId, 1) -- police scuffing
 						end
+
 						TriggerEvent("cuff:playSuspectAnim", x, y, z, playerHeading)
-						Wait(3000)
-						TaskPlayAnim(lPed, "mp_arresting", "idle", 8.0, -8, -1, 49, 0, 0, 0, 0)
-						SetEnableHandcuffs(lPed, true)
-						SetCurrentPedWeapon(lPed, GetHashKey("WEAPON_UNARMED"), true)
-						TriggerEvent('usa:showHelp', false, 'You have been ~r~detained~s~.')
-						isCuffed = true
-						isHardcuffed = false
-						if IsPedModel(lPed,"mp_f_freemode_01") then
-							prevFemaleVariation = GetPedDrawableVariation(lPed, 7)
-							SetPedComponentVariation(lPed, 7, 23, 0, 0)
-						elseif IsPedModel(lPed,"mp_m_freemode_01") then
-							prevMaleVariation = GetPedDrawableVariation(lPed, 7)
-							SetPedComponentVariation(lPed, 7, 34, 0, 0)
-						end
+						CuffPlayer()
 					else
 						while IsEntityPlayingAnim(GetPlayerPed(-1), "mp_arrest_paired", "crook_p2_back_right", 3) or cuffanimplaying or IsPedRagdoll(GetPlayerPed(-1)) do
 							Citizen.Wait(500)
@@ -325,35 +312,24 @@ AddEventHandler("cuff:Handcuff", function(arrestingPlayerId, x, y, z, playerHead
 
 						TriggerEvent("cuff:playSuspectAnim", x, y, z, playerHeading)
 
-						local success = lib.skillCheck({ {areaSize = 50, speedMultiplier = 1.8}, {areaSize = 40, speedMultiplier = 1.9}, {areaSize = 30, speedMultiplier = 2.0} })
-						if success then
-							count = count + 1
-							isCuffed = false
-							isHardcuffed = false
-							TriggerEvent('usa:showHelp', false, 'You have ~g~Escaped!')
+						if not IsEntityDead(GetPlayerPed(-1)) then
+							local success = lib.skillCheck({ {areaSize = 50, speedMultiplier = 1.8}, {areaSize = 40, speedMultiplier = 1.9}, {areaSize = 30, speedMultiplier = 2.0} })
+							if success then
+								count = count + 1
+								isCuffed = false
+								isHardcuffed = false
+								TriggerEvent('usa:showHelp', false, 'You have ~g~Escaped!')
 
-							local beginTime = GetGameTimer()
-							while GetGameTimer() - beginTime < 1800000 do
-								Citizen.Wait(0)
+								local beginTime = GetGameTimer()
+								while GetGameTimer() - beginTime < 1800000 do
+									Citizen.Wait(0)
+								end
+								count = 0
+							else
+								CuffPlayer()
 							end
-							count = 0
 						else
-							count = 0
-							isCuffed = true
-							isHardcuffed = false
-
-							TaskPlayAnim(lPed, "mp_arresting", "idle", 8.0, -8, -1, 49, 0, 0, 0, 0)
-							SetEnableHandcuffs(lPed, true)
-							SetCurrentPedWeapon(lPed, GetHashKey("WEAPON_UNARMED"), true)
-							TriggerEvent('usa:showHelp', false, 'You have been ~r~detained~s~.')
-							
-							if IsPedModel(lPed,"mp_f_freemode_01") then
-								prevFemaleVariation = GetPedDrawableVariation(lPed, 7)
-								SetPedComponentVariation(lPed, 7, 23, 0, 0)
-							elseif IsPedModel(lPed,"mp_m_freemode_01") then
-								prevMaleVariation = GetPedDrawableVariation(lPed, 7)
-								SetPedComponentVariation(lPed, 7, 34, 0, 0)
-							end
+							CuffPlayer()
 						end
 					end
 				end
@@ -373,6 +349,24 @@ AddEventHandler('character:setCharacter', function()
 	end
 end)
 
+function CuffPlayer()
+	count = 0
+	isCuffed = true
+	isHardcuffed = false
+
+	TaskPlayAnim(lPed, "mp_arresting", "idle", 8.0, -8, -1, 49, 0, 0, 0, 0)
+	SetEnableHandcuffs(lPed, true)
+	SetCurrentPedWeapon(lPed, GetHashKey("WEAPON_UNARMED"), true)
+	TriggerEvent('usa:showHelp', false, 'You have been ~r~detained~s~.')
+	
+	if IsPedModel(lPed,"mp_f_freemode_01") then
+		prevFemaleVariation = GetPedDrawableVariation(lPed, 7)
+		SetPedComponentVariation(lPed, 7, 23, 0, 0)
+	elseif IsPedModel(lPed,"mp_m_freemode_01") then
+		prevMaleVariation = GetPedDrawableVariation(lPed, 7)
+		SetPedComponentVariation(lPed, 7, 34, 0, 0)
+	end
+end
 
 function DrawTimer(beginTime, duration, x, y, text)
     if not HasStreamedTextureDictLoaded('timerbars') then

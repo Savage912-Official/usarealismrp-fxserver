@@ -983,7 +983,7 @@ Config.recipes = {
                     name = "Steel",
                     quantity = 1,
                     type = "misc",
-                    weight = 15
+                    weight = 7
                 }
             },
             requiredCraftingLevel = 1,
@@ -1053,7 +1053,7 @@ Config.recipes = {
                     name = "Aluminum",
                     quantity = 1,
                     type = "misc",
-                    weight = 15
+                    weight = 5
                 }
             },
             requiredCraftingLevel = 1,

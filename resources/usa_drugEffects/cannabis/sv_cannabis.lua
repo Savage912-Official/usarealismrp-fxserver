@@ -17,10 +17,10 @@ local JOINT_ITEM = {
 
 AddEventHandler("drugs:use", function(name)
     local char = exports["usa-characters"]:GetCharacter(source)
-    if name == CONFIG.cannabis.itemName then
+    if name == Config.cannabis.itemName then
         --# see if player has required items
-        for i = 1, #(CONFIG.cannabis.requiredItems) do
-            if not char.hasItem(CONFIG.cannabis.requiredItems[i]) then
+        for i = 1, #(Config.cannabis.requiredItems) do
+            if not char.hasItem(Config.cannabis.requiredItems[i]) then
                 TriggerClientEvent("usa:notify", source, "You need a lighter and rolling papers to use that!")
                 return
             end
@@ -30,9 +30,9 @@ AddEventHandler("drugs:use", function(name)
         char.removeItem("Packaged Weed", 1)
         --# if so, remove items
         TriggerClientEvent("drugs:use", source, name)
-    elseif name == CONFIG.joint.itemName then
-        for i = 1, #(CONFIG.joint.requiredItems) do
-            if not char.hasItem(CONFIG.joint.requiredItems[i]) then
+    elseif name == Config.joint.itemName then
+        for i = 1, #(Config.joint.requiredItems) do
+            if not char.hasItem(Config.joint.requiredItems[i]) then
                 TriggerClientEvent("usa:notify", source, "You need a lighter to use that!")
                 return
             end

@@ -5,11 +5,12 @@ MechanicHelper.animations.repair = {}
 MechanicHelper.animations.repair.dict = "mini@repair"
 MechanicHelper.animations.repair.name = "fixing_a_player"
 
-MechanicHelper.LVL_1_REPAIR_TIME = 90000
 MechanicHelper.UPGRADE_INSTALL_TIME = 300000
 
 MechanicHelper.LEVEL_2_RANK_THRESH = 50
-MechanicHelper.LEVEL_3_RANK_THRESH = 200
+MechanicHelper.LEVEL_3_RANK_THRESH = 300
+
+local LONG_SKILL_CHECK = {areaSize = 40, speedMultiplier = 0.4}
 
 MechanicHelper.UPGRADE_FUNC_MAP = {
     ["topspeed1"] = function(veh, amountIncrease)
@@ -153,37 +154,36 @@ MechanicHelper.useMechanicTools = function(veh, repairCount, cb)
         if not IsPedInVehicle(PlayerPedId(), veh, false) then
             SetVehicleDoorOpen(veh, 4, false, false)
             TriggerEvent("dpemotes:command", 'e', GetPlayerServerId(ped), {"mechanic"})
-            local calculatedRepairTime = MechanicHelper.LVL_1_REPAIR_TIME
+            
+            local todoSkillChecks = {}
+            local numLongSkillChecks = nil
+            
             if repairCount >= MechanicHelper.LEVEL_3_RANK_THRESH then
-                calculatedRepairTime = 45000
+                todoSkillChecks = {'easy', 'medium', 'medium', 'medium', 'medium'}
+                numLongSkillChecks = 7
             elseif repairCount >= MechanicHelper.LEVEL_2_RANK_THRESH then
-                calculatedRepairTime = 60000
+                todoSkillChecks = {'easy', 'medium', 'medium', 'medium', 'medium', 'hard'}
+                numLongSkillChecks = 9
+            else
+                todoSkillChecks = {'easy', 'medium', 'medium', 'medium', 'medium', 'hard', 'hard'}
+                numLongSkillChecks = 11
             end
 
-            if lib.progressCircle({
-                duration = calculatedRepairTime,
-                label = 'Repairing...',
-                position = 'bottom',
-                useWhileDead = false,
-                canCancel = true,
-                disable = {
-                    car = true,
-                    move = true,
-                    combat = true,
-                }
-            }) then 
-                local failChance = 0.5 - (0.005 * repairCount) -- larger successful repair count = smaller fail chance
+            for i = 1, numLongSkillChecks do
+                table.insert(todoSkillChecks, 1, LONG_SKILL_CHECK)
+            end
+            
+            local passed = lib.skillCheck(todoSkillChecks)
 
-                if math.random() > failChance then
-                    if not IsVehicleDriveable(veh, true) then -- damaged and red
-                        SetVehicleUndriveable(veh, false)
-                        SetVehicleEngineHealth(veh, 500.0)
-                    else -- Damaged but not red, so prob orange
-                        SetVehicleEngineHealth(veh, 800.0)
-                    end
-                    FixAllTires(veh)
-                    success = true
+            if passed then
+                if not IsVehicleDriveable(veh, true) then -- damaged and red
+                    SetVehicleUndriveable(veh, false)
+                    SetVehicleEngineHealth(veh, 500.0)
+                else -- Damaged but not red, so prob orange
+                    SetVehicleEngineHealth(veh, 800.0)
                 end
+                FixAllTires(veh)
+                success = true
                 
                 cb(true)
             else 
@@ -205,8 +205,26 @@ MechanicHelper.useRepairKit = function(veh, cb)
         if not IsPedInVehicle(PlayerPedId(), veh, false) then
             SetVehicleDoorOpen(veh, 4, false, false)
             TriggerEvent("dpemotes:command", 'e', GetPlayerServerId(ped), {"mechanic"})
-            local regskillcheck = lib.skillCheck({'easy', 'easy', 'medium', 'medium', 'hard', 'hard'})
-            if regskillcheck then
+            local todoSkillChecks = {}
+            local numLongSkillChecks = nil
+            
+            if repairCount >= MechanicHelper.LEVEL_3_RANK_THRESH then
+                todoSkillChecks = {'easy', 'medium', 'medium', 'medium', 'medium'}
+                numLongSkillChecks = 7
+            elseif repairCount >= MechanicHelper.LEVEL_2_RANK_THRESH then
+                todoSkillChecks = {'easy', 'medium', 'medium', 'medium', 'medium', 'hard'}
+                numLongSkillChecks = 9
+            else
+                todoSkillChecks = {'easy', 'medium', 'medium', 'medium', 'medium', 'hard', 'hard'}
+                numLongSkillChecks = 11
+            end
+
+            for i = 1, numLongSkillChecks do
+                table.insert(todoSkillChecks, 1, LONG_SKILL_CHECK)
+            end
+            
+            local passed = lib.skillCheck(todoSkillChecks)
+            if passed then
                 TriggerServerEvent("usa:removeItem", "Repair Kit", 1)
                 SetVehicleDoorShut(veh, 4, false)
                 if not IsVehicleDriveable(veh, true) then

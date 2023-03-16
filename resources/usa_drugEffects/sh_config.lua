@@ -1,4 +1,4 @@
-CONFIG = {
+Config = {
     cannabis = {
         itemName = "Packaged Weed",
         requiredItems = {

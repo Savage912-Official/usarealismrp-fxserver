@@ -895,22 +895,45 @@ Config.recipes = {
             type = "weapons"
         },
         {
-            name = "FN SCAR SC",
-            image = "https://i.imgur.com/m2C9Z7x.png",
+          name = "FN SCAR SC",
+          image = "https://i.imgur.com/m2C9Z7x.png",
+          requires = {
+              { name = "FN SCAR SC Gun Cast", quantity = 1 },
+              { name = "Metal Spring", quantity = 3 },
+              { name = "Steel", quantity = 6 },
+              { name = "Aluminum", quantity = 3 },
+          },
+          produces = {
+              {
+                  name = "FN SCAR SC",
+                  hash = GetHashKey("WEAPON_SCARSC"),
+                  quantity = 1,
+                  type = "weapon",
+                  weight = 28,
+                  objectModel = "w_sb_smg",
+                  notStackable = true
+                }
+            },
+            requiredCraftingLevel = 3,
+            type = "weapons"
+        },
+        {
+            name = "M4GoldBeast",
+            image = "https://i.imgur.com/6YvspNA.png",
             requires = {
-                { name = "FN SCAR SC Gun Cast", quantity = 1 },
-                { name = "Metal Spring", quantity = 3 },
-                { name = "Steel", quantity = 6 },
-                { name = "Aluminum", quantity = 3 },
+                { name = "M4GoldBeast Gun Cast", quantity = 1 },
+                { name = "Metal Spring", quantity = 4 },
+                { name = "Refined Gold", quantity = 7 },
+                { name = "Aluminum", quantity = 2 },
             },
             produces = {
                 {
-                    name = "FN SCAR SC",
-                    hash = GetHashKey("WEAPON_SCARSC"),
+                    name = "M4GoldBeast",
+                    hash = GetHashKey("WEAPON_M4GOLDBEAST"),
                     quantity = 1,
                     type = "weapon",
-                    weight = 28,
-                    objectModel = "w_sb_smg",
+                    weight = 30,
+                    objectModel = "w_ar_m4goldbeast",
                     notStackable = true
                 }
             },
@@ -924,7 +947,7 @@ Config.recipes = {
             image = "https://i.imgur.com/3kvY24m.png",
             requires = {
                 { name = "Steel", quantity = 3 },
-                { name = "Refined Gold", quantity = 2 }
+                { name = "Refined Gold", quantity = 3 }
             },
             produces = {
                 {
@@ -973,6 +996,24 @@ Config.recipes = {
             type = "refineryGoods"
         },
         {
+            name = "M4GoldBeast Gun Cast",
+            image = "https://i.imgur.com/3kvY24m.png",
+            requires = {
+                { name = "Steel", quantity = 5 },
+                { name = "Refined Gold", quantity = 5 }
+            },
+            produces = {
+                {
+                    name = "M4GoldBeast Gun Cast",
+                    quantity = 1,
+                    type = "misc",
+                    weight = 10
+                }
+            },
+            requiredCraftingLevel = 1,
+            type = "refineryGoods"
+        },
+        {
             name = "Steel",
             image = "https://i.imgur.com/o4sROlT.png",
             requires = {
@@ -987,7 +1028,8 @@ Config.recipes = {
                 }
             },
             requiredCraftingLevel = 1,
-            type = "refineryGoods"
+            type = "refineryGoods",
+            craftDurationSeconds = 4 * 60
         },
         {
             name = "Refined Gold",
@@ -1000,11 +1042,12 @@ Config.recipes = {
                     name = "Refined Gold",
                     quantity = 1,
                     type = "misc",
-                    weight = 15
+                    weight = 10
                 }
             },
             requiredCraftingLevel = 1,
-            type = "refineryGoods"
+            type = "refineryGoods",
+            craftDurationSeconds = 5 * 60
         },
         {
             name = "Plastic",
@@ -1057,7 +1100,8 @@ Config.recipes = {
                 }
             },
             requiredCraftingLevel = 1,
-            type = "refineryGoods"
+            type = "refineryGoods",
+            craftDurationSeconds = 4 * 60
         }
     }
 }

@@ -496,7 +496,27 @@ end)
 RegisterNetEvent('towJob:towVehicle')
 AddEventHandler('towJob:towVehicle', function()
 	local playerPed = PlayerPedId()
-	if lastTowTruck then
+	local toAttachTruck = lastTowTruck
+	if not toAttachTruck then
+		local closestTruckDist = 9999999
+		for veh in exports.globals:EnumerateVehicles() do -- find nearest tow truck to use if no truck retrieved after clocking on
+			local dist = #(GetEntityCoords(playerPed) - GetEntityCoords(veh))
+			if dist < 20 then
+				local model = GetEntityModel(veh)
+				if model == `flatbed` then
+					if closestTruckDist and closestTruckDist > dist then
+						toAttachTruck = veh
+						closestTruckDist = dist
+					end
+				end
+			end
+		end
+		if not toAttachTruck then
+			exports.globals:notify("No tow truck found")
+			return
+		end
+	end
+	if toAttachTruck then
 		local targetVehicle = MechanicHelper.getClosestVehicle(15)
 		if not IsEntityAMissionEntity(targetVehicle) then
 			SetEntityAsMissionEntity(targetVehicle, true, true)
@@ -504,9 +524,9 @@ AddEventHandler('towJob:towVehicle', function()
 		if currentlyTowedVehicle == nil and not IsPedInAnyVehicle(playerPed, true) then
 			if targetVehicle ~= 0 then
 				local targetVehicleCoords = GetEntityCoords(targetVehicle, true)
-				local towTruckCoords = GetEntityCoords(lastTowTruck, true)
+				local towTruckCoords = GetEntityCoords(toAttachTruck, true)
 				if Vdist(targetVehicleCoords, towTruckCoords) < 12.0 and IsVehicleWhitelisted(targetVehicle) then
-					if lastTowTruck ~= targetVehicle and IsVehicleSeatFree(targetVehicle, -1) then
+					if toAttachTruck ~= targetVehicle and IsVehicleSeatFree(targetVehicle, -1) then
 						local dict = "mini@repair"
 						RequestAnimDict(dict)
 						while not HasAnimDictLoaded(dict) do Citizen.Wait(100) end
@@ -524,7 +544,7 @@ AddEventHandler('towJob:towVehicle', function()
 						while not NetworkHasControlOfEntity(targetVehicle) do
 							Wait(100)
 						end
-						AttachEntityToEntity(targetVehicle, lastTowTruck, GetEntityBoneIndexByName(lastTowTruck, 'bodyshell'), 0.0, -2.35, 0.75, 0, 0, 0, 1, 1, 0, 1, 0, 1)
+						AttachEntityToEntity(targetVehicle, toAttachTruck, GetEntityBoneIndexByName(toAttachTruck, 'bodyshell'), 0.0, -2.35, 0.75, 0, 0, 0, 1, 1, 0, 1, 0, 1)
 						currentlyTowedVehicle = targetVehicle
 						vehicleToImpound = currentlyTowedVehicle
 					end
@@ -535,7 +555,7 @@ AddEventHandler('towJob:towVehicle', function()
 				TriggerEvent('usa:notify', 'Towable vehicle not found. (2)')
 			end
 		else
-			local detachCoords = GetOffsetFromEntityInWorldCoords(lastTowTruck, 0.0, -12.0, 0.0)
+			local detachCoords = GetOffsetFromEntityInWorldCoords(toAttachTruck, 0.0, -12.0, 0.0)
 			local dict = "mini@repair"
 			RequestAnimDict(dict)
 			while not HasAnimDictLoaded(dict) do Citizen.Wait(100) end
@@ -672,7 +692,11 @@ AddEventHandler("mechanic:repairtools", function()
 		isRepairing = true
 		local veh = MechanicHelper.getClosestVehicle(5)
 		if veh then
-			MechanicHelper.useRepairKit(veh, function(success)
+			local repairCount = TriggerServerCallback {
+				eventName = "mechanic:getRepairCount",
+				args = {}
+			}
+			MechanicHelper.useRepairKit(veh, repairCount, function(success)
 				if success then
 					TriggerServerEvent("mechanic:vehicleRepaired")
 					exports.globals:notify("Vehicle repaired!")

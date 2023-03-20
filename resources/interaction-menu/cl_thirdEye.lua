@@ -342,7 +342,11 @@ function addCivVehicleOptions()
         {
             name = "stickers",
             label = "Stickers"
-        }
+        },
+        {
+            name = "tow",
+            label = "Tow"
+        },
     })
 end
 
@@ -437,5 +441,3 @@ target.addPoint("911CallPoint", "911", "fas fa-siren", vector3(1772.273, 2495.20
         end
     },
 })
-
--- todo: add /carry as a civ person option

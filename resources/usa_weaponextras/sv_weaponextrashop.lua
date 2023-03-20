@@ -260,6 +260,11 @@ local ITEMS = {
                 { name = "Suppressor", value = "COMPONENT_AT_AKORUS_SUPP_02", price = 5000, weapon_hash = GetHashKey("WEAPON_AKORUS") },
                 { name = "Grip", value = "COMPONENT_AT_AKORUS_AFGRIP", price = 3000, weapon_hash = GetHashKey("WEAPON_AKORUS") },
             },
+            ["M4 GoldBeast"] = {
+                { name = "Empty M4GoldBeast Extended Mag", quantity = 1, type = "magazine", price = 1500, weight = 7, receives = "7.62mm", MAX_CAPACITY = 60, currentCapacity = 0, notStackable = true, magComponent = "COMPONENT_M4GOLDBEAST_CLIP_02", compatibleWeapon = GetHashKey("WEAPON_M4GOLDBEAST") },
+                { name = "Empty M4GoldBeast Drum Mag", quantity = 1, type = "magazine", price = 2500, weight = 7, receives = "7.62mm", MAX_CAPACITY = 120, currentCapacity = 0, notStackable = true, magComponent = "COMPONENT_M4GOLDBEAST_CLIP_03", compatibleWeapon = GetHashKey("WEAPON_M4GOLDBEAST") },
+                { name = "Suppressor", value = "COMPONENT_AT_M4GOLDBEAST_SUPP_02", price = 3500, weapon_hash = GetHashKey("WEAPON_M4GOLDBEAST") }
+            },
             ["Carbine Rifle"] = {
                 { name = "Empty Carbine Extended Mag", quantity = 1, type = "magazine", price = 500, weight = 7, receives = "5.56mm", MAX_CAPACITY = 60, currentCapacity = 0, legality = "illegal", notStackable = true, magComponent = "COMPONENT_CARBINERIFLE_CLIP_02", compatibleWeapon = GetHashKey("WEAPON_CARBINERIFLE") },
                 { name = "Empty Carbine Box Mag", quantity = 1, type = "magazine", price = 700, weight = 7, receives = "5.56mm", MAX_CAPACITY = 100, currentCapacity = 0, legality = "illegal", notStackable = true, magComponent = "COMPONENT_CARBINERIFLE_CLIP_03", compatibleWeapon = GetHashKey("WEAPON_CARBINERIFLE") },

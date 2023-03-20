@@ -1,38 +1,38 @@
 local STORE_ITEMS = {
   ["Handguns"] = {
-    { name = "Pistol", type = "weapon", hash = 453432689, price = 600, quantity = 1, weight = 15, objectModel = "w_pi_pistol" },
-    { name = "Heavy Pistol", type = "weapon", hash = -771403250, price = 3500, quantity = 1, weight = 20, objectModel = "w_pi_heavypistol" },
-    { name = ".50 Caliber", type = "weapon", hash = -1716589765, price = 3000, quantity = 1, weight = 20, objectModel = "w_pi_pistol50" },
-    { name = "SNS Pistol", type = "weapon", hash = -1076751822, price = 800, quantity = 1, weight = 12, objectModel = "w_pi_sns_pistol" },
-    { name = "Glock", type = "weapon", hash = 1593441988, price = 800, quantity = 1, weight = 15, objectModel = "w_pi_combatpistol" },
-    { name = "MK2", type = "weapon", hash = -1075685676, price = 1250, quantity = 1, weight = 15 },
-    { name = "Vintage Pistol", type = "weapon", hash = 137902532, price = 1250, quantity = 1, weight = 15, objectModel = "w_pi_vintage_pistol" },
+    { name = "Pistol", type = "weapon", hash = 453432689, price = 5000, quantity = 1, weight = 15, objectModel = "w_pi_pistol" },
+    { name = "Heavy Pistol", type = "weapon", hash = -771403250, price = 7500, quantity = 1, weight = 20, objectModel = "w_pi_heavypistol" },
+    { name = "50 Caliber", type = "weapon", hash = -1716589765, price = 10000, quantity = 1, weight = 20, objectModel = "w_pi_pistol50" },
+    { name = "SNS Pistol", type = "weapon", hash = -1076751822, price = 4000, quantity = 1, weight = 12, objectModel = "w_pi_sns_pistol" },
+    { name = "Glock", type = "weapon", hash = 1593441988, price = 7000, quantity = 1, weight = 15, objectModel = "w_pi_combatpistol" },
+    { name = "MK2", type = "weapon", hash = -1075685676, price = 6000, quantity = 1, weight = 15 },
+    { name = "Vintage Pistol", type = "weapon", hash = 137902532, price = 5000, quantity = 1, weight = 15, objectModel = "w_pi_vintage_pistol" },
     --{ name = "Stun Gun", type = "weapon", hash = 911657153, price = 1500, quantity = 1, weight = 5, objectModel = "w_pi_stungun" }
     --{ name = "Marksman Pistol", type = "weapon", hash = -598887786, price = 2000, quantity = 1, weight = 15 },
     --{ name = "Revolver", type = "weapon", hash = -1045183535, price = 2000, quantity = 1, weight = 15 }
   },
   ["Shotguns"] = {
-    { name = "Pump Shotgun", type = "weapon", hash = 487013001, price = 4000, quantity = 1, weight = 25, objectModel = "w_sg_pumpshotgun" },
-    { name = "Bullpup Shotgun", type = "weapon", hash = -1654528753, price = 6000, quantity = 1, weight = 30, objectModel = "w_sg_bullpupshotgun" },
-    { name = "Musket", type = "weapon", hash = -1466123874, price = 5000, quantity = 1, weight = 35, objectModel = "w_ar_musket" }
+    { name = "Pump Shotgun", type = "weapon", hash = 487013001, price = 10000, quantity = 1, weight = 25, objectModel = "w_sg_pumpshotgun" },
+    { name = "Bullpup Shotgun", type = "weapon", hash = -1654528753, price = 25000, quantity = 1, weight = 30, objectModel = "w_sg_bullpupshotgun" },
+    { name = "Musket", type = "weapon", hash = -1466123874, price = 15000, quantity = 1, weight = 35, objectModel = "w_ar_musket" }
   },
   ["Extras"] = {
     { name = "Body Armor", type = "misc", price = 1000, quantity = 1, weight = 15, objectModel = "prop_bodyarmour_03" },
     { name = "Fire Extinguisher", type = "weapon",  hash = 101631238, price = 400, weight = 20, objectModel = "prop_fire_hosereel" }
   },
   ["Magazines"] = {
-    { name = "Empty 9mm Mag [7]", type = "magazine", price = 75, weight = 7, receives = "9mm", MAX_CAPACITY = 7, currentCapacity = 0 },
-    { name = "Empty 9mm Mag [12]", type = "magazine", price = 75, weight = 7, receives = "9mm", MAX_CAPACITY = 12, currentCapacity = 0 },
-    { name = "Empty .50 Cal Mag [9]", type = "magazine", price = 130, weight = 7, receives = ".50 Cal", MAX_CAPACITY = 9, currentCapacity = 0 },
-    { name = "Empty .45 Mag [6]", type = "magazine", price = 100, weight = 7, receives = ".45", MAX_CAPACITY = 6, currentCapacity = 0 },
-    { name = "Empty .45 Mag [18]", type = "magazine", price = 120, weight = 7, receives = ".45", MAX_CAPACITY = 18, currentCapacity = 0 },
+    { name = "Empty 9mm Mag [7]", type = "magazine", price = 250, weight = 7, receives = "9mm", MAX_CAPACITY = 7, currentCapacity = 0 },
+    { name = "Empty 9mm Mag [12]", type = "magazine", price = 250, weight = 7, receives = "9mm", MAX_CAPACITY = 12, currentCapacity = 0 },
+    { name = "Empty .50 Cal Mag [9]", type = "magazine", price = 400, weight = 7, receives = ".50 Cal", MAX_CAPACITY = 9, currentCapacity = 0 },
+    { name = "Empty .45 Mag [6]", type = "magazine", price = 300, weight = 7, receives = ".45", MAX_CAPACITY = 6, currentCapacity = 0 },
+    { name = "Empty .45 Mag [18]", type = "magazine", price = 360, weight = 7, receives = ".45", MAX_CAPACITY = 18, currentCapacity = 0 },
   },
   ["Ammunition"] = {
-    { name = "9mm Bullets", type = "ammo", price = 200, weight = 0.5, quantity = 10, objectModel = "prop_ld_ammo_pack_01" },
-    { name = ".50 Cal Bullets", type = "ammo", price = 350, weight = 0.5, quantity = 10, objectModel = "prop_ld_ammo_pack_01" },
-    { name = ".45 Bullets", type = "ammo", price = 250, weight = 0.5, quantity = 10, objectModel = "prop_ld_ammo_pack_01" },
-    { name = "12 Gauge Shells", type = "ammo", price = 200, weight = 0.5, quantity = 10, objectModel = "prop_ld_ammo_pack_03" },
-    { name = "Musket Ammo", type = "ammo", price = 300, weight = 0.5, quantity = 10, objectModel = "prop_ld_ammo_pack_03" }
+    { name = "9mm Bullets", type = "ammo", price = 500, weight = 0.5, quantity = 10, objectModel = "prop_ld_ammo_pack_01" },
+    { name = ".50 Cal Bullets", type = "ammo", price = 700, weight = 0.5, quantity = 10, objectModel = "prop_ld_ammo_pack_01" },
+    { name = ".45 Bullets", type = "ammo", price = 500, weight = 0.5, quantity = 10, objectModel = "prop_ld_ammo_pack_01" },
+    { name = "12 Gauge Shells", type = "ammo", price = 600, weight = 0.5, quantity = 10, objectModel = "prop_ld_ammo_pack_03" },
+    { name = "Musket Ammo", type = "ammo", price = 600, weight = 0.5, quantity = 10, objectModel = "prop_ld_ammo_pack_03" }
   }
 }
 
@@ -166,7 +166,7 @@ AddEventHandler("gunShop:purchaseLicense", function(business)
     else
       TriggerClientEvent("usa:notify", usource, "Inventory full!")
     end
-  else 
+  else
     TriggerClientEvent("usa:notify", usource, "You have a felony on your record! We can't issue you a permit!")
   end
 end)

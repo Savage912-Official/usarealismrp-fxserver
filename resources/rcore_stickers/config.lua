@@ -740,6 +740,12 @@ Config.Stickers = {
                 dict = 'others'
             },
 			{
+                name = 'Atomic Garage',
+                price = 95,
+                flip = false,
+                dict = 'others'
+            },
+			{
                 name = 'Chicken Nuggets',
                 price = 95,
                 flip = false,
@@ -759,6 +765,12 @@ Config.Stickers = {
             },
 			{
                 name = 'Tag! Youre Dead!',
+                price = 95,
+                flip = false,
+                dict = 'others'
+            },
+			{
+                name = 'Stickerbomb',
                 price = 95,
                 flip = false,
                 dict = 'others'

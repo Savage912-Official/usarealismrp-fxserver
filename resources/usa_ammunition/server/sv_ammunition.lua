@@ -34,6 +34,7 @@ local WEPS_WITH_MAGS = {
     [GetHashKey("WEAPON_COMPACTRIFLE")] = { accepts = "7.62mm", magAmmoCounts = {30, 60, 100} },
     [GetHashKey("WEAPON_MILITARYRIFLE")] = { accepts = "5.56mm", magAmmoCounts = {20, 30} },
     [GetHashKey("WEAPON_TACTICALRIFLE")] = { accepts = "5.56mm", magAmmoCounts = {30, 60, 100} },
+    [GetHashKey("WEAPON_M4GOLDBEAST")] = { accepts = "7.62mm", magAmmoCounts = {30, 60, 120} },
     -- light machine guns --
     [GetHashKey("WEAPON_MG")] = { accepts = "7.62mm", magAmmoCounts = {54, 100} },
     [GetHashKey("WEAPON_COMBATMG")] = { accepts = "7.62mm", magAmmoCounts = {100, 200} },

@@ -16,10 +16,9 @@ local SETTINGS = {
       ["w_me_bat"] = -1786099057,
       --["prop_ld_jerrycan_01"] = 883325847,
       -- assault rifles:
-      ["w_ar_carbinerifle"] = -2084633992,
+      ["w_ar_carbinerifle"] = { -2084633992, GetHashKey("WEAPON_M4GOLDBEAST"), GetHashKey("WEAPON_AKORUS") },
       ["w_ar_carbineriflemk2"] = GetHashKey("WEAPON_CARBINERIFLE_Mk2"),
-      ["w_ar_assaultrifle"] = -1074790547,
-      ["w_ar_assaultrifle"] = GetHashKey("WEAPON_AKORUS"),
+      ["w_ar_assaultrifle"] = { -1074790547, GetHashKey("WEAPON_AKORUS") },
       ["w_ar_specialcarbine"] = -1063057011,
       ["w_ar_bullpuprifle"] = 2132975508,
       ["w_ar_advancedrifle"] = -1357824103,
@@ -28,7 +27,7 @@ local SETTINGS = {
       -- sub machine guns:
       ["w_sb_microsmg"] = 324215364,
       ["w_sb_assaultsmg"] = -270015777,
-      ["w_sb_smg"] = 736523883,
+      ["w_sb_smg"] = { 736523883, GetHashKey("WEAPON_SCARSC") },
       ["w_sb_smgmk2"] = GetHashKey("WEAPON_SMG_MK2"),
       ["w_sb_gusenberg"] = 1627465347,
       ["w_sb_pdw"] = GetHashKey("WEAPON_COMBATPDW"),
@@ -56,11 +55,21 @@ Citizen.CreateThread(function()
       -- attach if player has large weapon --
       ---------------------------------------
       for wep_name, wep_hash in pairs(SETTINGS.compatable_weapon_hashes) do
-          if HasPedGotWeapon(me, wep_hash, false) then
-              if not attached_weapons[wep_name] and GetSelectedPedWeapon(me) ~= wep_hash then
-                  AttachWeapon(wep_name, wep_hash, SETTINGS.back_bone, SETTINGS.x, SETTINGS.y, SETTINGS.z, SETTINGS.x_rotation, SETTINGS.y_rotation, SETTINGS.z_rotation, isMeleeWeapon(wep_name))
+        local wep_hash_list = {}
+        if type(wep_hash) == "table" then
+          for i = 1, #wep_hash do
+            table.insert(wep_hash_list, wep_hash[i])
+          end
+        else
+          table.insert(wep_hash_list, wep_hash)
+        end
+        for i = 1, #wep_hash_list do
+          if HasPedGotWeapon(me, wep_hash_list[i], false) then
+            if not attached_weapons[wep_name] and GetSelectedPedWeapon(me) ~= wep_hash_list[i] then
+                  AttachWeapon(wep_name, wep_hash_list[i], SETTINGS.back_bone, SETTINGS.x, SETTINGS.y, SETTINGS.z, SETTINGS.x_rotation, SETTINGS.y_rotation, SETTINGS.z_rotation, isMeleeWeapon(wep_name))
               end
           end
+        end
       end
       --------------------------------------------
       -- remove from back if equipped / dropped --

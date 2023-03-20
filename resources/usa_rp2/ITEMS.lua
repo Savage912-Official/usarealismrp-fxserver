@@ -1,7 +1,10 @@
 local ITEMS = {
+    { name = "50 Caliber", type = "weapon", hash = -1716589765, price = 14000, quantity = 1, weight = 20, objectModel = "w_pi_pistol50" },
+    { name = "Empty .50 Cal Mag [9]", type = "magazine", price = 400, weight = 7, receives = ".50 Cal", MAX_CAPACITY = 9, currentCapacity = 0 },
     { name = "FN SCAR SC", type = "weapon", hash = GetHashKey("WEAPON_SCARSC"), weight = 28.0, quantity = 1 },
     { name = "Micro SMG", type = "weapon", hash = GetHashKey("WEAPON_MICROSMG"), weight = 25.0, quantity = 1 },
     { name = "Akorus", type = "weapon", hash = GetHashKey("WEAPON_AKORUS"), weight = 25.0, quantity = 1 },
+    { name = "M4GoldBeast", type = "weapon", hash = GetHashKey("WEAPON_M4GOLDBEAST"), weight = 30.0, quantity = 1 },
     { name = "Revolver Ultra", type = "weapon", hash = GetHashKey("WEAPON_REVOLVERULTRA"), weight = 25.0, quantity = 1 },
     { name = "Christmas Present", type = "misc", price = 10000, legality = "legal", quantity = 1, weight = 15, objectModel = "hei_prop_heist_box" },
     { name = "Olaf Minigun", type = "weapon", hash = GetHashKey("WEAPON_OLAFMINIGUN"), weight = 30.0, quantity = 1, christmasPresent2022 = true},
@@ -230,6 +233,10 @@ local ITEMS = {
     { name = "Crude Oil", legality = "legal", quantity = 1, type = "misc", weight = 15 },
     { name = "Plastic", legality = "legal", quantity = 1, type = "misc", weight = 2 },
     { name = "Copper Wire", legality = "legal", quantity = 1, type = "misc", weight = 3 },
+    { name = "M4GoldBeast Gun Cast", legality = "legal", quanity = 1, type = "misc", weight = 10},
+    { name = "Empty M4GoldBeast Mag", quantity = 1, type = "magazine", price = 800, weight = 7, receives = "7.62mm", MAX_CAPACITY = 30, currentCapacity = 0, legality = "illegal", notStackable = true, magComponent = "COMPONENT_M4GOLDBEAST_CLIP_01", compatibleWeapon = GetHashKey("WEAPON_M4GOLDBEAST") },
+    { name = "Empty M4GoldBeast Extended Mag", quantity = 1, type = "magazine", price = 950, weight = 7, receives = "7.62mm", MAX_CAPACITY = 60, currentCapacity = 0, legality = "illegal", notStackable = true, magComponent = "COMPONENT_M4GOLDBEAST_CLIP_02", compatibleWeapon = GetHashKey("WEAPON_M4GOLDBEAST") },
+    { name = "Empty M4GoldBeast Drum Mag", quantity = 1, type = "magazine", price = 1300, weight = 7, receives = "7.62mm", MAX_CAPACITY = 120, currentCapacity = 0, legality = "illegal", notStackable = true, magComponent = "COMPONENT_M4GOLDBEAST_CLIP_03", compatibleWeapon = GetHashKey("WEAPON_M4GOLDBEAST") },
     {
         name = "Wheelchair",
         price = 200,
@@ -305,7 +312,8 @@ local ITEMS = {
     quantity = 1,
     weight = 10,
     type = "misc",
-    notStackable = true}
+    notStackable = true},
+    { name = "Empty 7.62mm Mag [30]", type = "magazine", price = 150, weight = 5, receives = "7.62mm", MAX_CAPACITY = 30, currentCapacity = 0, objectModel = "w_ar_carbinerifle_mag1" },
 }
 
 

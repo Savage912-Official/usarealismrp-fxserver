@@ -148,6 +148,7 @@ injuries = { -- ensure this is the same as sv_injury.lua
     [GetHashKey("WEAPON_PUMPSHOTGUN_MK2")] = {type = 'penetrating', bleed = 300, string = 'High-speed Projectile', treatableWithBandage = false, treatmentPrice = 500, dropEvidence = 1.0}, -- WEAPON_PUMPSHOTGUN_MK2
     [GetHashKey("WEAPON_ASSAULTRIFLE_MK2")] = {type = 'penetrating', bleed = 300, string = 'High-speed Projectile', treatableWithBandage = false, treatmentPrice = 500, dropEvidence = 1.0}, 
     [GetHashKey("WEAPON_COMPACTRIFLE")] = {type = 'penetrating', bleed = 300, string = 'High-speed Projectile', treatableWithBandage = false, treatmentPrice = 500, dropEvidence = 1.0}, -- WEAPON_COMPACTRIFLE
+    [GetHashKey("WEAPON_M4GOLDBEAST")] = {type = 'penetrating', bleed = 300, string = 'High-speed Projectile', treatableWithBandage = false, treatmentPrice = 500, dropEvidence = 1.0},
 }
 
 hospitalLocations = {

@@ -31,7 +31,7 @@ local COOK_COORDS = {x = 738.85601806641, y = -773.63940429688, z = 25.093187332
 
 local methRank = nil
 
-local blowChances = {0.45, 0.55, 0.65, 0.75, 0.85}
+local blowChances = {0.60, 0.70, 0.75, 0.85, 0.90}
 local produceTimes = {23000, 19000, 15000, 12000, 10000}
 local packageTimes = {7500,6500,5500,4500,3500}
 

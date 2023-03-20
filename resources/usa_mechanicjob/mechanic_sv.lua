@@ -442,6 +442,21 @@ RegisterServerCallback {
 	end
 }
 
+RegisterServerCallback {
+	eventName = "mechanic:getRepairCount",
+	eventCallback = function(src)
+		local retVal = nil
+		local char = exports["usa-characters"]:GetCharacter(src)
+		MechanicHelper.getMechanicRepairCount(char.get("_id"), function(count)
+			retVal = count
+		end)
+		while retVal == nil do
+			Wait(1)
+		end
+		return retVal
+	end
+}
+
 RegisterServerEvent("mechanic:saveUnderglow")
 AddEventHandler("mechanic:saveUnderglow", function(plate, r, g, b)
 	exports.essentialmode:updateDocument("vehicle-underglow", plate, { r = r, g = g, b = b }, true)

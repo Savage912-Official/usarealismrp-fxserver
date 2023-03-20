@@ -1,89 +1,6 @@
-local MAX_BED_DISTANCE = 1000
-
-BASE_CHECKIN_PRICE = 25 -- must be kept the same with one in cl_injury under check-in section
-
-injuries = { -- ensure this is the same as cl_injury.lua
-	--[GetHashKey("WEAPON_UNARMED")] = {type = 'blunt', bleed = 7200, string = 'Fists', treatableWithBandage = true, treatmentPrice = 50, dropEvidence = 0.5}, -- WEAPON_UNARMED
-	[GetHashKey("WEAPON_ANIMAL")] = {type = 'laceration', bleed = 1500, string = 'Animal Attack', treatableWithBandage = true, treatmentPrice = 80, dropEvidence = 0.9}, -- WEAPON_ANIMAL
-	[GetHashKey("WEAPON_COUGAR")] = {type = 'laceration', bleed = 900, string = 'Animal Attack', treatableWithBandage = false, treatmentPrice = 90, dropEvidence = 0.9}, -- WEAPON_COUGAR
-	[GetHashKey("WEAPON_KNIFE")] = {type = 'laceration', bleed = 480, string = 'Knife Puncture', treatableWithBandage = false, treatmentPrice = 90, dropEvidence = 1.0}, -- WEAPON_KNIFE
-	[GetHashKey("WEAPON_SHIV")] = {type = 'laceration', bleed = 2100, string = 'Knife Puncture', treatableWithBandage = false, treatmentPrice = 130, dropEvidence = 1.0}, -- WEAPON_SHIV
-	[GetHashKey("WEAPON_THROWINGKNIFE")] = {type = 'laceration', bleed = 2100, string = 'Knife Puncture', treatableWithBandage = false, treatmentPrice = 130, dropEvidence = 1.0},
-	[GetHashKey("WEAPON_NINJASTAR")] = {type = 'laceration', bleed = 2100, string = 'Knife Puncture', treatableWithBandage = false, treatmentPrice = 130, dropEvidence = 1.0},
-	[GetHashKey("WEAPON_NINJASTAR2")] = {type = 'laceration', bleed = 2100, string = 'Knife Puncture', treatableWithBandage = false, treatmentPrice = 130, dropEvidence = 1.0},
-	[GetHashKey("WEAPON_KATANAS")] = {type = 'laceration', bleed = 1750, string = 'Knife Puncture', treatableWithBandage = false, treatmentPrice = 150, dropEvidence = 1.0}, -- WEAPON_KATANA
-	[GetHashKey("WEAPON_NIGHTSTICK")] = {type = 'blunt', bleed = 2400, string = 'Blunt Object', treatableWithBandage = true, treatmentPrice = 30, dropEvidence = 0.8}, -- WEAPON_NIGHTSTICK
-	[GetHashKey("WEAPON_HAMMER")] = {type = 'blunt', bleed = 1200, string = 'Concentrated Blunt Object', treatableWithBandage = true, treatmentPrice = 30, dropEvidence = 0.9}, -- WEAPON_HAMMER
-	[GetHashKey("WEAPON_BAT")] = {type = 'blunt', bleed = 900, string = 'Large Blunt Object', treatableWithBandage = false, treatmentPrice = 70, dropEvidence = 0.9}, -- WEAPON_BAT
-	[GetHashKey("WEAPON_GOLFCLUB")] = {type = 'blunt', bleed = 1200, string = 'Large Blunt Object', treatableWithBandage = false, treatmentPrice = 10, dropEvidence = 0.6}, -- WEAPON_GOLFCLUB
-	[GetHashKey("WEAPON_CROWBAR")] = {type = 'blunt', bleed = 900, string = 'Blunt Object', treatableWithBandage = false, treatmentPrice = 45, dropEvidence = 0.8}, -- WEAPON_CROWBAR
-	[GetHashKey("WEAPON_MACHINEPISTOL")] = {type = 'penetrating', bleed = 300, string = 'High-speed Projectile', treatableWithBandage = false, treatmentPrice = 500, dropEvidence = 1.0},
-	[GetHashKey("WEAPON_APPISTOL")] = {type = 'penetrating', bleed = 300, string = 'High-speed Projectile', treatableWithBandage = false, treatmentPrice = 500, dropEvidence = 1.0},
-	[GetHashKey("WEAPON_PISTOL")] = {type = 'penetrating', bleed = 300, string = 'High-speed Projectile', treatableWithBandage = false, treatmentPrice = 500, dropEvidence = 1.0}, -- WEAPON_PISTOL
-	[GetHashKey("WEAPON_COMBATPISTOL")] = {type = 'penetrating', bleed = 300, string = 'High-speed Projectile', treatableWithBandage = false, treatmentPrice = 500, dropEvidence = 1.0}, -- WEAPON_COMBATPISTOL
-	[GetHashKey("WEAPON_CERAMICPISTOL")] = {type = 'penetrating', bleed = 300, string = 'High-speed Projectile', treatableWithBandage = false, treatmentPrice = 500, dropEvidence = 1.0}, -- WEAPON_CERAMICPISTOL
-	[GetHashKey("WEAPON_PISTOL50")] = {type = 'penetrating', bleed = 300, string = 'High-speed Projectile', treatableWithBandage = false, treatmentPrice = 500, dropEvidence = 1.0}, -- WEAPON_PISTOL50
-	[GetHashKey("WEAPON_GUSENBERG")] = {type = 'penetrating', bleed = 300, string = 'High-speed Projectile', treatableWithBandage = false, treatmentPrice = 500, dropEvidence = 1.0},
-	[GetHashKey("WEAPON_SMG")] = {type = 'penetrating', bleed = 300, string = 'High-speed Projectile', treatableWithBandage = false, treatmentPrice = 500, dropEvidence = 1.0}, -- WEAPON_SMG
-	[GetHashKey("WEAPON_SCARSC")] = {type = 'penetrating', bleed = 300, string = 'High-speed Projectile', treatableWithBandage = false, treatmentPrice = 500, dropEvidence = 1.0},
-	[GetHashKey("WEAPON_COMBATPDW")] = {type = 'penetrating', bleed = 300, string = 'High-speed Projectile', treatableWithBandage = false, treatmentPrice = 500, dropEvidence = 1.0}, -- WEAPON_COMBATPDW
-	[GetHashKey("WEAPON_ASSAULTSMG")] = {type = 'penetrating', bleed = 300, string = 'High-speed Projectile', treatableWithBandage = false, treatmentPrice = 500, dropEvidence = 1.0},
-	[GetHashKey("WEAPON_SMG_MK2")] = {type = 'penetrating', bleed = 300, string = 'High-speed Projectile', treatableWithBandage = false, treatmentPrice = 500, dropEvidence = 1.0},
-	[GetHashKey("WEAPON_MICROSMG")] = {type = 'penetrating', bleed = 300, string = 'High-speed Projectile', treatableWithBandage = false, treatmentPrice = 500, dropEvidence = 1.0},
-	[GetHashKey("WEAPON_MINISMG")] = {type = 'penetrating', bleed = 300, string = 'High-speed Projectile', treatableWithBandage = false, treatmentPrice = 500, dropEvidence = 1.0},
-	[GetHashKey("WEAPON_ASSAULTRIFLE")] = {type = 'penetrating', bleed = 300, string = 'High-speed Projectile', treatableWithBandage = false, treatmentPrice = 500, dropEvidence = 1.0},
-	[GetHashKey("WEAPON_AKORUS")] = {type = 'penetrating', bleed = 300, string = 'High-speed Projectile', treatableWithBandage = false, treatmentPrice = 500, dropEvidence = 1.0},
-	[GetHashKey("WEAPON_TACTICALRIFLE")] = {type = 'penetrating', bleed = 300, string = 'High-speed Projectile', treatableWithBandage = false, treatmentPrice = 500, dropEvidence = 1.0},
-    [GetHashKey("WEAPON_MILITARYRIFLE")] = {type = 'penetrating', bleed = 300, string = 'High-speed Projectile', treatableWithBandage = false, treatmentPrice = 500, dropEvidence = 1.0},
-	[GetHashKey("WEAPON_CARBINERIFLE")] = {type = 'penetrating', bleed = 300, string = 'High-speed Projectile', treatableWithBandage = false, treatmentPrice = 500, dropEvidence = 1.0}, -- WEAPON_CARBINERIFLE
-	[GetHashKey("WEAPON_PUMPSHOTGUN")] = {type = 'penetrating', bleed = 300, string = 'High-speed Projectile', treatableWithBandage = false, treatmentPrice = 500, dropEvidence = 1.0}, -- WEAPON_PUMPSHOTGUN
-	[GetHashKey("WEAPON_SAWNOFFSHOTGUN")] = {type = 'penetrating', bleed = 300, string = 'High-speed Projectile', treatableWithBandage = false, treatmentPrice = 500, dropEvidence = 1.0},
-	[GetHashKey("WEAPON_DBSHOTGUN")] = {type = 'penetrating', bleed = 300, string = 'High-speed Projectile', treatableWithBandage = false, treatmentPrice = 500, dropEvidence = 1.0}, -- WEAPON_DBSHOTGUN
-	[GetHashKey("WEAPON_BULLPUPSHOTGUN")] = {type = 'penetrating', bleed = 300, string = 'High-speed Projectile', treatableWithBandage = false, treatmentPrice = 500, dropEvidence = 1.0}, -- WEAPON_BULLPUPSHOTGUN
-	[GetHashKey("WEAPON_STUNGUN")] = {type = 'penetrating', bleed = 3600, string = 'Prongs', treatableWithBandage = true, treatmentPrice = 25, dropEvidence = 0.0}, -- WEAPON_STUNGUN
-	[GetHashKey("WEAPON_SNIPERRIFLE")] = {type = 'penetrating', bleed = 120, string = 'High-speed Projectile', treatableWithBandage = false, treatmentPrice = 500, dropEvidence = 1.0}, -- WEAPON_SNIPERRIFLE
-	[GetHashKey("WEAPON_REMOTESNIPER")] = {type = 'penetrating', bleed = 120, string = 'High-speed Projectile', treatableWithBandage = false, treatmentPrice = 500, dropEvidence = 1.0}, -- WEAPON_REMOTESNIPER
-	[GetHashKey("WEAPON_GRENADE")] = {type = 'penetrating', bleed = 120, string = 'Shrapnel Wound', treatableWithBandage = false, treatmentPrice = 500, dropEvidence = 1.0}, -- WEAPON_GRENADE
-	[GetHashKey("WEAPON_MOLOTOV")] = {type = 'burn', bleed = 600, string = 'Molotov Residue', treatableWithBandage = false, treatmentPrice = 80, dropEvidence = 1.0}, -- WEAPON_MOLOTOV
-	[GetHashKey("WEAPON_PETROLCAN")] = {type = 'burn', bleed = 600, string = 'Gasoline Residue', treatableWithBandage = false, treatmentPrice = 90, dropEvidence = 1.0}, -- WEAPON_PETROLCAN
-	[GetHashKey("WEAPON_FLARE")] = {type = 'burn', bleed = 1800, string = 'Concentrated Heat', treatableWithBandage = true, treatmentPrice = 65, dropEvidence = 0.7}, -- WEAPON_FLARE
-	[GetHashKey("WEAPON_EXPLOSION")] = {type = 'burn', bleed = 120, string = 'Explosion', treatableWithBandage = false, treatmentPrice = 500, dropEvidence = 1.0}, -- WEAPON_EXPLOSION
-	--[GetHashKey("WEAPON_FALL")] = {type = 'blunt', bleed = 2700, string = 'Fall', treatableWithBandage = true, treatmentPrice = 30, dropEvidence = 0.2}, -- WEAPON_FALL
-	--[GetHashKey("WEAPON_RAMMED_BY_CAR")] = {type = 'blunt', bleed = 1800, string = 'Vehicle Accident', treatableWithBandage = true, treatmentPrice = 50, dropEvidence = 0.0}, -- WEAPON_RAMMED_BY_CAR
-	--[GetHashKey("WEAPON_RUN_OVER_BY_CAR")] = {type = 'blunt', bleed = 1500, string = 'Vehicle Accident', treatableWithBandage = true, treatmentPrice = 50, dropEvidence = 0.4}, -- WEAPON_RUN_OVER_BY_CAR
-	[GetHashKey("WEAPON_FIRE")] = {type = 'burn', bleed = 600, string = 'Fire', treatableWithBandage = false, treatmentPrice = 50, dropEvidence = 1.0}, -- WEAPON_FIRE
-	[GetHashKey("WEAPON_SNSPISTOL")] = {type = 'penetrating', bleed = 300, string = 'High-speed Projectile', treatableWithBandage = false, treatmentPrice = 500, dropEvidence = 1.0}, -- WEAPON_SNSPISTOL
-	[GetHashKey("WEAPON_SNSPISTOL_MK2")] = {type = 'penetrating', bleed = 310, string = 'High-speed Projectile', treatableWithBandage = false, treatmentPrice = 500, dropEvidence = 1.0}, -- WEAPON_SNSPISTOL_MK2
-	[GetHashKey("WEAPON_BOTTLE")] = {type = 'laceration', bleed = 600, string = 'Sharp Glass', treatableWithBandage = false, treatmentPrice = 40, dropEvidence = 1.0}, -- WEAPON_BOTTLE
-	[GetHashKey("WEAPON_HEAVYPISTOL")] = {type = 'penetrating', bleed = 300, string = 'High-speed Projectile', treatableWithBandage = false, treatmentPrice = 500, dropEvidence = 1.0}, -- WEAPON_HEAVYPISTOL
-	[GetHashKey("WEAPON_DAGGER")] = {type = 'laceration', bleed = 480, string = 'Knife Puncture', treatableWithBandage = false, treatmentPrice = 90, dropEvidence = 1.0}, -- WEAPON_DAGGER
-	[GetHashKey("WEAPON_VINTAGEPISTOL")] = {type = 'penetrating', bleed = 300, string = 'High-speed Projectile', treatableWithBandage = false, treatmentPrice = 500, dropEvidence = 1.0}, -- WEAPON_VINTAGEPISTOL
-	[GetHashKey("WEAPON_MUSKET")] = {type = 'penetrating', bleed = 300, string = 'High-speed Projectile', treatableWithBandage = false, treatmentPrice = 500, dropEvidence = 1.0}, -- WEAPON_MUSKET
-	[GetHashKey("WEAPON_MARKSMANRIFLE")] = {type = 'penetrating', bleed = 240, string = 'High-speed Projectile', treatableWithBandage = false, treatmentPrice = 500, dropEvidence = 1.0}, -- WEAPON_MARKSMANRIFLE
-	[GetHashKey("WEAPON_FLAREGUN")] = {type = 'burn', bleed = 1200, string = 'Concentrated Heat', treatableWithBandage = true, treatmentPrice = 80, dropEvidence = 1.0}, -- WEAPON_FLAREGUN
-	[GetHashKey("WEAPON_MARKSMANPISTOL")] = {type = 'penetrating', bleed = 120, string = 'High-speed Projectile', treatableWithBandage = false, treatmentPrice = 500, dropEvidence = 1.0}, -- WEAPON_MARKSMANPISTOL
-	[GetHashKey("WEAPON_KNUCKLE")] = {type = 'blunt', bleed = 1200, string = 'Blunt Object', treatableWithBandage = true, treatmentPrice = 70, dropEvidence = 1.0}, -- WEAPON_KNUCKLE
-	[GetHashKey("WEAPON_HATCHET")] = {type = 'laceration', bleed = 360, string = 'Large Sharp Object', treatableWithBandage = false, treatmentPrice = 300, dropEvidence = 1.0}, -- WEAPON_HATCHET
-	[GetHashKey("WEAPON_MACHETE")] = {type = 'laceration', bleed = 360, string = 'Large Sharp Object', treatableWithBandage = false, treatmentPrice = 300, dropEvidence = 1.0}, -- WEAPON_MACHETE
-	[GetHashKey("WEAPON_SWITCHBLADE")] = {type = 'laceration', bleed = 480, string = 'Knife Puncture', treatableWithBandage = false, treatmentPrice = 70, dropEvidence = 1.0}, -- WEAPON_SWITCHBLADE
-	[GetHashKey("WEAPON_REVOLVER")] = {type = 'penetrating', bleed = 120, string = 'High-speed Projectile', treatableWithBandage = false, treatmentPrice = 500, dropEvidence = 1.0}, -- WEAPON_REVOLVER
-	[GetHashKey("WEAPON_REVOLVERULTRA")] = {type = 'penetrating', bleed = 120, string = 'High-speed Projectile', treatableWithBandage = false, treatmentPrice = 500, dropEvidence = 1.0},
-	[GetHashKey("WEAPON_NAVYREVOLVER")] = {type = 'penetrating', bleed = 120, string = 'High-speed Projectile', treatableWithBandage = false, treatmentPrice = 500, dropEvidence = 1.0}, -- WEAPON_NAVYREVOLVER
-    [GetHashKey("WEAPON_DOUBLEACTION")] = {type = 'penetrating', bleed = 120, string = 'High-speed Projectile', treatableWithBandage = false, treatmentPrice = 500, dropEvidence = 1.0}, -- WEAPON_DOUBLEACTION
-    [GetHashKey("WEAPON_REVOLVER_MK2")] = {type = 'penetrating', bleed = 125, string = 'High-speed Projectile', treatableWithBandage = false, treatmentPrice = 500, dropEvidence = 1.0}, -- WEAPON_REVOLVER_MK2
-	[GetHashKey("WEAPON_BATTLEAXE")] = {type = 'laceration', bleed = 240, string = 'Large Sharp Object', treatableWithBandage = false, treatmentPrice = 300, dropEvidence = 1.0}, -- WEAPON_BATTLEAXE
-	[GetHashKey("WEAPON_POOLCUE")] = {type = 'blunt', bleed = 1800, string = 'Large Blunt Object', treatableWithBandage = false, treatmentPrice = 65, dropEvidence = 1.0}, -- WEAPON_POOLCUE
-	[GetHashKey("WEAPON_WRENCH")] = {type = 'blunt', bleed = 900, string = 'Concentrated Blunt Object', treatableWithBandage = false, treatmentPrice = 80, dropEvidence = 1.0}, -- WEAPON_WRENCH
-	[GetHashKey("WEAPON_FLASHLIGHT")] = {type = 'blunt', bleed = 2700, string = 'Blunt Object', treatableWithBandage = true, treatmentPrice = 40, dropEvidence = 0.6}, -- WEAPON_FLASHLIGHT
-	[GetHashKey("WEAPON_PISTOL_MK2")] = {type = 'penetrating', bleed = 300, string = 'High-speed Projectile', treatableWithBandage = false, treatmentPrice = 500, dropEvidence = 1.0}, -- WEAPON_PISTOL_MK2
-	[GetHashKey("WEAPON_CARBINERIFLE_MK2")] = {type = 'penetrating', bleed = 300, string = 'High-speed Projectile', treatableWithBandage = false, treatmentPrice = 500, dropEvidence = 1.0}, -- WEAPON_CARBINERIFLE_MK2
-	[GetHashKey("WEAPON_PUMPSHOTGUN_MK2")] = {type = 'penetrating', bleed = 300, string = 'High-speed Projectile', treatableWithBandage = false, treatmentPrice = 500, dropEvidence = 1.0}, -- WEAPON_PUMPSHOTGUN_MK2
-	[GetHashKey("WEAPON_ASSAULTRIFLE_MK2")] = {type = 'penetrating', bleed = 300, string = 'High-speed Projectile', treatableWithBandage = false, treatmentPrice = 500, dropEvidence = 1.0}, 
-	[GetHashKey("WEAPON_COMPACTRIFLE")] = {type = 'penetrating', bleed = 300, string = 'High-speed Projectile', treatableWithBandage = false, treatmentPrice = 500, dropEvidence = 1.0}, -- WEAPON_COMPACTRIFLE
-	[GetHashKey("WEAPON_M4GOLDBEAST")] = {type = 'penetrating', bleed = 300, string = 'High-speed Projectile', treatableWithBandage = false, treatmentPrice = 500, dropEvidence = 1.0},
-}
-
 local WEBHOOK_URL = GetConvar("injury-log-webhook", "")
+
+local InjuriesC = Config.Injuries
 
 TriggerEvent('es:addCommand', 'injuries' , function(source, args, char)
 	TriggerClientEvent("injuries:showMyInjuries", source)
@@ -213,29 +130,29 @@ AddEventHandler('injuries:validateCheckin', function(playerInjuries, isPedDead, 
 	local treatmentTimeMinutes = 2
 	local char = exports["usa-characters"]:GetCharacter(usource)
 	local userBank = char.get('bank')
-	local totalPrice = BASE_CHECKIN_PRICE
+	local totalPrice = Config.BASE_CHECKIN_PRICE
 	local copsCalled = false
 	local isPolice = IsPlayerCop(usource)
 	local chance = math.random()
-	for bone, injuries in pairs(playerInjuries) do
+	for bone, InjuriesC in pairs(playerInjuries) do
 		for injury, data in pairs(playerInjuries[bone]) do
 			if chance < 0.45 then
 				local name
-				if SuspiciousWound(injuries[injury].string) and not copsCalled and not isPolice then
+				if SuspiciousWound(Config.Injuries[injury].string) and not copsCalled and not isPolice then
 					if chance > 0.25 then name = char.getFullName() else name = "Unidentified Individual" end
 					TriggerEvent('911:SuspiciousHospitalInjuries', name, x, y, z)
 					copsCalled = true
 				end
 			end
 			-- print(chance) -- DEBUG
-			totalPrice = totalPrice + injuries[injury].treatmentPrice
-			if injuries[injury].string == "High-speed Projectile" then 
+			totalPrice = totalPrice + Config.Injuries[injury].treatmentPrice
+			if Config.Injuries[injury].string == "High-speed Projectile" then 
 				treatmentTimeMinutes = treatmentTimeMinutes + 3
-			elseif injuries[injury].string == "Knife Puncture" then 
+			elseif Config.Injuries[injury].string == "Knife Puncture" then 
 				treatmentTimeMinutes = treatmentTimeMinutes + 2
-			elseif injuries[injury].string == "Explosion" then 
+			elseif Config.Injuries[injury].string == "Explosion" then 
 				treatmentTimeMinutes = treatmentTimeMinutes + 3
-			elseif injuries[injury].string == "Large Sharp Object" then 
+			elseif Config.Injuries[injury].string == "Large Sharp Object" then 
 				treatmentTimeMinutes = treatmentTimeMinutes + 2
 			end
 		end
@@ -247,7 +164,7 @@ AddEventHandler('injuries:validateCheckin', function(playerInjuries, isPedDead, 
 		local playerCoords = GetEntityCoords(GetPlayerPed(usource))
 		for i = 1, #hospitalBeds do
 			local distToBed = exports.globals:getCoordDistance(playerCoords, {x = hospitalBeds[i].objCoords[1], y = hospitalBeds[i].objCoords[2], z = hospitalBeds[i].objCoords[3]})
-			if distToBed <= MAX_BED_DISTANCE then
+			if distToBed <= Config.MAX_BED_DISTANCE then
 				if hospitalBeds[i].occupied == nil then
 					hospitalBeds[i].occupied = targetPlayerId
 					bed = {
@@ -295,9 +212,9 @@ RegisterServerEvent('injuries:chargeForInjuries')
 AddEventHandler('injuries:chargeForInjuries', function(playerInjuries, multiplier, respawn)
 	local char = exports["usa-characters"]:GetCharacter(source)
 	local totalPrice = BASE_CHECKIN_PRICE
-	for bone, injuries in pairs(playerInjuries) do
+	for bone, InjuriesC in pairs(playerInjuries) do
 		for injury, data in pairs(playerInjuries[bone]) do
-			totalPrice = totalPrice + injuries[injury].treatmentPrice
+			totalPrice = totalPrice + Config.Injuries[injury].treatmentPrice
 		end
 	end
 	if type(multiplier) == 'number' then
@@ -324,11 +241,11 @@ AddEventHandler('injuries:getPlayerInjuries', function(sourceToGetInjuriesFrom, 
 end)
 
 RegisterServerEvent('injuries:inspectMyInjuries')
-AddEventHandler('injuries:inspectMyInjuries', function(sourceToReturnInjuries, injuries, myPed)
+AddEventHandler('injuries:inspectMyInjuries', function(sourceToReturnInjuries, InjuriesC, myPed)
 	local char = exports["usa-characters"]:GetCharacter(source)
 	local targetSource = char.get("source")
 	TriggerEvent('display:shareDisplayBySource', sourceToReturnInjuries, 'inspects injuries', 4, 470, 10, 4000, true)
-	TriggerClientEvent('injuries:displayInspectedInjuries', sourceToReturnInjuries, injuries, targetSource, myPed)
+	TriggerClientEvent('injuries:displayInspectedInjuries', sourceToReturnInjuries, InjuriesC, targetSource, myPed)
 end)
 
 RegisterServerEvent('injuries:treatPlayer')

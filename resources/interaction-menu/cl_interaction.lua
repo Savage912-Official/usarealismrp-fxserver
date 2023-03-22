@@ -893,7 +893,7 @@ end)
 RegisterNUICallback("dropItem", function(data, cb)
 	if not string.find(data.itemName, "Driver") and not string.find(data.itemName, "Firearm") and not string.find(data.itemName, "License") then
 		local me = PlayerPedId()
-		if IsPedInAnyVehicle(me) and IsPedCuffed(me) then 
+		if IsPedInAnyVehicle(me) and IsPedCuffed(me) then
 			exports.globals:notify("Can't drop items while cuffed inside a vehicle!")
 			return
 		end
@@ -951,15 +951,15 @@ function interactionMenuUse(index, itemName, wholeItem)
 			local drug_duration = 15 * 60 * 1000 -- 15 minutes in ms?
 			Wait(8000)
 			DoScreenFadeOut(1500)
-			Wait(1500)	
-			DoScreenFadeIn(1500)	
-			StartScreenEffect("DrugsMichaelAliensFight", 0, false)	
-			local useTime = GetGameTimer()	
-			while GetGameTimer() - useTime <= drug_duration do 	
-				Wait(1)	
-			end	
-			DoScreenFadeOut(1000)	
-			DoScreenFadeIn(1000)	
+			Wait(1500)
+			DoScreenFadeIn(1500)
+			StartScreenEffect("DrugsMichaelAliensFight", 0, false)
+			local useTime = GetGameTimer()
+			while GetGameTimer() - useTime <= drug_duration do
+				Wait(1)
+			end
+			DoScreenFadeOut(1000)
+			DoScreenFadeIn(1000)
 			StopScreenEffect("DrugsMichaelAliensFight")
 		end)
 	elseif string.find(itemName, "Packaged Weed") then
@@ -974,7 +974,7 @@ function interactionMenuUse(index, itemName, wholeItem)
 		local boostingInfo = Entity(targetVehicle).state.boostingData
 		if boostingInfo ~= nil and boostingInfo.advancedSystem then
 			TriggerEvent("usa:notify", 'You need a ~r~professional system~w~ to turn this vehicle on!')
-			return 
+			return
 		end
 		TriggerEvent("veh:hotwireVehicle")
 	elseif string.find(itemName, "Body Armor") then
@@ -1037,6 +1037,15 @@ function interactionMenuUse(index, itemName, wholeItem)
 			TriggerEvent('injuries:bandageMyInjuries')
 			busy = false
 		end
+	elseif string.find(itemName, "IFAK") then
+	if not busy then
+		busy = true
+		TriggerServerEvent("usa:removeItem", wholeItem, 1)
+		playHealingAnimation(PlayerPedId())
+		TriggerEvent("usa:heal", 35)
+		TriggerEvent('injuries:bandageMyInjuries')
+		busy = false
+	end
 	elseif string.find(itemName, "Lockpick") then
 		local targetVehicle = getVehicleInFrontOfUser()
 		local boostingInfo = Entity(targetVehicle).state.boostingData
@@ -1067,7 +1076,7 @@ function interactionMenuUse(index, itemName, wholeItem)
 					local isMale = true
 		            if GetEntityModel(playerPed) == GetHashKey("mp_f_freemode_01") then
 		            	isMale = false
-		            elseif GetEntityModel(playerPed) == GetHashKey("mp_m_freemode_01") then 
+		            elseif GetEntityModel(playerPed) == GetHashKey("mp_m_freemode_01") then
 		                isMale = true
 		            else
 		                isMale = IsPedMale(playerPed)
@@ -1212,8 +1221,8 @@ function interactionMenuUse(index, itemName, wholeItem)
 	elseif itemName == "Roller Skates" then
 		TriggerEvent("skating:roller", wholeItem)
 	elseif itemName == "Ice Skates" then
-		TriggerEvent("skating:iceroller", wholeItem)	
-	elseif itemName == "Armed Truck Bomb" then 
+		TriggerEvent("skating:iceroller", wholeItem)
+	elseif itemName == "Armed Truck Bomb" then
 		TriggerEvent("usa:notify", "Hmm... No use here... Maybe use it on an armored truck?")
 	elseif itemName == "RGB Controller" then
 		ExecuteCommand("rgbcontrolleritemlol")

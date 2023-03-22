@@ -1,0 +1,1196 @@
+<?xml version="1.0"?>
+<CMapData>
+	<flags value="2"/>
+	<contentFlags value="65"/>
+	<streamingExtentsMin x="-1600.924194" y="-2060.486938" z="-387.275808"/>
+	<streamingExtentsMax x="1904.905762" y="3147.104736" z="474.195190"/>
+	<entitiesExtentsMin x="-1200.924194" y="-1660.486938" z="12.724192"/>
+	<entitiesExtentsMax x="1504.905762" y="2747.104736" z="74.195190"/>
+	<entities>
+		<Item type="CEntityDef">
+			<archetypeName>prop_cctv_pole_04</archetypeName>
+			<flags value="1572897"/>
+			<position x="1493.241089" y="-1597.355835" z="71.373718"/>
+			<rotation w="0.888028" x="0.000000" y="-0.000000" z="-0.459790"/>
+			<scaleXY value="1"/>
+			<scaleZ value="1"/>
+			<parentIndex value="-1"/>
+			<lodDist value="500"/>
+			<childLodDist value="500"/>
+			<lodLevel>LODTYPES_DEPTH_HD</lodLevel>
+			<numChildren value="0"/>
+			<ambientOcclusionMultiplier value="255"/>
+			<artificialAmbientOcclusion value="255"/>
+		</Item>
+		<Item type="CEntityDef">
+			<archetypeName>prop_cctv_cam_05a</archetypeName>
+			<flags value="1572897"/>
+			<position x="-225.598495" y="-1339.878906" z="33.748592"/>
+			<rotation w="0.390702" x="-0.000000" y="0.000000" z="-0.920517"/>
+			<scaleXY value="1"/>
+			<scaleZ value="1"/>
+			<parentIndex value="-1"/>
+			<lodDist value="500"/>
+			<childLodDist value="500"/>
+			<lodLevel>LODTYPES_DEPTH_HD</lodLevel>
+			<numChildren value="0"/>
+			<ambientOcclusionMultiplier value="255"/>
+			<artificialAmbientOcclusion value="255"/>
+		</Item>
+		<Item type="CEntityDef">
+			<archetypeName>prop_cctv_cam_01a</archetypeName>
+			<flags value="1572865"/>
+			<position x="-56.865326" y="-1085.921997" z="28.552851"/>
+			<rotation w="0.999904" x="0.000000" y="-0.000000" z="-0.013858"/>
+			<scaleXY value="1"/>
+			<scaleZ value="1"/>
+			<parentIndex value="-1"/>
+			<lodDist value="500"/>
+			<childLodDist value="500"/>
+			<lodLevel>LODTYPES_DEPTH_HD</lodLevel>
+			<numChildren value="0"/>
+			<ambientOcclusionMultiplier value="255"/>
+			<artificialAmbientOcclusion value="255"/>
+		</Item>
+		<Item type="CEntityDef">
+			<archetypeName>prop_cctv_pole_04</archetypeName>
+			<flags value="1572897"/>
+			<position x="193.808517" y="-924.755737" z="29.689404"/>
+			<rotation w="0.882014" x="0.000000" y="-0.000000" z="-0.471222"/>
+			<scaleXY value="1"/>
+			<scaleZ value="1"/>
+			<parentIndex value="-1"/>
+			<lodDist value="500"/>
+			<childLodDist value="500"/>
+			<lodLevel>LODTYPES_DEPTH_HD</lodLevel>
+			<numChildren value="0"/>
+			<ambientOcclusionMultiplier value="255"/>
+			<artificialAmbientOcclusion value="255"/>
+		</Item>
+		<Item type="CEntityDef">
+			<archetypeName>prop_cctv_cam_05a</archetypeName>
+			<flags value="1572897"/>
+			<position x="-555.948242" y="-231.486084" z="37.278152"/>
+			<rotation w="0.590939" x="0.000000" y="0.000000" z="0.806716"/>
+			<scaleXY value="1"/>
+			<scaleZ value="1"/>
+			<parentIndex value="-1"/>
+			<lodDist value="500"/>
+			<childLodDist value="500"/>
+			<lodLevel>LODTYPES_DEPTH_HD</lodLevel>
+			<numChildren value="0"/>
+			<ambientOcclusionMultiplier value="255"/>
+			<artificialAmbientOcclusion value="255"/>
+		</Item>
+		<Item type="CEntityDef">
+			<archetypeName>prop_cctv_pole_04</archetypeName>
+			<flags value="1572897"/>
+			<position x="1432.499512" y="-1660.486938" z="64.708313"/>
+			<rotation w="0.648260" x="-0.000000" y="0.000000" z="-0.761419"/>
+			<scaleXY value="1"/>
+			<scaleZ value="1"/>
+			<parentIndex value="-1"/>
+			<lodDist value="500"/>
+			<childLodDist value="500"/>
+			<lodLevel>LODTYPES_DEPTH_HD</lodLevel>
+			<numChildren value="0"/>
+			<ambientOcclusionMultiplier value="255"/>
+			<artificialAmbientOcclusion value="255"/>
+		</Item>
+		<Item type="CEntityDef">
+			<archetypeName>prop_cctv_pole_04</archetypeName>
+			<flags value="1572897"/>
+			<position x="201.627441" y="-985.354858" z="28.139856"/>
+			<rotation w="0.642249" x="-0.000000" y="0.000000" z="-0.766496"/>
+			<scaleXY value="1"/>
+			<scaleZ value="1"/>
+			<parentIndex value="-1"/>
+			<lodDist value="500"/>
+			<childLodDist value="500"/>
+			<lodLevel>LODTYPES_DEPTH_HD</lodLevel>
+			<numChildren value="0"/>
+			<ambientOcclusionMultiplier value="255"/>
+			<artificialAmbientOcclusion value="255"/>
+		</Item>
+		<Item type="CEntityDef">
+			<archetypeName>prop_cctv_cam_01a</archetypeName>
+			<flags value="1572897"/>
+			<position x="-54.513187" y="79.100624" z="74.195190"/>
+			<rotation w="0.978068" x="-0.000000" y="0.000000" z="0.208285"/>
+			<scaleXY value="1"/>
+			<scaleZ value="1"/>
+			<parentIndex value="-1"/>
+			<lodDist value="500"/>
+			<childLodDist value="500"/>
+			<lodLevel>LODTYPES_DEPTH_HD</lodLevel>
+			<numChildren value="0"/>
+			<ambientOcclusionMultiplier value="255"/>
+			<artificialAmbientOcclusion value="255"/>
+		</Item>
+		<Item type="CEntityDef">
+			<archetypeName>prop_cctv_pole_04</archetypeName>
+			<flags value="1572897"/>
+			<position x="195.923569" y="-863.192444" z="30.262625"/>
+			<rotation w="0.668163" x="0.000000" y="0.000000" z="0.744015"/>
+			<scaleXY value="1"/>
+			<scaleZ value="1"/>
+			<parentIndex value="-1"/>
+			<lodDist value="500"/>
+			<childLodDist value="500"/>
+			<lodLevel>LODTYPES_DEPTH_HD</lodLevel>
+			<numChildren value="0"/>
+			<ambientOcclusionMultiplier value="255"/>
+			<artificialAmbientOcclusion value="255"/>
+		</Item>
+		<Item type="CEntityDef">
+			<archetypeName>prop_cctv_cam_05a</archetypeName>
+			<flags value="1572897"/>
+			<position x="-191.299072" y="-1331.195190" z="38.888657"/>
+			<rotation w="0.527727" x="0.000000" y="0.000000" z="0.849414"/>
+			<scaleXY value="1"/>
+			<scaleZ value="1"/>
+			<parentIndex value="-1"/>
+			<lodDist value="500"/>
+			<childLodDist value="500"/>
+			<lodLevel>LODTYPES_DEPTH_HD</lodLevel>
+			<numChildren value="0"/>
+			<ambientOcclusionMultiplier value="255"/>
+			<artificialAmbientOcclusion value="255"/>
+		</Item>
+		<Item type="CEntityDef">
+			<archetypeName>prop_cctv_cam_05a</archetypeName>
+			<flags value="1572897"/>
+			<position x="-583.461365" y="-204.295181" z="47.319759"/>
+			<rotation w="0.809929" x="-0.138087" y="-0.105628" z="-0.560169"/>
+			<scaleXY value="1"/>
+			<scaleZ value="1"/>
+			<parentIndex value="-1"/>
+			<lodDist value="500"/>
+			<childLodDist value="500"/>
+			<lodLevel>LODTYPES_DEPTH_HD</lodLevel>
+			<numChildren value="0"/>
+			<ambientOcclusionMultiplier value="255"/>
+			<artificialAmbientOcclusion value="255"/>
+		</Item>
+		<Item type="CEntityDef">
+			<archetypeName>prop_cctv_pole_04</archetypeName>
+			<flags value="1572897"/>
+			<position x="1204.661865" y="-1640.223389" z="46.785702"/>
+			<rotation w="0.257920" x="0.000000" y="0.000000" z="0.966166"/>
+			<scaleXY value="1"/>
+			<scaleZ value="1"/>
+			<parentIndex value="-1"/>
+			<lodDist value="500"/>
+			<childLodDist value="500"/>
+			<lodLevel>LODTYPES_DEPTH_HD</lodLevel>
+			<numChildren value="0"/>
+			<ambientOcclusionMultiplier value="255"/>
+			<artificialAmbientOcclusion value="255"/>
+		</Item>
+		<Item type="CEntityDef">
+			<archetypeName>prop_cctv_pole_04</archetypeName>
+			<flags value="1572897"/>
+			<position x="77.163666" y="-978.407593" z="28.355881"/>
+			<rotation w="0.770117" x="0.000000" y="-0.000000" z="-0.637903"/>
+			<scaleXY value="1"/>
+			<scaleZ value="1"/>
+			<parentIndex value="-1"/>
+			<lodDist value="500"/>
+			<childLodDist value="500"/>
+			<lodLevel>LODTYPES_DEPTH_HD</lodLevel>
+			<numChildren value="0"/>
+			<ambientOcclusionMultiplier value="255"/>
+			<artificialAmbientOcclusion value="255"/>
+		</Item>
+		<Item type="CEntityDef">
+			<archetypeName>prop_cctv_cam_01a</archetypeName>
+			<flags value="1572897"/>
+			<position x="-552.457642" y="-235.691940" z="42.390015"/>
+			<rotation w="0.960513" x="0.000000" y="-0.000000" z="-0.278234"/>
+			<scaleXY value="1"/>
+			<scaleZ value="1"/>
+			<parentIndex value="-1"/>
+			<lodDist value="500"/>
+			<childLodDist value="500"/>
+			<lodLevel>LODTYPES_DEPTH_HD</lodLevel>
+			<numChildren value="0"/>
+			<ambientOcclusionMultiplier value="255"/>
+			<artificialAmbientOcclusion value="255"/>
+		</Item>
+		<Item type="CEntityDef">
+			<archetypeName>prop_cctv_cam_05a</archetypeName>
+			<flags value="1572897"/>
+			<position x="-566.288452" y="-197.125320" z="42.022366"/>
+			<rotation w="0.965041" x="-0.000000" y="0.000000" z="0.262099"/>
+			<scaleXY value="1"/>
+			<scaleZ value="1"/>
+			<parentIndex value="-1"/>
+			<lodDist value="500"/>
+			<childLodDist value="500"/>
+			<lodLevel>LODTYPES_DEPTH_HD</lodLevel>
+			<numChildren value="0"/>
+			<ambientOcclusionMultiplier value="255"/>
+			<artificialAmbientOcclusion value="255"/>
+		</Item>
+		<Item type="CEntityDef">
+			<archetypeName>prop_cctv_cam_06a</archetypeName>
+			<flags value="1572897"/>
+			<position x="1331.117188" y="-1549.472900" z="55.826199"/>
+			<rotation w="0.515038" x="-0.000000" y="0.000000" z="-0.857167"/>
+			<scaleXY value="1"/>
+			<scaleZ value="1"/>
+			<parentIndex value="-1"/>
+			<lodDist value="500"/>
+			<childLodDist value="500"/>
+			<lodLevel>LODTYPES_DEPTH_HD</lodLevel>
+			<numChildren value="0"/>
+			<ambientOcclusionMultiplier value="255"/>
+			<artificialAmbientOcclusion value="255"/>
+		</Item>
+		<Item type="CEntityDef">
+			<archetypeName>prop_cctv_pole_04</archetypeName>
+			<flags value="1572897"/>
+			<position x="165.756439" y="-921.661377" z="29.689375"/>
+			<rotation w="0.576480" x="0.000000" y="0.000000" z="0.817112"/>
+			<scaleXY value="1"/>
+			<scaleZ value="1"/>
+			<parentIndex value="-1"/>
+			<lodDist value="500"/>
+			<childLodDist value="500"/>
+			<lodLevel>LODTYPES_DEPTH_HD</lodLevel>
+			<numChildren value="0"/>
+			<ambientOcclusionMultiplier value="255"/>
+			<artificialAmbientOcclusion value="255"/>
+		</Item>
+		<Item type="CEntityDef">
+			<archetypeName>prop_cctv_pole_04</archetypeName>
+			<flags value="1572897"/>
+			<position x="215.249084" y="-870.663208" z="29.489468"/>
+			<rotation w="0.180248" x="-0.000000" y="0.000000" z="-0.983621"/>
+			<scaleXY value="1"/>
+			<scaleZ value="1"/>
+			<parentIndex value="-1"/>
+			<lodDist value="500"/>
+			<childLodDist value="500"/>
+			<lodLevel>LODTYPES_DEPTH_HD</lodLevel>
+			<numChildren value="0"/>
+			<ambientOcclusionMultiplier value="255"/>
+			<artificialAmbientOcclusion value="255"/>
+		</Item>
+		<Item type="CEntityDef">
+			<archetypeName>prop_cctv_cam_01a</archetypeName>
+			<flags value="1572897"/>
+			<position x="-552.115295" y="-235.254883" z="42.390015"/>
+			<rotation w="0.505212" x="-0.000000" y="0.000000" z="-0.862995"/>
+			<scaleXY value="1"/>
+			<scaleZ value="1"/>
+			<parentIndex value="-1"/>
+			<lodDist value="500"/>
+			<childLodDist value="500"/>
+			<lodLevel>LODTYPES_DEPTH_HD</lodLevel>
+			<numChildren value="0"/>
+			<ambientOcclusionMultiplier value="255"/>
+			<artificialAmbientOcclusion value="255"/>
+		</Item>
+		<Item type="CEntityDef">
+			<archetypeName>prop_cctv_pole_04</archetypeName>
+			<flags value="1572897"/>
+			<position x="-1159.853027" y="-891.164978" z="13.215453"/>
+			<rotation w="0.878010" x="-0.000000" y="0.000000" z="0.478642"/>
+			<scaleXY value="1"/>
+			<scaleZ value="1"/>
+			<parentIndex value="-1"/>
+			<lodDist value="500"/>
+			<childLodDist value="500"/>
+			<lodLevel>LODTYPES_DEPTH_HD</lodLevel>
+			<numChildren value="0"/>
+			<ambientOcclusionMultiplier value="255"/>
+			<artificialAmbientOcclusion value="255"/>
+		</Item>
+		<Item type="CEntityDef">
+			<archetypeName>prop_cctv_pole_04</archetypeName>
+			<flags value="1572897"/>
+			<position x="238.452194" y="-895.051086" z="29.489468"/>
+			<rotation w="0.442794" x="0.000000" y="0.000000" z="0.896623"/>
+			<scaleXY value="1"/>
+			<scaleZ value="1"/>
+			<parentIndex value="-1"/>
+			<lodDist value="500"/>
+			<childLodDist value="500"/>
+			<lodLevel>LODTYPES_DEPTH_HD</lodLevel>
+			<numChildren value="0"/>
+			<ambientOcclusionMultiplier value="255"/>
+			<artificialAmbientOcclusion value="255"/>
+		</Item>
+		<Item type="CEntityDef">
+			<archetypeName>prop_cctv_pole_04</archetypeName>
+			<flags value="1572897"/>
+			<position x="-231.657730" y="-1341.713257" z="30.293461"/>
+			<rotation w="0.706748" x="0.000000" y="0.000000" z="0.707465"/>
+			<scaleXY value="1"/>
+			<scaleZ value="1"/>
+			<parentIndex value="-1"/>
+			<lodDist value="500"/>
+			<childLodDist value="500"/>
+			<lodLevel>LODTYPES_DEPTH_HD</lodLevel>
+			<numChildren value="0"/>
+			<ambientOcclusionMultiplier value="255"/>
+			<artificialAmbientOcclusion value="255"/>
+		</Item>
+		<Item type="CEntityDef">
+			<archetypeName>prop_cctv_cam_01a</archetypeName>
+			<flags value="1572897"/>
+			<position x="-546.677795" y="-186.596893" z="41.227676"/>
+			<rotation w="0.871847" x="-0.000000" y="0.000000" z="0.489778"/>
+			<scaleXY value="1"/>
+			<scaleZ value="1"/>
+			<parentIndex value="-1"/>
+			<lodDist value="500"/>
+			<childLodDist value="500"/>
+			<lodLevel>LODTYPES_DEPTH_HD</lodLevel>
+			<numChildren value="0"/>
+			<ambientOcclusionMultiplier value="255"/>
+			<artificialAmbientOcclusion value="255"/>
+		</Item>
+		<Item type="CEntityDef">
+			<archetypeName>prop_cctv_cam_05a</archetypeName>
+			<flags value="1572897"/>
+			<position x="-211.614777" y="-1316.621460" z="37.137779"/>
+			<rotation w="0.973764" x="-0.000000" y="0.000000" z="0.227560"/>
+			<scaleXY value="1"/>
+			<scaleZ value="1"/>
+			<parentIndex value="-1"/>
+			<lodDist value="500"/>
+			<childLodDist value="500"/>
+			<lodLevel>LODTYPES_DEPTH_HD</lodLevel>
+			<numChildren value="0"/>
+			<ambientOcclusionMultiplier value="255"/>
+			<artificialAmbientOcclusion value="255"/>
+		</Item>
+		<Item type="CEntityDef">
+			<archetypeName>prop_cctv_pole_04</archetypeName>
+			<flags value="1572897"/>
+			<position x="1241.061279" y="2723.260986" z="37.001991"/>
+			<rotation w="0.933500" x="-0.000000" y="0.000000" z="0.358576"/>
+			<scaleXY value="1"/>
+			<scaleZ value="1"/>
+			<parentIndex value="-1"/>
+			<lodDist value="500"/>
+			<childLodDist value="500"/>
+			<lodLevel>LODTYPES_DEPTH_HD</lodLevel>
+			<numChildren value="0"/>
+			<ambientOcclusionMultiplier value="255"/>
+			<artificialAmbientOcclusion value="255"/>
+		</Item>
+		<Item type="CEntityDef">
+			<archetypeName>prop_cctv_cam_01a</archetypeName>
+			<flags value="1572897"/>
+			<position x="-49.656868" y="76.869667" z="74.195190"/>
+			<rotation w="0.573266" x="0.000000" y="0.000000" z="0.819369"/>
+			<scaleXY value="1"/>
+			<scaleZ value="1"/>
+			<parentIndex value="-1"/>
+			<lodDist value="500"/>
+			<childLodDist value="500"/>
+			<lodLevel>LODTYPES_DEPTH_HD</lodLevel>
+			<numChildren value="0"/>
+			<ambientOcclusionMultiplier value="255"/>
+			<artificialAmbientOcclusion value="255"/>
+		</Item>
+		<Item type="CEntityDef">
+			<archetypeName>prop_cctv_cam_05a</archetypeName>
+			<flags value="1572897"/>
+			<position x="-229.942474" y="-1321.508667" z="33.784595"/>
+			<rotation w="0.227010" x="-0.000000" y="0.000000" z="-0.973893"/>
+			<scaleXY value="1"/>
+			<scaleZ value="1"/>
+			<parentIndex value="-1"/>
+			<lodDist value="500"/>
+			<childLodDist value="500"/>
+			<lodLevel>LODTYPES_DEPTH_HD</lodLevel>
+			<numChildren value="0"/>
+			<ambientOcclusionMultiplier value="255"/>
+			<artificialAmbientOcclusion value="255"/>
+		</Item>
+		<Item type="CEntityDef">
+			<archetypeName>prop_cctv_cam_01a</archetypeName>
+			<flags value="1572865"/>
+			<position x="-31.246111" y="-1101.642944" z="28.502850"/>
+			<rotation w="0.984934" x="0.000000" y="0.000000" z="0.172931"/>
+			<scaleXY value="1"/>
+			<scaleZ value="1"/>
+			<parentIndex value="-1"/>
+			<lodDist value="500"/>
+			<childLodDist value="500"/>
+			<lodLevel>LODTYPES_DEPTH_HD</lodLevel>
+			<numChildren value="0"/>
+			<ambientOcclusionMultiplier value="255"/>
+			<artificialAmbientOcclusion value="255"/>
+		</Item>
+		<Item type="CEntityDef">
+			<archetypeName>prop_cctv_pole_04</archetypeName>
+			<flags value="1572897"/>
+			<position x="-1173.683838" y="-868.547180" z="13.248795"/>
+			<rotation w="0.934018" x="0.000000" y="-0.000000" z="-0.357226"/>
+			<scaleXY value="1"/>
+			<scaleZ value="1"/>
+			<parentIndex value="-1"/>
+			<lodDist value="500"/>
+			<childLodDist value="500"/>
+			<lodLevel>LODTYPES_DEPTH_HD</lodLevel>
+			<numChildren value="0"/>
+			<ambientOcclusionMultiplier value="255"/>
+			<artificialAmbientOcclusion value="255"/>
+		</Item>
+		<Item type="CEntityDef">
+			<archetypeName>prop_cctv_cam_05a</archetypeName>
+			<flags value="1572897"/>
+			<position x="-560.085571" y="-207.737473" z="42.022366"/>
+			<rotation w="0.752479" x="-0.000000" y="0.000000" z="0.658616"/>
+			<scaleXY value="1"/>
+			<scaleZ value="1"/>
+			<parentIndex value="-1"/>
+			<lodDist value="500"/>
+			<childLodDist value="500"/>
+			<lodLevel>LODTYPES_DEPTH_HD</lodLevel>
+			<numChildren value="0"/>
+			<ambientOcclusionMultiplier value="255"/>
+			<artificialAmbientOcclusion value="255"/>
+		</Item>
+		<Item type="CEntityDef">
+			<archetypeName>prop_cctv_cam_05a</archetypeName>
+			<flags value="1572897"/>
+			<position x="-573.779724" y="-217.459229" z="42.921768"/>
+			<rotation w="0.971154" x="0.000000" y="-0.000000" z="-0.238452"/>
+			<scaleXY value="1"/>
+			<scaleZ value="1"/>
+			<parentIndex value="-1"/>
+			<lodDist value="500"/>
+			<childLodDist value="500"/>
+			<lodLevel>LODTYPES_DEPTH_HD</lodLevel>
+			<numChildren value="0"/>
+			<ambientOcclusionMultiplier value="255"/>
+			<artificialAmbientOcclusion value="255"/>
+		</Item>
+		<Item type="CEntityDef">
+			<archetypeName>prop_cctv_pole_04</archetypeName>
+			<flags value="1572897"/>
+			<position x="1504.905762" y="-1593.880005" z="72.254730"/>
+			<rotation w="0.196238" x="-0.035137" y="-0.034452" z="0.979321"/>
+			<scaleXY value="1"/>
+			<scaleZ value="1"/>
+			<parentIndex value="-1"/>
+			<lodDist value="500"/>
+			<childLodDist value="500"/>
+			<lodLevel>LODTYPES_DEPTH_HD</lodLevel>
+			<numChildren value="0"/>
+			<ambientOcclusionMultiplier value="255"/>
+			<artificialAmbientOcclusion value="255"/>
+		</Item>
+		<Item type="CEntityDef">
+			<archetypeName>prop_cctv_cam_01a</archetypeName>
+			<flags value="1572897"/>
+			<position x="-225.087311" y="-1313.710693" z="35.574818"/>
+			<rotation w="0.999998" x="-0.000000" y="0.000000" z="0.002170"/>
+			<scaleXY value="1"/>
+			<scaleZ value="1"/>
+			<parentIndex value="-1"/>
+			<lodDist value="500"/>
+			<childLodDist value="500"/>
+			<lodLevel>LODTYPES_DEPTH_HD</lodLevel>
+			<numChildren value="0"/>
+			<ambientOcclusionMultiplier value="255"/>
+			<artificialAmbientOcclusion value="255"/>
+		</Item>
+		<Item type="CEntityDef">
+			<archetypeName>prop_cctv_cam_05a</archetypeName>
+			<flags value="1572897"/>
+			<position x="-191.049271" y="-1319.580200" z="38.530159"/>
+			<rotation w="0.939295" x="-0.000000" y="0.000000" z="0.343112"/>
+			<scaleXY value="1"/>
+			<scaleZ value="1"/>
+			<parentIndex value="-1"/>
+			<lodDist value="500"/>
+			<childLodDist value="500"/>
+			<lodLevel>LODTYPES_DEPTH_HD</lodLevel>
+			<numChildren value="0"/>
+			<ambientOcclusionMultiplier value="255"/>
+			<artificialAmbientOcclusion value="255"/>
+		</Item>
+		<Item type="CEntityDef">
+			<archetypeName>prop_cctv_cam_05a</archetypeName>
+			<flags value="1572897"/>
+			<position x="-574.959778" y="-218.984314" z="47.319759"/>
+			<rotation w="0.065792" x="-0.003294" y="-0.173823" z="-0.982571"/>
+			<scaleXY value="1"/>
+			<scaleZ value="1"/>
+			<parentIndex value="-1"/>
+			<lodDist value="500"/>
+			<childLodDist value="500"/>
+			<lodLevel>LODTYPES_DEPTH_HD</lodLevel>
+			<numChildren value="0"/>
+			<ambientOcclusionMultiplier value="255"/>
+			<artificialAmbientOcclusion value="255"/>
+		</Item>
+		<Item type="CEntityDef">
+			<archetypeName>prop_cctv_cam_05a</archetypeName>
+			<flags value="1572897"/>
+			<position x="-573.720398" y="-217.154861" z="41.808891"/>
+			<rotation w="0.966109" x="-0.093026" y="-0.023079" z="-0.239680"/>
+			<scaleXY value="1"/>
+			<scaleZ value="1"/>
+			<parentIndex value="-1"/>
+			<lodDist value="500"/>
+			<childLodDist value="500"/>
+			<lodLevel>LODTYPES_DEPTH_HD</lodLevel>
+			<numChildren value="0"/>
+			<ambientOcclusionMultiplier value="255"/>
+			<artificialAmbientOcclusion value="255"/>
+		</Item>
+		<Item type="CEntityDef">
+			<archetypeName>prop_cctv_pole_04</archetypeName>
+			<flags value="1572897"/>
+			<position x="224.324814" y="-946.974731" z="29.089289"/>
+			<rotation w="0.887332" x="0.000000" y="-0.000000" z="-0.461132"/>
+			<scaleXY value="1"/>
+			<scaleZ value="1"/>
+			<parentIndex value="-1"/>
+			<lodDist value="500"/>
+			<childLodDist value="500"/>
+			<lodLevel>LODTYPES_DEPTH_HD</lodLevel>
+			<numChildren value="0"/>
+			<ambientOcclusionMultiplier value="255"/>
+			<artificialAmbientOcclusion value="255"/>
+		</Item>
+		<Item type="CEntityDef">
+			<archetypeName>prop_cctv_cam_01b</archetypeName>
+			<flags value="1572897"/>
+			<position x="-645.378906" y="-240.579361" z="42.217007"/>
+			<rotation w="0.469045" x="-0.000000" y="0.000000" z="-0.883174"/>
+			<scaleXY value="1"/>
+			<scaleZ value="1"/>
+			<parentIndex value="-1"/>
+			<lodDist value="500"/>
+			<childLodDist value="500"/>
+			<lodLevel>LODTYPES_DEPTH_HD</lodLevel>
+			<numChildren value="0"/>
+			<ambientOcclusionMultiplier value="255"/>
+			<artificialAmbientOcclusion value="255"/>
+		</Item>
+		<Item type="CEntityDef">
+			<archetypeName>prop_cctv_cam_05a</archetypeName>
+			<flags value="1572897"/>
+			<position x="-225.425797" y="-1333.136108" z="37.198044"/>
+			<rotation w="0.881041" x="0.000000" y="-0.000000" z="-0.473040"/>
+			<scaleXY value="1"/>
+			<scaleZ value="1"/>
+			<parentIndex value="-1"/>
+			<lodDist value="500"/>
+			<childLodDist value="500"/>
+			<lodLevel>LODTYPES_DEPTH_HD</lodLevel>
+			<numChildren value="0"/>
+			<ambientOcclusionMultiplier value="255"/>
+			<artificialAmbientOcclusion value="255"/>
+		</Item>
+		<Item type="CEntityDef">
+			<archetypeName>prop_cctv_pole_04</archetypeName>
+			<flags value="1572897"/>
+			<position x="-247.861038" y="-1312.079224" z="30.262854"/>
+			<rotation w="0.702980" x="-0.000000" y="0.000000" z="-0.711210"/>
+			<scaleXY value="1"/>
+			<scaleZ value="1"/>
+			<parentIndex value="-1"/>
+			<lodDist value="500"/>
+			<childLodDist value="500"/>
+			<lodLevel>LODTYPES_DEPTH_HD</lodLevel>
+			<numChildren value="0"/>
+			<ambientOcclusionMultiplier value="255"/>
+			<artificialAmbientOcclusion value="255"/>
+		</Item>
+		<Item type="CEntityDef">
+			<archetypeName>prop_cctv_cam_03a</archetypeName>
+			<flags value="1572897"/>
+			<position x="1249.041138" y="-1584.768555" z="58.228233"/>
+			<rotation w="0.954379" x="0.000000" y="-0.000000" z="-0.298596"/>
+			<scaleXY value="1"/>
+			<scaleZ value="1"/>
+			<parentIndex value="-1"/>
+			<lodDist value="500"/>
+			<childLodDist value="500"/>
+			<lodLevel>LODTYPES_DEPTH_HD</lodLevel>
+			<numChildren value="0"/>
+			<ambientOcclusionMultiplier value="255"/>
+			<artificialAmbientOcclusion value="255"/>
+		</Item>
+		<Item type="CEntityDef">
+			<archetypeName>prop_cctv_cam_01a</archetypeName>
+			<flags value="1572897"/>
+			<position x="-204.791061" y="-1332.299072" z="33.503986"/>
+			<rotation w="0.024006" x="0.000000" y="0.000000" z="0.999712"/>
+			<scaleXY value="1"/>
+			<scaleZ value="1"/>
+			<parentIndex value="-1"/>
+			<lodDist value="500"/>
+			<childLodDist value="500"/>
+			<lodLevel>LODTYPES_DEPTH_HD</lodLevel>
+			<numChildren value="0"/>
+			<ambientOcclusionMultiplier value="255"/>
+			<artificialAmbientOcclusion value="255"/>
+		</Item>
+		<Item type="CEntityDef">
+			<archetypeName>prop_cctv_pole_04</archetypeName>
+			<flags value="1572897"/>
+			<position x="1237.637085" y="2747.051025" z="37.003197"/>
+			<rotation w="0.938042" x="0.000000" y="-0.000000" z="-0.346522"/>
+			<scaleXY value="1"/>
+			<scaleZ value="1"/>
+			<parentIndex value="-1"/>
+			<lodDist value="500"/>
+			<childLodDist value="500"/>
+			<lodLevel>LODTYPES_DEPTH_HD</lodLevel>
+			<numChildren value="0"/>
+			<ambientOcclusionMultiplier value="255"/>
+			<artificialAmbientOcclusion value="255"/>
+		</Item>
+		<Item type="CEntityDef">
+			<archetypeName>prop_cctv_pole_04</archetypeName>
+			<flags value="1572897"/>
+			<position x="220.260300" y="-917.710327" z="29.689375"/>
+			<rotation w="0.478200" x="0.000000" y="0.000000" z="0.878251"/>
+			<scaleXY value="1"/>
+			<scaleZ value="1"/>
+			<parentIndex value="-1"/>
+			<lodDist value="500"/>
+			<childLodDist value="500"/>
+			<lodLevel>LODTYPES_DEPTH_HD</lodLevel>
+			<numChildren value="0"/>
+			<ambientOcclusionMultiplier value="255"/>
+			<artificialAmbientOcclusion value="255"/>
+		</Item>
+		<Item type="CEntityDef">
+			<archetypeName>prop_cctv_pole_04</archetypeName>
+			<flags value="1572897"/>
+			<position x="-232.202225" y="-1312.210449" z="30.293903"/>
+			<rotation w="0.961492" x="0.000000" y="-0.000000" z="-0.274833"/>
+			<scaleXY value="1"/>
+			<scaleZ value="1"/>
+			<parentIndex value="-1"/>
+			<lodDist value="500"/>
+			<childLodDist value="500"/>
+			<lodLevel>LODTYPES_DEPTH_HD</lodLevel>
+			<numChildren value="0"/>
+			<ambientOcclusionMultiplier value="255"/>
+			<artificialAmbientOcclusion value="255"/>
+		</Item>
+		<Item type="CEntityDef">
+			<archetypeName>prop_cctv_pole_04</archetypeName>
+			<flags value="1572897"/>
+			<position x="1204.235474" y="2721.462158" z="37.001991"/>
+			<rotation w="0.124797" x="-0.000000" y="0.000000" z="-0.992182"/>
+			<scaleXY value="1"/>
+			<scaleZ value="1"/>
+			<parentIndex value="-1"/>
+			<lodDist value="500"/>
+			<childLodDist value="500"/>
+			<lodLevel>LODTYPES_DEPTH_HD</lodLevel>
+			<numChildren value="0"/>
+			<ambientOcclusionMultiplier value="255"/>
+			<artificialAmbientOcclusion value="255"/>
+		</Item>
+		<Item type="CEntityDef">
+			<archetypeName>prop_cctv_pole_04</archetypeName>
+			<flags value="1572897"/>
+			<position x="186.256653" y="-935.589966" z="29.689163"/>
+			<rotation w="0.315235" x="-0.000000" y="0.000000" z="-0.949013"/>
+			<scaleXY value="1"/>
+			<scaleZ value="1"/>
+			<parentIndex value="-1"/>
+			<lodDist value="500"/>
+			<childLodDist value="500"/>
+			<lodLevel>LODTYPES_DEPTH_HD</lodLevel>
+			<numChildren value="0"/>
+			<ambientOcclusionMultiplier value="255"/>
+			<artificialAmbientOcclusion value="255"/>
+		</Item>
+		<Item type="CEntityDef">
+			<archetypeName>prop_cctv_cam_05a</archetypeName>
+			<flags value="1572897"/>
+			<position x="-1200.924194" y="-892.351501" z="17.041407"/>
+			<rotation w="0.330921" x="-0.000000" y="0.000000" z="-0.943658"/>
+			<scaleXY value="1"/>
+			<scaleZ value="1"/>
+			<parentIndex value="-1"/>
+			<lodDist value="500"/>
+			<childLodDist value="500"/>
+			<lodLevel>LODTYPES_DEPTH_HD</lodLevel>
+			<numChildren value="0"/>
+			<ambientOcclusionMultiplier value="255"/>
+			<artificialAmbientOcclusion value="255"/>
+		</Item>
+		<Item type="CEntityDef">
+			<archetypeName>prop_cctv_pole_04</archetypeName>
+			<flags value="1572897"/>
+			<position x="1302.390503" y="-1600.005371" z="53.280136"/>
+			<rotation w="0.903053" x="-0.000000" y="0.000000" z="0.429529"/>
+			<scaleXY value="1"/>
+			<scaleZ value="1"/>
+			<parentIndex value="-1"/>
+			<lodDist value="500"/>
+			<childLodDist value="500"/>
+			<lodLevel>LODTYPES_DEPTH_HD</lodLevel>
+			<numChildren value="0"/>
+			<ambientOcclusionMultiplier value="255"/>
+			<artificialAmbientOcclusion value="255"/>
+		</Item>
+		<Item type="CEntityDef">
+			<archetypeName>prop_cctv_pole_04</archetypeName>
+			<flags value="1572897"/>
+			<position x="-247.839676" y="-1341.919189" z="30.288744"/>
+			<rotation w="0.012112" x="-0.000000" y="0.000000" z="-0.999927"/>
+			<scaleXY value="1"/>
+			<scaleZ value="1"/>
+			<parentIndex value="-1"/>
+			<lodDist value="500"/>
+			<childLodDist value="500"/>
+			<lodLevel>LODTYPES_DEPTH_HD</lodLevel>
+			<numChildren value="0"/>
+			<ambientOcclusionMultiplier value="255"/>
+			<artificialAmbientOcclusion value="255"/>
+		</Item>
+		<Item type="CEntityDef">
+			<archetypeName>prop_cctv_pole_04</archetypeName>
+			<flags value="1572897"/>
+			<position x="217.435043" y="-956.780945" z="29.089289"/>
+			<rotation w="0.317002" x="-0.000000" y="0.000000" z="-0.948425"/>
+			<scaleXY value="1"/>
+			<scaleZ value="1"/>
+			<parentIndex value="-1"/>
+			<lodDist value="500"/>
+			<childLodDist value="500"/>
+			<lodLevel>LODTYPES_DEPTH_HD</lodLevel>
+			<numChildren value="0"/>
+			<ambientOcclusionMultiplier value="255"/>
+			<artificialAmbientOcclusion value="255"/>
+		</Item>
+		<Item type="CEntityDef">
+			<archetypeName>prop_cctv_pole_04</archetypeName>
+			<flags value="1572897"/>
+			<position x="1472.984985" y="-1639.269897" z="68.580887"/>
+			<rotation w="0.997939" x="0.041535" y="-0.048887" z="-0.001884"/>
+			<scaleXY value="1"/>
+			<scaleZ value="1"/>
+			<parentIndex value="-1"/>
+			<lodDist value="500"/>
+			<childLodDist value="500"/>
+			<lodLevel>LODTYPES_DEPTH_HD</lodLevel>
+			<numChildren value="0"/>
+			<ambientOcclusionMultiplier value="255"/>
+			<artificialAmbientOcclusion value="255"/>
+		</Item>
+		<Item type="CEntityDef">
+			<archetypeName>prop_cctv_pole_04</archetypeName>
+			<flags value="1572897"/>
+			<position x="-562.089844" y="-249.206192" z="35.495674"/>
+			<rotation w="0.694271" x="-0.009501" y="-0.010710" z="0.719572"/>
+			<scaleXY value="1"/>
+			<scaleZ value="1"/>
+			<parentIndex value="-1"/>
+			<lodDist value="500"/>
+			<childLodDist value="500"/>
+			<lodLevel>LODTYPES_DEPTH_HD</lodLevel>
+			<numChildren value="0"/>
+			<ambientOcclusionMultiplier value="255"/>
+			<artificialAmbientOcclusion value="255"/>
+		</Item>
+		<Item type="CEntityDef">
+			<archetypeName>prop_cctv_pole_04</archetypeName>
+			<flags value="1572897"/>
+			<position x="-1173.147949" y="-901.999817" z="12.724192"/>
+			<rotation w="0.391355" x="0.000000" y="0.000000" z="0.920240"/>
+			<scaleXY value="1"/>
+			<scaleZ value="1"/>
+			<parentIndex value="-1"/>
+			<lodDist value="500"/>
+			<childLodDist value="500"/>
+			<lodLevel>LODTYPES_DEPTH_HD</lodLevel>
+			<numChildren value="0"/>
+			<ambientOcclusionMultiplier value="255"/>
+			<artificialAmbientOcclusion value="255"/>
+		</Item>
+		<Item type="CEntityDef">
+			<archetypeName>prop_cctv_pole_04</archetypeName>
+			<flags value="1572897"/>
+			<position x="1444.871460" y="-1502.762329" z="62.222565"/>
+			<rotation w="0.997998" x="-0.000000" y="0.000000" z="0.063252"/>
+			<scaleXY value="1"/>
+			<scaleZ value="1"/>
+			<parentIndex value="-1"/>
+			<lodDist value="500"/>
+			<childLodDist value="500"/>
+			<lodLevel>LODTYPES_DEPTH_HD</lodLevel>
+			<numChildren value="0"/>
+			<ambientOcclusionMultiplier value="255"/>
+			<artificialAmbientOcclusion value="255"/>
+		</Item>
+		<Item type="CEntityDef">
+			<archetypeName>prop_cctv_cam_05a</archetypeName>
+			<flags value="1572897"/>
+			<position x="-1188.627686" y="-878.818237" z="17.100870"/>
+			<rotation w="0.993915" x="-0.000000" y="0.000000" z="0.110152"/>
+			<scaleXY value="1"/>
+			<scaleZ value="1"/>
+			<parentIndex value="-1"/>
+			<lodDist value="500"/>
+			<childLodDist value="500"/>
+			<lodLevel>LODTYPES_DEPTH_HD</lodLevel>
+			<numChildren value="0"/>
+			<ambientOcclusionMultiplier value="255"/>
+			<artificialAmbientOcclusion value="255"/>
+		</Item>
+		<Item type="CEntityDef">
+			<archetypeName>prop_cctv_pole_04</archetypeName>
+			<flags value="1572897"/>
+			<position x="1210.607910" y="2747.104736" z="37.003197"/>
+			<rotation w="0.345476" x="-0.000000" y="0.000000" z="-0.938428"/>
+			<scaleXY value="1"/>
+			<scaleZ value="1"/>
+			<parentIndex value="-1"/>
+			<lodDist value="500"/>
+			<childLodDist value="500"/>
+			<lodLevel>LODTYPES_DEPTH_HD</lodLevel>
+			<numChildren value="0"/>
+			<ambientOcclusionMultiplier value="255"/>
+			<artificialAmbientOcclusion value="255"/>
+		</Item>
+		<Item type="CEntityDef">
+			<archetypeName>prop_cctv_cam_01b</archetypeName>
+			<flags value="1572897"/>
+			<position x="1266.772827" y="-1573.304688" z="61.625904"/>
+			<rotation w="0.954165" x="0.000000" y="-0.000000" z="-0.299281"/>
+			<scaleXY value="1"/>
+			<scaleZ value="1"/>
+			<parentIndex value="-1"/>
+			<lodDist value="500"/>
+			<childLodDist value="500"/>
+			<lodLevel>LODTYPES_DEPTH_HD</lodLevel>
+			<numChildren value="0"/>
+			<ambientOcclusionMultiplier value="255"/>
+			<artificialAmbientOcclusion value="255"/>
+		</Item>
+		<Item type="CEntityDef">
+			<archetypeName>prop_cctv_cam_01a</archetypeName>
+			<flags value="1572865"/>
+			<position x="-31.090002" y="-1095.758667" z="28.562851"/>
+			<rotation w="0.576711" x="0.000000" y="0.000000" z="0.816948"/>
+			<scaleXY value="1"/>
+			<scaleZ value="1"/>
+			<parentIndex value="-1"/>
+			<lodDist value="500"/>
+			<childLodDist value="500"/>
+			<lodLevel>LODTYPES_DEPTH_HD</lodLevel>
+			<numChildren value="0"/>
+			<ambientOcclusionMultiplier value="255"/>
+			<artificialAmbientOcclusion value="255"/>
+		</Item>
+		<Item type="CEntityDef">
+			<archetypeName>prop_cctv_pole_04</archetypeName>
+			<flags value="1572897"/>
+			<position x="-229.995224" y="-1298.760742" z="30.293903"/>
+			<rotation w="0.538836" x="-0.000000" y="0.000000" z="-0.842411"/>
+			<scaleXY value="1"/>
+			<scaleZ value="1"/>
+			<parentIndex value="-1"/>
+			<lodDist value="500"/>
+			<childLodDist value="500"/>
+			<lodLevel>LODTYPES_DEPTH_HD</lodLevel>
+			<numChildren value="0"/>
+			<ambientOcclusionMultiplier value="255"/>
+			<artificialAmbientOcclusion value="255"/>
+		</Item>
+		<Item type="CEntityDef">
+			<archetypeName>prop_cctv_cam_05a</archetypeName>
+			<flags value="1572897"/>
+			<position x="-205.484390" y="-1339.769897" z="33.802631"/>
+			<rotation w="0.340350" x="0.000000" y="0.000000" z="0.940299"/>
+			<scaleXY value="1"/>
+			<scaleZ value="1"/>
+			<parentIndex value="-1"/>
+			<lodDist value="500"/>
+			<childLodDist value="500"/>
+			<lodLevel>LODTYPES_DEPTH_HD</lodLevel>
+			<numChildren value="0"/>
+			<ambientOcclusionMultiplier value="255"/>
+			<artificialAmbientOcclusion value="255"/>
+		</Item>
+		<Item type="CEntityDef">
+			<archetypeName>prop_cctv_cam_01a</archetypeName>
+			<flags value="1572897"/>
+			<position x="-548.082214" y="-202.315231" z="41.255905"/>
+			<rotation w="0.494863" x="-0.000000" y="0.000000" z="-0.868971"/>
+			<scaleXY value="1"/>
+			<scaleZ value="1"/>
+			<parentIndex value="-1"/>
+			<lodDist value="500"/>
+			<childLodDist value="500"/>
+			<lodLevel>LODTYPES_DEPTH_HD</lodLevel>
+			<numChildren value="0"/>
+			<ambientOcclusionMultiplier value="255"/>
+			<artificialAmbientOcclusion value="255"/>
+		</Item>
+		<Item type="CEntityDef">
+			<archetypeName>prop_cctv_pole_04</archetypeName>
+			<flags value="1572897"/>
+			<position x="-1186.143188" y="-876.950012" z="12.780192"/>
+			<rotation w="0.498194" x="-0.000000" y="0.000000" z="-0.867065"/>
+			<scaleXY value="1"/>
+			<scaleZ value="1"/>
+			<parentIndex value="-1"/>
+			<lodDist value="500"/>
+			<childLodDist value="500"/>
+			<lodLevel>LODTYPES_DEPTH_HD</lodLevel>
+			<numChildren value="0"/>
+			<ambientOcclusionMultiplier value="255"/>
+			<artificialAmbientOcclusion value="255"/>
+		</Item>
+		<Item type="CEntityDef">
+			<archetypeName>prop_cctv_cam_01a</archetypeName>
+			<flags value="1572897"/>
+			<position x="-82.406250" y="72.885529" z="73.924675"/>
+			<rotation w="0.861826" x="0.000000" y="-0.000000" z="-0.507205"/>
+			<scaleXY value="1"/>
+			<scaleZ value="1"/>
+			<parentIndex value="-1"/>
+			<lodDist value="500"/>
+			<childLodDist value="500"/>
+			<lodLevel>LODTYPES_DEPTH_HD</lodLevel>
+			<numChildren value="0"/>
+			<ambientOcclusionMultiplier value="255"/>
+			<artificialAmbientOcclusion value="255"/>
+		</Item>
+		<Item type="CEntityDef">
+			<archetypeName>prop_cctv_pole_04</archetypeName>
+			<flags value="1572897"/>
+			<position x="-198.574982" y="-1294.447144" z="30.293903"/>
+			<rotation w="0.980849" x="0.000000" y="-0.000000" z="-0.194768"/>
+			<scaleXY value="1"/>
+			<scaleZ value="1"/>
+			<parentIndex value="-1"/>
+			<lodDist value="500"/>
+			<childLodDist value="500"/>
+			<lodLevel>LODTYPES_DEPTH_HD</lodLevel>
+			<numChildren value="0"/>
+			<ambientOcclusionMultiplier value="255"/>
+			<artificialAmbientOcclusion value="255"/>
+		</Item>
+		<Item type="CEntityDef">
+			<archetypeName>prop_cctv_cam_05a</archetypeName>
+			<flags value="1572897"/>
+			<position x="-1180.375122" y="-891.061218" z="17.031406"/>
+			<rotation w="0.651772" x="0.000000" y="0.000000" z="0.758415"/>
+			<scaleXY value="1"/>
+			<scaleZ value="1"/>
+			<parentIndex value="-1"/>
+			<lodDist value="500"/>
+			<childLodDist value="500"/>
+			<lodLevel>LODTYPES_DEPTH_HD</lodLevel>
+			<numChildren value="0"/>
+			<ambientOcclusionMultiplier value="255"/>
+			<artificialAmbientOcclusion value="255"/>
+		</Item>
+		<Item type="CEntityDef">
+			<archetypeName>prop_cctv_pole_04</archetypeName>
+			<flags value="1572897"/>
+			<position x="-230.407394" y="-1299.295898" z="30.293903"/>
+			<rotation w="0.999836" x="0.000000" y="-0.000000" z="-0.018114"/>
+			<scaleXY value="1"/>
+			<scaleZ value="1"/>
+			<parentIndex value="-1"/>
+			<lodDist value="500"/>
+			<childLodDist value="500"/>
+			<lodLevel>LODTYPES_DEPTH_HD</lodLevel>
+			<numChildren value="0"/>
+			<ambientOcclusionMultiplier value="255"/>
+			<artificialAmbientOcclusion value="255"/>
+		</Item>
+		<Item type="CEntityDef">
+			<archetypeName>prop_cctv_pole_04</archetypeName>
+			<flags value="1572897"/>
+			<position x="1469.477539" y="-1630.250000" z="69.165451"/>
+			<rotation w="0.255190" x="0.000000" y="0.000000" z="0.966891"/>
+			<scaleXY value="1"/>
+			<scaleZ value="1"/>
+			<parentIndex value="-1"/>
+			<lodDist value="500"/>
+			<childLodDist value="500"/>
+			<lodLevel>LODTYPES_DEPTH_HD</lodLevel>
+			<numChildren value="0"/>
+			<ambientOcclusionMultiplier value="255"/>
+			<artificialAmbientOcclusion value="255"/>
+		</Item>
+		<Item type="CEntityDef">
+			<archetypeName>prop_cctv_cam_05a</archetypeName>
+			<flags value="1572897"/>
+			<position x="-229.848755" y="-1323.452393" z="33.820599"/>
+			<rotation w="0.880559" x="0.000000" y="-0.000000" z="-0.473936"/>
+			<scaleXY value="1"/>
+			<scaleZ value="1"/>
+			<parentIndex value="-1"/>
+			<lodDist value="500"/>
+			<childLodDist value="500"/>
+			<lodLevel>LODTYPES_DEPTH_HD</lodLevel>
+			<numChildren value="0"/>
+			<ambientOcclusionMultiplier value="255"/>
+			<artificialAmbientOcclusion value="255"/>
+		</Item>
+		<Item type="CEntityDef">
+			<archetypeName>prop_cctv_pole_04</archetypeName>
+			<flags value="1572897"/>
+			<position x="1237.789307" y="2728.064697" z="37.003197"/>
+			<rotation w="0.668914" x="0.000000" y="0.000000" z="0.743339"/>
+			<scaleXY value="1"/>
+			<scaleZ value="1"/>
+			<parentIndex value="-1"/>
+			<lodDist value="500"/>
+			<childLodDist value="500"/>
+			<lodLevel>LODTYPES_DEPTH_HD</lodLevel>
+			<numChildren value="0"/>
+			<ambientOcclusionMultiplier value="255"/>
+			<artificialAmbientOcclusion value="255"/>
+		</Item>
+		<Item type="CEntityDef">
+			<archetypeName>prop_cctv_cam_05a</archetypeName>
+			<flags value="1572897"/>
+			<position x="-558.252747" y="-227.407837" z="37.256153"/>
+			<rotation w="0.999163" x="0.026164" y="0.000823" z="-0.031430"/>
+			<scaleXY value="1"/>
+			<scaleZ value="1"/>
+			<parentIndex value="-1"/>
+			<lodDist value="500"/>
+			<childLodDist value="500"/>
+			<lodLevel>LODTYPES_DEPTH_HD</lodLevel>
+			<numChildren value="0"/>
+			<ambientOcclusionMultiplier value="255"/>
+			<artificialAmbientOcclusion value="255"/>
+		</Item>
+		<Item type="CEntityDef">
+			<archetypeName>prop_cctv_pole_04</archetypeName>
+			<flags value="1572897"/>
+			<position x="169.638916" y="-910.872498" z="29.689375"/>
+			<rotation w="0.986677" x="-0.000000" y="0.000000" z="0.162689"/>
+			<scaleXY value="1"/>
+			<scaleZ value="1"/>
+			<parentIndex value="-1"/>
+			<lodDist value="500"/>
+			<childLodDist value="500"/>
+			<lodLevel>LODTYPES_DEPTH_HD</lodLevel>
+			<numChildren value="0"/>
+			<ambientOcclusionMultiplier value="255"/>
+			<artificialAmbientOcclusion value="255"/>
+		</Item>
+		<Item type="CEntityDef">
+			<archetypeName>prop_cctv_pole_04</archetypeName>
+			<flags value="1572897"/>
+			<position x="173.889313" y="-1001.792175" z="28.333836"/>
+			<rotation w="0.666920" x="-0.000000" y="0.000000" z="-0.745129"/>
+			<scaleXY value="1"/>
+			<scaleZ value="1"/>
+			<parentIndex value="-1"/>
+			<lodDist value="500"/>
+			<childLodDist value="500"/>
+			<lodLevel>LODTYPES_DEPTH_HD</lodLevel>
+			<numChildren value="0"/>
+			<ambientOcclusionMultiplier value="255"/>
+			<artificialAmbientOcclusion value="255"/>
+		</Item>
+		<Item type="CEntityDef">
+			<archetypeName>prop_cctv_pole_04</archetypeName>
+			<flags value="1572897"/>
+			<position x="213.127808" y="-896.479126" z="29.689934"/>
+			<rotation w="0.887221" x="0.000000" y="-0.000000" z="-0.461344"/>
+			<scaleXY value="1"/>
+			<scaleZ value="1"/>
+			<parentIndex value="-1"/>
+			<lodDist value="500"/>
+			<childLodDist value="500"/>
+			<lodLevel>LODTYPES_DEPTH_HD</lodLevel>
+			<numChildren value="0"/>
+			<ambientOcclusionMultiplier value="255"/>
+			<artificialAmbientOcclusion value="255"/>
+		</Item>
+		<Item type="CEntityDef">
+			<archetypeName>prop_atm_01</archetypeName>
+			<flags value="1572865"/>
+			<position x="-42.335117" y="-1107.789917" z="25.369326"/>
+			<rotation w="0.986475" x="0.000000" y="0.000000" z="0.163912"/>
+			<scaleXY value="1"/>
+			<scaleZ value="1"/>
+			<parentIndex value="-1"/>
+			<lodDist value="500"/>
+			<childLodDist value="500"/>
+			<lodLevel>LODTYPES_DEPTH_HD</lodLevel>
+			<numChildren value="0"/>
+			<ambientOcclusionMultiplier value="255"/>
+			<artificialAmbientOcclusion value="255"/>
+		</Item>
+		<Item type="CEntityDef">
+			<archetypeName>prop_cctv_cam_05a</archetypeName>
+			<flags value="1572897"/>
+			<position x="-192.252518" y="-1314.369873" z="33.784595"/>
+			<rotation w="0.962653" x="-0.000000" y="0.000000" z="0.270737"/>
+			<scaleXY value="1"/>
+			<scaleZ value="1"/>
+			<parentIndex value="-1"/>
+			<lodDist value="500"/>
+			<childLodDist value="500"/>
+			<lodLevel>LODTYPES_DEPTH_HD</lodLevel>
+			<numChildren value="0"/>
+			<ambientOcclusionMultiplier value="255"/>
+			<artificialAmbientOcclusion value="255"/>
+		</Item>
+		<Item type="CEntityDef">
+			<archetypeName>prop_cctv_cam_01a</archetypeName>
+			<flags value="1572865"/>
+			<position x="-35.392693" y="-1109.470459" z="29.108118"/>
+			<rotation w="0.203976" x="0.004978" y="-0.018866" z="-0.978781"/>
+			<scaleXY value="1"/>
+			<scaleZ value="1"/>
+			<parentIndex value="-1"/>
+			<lodDist value="500"/>
+			<childLodDist value="500"/>
+			<lodLevel>LODTYPES_DEPTH_HD</lodLevel>
+			<numChildren value="0"/>
+			<ambientOcclusionMultiplier value="255"/>
+			<artificialAmbientOcclusion value="255"/>
+		</Item>
+		<Item type="CEntityDef">
+			<archetypeName>prop_cctv_pole_04</archetypeName>
+			<flags value="1572897"/>
+			<position x="136.317703" y="-976.808777" z="28.408478"/>
+			<rotation w="0.574438" x="0.000000" y="0.000000" z="0.818548"/>
+			<scaleXY value="1"/>
+			<scaleZ value="1"/>
+			<parentIndex value="-1"/>
+			<lodDist value="500"/>
+			<childLodDist value="500"/>
+			<lodLevel>LODTYPES_DEPTH_HD</lodLevel>
+			<numChildren value="0"/>
+			<ambientOcclusionMultiplier value="255"/>
+			<artificialAmbientOcclusion value="255"/>
+		</Item>
+		<Item type="CEntityDef">
+			<archetypeName>prop_cctv_pole_04</archetypeName>
+			<flags value="1572897"/>
+			<position x="142.004562" y="-990.023071" z="28.363688"/>
+			<rotation w="0.986839" x="-0.000000" y="0.000000" z="0.161703"/>
+			<scaleXY value="1"/>
+			<scaleZ value="1"/>
+			<parentIndex value="-1"/>
+			<lodDist value="500"/>
+			<childLodDist value="500"/>
+			<lodLevel>LODTYPES_DEPTH_HD</lodLevel>
+			<numChildren value="0"/>
+			<ambientOcclusionMultiplier value="255"/>
+			<artificialAmbientOcclusion value="255"/>
+		</Item>
+	</entities>
+</CMapData>

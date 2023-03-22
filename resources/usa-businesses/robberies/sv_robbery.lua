@@ -16,6 +16,7 @@ AddEventHandler('business:beginRobbery', function(storeName, isSuspectMale, play
 			store.lastRobbedTime = os.time()
 			anyStoreBeingRobbed = true
 			TriggerEvent('911:Robbery', x, y, z, storeName, isSuspectMale, store.cameraID)
+			TriggerClientEvent("rcore_cam:startRecording", usource)
 			TriggerClientEvent('usa:notify', usource, "~y~Robbery has begun~s~, hold the fort for the timer duration and don't leave!")
 			TriggerClientEvent('business:robStore', usource, storeName)
 			if math.random() < 0.5 then

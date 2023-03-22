@@ -69,7 +69,7 @@ function CreateCharacter(data)
         TriggerClientEvent("fire:setEMS", self.source, false)
       end
       self.adjustChatSuggestions(data)
-      TriggerClientEvent("usa_trains:setJob", self.source, data)
+      TriggerClientEvent("max_trains:setJob", self.source, data)
       TriggerEvent("high_callback:setJob", self.source)
     end
   end

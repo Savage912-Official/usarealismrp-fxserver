@@ -5,7 +5,7 @@ exports.globals:PerformDBCheck("usa_police", DB_NAME)
 local JOB_NAME = "sheriff"
 
 local armoryItems = {
-    { name = "First Aid Kit", price = 25, weight = 5 },
+    { name = "IFAK", price = 25, weight = 1, serviceWeapon = true},
     { name = "Fire Extinguisher", type = "weapon", hash = 101631238, price = 100, weight = 20 },
     { name = "Flare", type = "weapon", hash = 1233104067, price = 200, weight = 5 },
     { name = "Tear Gas", type = "weapon", hash = -1600701090, price = 300, weight = 3, minRank = 2 },
@@ -210,10 +210,10 @@ TriggerEvent('es:addCommand', 'whitelist', function(source, args, char)
             user_rank = 0
         else
             user_rank = tonumber(user_rank)
-        end 
+        end
     elseif type == "police" then
         user_rank = tonumber(char.get("policeRank"))
-    elseif type == "corrections" then 
+    elseif type == "corrections" then
         user_rank = tonumber(char.get("bcsoRank"))
     elseif type == "da" then
         user_rank = char.get("daRank")
@@ -256,7 +256,7 @@ TriggerEvent('es:addCommand', 'whitelist', function(source, args, char)
     if rank > 0 then
         if type == "police" then
             target.set("policeRank", rank)
-        elseif type == "corrections" then 
+        elseif type == "corrections" then
             target.set("bcsoRank", rank)
         elseif type == "ems" then
             target.set("emsRank", rank)
@@ -369,7 +369,7 @@ AddEventHandler("policestation2:requestPurchase", function(index)
         local rank = nil
         if char.get("job") == "sheriff" then
             rank = char.get("policeRank")
-        elseif char.get("job") == "corrections" then 
+        elseif char.get("job") == "corrections" then
             rank = char.get("bcsoRank")
         end
         if weapon.minRank then
@@ -429,7 +429,7 @@ AddEventHandler("policestation2:saveOutfit", function(character, slot)
                     db.updateDocument(DB_NAME, docID, character, function(ok)
                         if ok then
                             TriggerClientEvent("usa:notify", src, "Outfit in slot "..slot.." has been updated.")
-                        else 
+                        else
                             TriggerClientEvent("usa:notify", src, "Error saving outfit")
                         end
                     end)

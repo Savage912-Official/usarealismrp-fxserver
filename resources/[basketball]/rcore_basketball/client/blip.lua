@@ -1,3 +1,4 @@
+--[[
 local blips = {}
 
 CreateThread(function()
@@ -27,3 +28,4 @@ AddEventHandler('onResourceStop', function(name)
         end
     end
 end)
+--]]

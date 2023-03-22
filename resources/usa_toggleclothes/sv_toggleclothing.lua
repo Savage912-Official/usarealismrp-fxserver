@@ -43,6 +43,16 @@ TriggerEvent('es:addCommand', 'shoes', function(source, args, char, location)
 	TriggerClientEvent("headprops:toggleComponent", source, 6)
 end, { help = "Take your shoes on / off." })
 
+-- Toggles hair--
+TriggerEvent('es:addCommand', 'baldcap', function(source, args, char, location)
+	TriggerClientEvent("headprops:toggleComponent", source, 2)
+end, { help = "Put a baldcap on / off." })
+
+-- Puts Hair up / down
+TriggerEvent('es:addCommand', 'hair', function(source, args, char, location)
+	TriggerClientEvent("hair:toggleHair", source, 2)
+end, { help = "Put hair up / down." })
+
 RegisterServerEvent("headprops:loadPropOrComponent")
 AddEventHandler("headprops:loadPropOrComponent", function(isProp, id, doEquip)
 	local char = exports["usa-characters"]:GetCharacter(source)

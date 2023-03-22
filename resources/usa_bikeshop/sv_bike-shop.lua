@@ -1,16 +1,7 @@
-local SV_ITEMS = { -- must be kept in sync with one in cl_bike-shop.lua --
-  {name = "BMX", price = 250, hash = 1131912276},
-  {name = "Cruiser", price = 300, hash = 448402357},
-  {name = "Fixster", price = 350, hash = -836512833},
-  {name = "Scorcher", price = 500, hash = -186537451},
-  {name = "TriBike", price = 550, hash = 1127861609},
-  {name = "Low Rider Bike", price = 5000, hash = GetHashKey("lowriderb")}
-}
-
 RegisterServerEvent("bikeShop:requestPurchase")
 AddEventHandler("bikeShop:requestPurchase", function(index, location)
   local char = exports["usa-characters"]:GetCharacter(source)
-  local bike = SV_ITEMS[index]
+  local bike = Config.Bikes[index]
   local vehicles = char.get("vehicles")
   if bike.price <= char.get("money") then -- see if user has enough money
     char.removeMoney(bike.price)
@@ -39,7 +30,6 @@ AddEventHandler("bikeShop:requestPurchase", function(index, location)
     TriggerClientEvent("usa:notify", source, "Not enough money!")
   end
 end)
-
 
 function generate_random_number_plate()
   local charset = {

@@ -228,6 +228,7 @@ AddEventHandler('911:ShotsFired', function(x, y, z, street, area, isMale)
 end)
 
 AddEventHandler('911:Carjacking', function(x, y, z, street, vehicle, plate, isMale, primaryColor, secondaryColor)
+    TriggerClientEvent("rcore_cam:startRecording", source)
     if not recentCalls["Carjacking"] then
         recentCalls["Carjacking"] = true
         local primaryColor = colorNames[tostring(primaryColor)]
@@ -260,6 +261,7 @@ AddEventHandler('911:MuggingNPC', function(x, y, z, street)
 end)
 
 AddEventHandler('911:Shoplifting', function(x, y, z, street, isMale)
+    TriggerClientEvent("rcore_cam:startRecording", source)
     if not recentCalls["Shoplifting"] then
         recentCalls["Shoplifting"] = true
         local time = math.random(1000, 2000)
@@ -303,6 +305,7 @@ AddEventHandler('911:RecklessDriving', function(x, y, z, street, area, vehicle, 
 end)
 
 AddEventHandler('911:VehicleTheft', function(x, y, z, street, vehicle, plate, isMale, primaryColor, secondaryColor)
+    TriggerClientEvent("rcore_cam:startRecording", source)
 	if not recentCalls["Vehicle Theft"] then
         recentCalls["Vehicle Theft"] = true
 		local primaryColor = colorNames[tostring(primaryColor)]
@@ -328,6 +331,7 @@ AddEventHandler('911:MVA', function(x, y, z, street, area, vehicle, plate, isMal
 end)
 
 AddEventHandler('911:ArmedCarjacking', function(x, y, z, street, vehicle, plate, isMale, primaryColor, secondaryColor)
+    TriggerClientEvent("rcore_cam:startRecording", source)
 	if not recentCalls["Armed Carjacking"] then
         recentCalls["Armed Carjacking"] = true
 		local primaryColor = colorNames[tostring(primaryColor)]
@@ -341,6 +345,7 @@ AddEventHandler('911:ArmedCarjacking', function(x, y, z, street, vehicle, plate,
 end)
 
 AddEventHandler('911:Narcotics', function(x, y, z, street, isMale)
+    TriggerClientEvent("rcore_cam:startRecording", source)
 	if not recentCalls["Narcotics"] then
         recentCalls["Narcotics"] = true
 		local time = math.random(4000, 10000)
@@ -352,6 +357,7 @@ AddEventHandler('911:Narcotics', function(x, y, z, street, isMale)
 end)
 
 AddEventHandler('911:CocaineSting', function(x, y, z, street, isMale)
+    TriggerClientEvent("rcore_cam:startRecording", source)
 	local time = math.random(90000, 120000)
 	Citizen.Wait(time)
 	local string = '^*^2Cocaine Sting:^r '..street..' ^1^*|^r ^*Suspect:^r '..Gender(isMale)..' ^1^*|^r ^*Dispatch Info:^r Await arrival and apprehend suspect after a sale is made, do not be seen.'
@@ -359,6 +365,7 @@ AddEventHandler('911:CocaineSting', function(x, y, z, street, isMale)
 end)
 
 AddEventHandler('911:MethExplosion', function(x, y, z, street)
+    TriggerClientEvent("rcore_cam:startRecording", source)
     local time = math.random(6000, 10000)
     Citizen.Wait(time)
     local string = '^*^1Explosion:^r '..street..' ^1^*|^r ^*Dispatch Info:^r Caller reports suspicious activity in area, proceed with caution.'
@@ -367,6 +374,7 @@ AddEventHandler('911:MethExplosion', function(x, y, z, street)
 end)
 
 AddEventHandler('911:ChopShop', function(x, y, z, street, isMale)
+    TriggerClientEvent("rcore_cam:startRecording", source)
     local time = math.random(1000, 2000)
     Citizen.Wait(time)
     local string = '^*Suspicious Person:^r '..street..' ^1^*|^r ^*Suspect:^r '..Gender(isMale)..' ^1^*|^r ^*Dispatch Info:^r Caller reports constant banging and noises of cars.'
@@ -382,6 +390,7 @@ AddEventHandler('911:SuspiciousHospitalInjuries', function(fullName, x, y, z)
 end)
 
 AddEventHandler('911:SuspiciousWeaponBuying', function(x, y, z, street, buyerName)
+    TriggerClientEvent("rcore_cam:startRecording", source)
     local time = math.random(1000, 2000)
     Citizen.Wait(time)
     local string = '^*Suspicious Person:^r '..street..' ^1^*|^r ^*Suspect:^r '..buyerName..' ^1^*|^r ^*Dispatch Info:^r Caller reports suspect is purchasing large quantities of weapons.'
@@ -406,6 +415,7 @@ AddEventHandler('911:SuspiciousPerson', function(x, y, z)
 end)
 
 AddEventHandler('911:HotwiringVehicle', function(x, y, z, street, vehicle, plate, isMale, primaryColor, secondaryColor)
+    TriggerClientEvent("rcore_cam:startRecording", source)
 	if not recentCalls["Hotwiring"] then
         recentCalls["Hotwiring"] = true
 		local primaryColor = colorNames[tostring(primaryColor)]
@@ -419,6 +429,7 @@ AddEventHandler('911:HotwiringVehicle', function(x, y, z, street, vehicle, plate
 end)
 
 AddEventHandler('911:LockpickingVehicle', function(x, y, z, street, vehicle, plate, isMale, primaryColor, secondaryColor)
+    TriggerClientEvent("rcore_cam:startRecording", source)
 	if not recentCalls["Vehicle Lockpicking"] then
         recentCalls["Vehicle Lockpicking"] = true
 		local primaryColor = colorNames[tostring(primaryColor)]
@@ -432,6 +443,7 @@ AddEventHandler('911:LockpickingVehicle', function(x, y, z, street, vehicle, pla
 end)
 
 AddEventHandler('911:LockpickingDoor', function(x, y, z, street, isMale)
+    TriggerClientEvent("rcore_cam:startRecording", source)
     local time = math.random(4000, 6000)
     Citizen.Wait(time)
     local string = '^*Door Being Lockpicked:^r '..street..' ^1^*|^r ^*Suspect:^r '..Gender(isMale)
@@ -440,6 +452,7 @@ AddEventHandler('911:LockpickingDoor', function(x, y, z, street, isMale)
 end)
 
 AddEventHandler('911:CuffCutting', function(x, y, z, street, isMale)
+    TriggerClientEvent("rcore_cam:startRecording", source)
     local time = math.random(4000, 6000)
     Citizen.Wait(time)
     local string = '^*Suspicious Person:^r '..street..' ^1^*|^r ^*Suspect:^r '..Gender(isMale)..' ^1^*|^r ^*Dispatch Info:^r Caller reports an individual using a mechanic saw to break handcuffs.'
@@ -472,12 +485,14 @@ AddEventHandler('911:LocalCall', function(x, y, z, street, text)
 end)
 
 AddEventHandler('911:BankRobbery', function(x, y, z, street, isMale, bankName, camID)
+    TriggerClientEvent("rcore_cam:startRecording", source)
     local string = '^1^*Bank Robbery:^r ' .. bankName .. ' ('..street..') ^1^*|^r ^*Camera ID:^r ' .. camID .. ' ^1^*|^r ^*Suspect:^r '..Gender(isMale)
     Send911Notification({'sheriff', 'corrections', 'ems'}, string, x, y, z, 'Bank Robbery')
     exports.usa_weazelnews:SendWeazelNewsAlert('Report of a ^bank robbery^r at ^3'..street..'^r, yikes! Don\'t mess this one up recruit!', x, y, z, 'Bank Robbery')
 end)
 
 AddEventHandler('911:FleecaRobbery', function(x, y, z, street)
+    TriggerClientEvent("rcore_cam:startRecording", source)
     if not recentCalls["Fleeca Alarm"] then
         recentCalls["Fleeca Alarm"] = true
         local time = math.random(5000, 10000)
@@ -488,6 +503,7 @@ AddEventHandler('911:FleecaRobbery', function(x, y, z, street)
 end)
 
 AddEventHandler('911:JewelleryRobbery', function(x, y, z, street)
+    TriggerClientEvent("rcore_cam:startRecording", source)
     if not recentCalls["Vangelico Alarm"] then
         recentCalls["Vangelico Alarm"] = true
         local time = math.random(5000, 10000)
@@ -508,6 +524,7 @@ AddEventHandler('911:UncontrolledFire', function(x, y, z, street)
 end)
 
 AddEventHandler('911:Burglary', function(x, y, z, street, isMale)
+    TriggerClientEvent("rcore_cam:startRecording", source)
     if not recentCalls["Burglary"] then
         recentCalls["Burglary"] = true
         local string = '^*Burglary:^r '..street..' ^1^*|^r ^*Suspect:^r '..Gender(isMale)
@@ -523,6 +540,7 @@ AddEventHandler('911:BankTruck', function(x, y, z, delay, message, title, blipte
 end)
 
 AddEventHandler('911:VehicleBoosting', function(x, y, z, street, plate, vehclass)
+    TriggerClientEvent("rcore_cam:startRecording", source)
     local string = '^*Vehicle Boosting in Progress:^r '..street..' ^1^*|^r ^*Vehicle Class:^r ['..vehclass..'] ^1^*|^r ^*Plate:^r '..plate..' ^1^*'
     Send911Notification({'sheriff', 'corrections'}, string, x, y, z, 'Vehicle Boosting')
 end)
@@ -566,6 +584,7 @@ AddEventHandler("911:StolenTestDriveVehicle", function(coords,plate,name)
 end)
 
 AddEventHandler('911:ATMRobbery', function(x, y, z, street)
+    TriggerClientEvent("rcore_cam:startRecording", source)
     if not recentCalls["ATM Robbery"] then
         recentCalls["ATM Robbery"] = true
         local string = '^*ATM Robbery:^r '..street

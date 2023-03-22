@@ -2,8 +2,8 @@ Config.CivJob = "civ"
 Config.IsItemNeeded = true
 Config.NeededItem = "Driver's License"
 Config.UseBuiltInPay = false
-Config.PayInterval = 10 -- seconds
-Config.PayAmount = 1000 -- amount
+Config.PayInterval = 600 -- seconds between pay with built in pay
+Config.PayAmount = 1000 -- amount of pay each time player gets payed
 Config.TrainTicketCost = 100
 Config.MetroTicketCost = 50
 Config.CustomCheck = false -- if you want a server side custom check that permits clockin in
@@ -31,7 +31,7 @@ Config.Functions = {
 		local char = exports["usa-characters"]:GetCharacter(source)
 		char.get("_id")
 	end,
-	getJob = function(source, job)
+	getJob = function(source)
 		-- server side function to get players job
 		local job = exports["usa-characters"]:GetCharacterField(source, "job")
 		return job

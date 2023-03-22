@@ -331,11 +331,6 @@ function CreateArmoryMenu(menu)
     	TriggerEvent('usa:notify', 'Armor has been re-equipped.')
     end
     menu:AddItem(item)
-	local item = NativeUI.CreateItem('First Aid Kit', "A first aid kit that can help temporarily stop bleeding.")
-    item.Activated = function(parentmenu, selected)
-    	TriggerServerEvent("police:buyFAK")
-    end
-    menu:AddItem(item)
 end
 
 _menuPool:RefreshIndex()
@@ -435,7 +430,7 @@ AddEventHandler("usa_police:checkwindowtint", function()
 		else
 			exports.globals:notify("Can't do this while in vehicle.")
 		end
-    else 
+    else
         exports.globals:notify("No Vehicle Nearby")
     end
 end)

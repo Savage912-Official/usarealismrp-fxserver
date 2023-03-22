@@ -14,6 +14,7 @@ resources/r34sound
 resources/r35sound
 resources/RES_Anticheat/events.lua
 resources/rcore_spray
+resources/rcore_cam/cameras.bak.json
 server2.cfg
 gitpull.bat
 CitizenFX.log

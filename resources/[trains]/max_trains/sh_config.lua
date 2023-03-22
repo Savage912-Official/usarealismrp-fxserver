@@ -3,9 +3,92 @@ Config = {}
 Config.Debug = false
 
 Config.Models = { -- for all of these make sure to add a seat table below
-	TrainEngine = "streakcoaster", -- one engine model for passanger trains
-	TrainCarriges = {"streakcoasterc"}, -- add any models you want to use for passanger carriges
-	Metro = "metrotrain" -- one model for metro carriges
+	TrainEngines = {"streakcoaster", "freight"}, -- add any models for passanger train engines
+	TrainCarriges = {"streakcoasterc"}, -- add any models you want to use for passanger carriges (DO NOT ADD FREIGHT CARRIAGES)
+	Metros = {"metrotrain"} -- add any models for metro carriges
+}
+
+Config.TrainLayouts = {
+	-- ["TableKey"] = { -- Example Layout
+	-- 	name = "Name of Train Layout",
+	-- 	description = "Small Description of Train Layout",
+	-- 	spawnID = 0, -- id of train within trains.xml file starts at 0
+	-- 	models = {}, -- table of models used by the train
+	-- 	type = "", -- either metro or passangerTrain
+	-- 	spawnCoords = vector3(0,0,0), -- where to spawn train at
+	-- },
+	["SmallPassanger"] = {
+		name = "Small Passanger Train",
+		description = "Small Passanger Train with one engine and one carriage",
+		spawnID = 0,
+		models = {"streakcoaster","streakcoasterc"},
+		type = "passangerTrain",
+		spawnCoords = vector3(217.3837, -2509.7693, 6.4603),
+	},
+	["MediumPassanger"] = {
+		name = "Medium Passanger Train",
+		description = "Medium Passanger Train with one engine and two carriages",
+		spawnID = 1,
+		models = {"streakcoaster","streakcoasterc"},
+		type = "passangerTrain",
+		spawnCoords = vector3(217.3837, -2509.7693, 6.4603),
+	},
+	["BigPassanger"] = {
+		name = "Big Passanger Train",
+		description = "Big Passanger Train with one engine and three carriages",
+		spawnID = 2,
+		models = {"streakcoaster","streakcoasterc"},
+		type = "passangerTrain",
+		spawnCoords = vector3(217.3837, -2509.7693, 6.4603),
+	},
+	["SmallFreight"] = {
+		name = "Small Freight Train",
+		description = "Small Freight Train with one engine and two carriages",
+		spawnID = 3,
+		models = {"freight","freightcar"},
+		type = "freightTrain",
+		spawnCoords = vector3(217.3837, -2509.7693, 6.4603),
+	},
+	["MediumFreight"] = {
+		name = "Medium Freight Train",
+		description = "Medium Freight Train with one engine and three carriages",
+		spawnID = 4,
+		models = {"freight","freightcar"},
+		type = "freightTrain",
+		spawnCoords = vector3(217.3837, -2509.7693, 6.4603),
+	},
+	["BigFreight"] = {
+		name = "Big Freight Train",
+		description = "Big Freight Train with one engine and four carriages",
+		spawnID = 5,
+		models = {"freight","freightcar"},
+		type = "freightTrain",
+		spawnCoords = vector3(217.3837, -2509.7693, 6.4603),
+	},
+	["SmallMetro"] = {
+		name = "Small Metro",
+		description = "Small Metro with a single 2-part carriage",
+		spawnID = 6,
+		models = {"metrotrain"},
+		type = "metro",
+		spawnCoords = vector3(-898.7032, -2339.0503, -11.6807),
+	},
+	["MediumMetro"] = {
+		name = "Medium Metro",
+		description = "Medium Metro with two 2-part carriages",
+		spawnID = 7,
+		models = {"metrotrain"},
+		type = "metro",
+		spawnCoords = vector3(-898.7032, -2339.0503, -11.6807),
+	},
+	["BigMetro"] = {
+		name = "Big Metro",
+		description = "Big Metro with three 2-part carriages",
+		spawnID = 8,
+		models = {"metrotrain"},
+		type = "metro",
+		spawnCoords = vector3(-898.7032, -2339.0503, -11.6807),
+	},
 }
 
 Config.SeatTables = { -- Offsets for seat possitions from model, used to attach player to entity

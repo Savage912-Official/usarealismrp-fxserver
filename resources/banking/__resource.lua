@@ -11,5 +11,8 @@ files {
 	'html/debounce.min.js'
 }
 
-client_script "client.lua"
+client_scripts {
+	"client.lua",
+	'@rcore_cam/include/anim.lua'
+}
 server_script "server.lua"

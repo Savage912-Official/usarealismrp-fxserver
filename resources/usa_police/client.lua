@@ -14,7 +14,7 @@ local policeLockerRooms = {
 local policeArmourys = {
 	-- {x = -1054.6794, y = -811.4606, z = 11.9252}, -- vespucci PD
 	{x = -1110.2474365234, y = -844.9677734375, z = 19.316892623901}, -- vespucci old
-	{x = 0, y = 0, z = 0}, -- becuase you need same amount of armory to locker rooms
+	{x = 1860.4114990234, y = 3692.1384277344, z = 34.219429016113}, -- Sandy SO
 	-- {x = 365.51690673828, y = -1598.5163574219, z = 25.451700210571}, -- davis PD (NEW)
 	{x = 637.5, y = -2.7, z = 82.8}, -- vinewood PD, elgine ave.
 	{x = 479.06399536133, y = -996.77844238281, z = 30.691987991333}, --MRPD

@@ -540,6 +540,10 @@ DP.Dances = {
    {
        EmoteLoop = true
    }},
+   ["thriller"] = {"mj_thriller", "mj_thriller_dance", "MJ Thriller", AnimationOptions = 
+   {
+       EmoteLoop = true
+   }}
 }
 
 DP.Emotes = {
@@ -1984,6 +1988,27 @@ DP.Emotes = {
         EmoteMoving = false,
     }},
 	["layncry6"] = {"misschinese2_crystalmaze", "2int_loop_a_taocheng", "Lay & Cry 6", AnimationOptions = 
+    {
+        EmoteLoop = true,
+        EmoteMoving = false,
+    }},
+    ["zombiewalk"] = {"zombies_animations", "zombi_walk_01", "Zombie Walk", AnimationOptions = 
+    {
+        EmoteLoop = true,
+    }},
+    ["zombieidle"] = {"zombies_animations", "idle_02", "Zombie Idle", AnimationOptions = 
+    {
+        EmoteLoop = true,
+    }},
+    ["zombiebiting"] = {"zombies_animations", "biting_01", "Zombie Bite", AnimationOptions = 
+    {
+        EmoteMoving = false,
+    }},
+    ["zombieneckbite"] = {"zombies_animations", "neck_bite", "Zombie Neck Bite", AnimationOptions = 
+    {
+        EmoteMoving = false,
+    }},
+    ["zombiecrawl"] = {"zombies_animations", "crawl_01", "Zombie Crawling", AnimationOptions = 
     {
         EmoteLoop = true,
         EmoteMoving = false,

@@ -1046,6 +1046,14 @@ function interactionMenuUse(index, itemName, wholeItem)
 		TriggerEvent('injuries:bandageMyInjuries')
 		busy = false
 	end
+	elseif string.find(itemName, "Medical Bag") then
+	if not busy then
+		busy = true
+		playHealingAnimation(PlayerPedId())
+		TriggerEvent("usa:heal", 35)
+		TriggerEvent('injuries:bandageMyInjuries')
+		busy = false
+	end
 	elseif string.find(itemName, "Lockpick") then
 		local targetVehicle = getVehicleInFrontOfUser()
 		local boostingInfo = Entity(targetVehicle).state.boostingData

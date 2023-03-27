@@ -38,7 +38,7 @@ Config.collisionDamageMultiplier = {
 }
 
 -- The amount of damage the wheels will take on falls (10-30 seems reasonable to me, for more realistic experience I'd recommend values between 50-100)
-Config.fallDamageAmount = 35
+Config.fallDamageAmount = 25
 
 -- Multiplier for the fall damage for vehicles that are using off-road tires/wheels
 Config.offroadTireFallDamageMultiplier = 0.6

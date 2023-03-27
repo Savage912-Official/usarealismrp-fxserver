@@ -85,8 +85,8 @@ AddEventHandler('aircraft:requestRent', function(name, business)
     local char = exports["usa-characters"]:GetCharacter(source)
     local aircraft = getAircraftItemFromName(name)
     local rentalPrice = math.floor(RENTAL_PERCENTAGE * aircraft.price)
-    if char.get("money") >= rentalPrice then
-        char.removeMoney(rentalPrice)
+    if char.hasEnoughMoneyOrBank (rentalPrice) then
+        char.removeMoneyOrBank(rentalPrice)
         if business then
             exports["usa-businesses"]:GiveBusinessCashPercent(business, rentalPrice)
         end
@@ -101,8 +101,8 @@ RegisterServerEvent('aircraft:requestPurchase')
 AddEventHandler('aircraft:requestPurchase', function(name, business)
     local char = exports["usa-characters"]:GetCharacter(source)
     local aircraft = getAircraftItemFromName(name)
-    if char.get("money") >= aircraft.price then 
-        char.removeMoney(aircraft.price)
+    if char.hasEnoughMoneyOrBank (aircraft.price) then 
+        char.removeMoneyOrBank(aircraft.price)
         if business then 
             exports["usa-businesses"]:GiveBusinessCashPercent(business, aircraft.price)
         end
@@ -165,8 +165,8 @@ AddEventHandler('aircraft:claim', function(id)
         if aircraft[i].id == id then
             local fee = CLAIM_PERCENTAGE * aircraft[i].price
             fee = math.floor(fee)
-            if char.get("money") >= fee then
-                char.removeMoney(fee)
+            if char.hasEnoughMoneyOrBank (fee) then
+                char.removeMoneyOrBank(fee)
                 aircraft[i].stored = true
                 char.set("aircraft", aircraft)
                 TriggerClientEvent("usa:notify", source, aircraft[i].name .. " claimed for $" .. exports.globals:comma_value(fee))

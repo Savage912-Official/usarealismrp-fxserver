@@ -182,6 +182,8 @@ function GetClosestATM()
   return nil
 end
 
+exports("GetClosestATM", GetClosestATM)
+
 -- Check if player is in a vehicle
 function IsInVehicle()
   local ply = GetPlayerPed(-1)

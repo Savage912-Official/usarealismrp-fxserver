@@ -39,7 +39,7 @@ AddEventHandler("towJob:giveReward", function(securityToken)
     end
 end)
 
-TriggerEvent('es:addJobCommand', 'tow', { "mechanic" }, function(source, args, char)
+TriggerEvent('es:addCommand', 'tow', function(source, args, char)
 	TriggerClientEvent('towJob:towVehicle', source)
 end, {
 	help = "Load or unload the car in front of you onto a flatbed."

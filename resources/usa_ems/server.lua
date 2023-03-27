@@ -9,7 +9,8 @@ local LOADOUT_ITEMS = {
   { name = "Flare", hash = 1233104067, price = 25, weight = 9 },
   { name = "Fire Extinguisher", hash = 101631238, price = 25, weight = 20 },
   { name = "EMS Radio", price = 500, weight = 5, type = "misc" },
-  { name = "Stretcher", price = 400, type = "misc", weight = 35, invisibleWhenDropped = true }
+  { name = "Stretcher", price = 400, type = "misc", weight = 35, invisibleWhenDropped = true },
+  { name = "Medical Bag", price = 25, weight = 15 }
 }
 
 for i = 1, #LOADOUT_ITEMS do

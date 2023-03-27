@@ -6,7 +6,8 @@ local JOB_NAME = "doctor"
 
 local LOADOUT_ITEMS = {
   { name = "EMS Radio", price = 500, weight = 5, type = "misc" },
-  { name = "Stretcher", price = 400, type = "misc", weight = 35, invisibleWhenDropped = true }
+  { name = "Stretcher", price = 400, type = "misc", weight = 35, invisibleWhenDropped = true },
+  { name = "Medical Bag", price = 25, weight = 15 }
 }
 
 for i = 1, #LOADOUT_ITEMS do

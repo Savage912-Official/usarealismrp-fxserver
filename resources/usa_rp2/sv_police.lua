@@ -1,3 +1,5 @@
+local maxTicketAmount = 150000
+
 local POLICE_RANKS = {
 	["SASP"] = {
 		[1] = "Cadet",
@@ -58,7 +60,7 @@ TriggerEvent('es:addJobCommand', 'ticket', { 'sheriff', 'police' , 'judge', "cor
 	table.remove(args, 1)
 	table.remove(args, 1)
 	local reason = table.concat(args, " ")
-	if not targetPlayer or not amount or reason == "" or reason == " " or amount > 5000 then
+	if not targetPlayer or not amount or reason == "" or reason == " " or amount > maxTicketAmount then
 		TriggerClientEvent("usa:notify", source, "~y~Usage: ~w~/ticket [id] [amount] [infractions]")
 		return
 	end

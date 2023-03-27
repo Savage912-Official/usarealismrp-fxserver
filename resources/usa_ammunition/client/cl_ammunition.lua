@@ -38,7 +38,8 @@ local MAGAZINE_LOAD_ANIM = {
 local MAGS_ENABLED = true
 
 local NO_WEAPON_RELOADS = {
-    [683870287] = true
+    [683870287] = true,
+    [857138607] = true
 }
 
 RegisterNetEvent("ammo:setMagMode")
@@ -115,6 +116,10 @@ end)
 
 RegisterNetEvent("ammo:reloadFromInventoryButton")
 AddEventHandler("ammo:reloadFromInventoryButton", function(data)
+    if NO_WEAPON_RELOADS[GetSelectedPedWeapon(PlayerPedId())] then
+        exports.globals:notify("Can't reload that")
+        return
+    end
     if MAGS_ENBALED then
         local me = PlayerPedId()
         local myveh = nil

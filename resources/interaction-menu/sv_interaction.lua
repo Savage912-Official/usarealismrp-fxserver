@@ -408,4 +408,12 @@ AddEventHandler('es:playerLoaded', function(src, user)
 	TriggerClientEvent("thirdEye:updateHotkey", src, (doc.key or THIRD_EYE_DEFAULT_HOTKEY))
 end)
 
+RegisterServerCallback {
+	eventName = 'interaction:hasItem',
+	eventCallback = function(source, itemName)
+		local char = exports["usa-characters"]:GetCharacter(source)
+        return char.hasItem(itemName)
+	end
+}
+
 exports["globals"]:PerformDBCheck("interaction-menu", "third-eye-setting")

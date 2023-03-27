@@ -124,12 +124,34 @@ end, {
 	}
 })
 
-TriggerEvent('es:addJobCommand', 'bandage', {'ems', 'doctor', 'sheriff', 'corrections'}, function(source, args, char)
+TriggerEvent('es:addJobCommand', 'bandage', {'sheriff', 'corrections'}, function(source, args, char)
 	if not char.hasItem("IFAK") then
 		TriggerClientEvent("usa:notify", source, "No IFAK")
 		return
 	end
 	char.removeItem("IFAK", 1)
+	local _source = source
+	local targetSource = tonumber(args[2])
+	if targetSource and GetPlayerName(targetSource) then
+		TriggerEvent('injuries:bandagePlayer', targetSource)
+		TriggerClientEvent('usa:notify', _source, 'Patient\'s injuries have been bandaged.')
+		exports.globals:sendLocalActionMessage(_source, "gives bandage", 5.0, 3500)
+		TriggerClientEvent("usa:playAnimation", _source, "anim@move_m@trash", "pickup", -8, 1, -1, 53, 0, 0, 0, 0, 3)
+	else
+		TriggerClientEvent('injuries:bandageNearestPed', _source)
+	end
+end, {
+	help = 'Bandage the nearest player\'s injuries',
+	params = {
+		{ name = "id", help = "id of person (omit to bandage nearest)" }
+	}
+})
+
+TriggerEvent('es:addJobCommand', 'medical', {'ems', 'doctor'}, function(source, args, char)
+	if not char.hasItem("Medical Bag") then
+		TriggerClientEvent("usa:notify", source, "No Medical Bag")
+		return
+	end
 	local _source = source
 	local targetSource = tonumber(args[2])
 	if targetSource and GetPlayerName(targetSource) then

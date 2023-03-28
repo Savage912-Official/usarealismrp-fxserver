@@ -2,7 +2,7 @@ local coords
 local cod
 local cooldown = {}
 local iniciado = false
-local webhook = 'https://discord.com/api/webhooks/1090256707998994432/EQLiR5Udd7i7TXnH7A_KXa5zM98AwFLdDV83O6kSkpNuk9Nqi9oNwhq3QcsypksO8VQN' -- Your Discord webhook for logs.
+local webhook = GetConvar("av-deliveries-webhook", "") -- Your Discord webhook for logs.
 local QBCore = nil
 local ESX = nil
 -- This is the door location, you can add as many as you want

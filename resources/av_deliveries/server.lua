@@ -303,52 +303,38 @@ AddEventHandler('av_deliveries:pago', function(z,id)
 			TriggerClientEvent('av_deliveries:notify', source, Config.Lang['moneyreward']..job.moneyReward)			
 		elseif job.rewardType == 'items' then		
 			for i = 1, #job.items do
-				for _, item in pairs(job.items) do
-					item.coords = GetEntityCoords(GetPlayerPed(source))
-					local newCoords = {
-						x = item.coords.x,
-						y = item.coords.y,
-						z = item.coords.z
-					}
-					newCoords.x = newCoords.x + (math.random() * 1)
-					newCoords.y = newCoords.y + (math.random() * 1)
-					newCoords.z = newCoords.z - 0.85
-					item.coords = newCoords
-					if not item.quantity then
-						item.quantity = 1
-					end
-					if item.type and (item.type == "magazine" or item.type == "weapon") then
-						item.notStackable = true
-					end
-					TriggerEvent("interaction:addDroppedItem", item)
-					TriggerClientEvent("usa:notify", source, "You were given: "..''..item.quantity..'x '..item.name)
-				end
+				local item = job.items[i]
+				item.coords = GetEntityCoords(GetPlayerPed(source))
+				local newCoords = {
+					x = item.coords.x,
+					y = item.coords.y,
+					z = item.coords.z
+				}
+				newCoords.x = newCoords.x + (math.random() * 0.5)
+				newCoords.y = newCoords.y + (math.random() * 0.5)
+				newCoords.z = newCoords.z - 0.85
+				item.coords = newCoords
+				TriggerEvent("interaction:addDroppedItem", item)
+				TriggerClientEvent("usa:notify", source, "You were given: "..''..item.quantity..'x '..item.name)
 			end			
 		elseif job.rewardType == 'both' then
 			char.giveMoney(job.moneyReward)
 			TriggerClientEvent('av_deliveries:notify', source, Config.Lang['moneyreward']..job.moneyReward)
 			for i = 1, #job.items do
-				for _, item in pairs(job.items) do
-					item.coords = GetEntityCoords(GetPlayerPed(source))
-					local newCoords = {
-						x = item.coords.x,
-						y = item.coords.y,
-						z = item.coords.z
-					}
-					newCoords.x = newCoords.x + (math.random() * 1)
-					newCoords.y = newCoords.y + (math.random() * 1)
-					newCoords.z = newCoords.z - 0.85
-					item.coords = newCoords
-					if not item.quantity then
-						item.quantity = 1
-					end
-					if item.type and (item.type == "magazine" or item.type == "weapon") then
-						item.notStackable = true
-					end
-					TriggerEvent("interaction:addDroppedItem", item)
-					TriggerClientEvent("usa:notify", source, "You were given: "..''..item.quantity..'x '..item.name)
-				end
-			end			
+				local item = job.items[i]
+				item.coords = GetEntityCoords(GetPlayerPed(source))
+				local newCoords = {
+					x = item.coords.x,
+					y = item.coords.y,
+					z = item.coords.z
+				}
+				newCoords.x = newCoords.x + (math.random() * 0.5)
+				newCoords.y = newCoords.y + (math.random() * 0.5)
+				newCoords.z = newCoords.z - 0.85
+				item.coords = newCoords
+				TriggerEvent("interaction:addDroppedItem", item)
+				TriggerClientEvent("usa:notify", source, "You were given: "..''..item.quantity..'x '..item.name)
+			end	
 		end
 	end
 end)

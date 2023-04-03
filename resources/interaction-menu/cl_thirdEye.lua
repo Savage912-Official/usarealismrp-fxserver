@@ -519,3 +519,13 @@ target.addPoint("911CallPoint", "911", "fas fa-siren", vector3(1772.273, 2495.20
         end
     },
 })
+
+target.addPoint("catCafeSignIn", "Cat Cafe", "fas fa-cat", vector3(-597.52642822266, -1053.5493164063, 22.344202041626), 1, function() end, {
+    {
+        name = 'signIn',
+        label = 'Toggle Sign In',
+        onSelect = function(a, b, entityHandle)
+            TriggerEvent("catcafe:toggleClockOn")
+        end
+    },
+})

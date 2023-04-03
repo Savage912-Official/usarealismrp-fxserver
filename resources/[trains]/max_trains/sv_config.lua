@@ -24,7 +24,7 @@ Config.Functions = {
 	addMoney = function(source, amount)
 		-- server side add money to player
 		local char = exports["usa-characters"]:GetCharacter(source)
-		char.addMoney(amount)
+		char.giveBank(amount)
 	end,
 	getPlayerId = function(source)
 		-- server side function to get a player identifier

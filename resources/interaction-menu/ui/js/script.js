@@ -571,6 +571,27 @@ var itemImages = {
     "20% Armor": "https://i.imgur.com/So29uLb.png",
     "Stage 1 Intake": "https://i.imgur.com/q6V2VNi.png",
     "Stage 2 Intake": "https://i.imgur.com/q6V2VNi.png",
+    // Cat Cafe Items
+    "Fruit Tart": "https://i.imgur.com/AxGt5Gf.png",
+    "Pancake": "https://i.imgur.com/mnVJzhg.png",
+    "Miso Soup": "https://i.imgur.com/qm1qSGw.png",
+    "UWU Sandwich": "https://i.imgur.com/ujaX5im.png",
+    "Weepy Cupcake": "https://i.imgur.com/geiWjTo.png",
+    "Senpai Combo": "https://i.imgur.com/DIfGgTq.png",
+    "Buddha Bowl": "https://i.imgur.com/nRlsYg2.png",
+    "Bento Box": "https://i.imgur.com/4plRm0M.png",
+    "Mini Licious Box": "https://i.imgur.com/bNRbFm8.png",
+    "Coffee": "https://i.imgur.com/GJYTKRM.png",
+    "Espresso": "https://i.imgur.com/bhIQnNH.png",
+    "Macchiato": "https://i.imgur.com/rtdo6mN.png",
+    "Latte": "https://i.imgur.com/papfUGm.png",
+    "Mocha": "https://i.imgur.com/papfUGm.png",
+    "Alex's Special": "https://i.imgur.com/SJv5ADd.png",
+    "Blueberry Bubble Tea": "https://i.imgur.com/bnsQeyG.png",
+    "Mint Bubble Tea": "https://i.imgur.com/RNk0TTU.png",
+    "Rose Bubble Tea": "https://i.imgur.com/WpqSzXJ.png",
+    "Rainbow Glitter Frappuccino": "https://i.imgur.com/9UBQ3KF.png",
+    // End of Cat Cafe Items
     "Battering Ram": "https://i.imgur.com/84WaJLq.png",
     "Repair Kit": "https://i.imgur.com/3kXO54l.png",
     "FN SCAR SC": "https://i.imgur.com/m2C9Z7x.png",
@@ -1290,6 +1311,13 @@ $(function() {
             interactionMenu.secondaryInventory.type = "person";
             interactionMenu.showSecondaryInventory = true;
             interactionMenu.secondaryInventory.searchedPersonSource = event.data.searchedPersonSource;
+        } else if (event.data.type == "showNearbyDroppedItems") {
+            $.post('http://interaction-menu/loadInventory', JSON.stringify({}));
+            interactionMenu.currentPage = "Inventory";
+            interactionMenu.locked = false;
+            interactionMenu.secondaryInventory = event.data.inv;
+            interactionMenu.secondaryInventory.type = "nearbyItems";
+            interactionMenu.showSecondaryInventory = true;
         } else if (event.data.type == "showPropertyInventory") {
             $.post('http://interaction-menu/loadInventory', JSON.stringify({}));
             interactionMenu.currentPage = "Inventory";

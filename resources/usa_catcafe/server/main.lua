@@ -1,0 +1,382 @@
+-- Random number preparation
+math.randomseed(os.time());
+math.random(); math.random();
+
+-- List of items
+local ITEMS = {
+    ["indiv"] = {
+        exports.usa_rp2:getItem("Fruit Tart"),
+        exports.usa_rp2:getItem("Pancake"),
+        exports.usa_rp2:getItem("Miso Soup"),
+        exports.usa_rp2:getItem("UWU Sandwich"),
+        exports.usa_rp2:getItem("Weepy Cupcake"),
+        {name = "", price = 0}, -- Placeholder (This won't show up on the list, but don't delete because it's needed for the menu to work.)
+    },
+    ["combos"] = {
+        exports.usa_rp2:getItem("Senpai Combo"),
+        exports.usa_rp2:getItem("Buddha Bowl"),
+        exports.usa_rp2:getItem("Bento Box"),
+        exports.usa_rp2:getItem("Mini Licious Box"),
+        {name = "", price = 0}, -- Placeholder (This won't show up on the list, but don't delete because it's needed for the menu to work.)
+    },
+    ["hotdrinks"] = {
+        exports.usa_rp2:getItem("Coffee"),
+        exports.usa_rp2:getItem("Espresso"),
+        exports.usa_rp2:getItem("Macchiato"),
+        exports.usa_rp2:getItem("Latte"),
+        exports.usa_rp2:getItem("Mocha"),
+        exports.usa_rp2:getItem("Alex's Special"),
+        {name = "", price = 0}, -- Placeholder (This won't show up on the list, but don't delete because it's needed for the menu to work.)
+    },
+    ["colddrinks"] = {
+        exports.usa_rp2:getItem("Blueberry Bubble Tea"),
+        exports.usa_rp2:getItem("Mint Bubble Tea"),
+        exports.usa_rp2:getItem("Rose Bubble Tea"),
+        exports.usa_rp2:getItem("Rainbow Glitter Frappuccino"),
+        {name = "", price = 0}, -- Placeholder (This won't show up on the list, but don't delete because it's needed for the menu to work.)
+    }
+}
+
+-- Needed for new employees
+local result_check = {uid = nil}
+local bonusPay = 0
+
+RegisterServerEvent("catcafe:loadItems")
+AddEventHandler("catcafe:loadItems", function()
+    TriggerClientEvent("catcafe:loadItems", source, ITEMS)
+end)
+
+RegisterServerEvent("catcafe:startJob")
+AddEventHandler("catcafe:startJob", function(location)
+    local usource = source
+    local char = exports["usa-characters"]:GetCharacter(usource)
+    local uid = char.get("_id")
+    local result = MySQL.query.await('SELECT * FROM usa_catcafe WHERE uid = ?', {uid})
+    for i = 1, #result do
+        result_check = result[i]
+    end
+    if result_check.uid == uid then
+        if char.get("job") == 'civ' then
+            char.set("job", "CatCafeEmployee")
+            TriggerClientEvent("catcafe:startJob", usource, location)
+        end
+        if config.debugMode then print("Player found in DB, Clocking in") end
+    else
+        MySQL.insert('INSERT INTO usa_catcafe (uid) VALUES (?) ', {uid}, function(id)
+            print("Successfully added to DB")
+        end)
+        if char.get("job") == 'civ' then
+            char.set("job", "CatCafeEmployee")
+            TriggerClientEvent("catcafe:startJob", usource, location)
+        end
+        if config.debugMode then print("Player not found in DB, Adding to DB and clocking in") end
+    end
+end)
+
+RegisterServerEvent("catcafe:quitJob")
+AddEventHandler("catcafe:quitJob", function()
+    local char = exports["usa-characters"]:GetCharacter(source)
+    if char.get("job") == 'CatCafeEmployee' then
+        char.set("job", "civ")
+        TriggerClientEvent("catcafe:quitJob", source)
+    end
+end)
+
+RegisterServerEvent("catcafe:checkCriminalHistory")
+AddEventHandler("catcafe:checkCriminalHistory", function()
+    local char = exports["usa-characters"]:GetCharacter(source)
+    if config.CrimninalHistoryCheck then
+        local criminal_history = char.get("criminalHistory")
+        if #criminal_history > 0 then
+            for i = 1, #criminal_history do
+                if exports["usa_burger-shot"]:hasCriminalRecord(criminal_history[i].charges) then
+                    TriggerClientEvent("usa:notify", source, "Unfortunately you have a pretty serious criminal background therefore, we are unable to hire you.")
+                    return
+                end
+            end
+        end
+    end
+    checkStrikes(char, source)
+end)
+
+RegisterServerEvent("catcafe:addStrike")
+AddEventHandler("catcafe:addStrike", function()
+    local usource = source
+    local char = exports["usa-characters"]:GetCharacter(usource)
+    local ident = char.get("_id")
+    local strikes = MySQL.prepare.await('SELECT strikes FROM usa_catcafe WHERE uid = ?', {ident})
+    -- Add Strike
+    MySQL.update('UPDATE usa_catcafe SET strikes = ? WHERE uid = ?', {strikes + 1, ident}, function(affectedRows)
+        if affectedRows then
+            if config.debugMode then
+                print(affectedRows)
+                print("User received strike.")
+            end
+        end
+    end)
+    -- XP penalty
+    local xp = MySQL.prepare.await('SELECT xp FROM usa_catcafe WHERE uid = ?', {ident})
+    MySQL.update('UPDATE usa_catcafe SET xp = ? WHERE uid = ?', {xp - 15, ident}, function(affectedRows)
+        if affectedRows then
+            if config.debugMode then
+                print(affectedRows)
+                print("User lost xp.")
+            end
+        end
+    end)
+        
+end)
+
+
+TriggerEvent('es:addCommand', 'payuwufines', function(source, args, char)
+    local usource = source
+    local char = exports["usa-characters"]:GetCharacter(usource)
+    local ident = char.get("_id")
+    local strikes = MySQL.prepare.await('SELECT strikes FROM usa_catcafe WHERE uid = ?', {ident})
+    if strikes >= 1 then
+        if char.get('money') >= config.fine then
+            char.removeMoney(config.fine)
+            MySQL.update('UPDATE usa_catcafe SET strikes = ? WHERE uid = ?', {0, ident}, function(affectedRows)
+                if affectedRows then
+                    if config.debugMode then
+                        print(affectedRows)
+                        print("User payed fines")
+                    end
+                    TriggerClientEvent('usa:notify', usource, 'Your strikes have been cleared. Don\'t let me down and make the same mistake again!')
+                end
+                
+            end)
+        else
+            TriggerClientEvent('usa:notify', usource, 'You do not have the funds!')
+        end
+    else
+        TriggerClientEvent('usa:notify', usource, 'You do not have any strikes.')
+    end
+end, {
+    help = "Pay off your strikes so you can work at Cat Cafe again.",
+})
+
+TriggerEvent('es:addCommand', 'uwustats', function(source, args, char)
+    local usource = source
+    local char = exports["usa-characters"]:GetCharacter(usource)
+    local ident = char.get("_id")
+    local rank = MySQL.prepare.await('SELECT rank FROM usa_catcafe WHERE uid = ?', {ident})
+    local xp = MySQL.prepare.await('SELECT xp FROM usa_catcafe WHERE uid = ?', {ident})
+    local strikes = MySQL.prepare.await('SELECT strikes FROM usa_catcafe WHERE uid = ?', {ident})
+
+    TriggerClientEvent('chat:addMessage', source,{
+        args = {"^4Cat Cafe", "Your rank is ["..rank.."] You have ["..xp.."] xp and you have ["..strikes.."] strike(s)."}
+    })
+end, {
+    help = "Check your Cat Cafe stats.",
+})
+
+RegisterServerEvent("catcafe:forceRemoveJob")
+AddEventHandler("catcafe:forceRemoveJob", function()
+    local char = exports["usa-characters"]:GetCharacter(source)
+    char.set("job", "civ")
+    TriggerClientEvent("catcafe:quitJob", source)
+end)
+
+RegisterServerEvent("catcafe:addxp")
+AddEventHandler("catcafe:addxp", function(xpCooldown)
+    local usource = source
+    local char = exports["usa-characters"]:GetCharacter(usource)
+    local ident = char.get("_id")
+    if char.get("job") == "CatCafeEmployee" then
+        if not xpCooldown then
+            local xpEarning = math.random(3,7)
+            local result = MySQL.prepare.await('SELECT xp FROM usa_catcafe WHERE uid = ?', {ident})
+            MySQL.update('UPDATE usa_catcafe SET xp = ? WHERE uid = ?', {result + xpEarning, ident}, function(affectedRows)
+                if affectedRows then
+                    TriggerClientEvent('catcafe:xpNotify', usource, xpEarning)
+                end
+            end)
+        else
+            if config.debugMode then
+                print("User is on XP cooldown")
+            end
+        end
+    else
+        TriggerEvent("notifyStaff", "Player "..GetPlayerName(usource).." attempted to cheat by giving themselves XP for Cat Cafe.")
+        DropPlayer(usource, "Cheating in cat cafe... why tho")
+    end
+end)
+
+RegisterServerEvent("catcafe:getrank")
+AddEventHandler("catcafe:getrank",function()
+    local usource = source
+    local char = exports["usa-characters"]:GetCharacter(usource)
+    local ident = char.get("_id")
+    local rank = MySQL.prepare.await('SELECT rank FROM usa_catcafe WHERE uid = ?', {ident})
+    if config.debugMode then
+        if rank ~= nil then
+            print("Retrieving player's rank ["..rank.."]")
+        else
+            print("No rank found. New Player")
+        end
+    end
+    TriggerClientEvent("catcafe:rank", usource, rank)
+end)
+
+RegisterServerEvent("catcafe:rankStatus")
+AddEventHandler("catcafe:rankStatus", function()
+    local usource = source
+    local char = exports["usa-characters"]:GetCharacter(usource)
+    local ident = char.get("_id")
+    local name = char.get("name")
+    local rankUpdateString = "Player ["..name.first.." "..name.last.."] has the rank of "
+    local rank = MySQL.prepare.await('SELECT rank FROM usa_catcafe WHERE uid = ?', {ident})
+    MySQL.prepare('SELECT xp FROM usa_catcafe WHERE uid = ?', {ident}, function(result)
+        -- debug stuff
+        if config.debugMode then
+            if result then
+                print("Result found. Player has ["..result.."] xp.")
+            else
+                print("No xp results found")
+            end
+        end
+        if result >= config.ranks["Employee"].xpRequired and result < config.ranks["Trainer"].xpRequired then
+            rank = "Employee"
+            MySQL.update('UPDATE usa_catcafe SET rank = ? WHERE uid = ?', {rank, ident}, function(affectedRows)
+                if affectedRows then
+                    if config.debugMode then
+                        print(rankUpdateString..rank)
+                    end
+                end
+            end)
+        elseif result >= config.ranks["Trainer"].xpRequired and result < config.ranks["Shift Supervisor"].xpRequired then
+            rank = "Trainer"
+            MySQL.update('UPDATE usa_catcafe SET rank = ? WHERE uid = ?', {rank, ident}, function(affectedRows)
+                if affectedRows then
+                    if config.debugMode then
+                        print(rankUpdateString..rank)
+                    end
+                end
+            end)
+        elseif result >= config.ranks["Shift Supervisor"].xpRequired and result < config.ranks["Shift Manager"].xpRequired then
+            rank = "Shift Supervisor"
+            MySQL.update('UPDATE usa_catcafe SET rank = ? WHERE uid = ?', {rank, ident}, function(affectedRows)
+                if affectedRows then
+                    if config.debugMode then
+                        print(rankUpdateString..rank)
+                    end
+                end
+            end)
+        elseif result >= config.ranks["Shift Manager"].xpRequired and result < config.ranks["Store Manager"].xpRequired then
+            rank = "Shift Manager"
+            MySQL.update('UPDATE usa_catcafe SET rank = ? WHERE uid = ?', {rank, ident}, function(affectedRows)
+                if affectedRows then
+                    if config.debugMode then
+                        print(rankUpdateString..rank)
+                    end
+                end
+            end)
+        elseif result >= config.ranks["Store Manager"].xpRequired then
+            rank = "Store Manager"
+            MySQL.update('UPDATE usa_catcafe SET rank = ? WHERE uid = ?', {rank, ident}, function(affectedRows)
+                if affectedRows then
+                    if config.debugMode then
+                        print(rankUpdateString..rank)
+                    end
+                end
+            end)
+        end
+        TriggerClientEvent("catcafe:updateRank", usource, rank)
+    end)
+end)
+
+RegisterServerEvent("catcafe:retrievestats")
+AddEventHandler("catcafe:retrievestats", function()
+    local usource = source
+    local char = exports["usa-characters"]:GetCharacter(usource)
+    local ident = char.get("_id")
+    local rank = MySQL.prepare.await('SELECT rank FROM usa_catcafe WHERE uid = ?', {ident})
+    if rank then
+        local PayBonus = config.ranks[rank].PayBonus
+        local craftAdjustmentTime = config.ranks[rank].craftAdjustmentTime
+        local data = {a = rank, b = craftAdjustmentTime, c = PayBonus}
+        TriggerClientEvent("catcafe:loaddata", usource, data)
+    else
+        TriggerClientEvent("catcafe:firsttime", usource)
+    end
+end)
+
+RegisterServerEvent("catcafe:payB")
+AddEventHandler("catcafe:payB", function(bool)
+    local usource = source
+    local char = exports["usa-characters"]:GetCharacter(usource)
+    local ident = char.get("_id")
+    local rank = MySQL.prepare.await('SELECT rank FROM usa_catcafe WHERE uid = ?', {ident})
+    local check = bool
+    if char.get("job") == "CatCafeEmployee" then
+        if check then
+            if rank then
+                local PayBonus = config.ranks[rank].PayBonus
+                char.giveMoney(PayBonus)
+                TriggerEvent('catcafe:paybonus', usource, PayBonus)
+            else
+                exports["es_admin"]:BanPlayer(usource, "Modding (Executing Money Event in Cat Cafe). If you feel this was a mistake please let a staff member know.")
+            end
+        else
+            exports["es_admin"]:BanPlayer(usource, "Modding (Executing Money Event in Cat Cafe). If you feel this was a mistake please let a staff member know.")
+        end
+    else
+        exports["es_admin"]:BanPlayer(usource, "Modding (Executing Money Event in Cat Cafe). If you feel this was a mistake please let a staff member know.")
+    end
+end)
+
+function checkStrikes(char, src)
+    MySQL.prepare('SELECT strikes FROM usa_catcafe WHERE uid = ?', {char.get("_id")}, function(result)
+        -- debug stuff
+        if config.debugMode then
+            if result then
+                print("Result found. Player has ["..result.."] strikes.")
+            else
+                print("No results found, New employee.")
+            end
+        end
+        if result then
+            TriggerClientEvent('catcafe:checkStrikes', src, result)
+        else -- If new employee
+            TriggerClientEvent('catcafe:checkStrikes', src, 0)
+        end
+    end)
+end
+
+RegisterServerCallback {
+	eventName = 'catcafe:removecashforingredients',
+	eventCallback = function(source, category, index)
+        local item = ITEMS[category][index]
+        local char = exports["usa-characters"]:GetCharacter(source)
+        local money = char.get("money")
+        if money >= item.price then
+            if char.canHoldItem(item) then
+                char.removeMoney(item.price)
+                char.giveItem(item)
+                return true
+            else
+                TriggerClientEvent("usa:notify", source, "Inventory full!")
+                return false
+            end
+        else
+            TriggerClientEvent("usa:notify", source, "Not enough money!")
+            return false
+        end
+	end
+}
+
+RegisterServerCallback {
+	eventName = 'catcafe:PlayerHasIngredientMoney',
+	eventCallback = function(source, category, index)
+        local item = ITEMS[category][index]
+        local char = exports["usa-characters"]:GetCharacter(source)
+        local money = char.get("money")
+        if money < item.price then
+            TriggerClientEvent("usa:notify", source, "Not enough money!")
+            return false
+        else
+            return true
+        end
+	end
+}

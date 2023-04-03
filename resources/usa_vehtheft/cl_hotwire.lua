@@ -189,7 +189,7 @@ AddEventHandler('veh:hotwireVehicle', function()
         if not IsEntityPlayingAnim(playerPed, 'veh@handler@base', 'hotwire', 3) then
           TaskPlayAnim(playerPed, 'veh@handler@base', 'hotwire', 8.0, 1.0, -1, 49, 1.0, false, false, false)
         end
-        local success = lib.skillCheck({'easy', 'easy', 'medium', 'medium', 'hard'})
+        local success = lib.skillCheck({'easy', 'easy', 'medium', 'medium', 'hard'}, {'w', 'a', 's', 'd'})
         if success then
           TriggerEvent('usa:notify', 'The hotwiring kit was ~g~successful~s~!')
           isHotwiring = false

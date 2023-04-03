@@ -313,7 +313,7 @@ AddEventHandler("cuff:Handcuff", function(arrestingPlayerId, x, y, z, playerHead
 						TriggerEvent("cuff:playSuspectAnim", x, y, z, playerHeading)
 
 						if not IsEntityDead(GetPlayerPed(-1)) then
-							local success = lib.skillCheck({ {areaSize = 50, speedMultiplier = 1.8}, {areaSize = 40, speedMultiplier = 1.9}, {areaSize = 30, speedMultiplier = 2.0} })
+							local success = lib.skillCheck({ {areaSize = 50, speedMultiplier = 1.8}, {areaSize = 40, speedMultiplier = 1.9}, {areaSize = 30, speedMultiplier = 2.0} }, {'w', 'a', 's', 'd', '1', '2', '3'} )
 							if success then
 								count = count + 1
 								isCuffed = false

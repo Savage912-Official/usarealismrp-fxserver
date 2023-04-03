@@ -50,8 +50,8 @@ AddEventHandler("scuba:useGear", function()
             toGive.feet = nil
             if GetEntityModel(PlayerPedId()) == `mp_m_freemode_01` then -- male
                 toGive.glasses = 40
-                toGive.shirt = 138
-                toGive.feet = 93
+                toGive.shirt = 144
+                toGive.feet = 111
             else
                 toGive.glasses = 42
                 toGive.shirt = 177

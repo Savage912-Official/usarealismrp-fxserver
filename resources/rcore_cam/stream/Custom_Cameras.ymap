@@ -40,8 +40,8 @@
 		<Item type="CEntityDef">
 			<archetypeName>prop_cctv_cam_01a</archetypeName>
 			<flags value="1572865"/>
-			<position x="-56.865326" y="-1085.921997" z="28.552851"/>
-			<rotation w="0.999904" x="0.000000" y="-0.000000" z="-0.013858"/>
+			<position x="-56.498230" y="-1086.045044" z="28.552851"/>
+			<rotation w="0.988478" x="-0.000000" y="0.000000" z="0.151364"/>
 			<scaleXY value="1"/>
 			<scaleZ value="1"/>
 			<parentIndex value="-1"/>
@@ -177,21 +177,6 @@
 			<flags value="1572897"/>
 			<position x="1204.661865" y="-1640.223389" z="46.785702"/>
 			<rotation w="0.257920" x="0.000000" y="0.000000" z="0.966166"/>
-			<scaleXY value="1"/>
-			<scaleZ value="1"/>
-			<parentIndex value="-1"/>
-			<lodDist value="500"/>
-			<childLodDist value="500"/>
-			<lodLevel>LODTYPES_DEPTH_HD</lodLevel>
-			<numChildren value="0"/>
-			<ambientOcclusionMultiplier value="255"/>
-			<artificialAmbientOcclusion value="255"/>
-		</Item>
-		<Item type="CEntityDef">
-			<archetypeName>prop_cctv_pole_04</archetypeName>
-			<flags value="1572897"/>
-			<position x="77.163666" y="-978.407593" z="28.355881"/>
-			<rotation w="0.770117" x="0.000000" y="-0.000000" z="-0.637903"/>
 			<scaleXY value="1"/>
 			<scaleZ value="1"/>
 			<parentIndex value="-1"/>
@@ -413,10 +398,10 @@
 			<artificialAmbientOcclusion value="255"/>
 		</Item>
 		<Item type="CEntityDef">
-			<archetypeName>prop_cctv_cam_01a</archetypeName>
-			<flags value="1572865"/>
-			<position x="-31.246111" y="-1101.642944" z="28.502850"/>
-			<rotation w="0.984934" x="0.000000" y="0.000000" z="0.172931"/>
+			<archetypeName>prop_cctv_cam_05a</archetypeName>
+			<flags value="1572897"/>
+			<position x="-32.584145" y="-1106.812744" z="28.998466"/>
+			<rotation w="0.581302" x="-0.000000" y="0.000000" z="-0.813688"/>
 			<scaleXY value="1"/>
 			<scaleZ value="1"/>
 			<parentIndex value="-1"/>
@@ -878,10 +863,10 @@
 			<artificialAmbientOcclusion value="255"/>
 		</Item>
 		<Item type="CEntityDef">
-			<archetypeName>prop_cctv_cam_01a</archetypeName>
-			<flags value="1572865"/>
-			<position x="-31.090002" y="-1095.758667" z="28.562851"/>
-			<rotation w="0.576711" x="0.000000" y="0.000000" z="0.816948"/>
+			<archetypeName>prop_cctv_cam_05a</archetypeName>
+			<flags value="1572897"/>
+			<position x="-41.522278" y="-1093.424561" z="29.038467"/>
+			<rotation w="0.960349" x="0.000000" y="-0.000000" z="-0.278801"/>
 			<scaleXY value="1"/>
 			<scaleZ value="1"/>
 			<parentIndex value="-1"/>

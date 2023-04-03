@@ -1135,7 +1135,7 @@
 	  <fileType>OBJ_COVER_TUNING_FILE</fileType>
 	</Item>
 	<Item>
-	  <filename>platform:/levels/gta5/doortuning</filename>
+	  <filename>resources:/cfx-gabz-mapdata/doortuning</filename>
 	  <fileType>DOOR_TUNING_FILE</fileType>
 	</Item>
 	<Item>

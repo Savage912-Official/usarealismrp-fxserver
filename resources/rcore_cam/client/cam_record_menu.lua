@@ -104,7 +104,7 @@ Citizen.CreateThread(function()
                         end
 
                         WarMenu.Display()
-                    elseif IsControlJustPressed(0, 38) or IsDisabledControlJustPressed(0, 38) then
+                    elseif IsControlJustPressed(0, 104) or IsDisabledControlJustPressed(0, 104) then
                         isOpeningRecordings = true
                         Citizen.SetTimeout(1000, function() isOpeningRecordings = false end)
 

@@ -342,3 +342,7 @@ function split(inputstr, sep)
 	end
 	return t
 end
+
+exports("tableToVector3", function(coordTable)
+	return vector3(coordTable.x, coordTable.y, coordTable.z)
+end)

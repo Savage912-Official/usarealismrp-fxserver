@@ -11,7 +11,8 @@ local jobNames = {
 	['doctor'] = 'Doctor',
 	['corrections'] = 'Peace Officer (BCSO)',
 	['lawyer'] = 'Attorney',
-	['judge'] = 'Judge'
+	['judge'] = 'Judge',
+	['CatCafeEmployee'] = 'Cat Cafe Employee'
 }
 
 TriggerEvent('es:addCommand', 'ad', function(source, args, char)

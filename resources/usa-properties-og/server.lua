@@ -351,11 +351,11 @@ AddEventHandler("properties-og:moveItemToPropertyStorage", function(src, data)
   data.toSlot = tostring(data.toSlot)
   data.fromSlot = tostring(data.fromSlot)
   data.quantity = tonumber(data.quantity)
-  if data.quantity <= 0 then
+  local item = char.getItemByIndex(data.fromSlot)
+  if data.quantity <= 0 or data.quantity > item.quantity then
     TriggerClientEvent("usa:notify", src, "Invalid quantity")
     return
   end
-  local item = char.getItemByIndex(data.fromSlot)
   if item.type and item.type == "license" then
     TriggerClientEvent("usa:notify", src, "Can't move that")
     return

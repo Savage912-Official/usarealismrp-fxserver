@@ -127,13 +127,15 @@ function DepositPayCheck(char)
     elseif job == "da" then
         paycheckAmount = 1700
     elseif job == 'BurgerShotEmployee' then
-        paycheckAmount = 950
+        paycheckAmount = 1200
     elseif job == "eventPlanner" then
         paycheckAmount = 800
     elseif job == "metroDriver" then
         paycheckAmount = 1100
     elseif job == "trainDriver" then
         paycheckAmount = 1100
+    elseif job == "CatCafeEmployee" then
+        paycheckAmount = 1000
     else
         paycheckAmount = 25 -- welfare amount (no job)
         isWelfare = true
@@ -171,6 +173,8 @@ function DepositPayCheck(char)
         msg = msg .. "of $" .. paycheckAmount .. " from ~y~Burger Shot~s~."
     elseif job == 'metroDriver' or job == "trainDriver" then
         msg = msg .. "of $" .. paycheckAmount .. " from ~y~Los Santos Transit Services~s~."
+    elseif job == 'CatCafeEmployee' then
+        msg = msg .. "of $" .. paycheckAmount .. " from ~y~Cat Cafe~s~."
     else
         msg = msg .. "of $" .. paycheckAmount .. "."
     end
@@ -219,6 +223,8 @@ function myJob(job, source)
         TriggerClientEvent("usa:notify", source,'You are currently working for ~y~GoPostal~s~.')
     elseif job == 'metroDriver' or job == "trainDriver" then
         TriggerClientEvent("usa:notify", source,"You are currently working for ~y~Los Santos Transit Services~s~.")
+    elseif job == 'CatCafeEmployee' then
+        TriggerClientEvent("usa:notify", source,"You are currently working for ~y~Cat Cafe~s~.")
     else 
         TriggerClientEvent("usa:notify", source,'You are currently working as ~y~'.. job .. '~s~.')
     end

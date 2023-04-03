@@ -154,6 +154,7 @@ AddEventHandler("inventory:removeInventoryAccessor", function(srcInventory)
 			inventoriesBeingAccessed[srcInventory][source] = nil
 		end
 	end
+	TriggerEvent("interaction:removeDroppedItemAccessor", srcInventory)
 end)
 
 RegisterServerEvent("inventory:addInventoryAccessor")
@@ -268,6 +269,8 @@ AddEventHandler("inventory:moveItem", function(data)
 			end
 		elseif data.secondaryInventoryType == "property" then
 			TriggerEvent("properties-og:moveItemFromProperty", usource, data)
+		elseif data.secondaryInventoryType == "nearbyItems" then
+			TriggerEvent("interaction:attemptPickupByIndex", data.fromSlot, data.toSlot, source)
 		end
 	elseif data.fromType == "secondary" and data.toType == "secondary" then
 		if data.secondaryInventoryType == "vehicle" then

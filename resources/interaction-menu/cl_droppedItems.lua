@@ -83,8 +83,7 @@ Citizen.CreateThread(function()
         if Vdist(coords.x, coords.y, coords.z, item.coords.x, item.coords.y, item.coords.z) < 3.5 then
           DrawText3Ds(item.coords.x, item.coords.y, item.coords.z + 0.2, 370, 16, '[Y] - ' .. item.name)
           if IsControlJustPressed(1, E_KEY) and not attemptingPickup and not IsPedInAnyVehicle(ped, true) then
-            attemptingPickup = true
-            TriggerServerEvent("interaction:attemptPickup", item)
+            TriggerServerEvent("interaction:attemptPickupWithGUI", coords)
             break
           end
         end

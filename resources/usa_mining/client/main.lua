@@ -3,16 +3,18 @@ local MINING = {
     {x = -592.55, y = 2076.86, z = 131.37, radius = 30}
 }
 
-local CheckingItems = false
-
 Citizen.CreateThread(function()
+    local CheckingItems = TriggerServerCallback {
+		eventName = "usa_mining:CheckingItems",
+		args = {}
+	}
+
     while true do
         local player = PlayerPedId()
         for i = 1, #MINING do
             if nearMarker(MINING[i].x, MINING[i].y, MINING[i].z, MINING[i].radius) then
                 exports.globals:DrawText3D(MINING[i].x, MINING[i].y, MINING[i].z, '[E] - Start Mining')
                 if IsControlJustPressed(0, 86) and not CheckingItems and not IsPedInAnyVehicle(player) then
-                    CheckingItems = true
                     TriggerServerEvent('mining:doesUserHaveCorrectItems')
                 end
             end
@@ -23,7 +25,6 @@ end)
 
 RegisterNetEvent('mining:startMining')
 AddEventHandler('mining:startMining', function()
-    CheckingItems = false
     local ped = PlayerPedId()
     local begintime = GetGameTimer()
     local mycoords = GetEntityCoords(ped)

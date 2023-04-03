@@ -13,14 +13,20 @@ local rare = {
     {name = "Crude Oil", type = "misc", price = 450, legality = "legal", quantity = 1, weight = 15.0},
 }
 
+local CheckingItems = false
+
 RegisterServerEvent('mining:doesUserHaveCorrectItems')
 AddEventHandler('mining:doesUserHaveCorrectItems', function()
     local char = exports["usa-characters"]:GetCharacter(source)
+    CheckingItems = true -- Begin Check
+
     if char.hasItem('Pick Axe') then
         TriggerClientEvent("mining:startMining", source)
     else
         TriggerClientEvent("usa:notify", source, "You do not have the sufficient tools to mine!")
     end
+
+    CheckingItems = false -- Check Complete
 end)
 
 RegisterServerEvent('mining:giveUserMiningGoods')
@@ -84,3 +90,10 @@ function giveCharItem(char, src, type)
         end
     end
 end
+
+RegisterServerCallback {
+	eventName = 'usa_mining:CheckingItems',
+	eventCallback = function(source)
+		return CheckingItems
+	end
+}

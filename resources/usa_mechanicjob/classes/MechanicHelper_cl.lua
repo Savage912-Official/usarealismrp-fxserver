@@ -1,14 +1,8 @@
 MechanicHelper = {}
-
 MechanicHelper.animations = {}
 MechanicHelper.animations.repair = {}
 MechanicHelper.animations.repair.dict = "mini@repair"
 MechanicHelper.animations.repair.name = "fixing_a_player"
-
-MechanicHelper.UPGRADE_INSTALL_TIME = 300000
-
-MechanicHelper.LEVEL_2_RANK_THRESH = 50
-MechanicHelper.LEVEL_3_RANK_THRESH = 300
 
 local LONG_SKILL_CHECK = {areaSize = 40, speedMultiplier = 0.4}
 
@@ -158,17 +152,16 @@ MechanicHelper.useMechanicTools = function(veh, repairCount, cb)
             local todoSkillChecks = {}
             local numLongSkillChecks = nil
             
-            if repairCount >= MechanicHelper.LEVEL_3_RANK_THRESH then
+            if repairCount >= Config.LEVEL_3_RANK_THRESH then
                 todoSkillChecks = {'easy', 'medium', 'easy', 'easy', 'easy', 'easy'}
                 numLongSkillChecks = 6
-            elseif repairCount >= MechanicHelper.LEVEL_2_RANK_THRESH then
+            elseif repairCount >= Config.LEVEL_2_RANK_THRESH then
                 todoSkillChecks = {'easy', 'medium', 'easy', 'medium', 'easy', 'medium', 'easy'}
                 numLongSkillChecks = 10
             else
                 todoSkillChecks = {'easy', 'medium', 'medium', 'medium', 'medium', 'medium', 'medium'}
                 numLongSkillChecks = 14
             end
-
             for i = 1, numLongSkillChecks do
                 table.insert(todoSkillChecks, 1, LONG_SKILL_CHECK)
             end
@@ -208,10 +201,10 @@ MechanicHelper.useRepairKit = function(veh, repairCount, cb)
             local todoSkillChecks = {}
             local numLongSkillChecks = nil
             
-            if repairCount >= MechanicHelper.LEVEL_3_RANK_THRESH then
+            if repairCount >= Config.LEVEL_3_RANK_THRESH then
                 todoSkillChecks = {'easy', 'medium', 'easy', 'easy', 'easy', 'easy'}
                 numLongSkillChecks = 6
-            elseif repairCount >= MechanicHelper.LEVEL_2_RANK_THRESH then
+            elseif repairCount >= Config.LEVEL_2_RANK_THRESH then
                 todoSkillChecks = {'easy', 'medium', 'easy', 'medium', 'easy', 'medium', 'easy'}
                 numLongSkillChecks = 10
             else
@@ -258,7 +251,7 @@ MechanicHelper.installUpgrade = function(veh, upgrade, cb)
     SetVehicleDoorOpen(veh, 4, false, false)
 
     if lib.progressCircle({
-        duration = MechanicHelper.UPGRADE_INSTALL_TIME,
+        duration = Config.UPGRADE_INSTALL_TIME,
         label = 'Installing Part...',
         position = 'bottom',
         useWhileDead = false,

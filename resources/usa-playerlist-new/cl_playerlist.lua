@@ -46,25 +46,49 @@ Citizen.CreateThread(function()
 end)
 
 function ShowIds()
+    local currentInCarCounts = {}
 	local myCoords = GetEntityCoords(PlayerPedId())
     for id = 0, 255 do
         local playerPed = GetPlayerPed(id)
         local playerCoords = GetEntityCoords(playerPed)
         if NetworkIsPlayerActive(id) and Vdist(playerCoords, myCoords) < viewDistance and IsEntityVisible(playerPed) then
+            local spacing = 1.2
+            local curPedVeh = GetVehiclePedIsIn(playerPed)
+            local vehicleSeat = ""
+            if DoesEntityExist(curPedVeh) then
+                if not currentInCarCounts[curPedVeh] then
+                    currentInCarCounts[curPedVeh] = 0
+                end
+                spacing = 1.0 + (0.15 * currentInCarCounts[curPedVeh])
+                currentInCarCounts[curPedVeh] = currentInCarCounts[curPedVeh] + 1
+                if GetPedInVehicleSeat(curPedVeh, -1) == playerPed then
+                    vehicleSeat = " (driver)"
+                elseif GetPedInVehicleSeat(curPedVeh, 0) == playerPed then
+                    vehicleSeat = " (front right)"
+                elseif GetPedInVehicleSeat(curPedVeh, 1) == playerPed then
+                    vehicleSeat = " (back left)"
+                elseif GetPedInVehicleSeat(curPedVeh, 2) == playerPed then
+                    vehicleSeat = " (back right)"
+                end
+            end
             if NetworkIsPlayerTalking(id) then
-                DrawTracerText(tostring(GetPlayerServerId(id)), 1.2, true, playerPed)
+                DrawTracerText(tostring(GetPlayerServerId(id)) .. vehicleSeat, spacing, true, playerPed, DoesEntityExist(curPedVeh))
             else
-                DrawTracerText(tostring(GetPlayerServerId(id)), 1.2, false, playerPed)
+                DrawTracerText(tostring(GetPlayerServerId(id)) .. vehicleSeat, spacing, false, playerPed, DoesEntityExist(curPedVeh))
             end
         end
     end
 end
 
-function DrawTracerText(text, spacing, talking, playerPed)
+function DrawTracerText(text, spacing, talking, playerPed, isInVeh)
 	local x,y,z = table.unpack(GetEntityCoords(playerPed))
 	local px,py,pz=table.unpack(GetGameplayCamCoords())
 	local dist = GetDistanceBetweenCoords(px,py,pz, x,y,z, 1)
-	local scale = (1/dist)*40
+    local scaleConstant = 40
+    if isInVeh then
+        scaleConstant = 25
+    end
+	local scale = (1/dist)*scaleConstant
 	local fov = (1/GetGameplayCamFov())*100
 	local scale = scale*fov
 

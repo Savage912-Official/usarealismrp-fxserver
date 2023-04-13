@@ -19,11 +19,11 @@ svConfig = {
     competitionDiscordLogo = 'https://i.imgur.com/vGZj9jQ.png',
 
     -- At what time do the competitions start (this specifies the start for the first race)
-    competitionHour = math.random(12,18),
+    competitionHour = math.random(13,21),
     competitionMinute = 0,
 
     -- A limit to how much competitions can be generated at once. Limit is suggested, because when you only have results on very short tracks, you will generate a huge amount of competitions.
-    maximumGeneratedCompetitions = 8,
+    maximumGeneratedCompetitions = math.random(8,12),
 
     -- How many minutes of pure racing should one day have. If for example to 40, it could generate 1 race with a 40 minute track or 4 races with
     -- 10 tracks. This value is the minimum length! When 38 minutes of tracks have been generated, then the minimum isn't reached and the last track
@@ -32,7 +32,7 @@ svConfig = {
 
     -- When a circuit track is chosen for a competition race, then how many laps should it be? Will be randomly selected between these two values.
     competitionMinLaps = 2,
-    competitionMaxLaps = 8,
+    competitionMaxLaps = math.random(4,6),
 
     -- At least how many participants should a race have for it to be displayed in the 'Races' tab? By default set to 2 to reduce 1-player race spam.
     minimumParticipantsForRaceTab = 2,
@@ -47,7 +47,7 @@ svConfig = {
     },
 
     -- The minimum amount of people that a competition race must have for it to start.
-    minimumCompetitionParticipantAmount = 3,
+    minimumCompetitionParticipantAmount = 4,
 
     -- TRACK CREATION RESTRICTION (true / false)
     -- If set to false, then everyone can create tracks. If true, then only selected people / ratings can create tracks (configure below).

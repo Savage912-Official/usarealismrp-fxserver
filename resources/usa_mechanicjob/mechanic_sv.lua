@@ -73,7 +73,7 @@ AddEventHandler("towJob:setJob", function()
 				TriggerClientEvent("thirdEye:updateActionsForNewJob", source, "mechanic")
 				local ident = char.get("_id")
 				MechanicHelper.getMechanicRepairCount(ident, function(repairCount)
-					if repairCount >= MechanicHelper.LEVEL_3_RANK_THRESH then
+					if repairCount >= Config.LEVEL_3_RANK_THRESH then
 						TriggerClientEvent("towJob:onDuty", usource, true)
 					else
 						TriggerClientEvent("towJob:onDuty", usource, false)
@@ -126,7 +126,7 @@ AddEventHandler("mechanic:vehicleRepaired", function()
 	local ident = char.get("_id")
 	MechanicHelper.incrementStat(ident, "repairCount", function(updatedVal)
 		TriggerClientEvent("usa:notify", usource, "You have repaired " .. updatedVal .. " vehicle(s)!", "^3INFO: ^0You have repaired " .. updatedVal .. " vehicle(s)!")
-		if updatedVal == MechanicHelper.LEVEL_2_RANK_THRESH then -- notify of rank up
+		if updatedVal == Config.LEVEL_2_RANK_THRESH then -- notify of rank up
 			TriggerClientEvent("usa:notify", usource, "You have reached mechanic level 2!", "^3INFO: ^0You have reached mechanic level 2!")
 		end
 	end)

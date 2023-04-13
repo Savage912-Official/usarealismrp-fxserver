@@ -13,6 +13,8 @@ local rare = {
     {name = "Crude Oil", type = "misc", price = 450, legality = "legal", quantity = 1, weight = 15.0},
 }
 
+local lastMinedTimes = {}
+
 RegisterServerEvent('mining:doesUserHaveCorrectItems')
 AddEventHandler('mining:doesUserHaveCorrectItems', function()
     local char = exports["usa-characters"]:GetCharacter(source)
@@ -24,11 +26,24 @@ AddEventHandler('mining:doesUserHaveCorrectItems', function()
 end)
 
 RegisterServerEvent('mining:giveUserMiningGoods')
-AddEventHandler('mining:giveUserMiningGoods', function(securityToken)
-    if not exports['salty_tokenizer']:secureServerEvent(GetCurrentResourceName(), source, securityToken) then
-		return false
-	end
+AddEventHandler('mining:giveUserMiningGoods', function()
     local char = exports["usa-characters"]:GetCharacter(source)
+    -- make sure player has pickaxe
+    if not char.hasItem("Pick Axe") then
+        return
+    end
+    -- make sure player is near mining location
+    if not isAtMiningLocation(source) then
+        return
+    end
+    -- make sure it has been at least <mining-animation-duration> time has passed since last attempt
+    if lastMinedTimes[source] then
+        if exports.globals:GetSecondsFromTime(lastMinedTimes[source]) < (Config.MINING_ANIM_DURATION / 1000) then
+            return
+        end
+    end
+    lastMinedTimes[source] = os.time()
+    -- give reward
     local gotSomething = math.random() <= 0.75
     if gotSomething then
         local gotARareItem = math.random() <= 0.25
@@ -68,6 +83,12 @@ AddEventHandler('mining:sellMinedItems', function()
     end
 end)
 
+AddEventHandler('playerDropped', function(reason)
+    if lastMinedTimes[source] then
+        lastMinedTimes[source] = nil
+    end
+end)
+
 function giveCharItem(char, src, type)
     local item = nil
     if type == "rare" then
@@ -83,4 +104,15 @@ function giveCharItem(char, src, type)
             TriggerClientEvent("usa:notify", src, "Inventory full")
         end
     end
+end
+
+function isAtMiningLocation(src)
+    local pedCoords = GetEntityCoords(GetPlayerPed(source))
+    for i = 1, #Config.MINING_LOCATIONS do
+        local dist = #(pedCoords - exports.globals:tableToVector3(Config.MINING_LOCATIONS[i]))
+        if dist < 100 then
+            return true
+        end
+    end
+    return false
 end

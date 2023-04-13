@@ -250,12 +250,14 @@ function sendToPlayerTheStart(idx)
 		TriggerClientEvent("PaintBall:GoForStartTheGame",v,"blue",idx,currentManche,currentPaintBallSession[idx])
 		print("Set bucket : "..tostring(v).." to: "..tostring(idx).." type of idx : "..type(idx))
 		SetPlayerRoutingBucket(v,tonumber(idx))
+		TriggerEvent("ammo:clearSelectedIndexes", v)
 	end
 	
 	for k,v in pairs(currentPaintBallSession[idx].EquipB) do
 		TriggerClientEvent("PaintBall:GoForStartTheGame",v,"red",idx,currentManche,currentPaintBallSession[idx])
 		print("Set bucket : "..tostring(v).." to: "..tostring(idx).." type of idx : "..type(idx))
 		SetPlayerRoutingBucket(v,tonumber(idx))
+		TriggerEvent("ammo:clearSelectedIndexes", v)
 	end
 
 	cptManche = tonumber(currentPaintBallSession[idx].nbmanche)

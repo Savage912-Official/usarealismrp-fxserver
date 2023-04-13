@@ -17,7 +17,7 @@ end
 
 local function SpawnTruck(model)
     local mycoords = GetEntityCoords(PlayerPedId(), false)
-	for name, info in pairs(locations) do
+	for name, info in pairs(Config.Mechanic_Locations) do
 		local dutyCoordsVector = vector3(info.duty.x, info.duty.y, info.duty.z)
 		if Vdist(mycoords, dutyCoordsVector) < 10 then
             if model == "isgtow" then

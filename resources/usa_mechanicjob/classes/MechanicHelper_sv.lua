@@ -1,8 +1,5 @@
 MechanicHelper = {}
 
-MechanicHelper.LEVEL_2_RANK_THRESH = 50
-MechanicHelper.LEVEL_3_RANK_THRESH = 300
-
 TriggerEvent("es:exposeDBFunctions", function(db)
     MechanicHelper.db = db
 end)
@@ -61,9 +58,9 @@ MechanicHelper.getMechanicRank = function(ident, cb)
     MechanicHelper.db.getDocumentByRow("mechanicjob", "owner_identifier", ident, function(doc)
         if doc then
 
-            if doc.repairCount >= MechanicHelper.LEVEL_3_RANK_THRESH then
+            if doc.repairCount >= Config.LEVEL_3_RANK_THRESH then
                 cb(3)
-            elseif doc.repairCount >= MechanicHelper.LEVEL_2_RANK_THRESH then
+            elseif doc.repairCount >= Config.LEVEL_2_RANK_THRESH then
                 cb(2)
             else 
                 cb(1)

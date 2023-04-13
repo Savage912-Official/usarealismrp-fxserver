@@ -217,9 +217,10 @@ Citizen.CreateThread(function ()
         if working == 'yes' then
             local playerPed = PlayerPedId()
             local playerCoords = GetEntityCoords(playerPed, true)
-            if Vdist(playerCoords, -580.74768066406, -1061.9881591797, 22.347269058228) > 40 then
+            if Vdist(playerCoords, -580.74768066406, -1061.9881591797, 22.347269058228) > 50 then
                 TriggerServerEvent("catcafe:quitJob")
                 hrNotify("Leaving already? You're done buddy. Here's a strike", 'error')
+                hrNotify("You lost xp", 'error')
                 working = "no"
                 addStrikeCheck()
                 if config_cl.debugMode then

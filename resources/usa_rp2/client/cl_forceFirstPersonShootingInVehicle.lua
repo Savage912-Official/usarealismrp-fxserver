@@ -8,7 +8,8 @@ local BLACKLISTED_VEHICLES = {
     [`models`] = true,
     [`hellephantdurango`] = true,
     [`benze55`] = true,
-    [`chr20`] = true
+    [`chr20`] = true,
+    [`ctsv16`] = true
 }
 
 local LEFT_CLICK = 24

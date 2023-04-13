@@ -591,6 +591,7 @@ var itemImages = {
     "Mint Bubble Tea": "https://i.imgur.com/RNk0TTU.png",
     "Rose Bubble Tea": "https://i.imgur.com/WpqSzXJ.png",
     "Rainbow Glitter Frappuccino": "https://i.imgur.com/9UBQ3KF.png",
+    "Moon Mochi": "https://i.imgur.com/WNVYiSk.png",
     // End of Cat Cafe Items
     "Battering Ram": "https://i.imgur.com/84WaJLq.png",
     "Repair Kit": "https://i.imgur.com/3kXO54l.png",
@@ -953,8 +954,11 @@ var interactionMenu = new Vue({
                     this.inputBox.value = this.secondaryInventory.items[this.dropHelper.originIndex].quantity;
             }
             /* Update player */
+            let fromSlot = parseInt(this.dropHelper.originIndex);
+            let fromSlotItemUUID = this.secondaryInventory.items && this.secondaryInventory.items[fromSlot] && this.secondaryInventory.items[fromSlot].uuid;
             $.post('http://interaction-menu/moveItem', JSON.stringify({
-                fromSlot: parseInt(this.dropHelper.originIndex),
+                itemUUID: fromSlotItemUUID,
+                fromSlot: fromSlot,
                 toSlot: parseInt(this.dropHelper.targetIndex),
                 fromType: this.dropHelper.fromType,
                 toType: this.dropHelper.toType,

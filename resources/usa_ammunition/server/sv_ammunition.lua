@@ -500,6 +500,13 @@ AddEventHandler("ammo:showHelpText", function(forWeapons)
     end
 end)
 
+RegisterServerEvent("ammo:clearSelectedIndexes")
+AddEventHandler("ammo:clearSelectedIndexes", function(src)
+    local char = exports["usa-characters"]:GetCharacter(src)
+    char.set("currentlySelectedIndex", val)
+    char.set("lastSelectedIndex", val)
+end)
+
 AddEventHandler("character:loaded", function(char)
     -- tazer:
     local shouldHaveLoadedCartridge = false

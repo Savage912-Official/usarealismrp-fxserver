@@ -25,7 +25,7 @@ config_cl = {
         ["hotdrinks"] = {time = math.random(15,20)},    -- Hot Drink Items
         ["colddrinks"] = {time = math.random(10,15)}    -- Cold Drink Items
     },
-    
+
     Gatos = {
         ['cat1'] = {['coords'] = vector4(-573.9, -1056.29, 22.43, 115.15),['sitting'] = true},
         ['cat2'] = {['coords'] = vector4(-574.16, -1053.91, 22.34, 146.09),['sitting'] = true},

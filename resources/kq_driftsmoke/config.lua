@@ -8,16 +8,16 @@ Config.debug = false
 ----------------------
 
 -- The threshold of loss of traction at which the smoke will start appearing (6.0 is a good value)
-Config.driftThreshold = 5.0
+Config.driftThreshold = 7.0
 
 -- Scale multiplier of the smoke, to make all smoke larger increase this value
-Config.scaleMultiplier = 1.5
+Config.scaleMultiplier = 1.0
 
 -- Whether or not to use colored smoke, when false cars with custom tire smoke will still produce white smoke
 Config.allowColoredSmoke = true
 
 -- Value between 0 and 100 | Defines the density of the smoke
-Config.smokeDensity = 100
+Config.smokeDensity = 70
 
 -- Opacity of the smoke
 Config.smokeOpacity = 0.30

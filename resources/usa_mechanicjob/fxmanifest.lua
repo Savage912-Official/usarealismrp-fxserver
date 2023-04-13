@@ -1,4 +1,5 @@
-resource_manifest_version '44febabe-d386-4d18-afbe-5e627f4af937'
+fx_version 'cerulean'
+game 'gta5'
 lua54 'yes'
 
 server_scripts {
@@ -21,7 +22,8 @@ client_scripts {
 shared_scripts {
     '@pmc-callbacks/import.lua',
     '@ox_lib/init.lua',
-    'config/PARTS.lua'
+    'config/PARTS.lua',
+    'config/sh_*.lua'
 }
 
 exports {

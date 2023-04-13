@@ -49,9 +49,9 @@ AddEventHandler("crafting:finishedCrafting", function(recipe, securityToken)
                 newCoords.y = newCoords.y + (math.random() * 0.5)
                 newCoords.z = newCoords.z - 0.85
                 item.coords = newCoords
+		item.uuid = exports.globals:generateID()
                 if item.type == "weapon" then
-                    item.serialNumber = exports.globals:generateID()
-                    item.uuid = item.serialNumber
+                    item.serialNumber = item.uuid
                 end
                 TriggerEvent("interaction:addDroppedItem", item)
                 TriggerClientEvent("usa:notify", char.get("source"), "Crafted: " .. recipe.produces[i].quantity .. "x " .. recipe.produces[i].name)

@@ -190,6 +190,7 @@ function sendToPlayerTheStart(idx)
 			TriggerClientEvent("PaintBallCTF:SendtheBalls",v,NetworkGetNetworkIdFromEntity(blueBalls),NetworkGetNetworkIdFromEntity(redBalls),currentPaintBallSession[idx])
 			print("Set bucket : "..tostring(v).." to: "..tostring(idx).." type of idx : "..type(idx))
 			SetPlayerRoutingBucket(v,tonumber(idx))
+			TriggerEvent("ammo:clearSelectedIndexes", v)
 		end
 		
 		for k,v in pairs(currentPaintBallSession[idx].EquipB) do
@@ -197,6 +198,7 @@ function sendToPlayerTheStart(idx)
 			TriggerClientEvent("PaintBallCTF:SendtheBalls",v,NetworkGetNetworkIdFromEntity(blueBalls),NetworkGetNetworkIdFromEntity(redBalls),currentPaintBallSession[idx])
 			print("Set bucket : "..tostring(v).." to: "..tostring(idx).." type of idx : "..type(idx))
 			SetPlayerRoutingBucket(v,tonumber(idx))
+			TriggerEvent("ammo:clearSelectedIndexes", v)
 		end
 		
 		SetEntityRoutingBucket(blueBalls,tonumber(idx))

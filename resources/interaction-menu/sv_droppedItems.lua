@@ -12,6 +12,9 @@ end)
 
 RegisterServerEvent("interaction:addDroppedItem")
 AddEventHandler("interaction:addDroppedItem", function(item)
+	if not item.uuid then
+		item.uuid = exports.globals:generateID()
+	end
 	item.dropTime = os.time()
 	table.insert(DROPPED_ITEMS, item)
 	TriggerClientEvent("interaction:addDroppedItem", -1, item)
@@ -44,19 +47,23 @@ AddEventHandler("interaction:attemptPickup", function(item)
 end)
 
 RegisterServerEvent("interaction:removeDroppedItemAccessor")
-AddEventHandler("interaction:removeDroppedItemAccessor", function(src)
-	peopleViewingDroppedItems[src] = nil
+AddEventHandler("interaction:removeDroppedItemAccessor", function()
+	if peopleViewingDroppedItems[source] then
+		peopleViewingDroppedItems[source] = nil
+	end
 end)
 
-RegisterServerEvent("interaction:attemptPickupByIndex")
-AddEventHandler("interaction:attemptPickupByIndex", function(index, targetIndex, src)
-	local ok = attemptPickup(src, DROPPED_ITEMS[index], targetIndex)
+RegisterServerEvent("interaction:attemptPickupByUUID")
+AddEventHandler("interaction:attemptPickupByUUID", function(itemUUID, targetIndex, src)
+	local itemIndex = getDroppedItemIndexByUUID(itemUUID)
+	local droppedItem = DROPPED_ITEMS[itemIndex]
+	local ok = attemptPickup(src, droppedItem, targetIndex)
 	if ok then
-		if DROPPED_ITEMS[index].name and DROPPED_ITEMS[index].name:find("Spike Strips") and DROPPED_ITEMS[index].coords then
-			TriggerEvent("spikestrips:removeStrip", DROPPED_ITEMS[index].coords)
+		if droppedItem.name and droppedItem.name:find("Spike Strips") and droppedItem.coords then
+			TriggerEvent("spikestrips:removeStrip", droppedItem.coords)
 		end
-		TriggerClientEvent("interaction:removeDroppedItem", -1, index)
-		table.remove(DROPPED_ITEMS, index)
+		TriggerClientEvent("interaction:removeDroppedItem", -1, itemIndex)
+		table.remove(DROPPED_ITEMS, itemIndex)
 		local char = exports["usa-characters"]:GetCharacter(src)
 		local nearbyItemsInv = getNearbyItemsAsInventoryForGUI(GetEntityCoords(GetPlayerPed(src)))
 		TriggerClientEvent("interaction:sendNUIMessage", src, { type = "updateBothInventories", inventory = { primary = char.get("inventory"), secondary = nearbyItemsInv}})
@@ -87,6 +94,9 @@ AddEventHandler("interaction:dropMultipleOfItem", function(item)
 		local copy = item
 		copy.quantity = 1
 		copy.dropTime = os.time()
+		if not copy.uuid then
+			copy.uuid = exports.globals:generateID()
+		end
 		table.insert(DROPPED_ITEMS, copy)
 		table.insert(toSend, copy)
 	end
@@ -131,13 +141,24 @@ function getNearbyItemsAsInventoryForGUI(coords)
 		MAX_WEIGHT = 100,
 	}
 	-- gather nearby items relative to provided coords
+	local toPlaceIndex = 0
 	for i = 1, #DROPPED_ITEMS do
 		local dist = #(coords - exports.globals:tableToVector3(DROPPED_ITEMS[i].coords))
 		if dist < 3.0 then
-			inventory.items[tostring(i)] = DROPPED_ITEMS[i]
+			inventory.items[tostring(toPlaceIndex)] = DROPPED_ITEMS[i]
+			toPlaceIndex = toPlaceIndex + 1
 		end
 	end
 	return inventory
+end
+
+function getDroppedItemIndexByUUID(uuid)
+	for i = 1, #DROPPED_ITEMS do
+		if DROPPED_ITEMS[i].uuid and DROPPED_ITEMS[i].uuid == uuid then
+			return i
+		end
+	end
+	return nil
 end
 
 -- remove dropped items after ITEM_EXPIRE_TIME minutes --

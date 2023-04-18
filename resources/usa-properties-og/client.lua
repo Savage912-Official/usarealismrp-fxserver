@@ -887,7 +887,7 @@ Citizen.CreateThread(function()
                                                                     alert("~r~Transfer Ownership to "..server_id.."? ~INPUT_MP_TEXT_CHAT_TEAM~~r~/~INPUT_REPLAY_ENDPOINT~")
                                                                     if IsControlJustPressed(0, 246) then
                                                                         confirmed = true
-                                                                        TriggerServerEvent("properties:changeOwner", nearest_property_info.name, server_id)
+                                                                        TriggerServerEvent("properties:requestChangeOwner", nearest_property_info.name, server_id)
                                                                     elseif IsControlJustPressed(0, 306) then
                                                                         confirmed = true
                                                                         TriggerEvent("usa:notify", "You stopped the transfer!")
@@ -1120,6 +1120,23 @@ Citizen.CreateThread(function()
 		end
 		Wait(5)
 	end
+end)
+
+RegisterNetEvent("properties:confirmNewOwner")
+AddEventHandler("properties:confirmNewOwner", function(property_name, id, old_owner_id, owner_name)
+    local alert = lib.alertDialog({
+        header = '*Property Transfer*',
+        content = owner_name .. ' is trying to transfer the property "'..property_name..'" to you, do you want to accept this?',
+        centered = true,
+        cancel = true,
+        labels = {cancel = "Decline", confirm = "Accept"}
+    })
+
+    local accepted = false
+    if alert == "confirm" then
+        accepted = true
+    end
+    TriggerServerEvent("properties:changeOwner", property_name, id, old_owner_id, accepted)
 end)
 
 --------------------------------------------

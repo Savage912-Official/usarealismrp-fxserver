@@ -22,6 +22,23 @@ local KEYS = {
 
 local POLL_INTERVAL_SECONDS = 5
 
+local Whitelisted_Plant_Locations = {
+	{
+		coords = vector3(-8.560081, -2519.72, -9.939499),
+		distance = 20
+	},
+}
+
+local function isAtWhitelistedLocation()
+    local playerCoords = GetEntityCoords(PlayerPedId())
+	for i = 1, #Whitelisted_Plant_Locations do
+        if #(playerCoords - Whitelisted_Plant_Locations[i].coords) < Whitelisted_Plant_Locations[i].distance then
+			return true
+		end
+	end
+	return false
+end
+
 function DrawText3D(x, y, z, text)
     local onScreen,_x,_y=World3dToScreen2d(x,y,z)
     SetTextScale(0.35, 0.35)
@@ -178,13 +195,13 @@ RegisterNetEvent("cultivation:plant")
 AddEventHandler("cultivation:plant", function(type, itemName)
     if not IsPedInAnyVehicle(me.ped, true) then
         local plantCoords = { x = me.coords.x + 0.5, y = me.coords.y + 0.5, z = me.coords.z + 1.0 }
-        if not IsPointOnRoad(plantCoords.x, plantCoords.y, plantCoords.z, vehicle) then
+        if not IsPointOnRoad(plantCoords.x, plantCoords.y, plantCoords.z, vehicle) or isAtWhitelistedLocation() then
             local unkBool, groundZ = GetGroundZCoordWithOffsets(plantCoords.x, plantCoords.y, plantCoords.z)
             plantCoords.z = groundZ
             -- trigger server event to keep track of new plant
             TriggerServerEvent("cultivation:plant", type, itemName, plantCoords)
         else 
-            exports.globals:notify("Can't place on road!")
+            exports.globals:notify("Can't place on road or not at a registered location!")
         end
     end
 end)

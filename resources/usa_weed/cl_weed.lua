@@ -11,6 +11,8 @@ local WEED_PROCESS_LOCATIONS = {
   vector3(-1075.3463134766, -1678.7690429688, 4.575234413147),
   vector3(2229.373046875, 5605.4873046875, 54.872550964355),
   --vector3(-247.1794128418, -1513.9282226563, 29.161888122559) -- chamberlain hills community center addon MLO
+  vector3(-5.500964, -2497.207, -8.95395), -- Docks Weed Place Table #1
+  vector3(-2.503541, -2499.275, -8.955455) -- Docks Weed Place Table #2
 }
 
 function isNearWeedProcessingSpot(range)
@@ -98,7 +100,7 @@ AddEventHandler("weed:continueProcessing", function()
   TaskPlayAnim(playerPed,"timetable@jimmy@ig_1@idle_a","hydrotropic_bud_or_something", 100.0, 200.0, 0.3, 121, 0.2, 0, 0, 0)
   while GetGameTimer() - beginTime < 25000 do
     Citizen.Wait(0)
-    if isNearWeedProcessingSpot(5) then
+    if isNearWeedProcessingSpot(4) then
       DrawTimer(beginTime, 25000, 1.42, 1.475, 'PROCESSING')
     else
       processed = false

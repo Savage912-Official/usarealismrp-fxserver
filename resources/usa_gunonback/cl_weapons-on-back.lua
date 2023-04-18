@@ -16,7 +16,7 @@ local SETTINGS = {
       ["w_me_bat"] = -1786099057,
       --["prop_ld_jerrycan_01"] = 883325847,
       -- assault rifles:
-      ["w_ar_carbinerifle"] = { -2084633992, GetHashKey("WEAPON_M4GOLDBEAST"), GetHashKey("WEAPON_AKORUS") },
+      ["w_ar_carbinerifle"] = { -2084633992, GetHashKey("WEAPON_M4GOLDBEAST")},
       ["w_ar_carbineriflemk2"] = GetHashKey("WEAPON_CARBINERIFLE_Mk2"),
       ["w_ar_assaultrifle"] = { -1074790547, GetHashKey("WEAPON_AKORUS") },
       ["w_ar_specialcarbine"] = -1063057011,

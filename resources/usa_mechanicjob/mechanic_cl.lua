@@ -59,7 +59,7 @@ local locationsData = {}
 for name, data in pairs(Config.Mechanic_Locations) do
 	table.insert(locationsData, {
 		coords = vector3(data.duty.x, data.duty.y, data.duty.z + 1.0),
-		text = '[E] - Toggle Duty (~g~Mechanic~s~) | [Hold E] - Order Parts | [Hold V] - Retrieve Truck'
+		text = '[E] - Toggle Duty (~g~Mechanic~s~) | [Hold E] - Parts Menu | [Hold V] - Retrieve Truck'
 	})
 	if data.impound then
 		table.insert(locationsData, {
@@ -80,7 +80,7 @@ Citizen.CreateThread(function()
 			Wait(500)
 			if IsControlPressed(0, KEYS.E) then
 				if isNearSignOnSpot(5) then
-					TriggerServerEvent("mechanic:openPartsMenu")
+					TriggerEvent("mechanic:openMenu")
 				end
 			else
 				local playerPed = PlayerPedId()

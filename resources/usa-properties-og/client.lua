@@ -1399,3 +1399,23 @@ function isUnderglowOn(veh)
 	end
 	return false
 end
+
+function isNearbyPropertyOwner()
+    local playerCoords = GetEntityCoords(PlayerPedId())
+    for _, info in pairs(NEARBY_PROPERTIES) do
+        local distance = GetDistanceBetweenCoords(playerCoords, info.x, info.y, info.z, true)
+        if distance < 1 then
+            if info.owner and info.owner.identifier == my_property_identifier then
+                return true
+            elseif info.coowners then
+                for _, coowner in ipairs(info.coowners) do
+                    if coowner.identifier == my_property_identifier then
+                        return true
+                    end
+                end
+            end
+        end
+    end
+    return false
+end
+exports("isNearbyPropertyOwner", isNearbyPropertyOwner)

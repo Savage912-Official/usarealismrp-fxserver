@@ -234,7 +234,7 @@ AddEventHandler("mechanic:orderPart", function(partName)
 						MechanicHelper.db.updateDocument("mechanicjob", doc._id, {orderedParts = doc.orderedParts}, function(ok)
 							if ok then
 								char.removeBank(orderedPart.price)
-								TriggerClientEvent("usa:notify", src, "Ordered for $" .. exports.globals:comma_value(orderedPart.price))
+								TriggerClientEvent("mechanicMenu:sendDataToApp", src, { showNotification = true, notificationText = orderedPart.name .. " ordered for $" .. exports.globals:comma_value(orderedPart.price), orderedParts = doc.orderedParts})
 								doc.orderedParts = updateDeliveryProgress(char, doc.orderedParts)
 								TriggerClientEvent("mechanic:setOrderedParts", src, doc.orderedParts)
 							else
@@ -252,32 +252,31 @@ AddEventHandler("mechanic:orderPart", function(partName)
 	end)
 end)
 
-RegisterServerEvent("mechanic:claimDeliveries")
-AddEventHandler("mechanic:claimDeliveries", function()
+RegisterServerEvent("mechanic:claimDelivery")
+AddEventHandler("mechanic:claimDelivery", function(partId)
 	local src = source
 	local char = exports["usa-characters"]:GetCharacter(src)
 	local charCoords = GetEntityCoords(GetPlayerPed(src))
+	local part = ""
 	MechanicHelper.getMechanicInfo(char.get("_id"), function(info)
-		-- drop parts on ground
-		for i = 1, #info.deliveredParts do
-			local newCoords = {}
-			newCoords.x = charCoords.x + (math.random() * 2)
-			newCoords.y = charCoords.y + (math.random() * 2)
-			newCoords.z = charCoords.z - 0.8
-			local part = info.deliveredParts[i]
-			part.coords = newCoords
-			TriggerEvent("interaction:addDroppedItem", part)
-		end
-		if #info.deliveredParts > 0 then
-			TriggerClientEvent("usa:notify", src, "All deliveries claimed!")
-		else
-			TriggerClientEvent("usa:notify", src, "No deliveries!")
-			return
+		-- drop part on ground
+		for i = #info.deliveredParts, 1, -1 do
+			if info.deliveredParts[i].uuid == partId then
+				local newCoords = {}
+				newCoords.x = charCoords.x + (math.random() * 2)
+				newCoords.y = charCoords.y + (math.random() * 2)
+				newCoords.z = charCoords.z - 0.8
+				part = info.deliveredParts[i]
+				part.coords = newCoords
+				TriggerEvent("interaction:addDroppedItem", part)
+				table.remove(info.deliveredParts, i)
+				break
+			end
 		end
 		-- save
-		MechanicHelper.db.updateDocument("mechanicjob", info._id, {deliveredParts = {}}, function(ok) end)
-		-- update menu
-		TriggerClientEvent("mechanic:setDeliveredParts", src, {})
+		MechanicHelper.db.updateDocument("mechanicjob", info._id, {deliveredParts = info.deliveredParts}, function(ok) end)
+		-- notify
+		TriggerClientEvent("mechanicMenu:sendDataToApp", src, { showNotification = true, notificationText = part.name .. " claimed!", deliveredParts = info.deliveredParts })
 	end)
 end)
 
@@ -454,6 +453,49 @@ RegisterServerCallback {
 			Wait(1)
 		end
 		return retVal
+	end
+}
+
+RegisterServerCallback {
+	eventName = "mechanic:loadMenuData",
+	eventCallback = function(src)
+		local ret = nil
+		local src = source
+		local char = exports["usa-characters"]:GetCharacter(src)
+		if char.get("job") == "mechanic" then
+			MechanicHelper.getMechanicRank(char.get("_id"), function(rank)
+				if rank == 0 then rank = 1 end
+				local availableParts = exports.globals:deepCopy(PARTS_FOR_RANK[rank])
+				for i = 1, #availableParts do
+					availableParts[i] = {
+						name = availableParts[i],
+						price = PARTS[availableParts[i]].price
+					}
+				end
+				MechanicHelper.getMechanicInfo(char.get("_id"), function(info)
+					if not info then
+						info = {}
+					end
+					if not info.orderedParts then
+						info.orderedParts = {}
+					end
+					if not info.deliveredParts then
+						info.deliveredParts = {}
+					end
+					info.orderedParts = updateDeliveryProgress(char, info.orderedParts)
+					info.rank = rank
+					info.availableParts = availableParts
+					info.playerName = char.getName()
+					ret = info
+				end)
+			end)
+			while ret == nil do
+				Wait(1)
+			end
+			return ret
+		else
+			TriggerClientEvent("usa:notify", src, "Not signed in!")
+		end
 	end
 }
 

@@ -33,3 +33,12 @@ exports {
 server_exports {
     "GetUpgradeObjectsFromIds"
 }
+
+ui_page "menus/parts/main.html"
+
+files {
+    "menus/parts/libs/*.js",
+    "menus/parts/main.html",
+    "menus/parts/*.js",
+    "menus/parts/*.css"
+}

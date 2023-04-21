@@ -157,7 +157,7 @@ AddEventHandler("character:swap--check-distance", function()
 	local mycoords = GetEntityCoords(GetPlayerPed(-1))
 	for i = 1, #swap_locations do
 		local location = swap_locations[i]
-		if GetDistanceBetweenCoords(location.x, location.y, location.z, mycoords) < 8 then
+		if GetDistanceBetweenCoords(location.x, location.y, location.z, mycoords) < 8 or exports["usa-properties-og"]:isNearbyPropertyOwner() then
 			TriggerEvent("Radio.Set", false, {})
 			TriggerEvent("hotkeys:setCurrentSlotPassive", nil)
 			TriggerEvent("radio:unsubscribe")

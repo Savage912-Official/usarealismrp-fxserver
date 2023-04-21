@@ -2,6 +2,7 @@ resource_manifest_version '05cfa83c-a124-4cfa-a768-c24a5811d8f9'
 lua54 'yes'
 
 client_scripts {
+  "itemImages.lua",
   '@meta_target/lib/target.lua',
   "cl_interaction.lua",
   "cl_droppedItems.lua",

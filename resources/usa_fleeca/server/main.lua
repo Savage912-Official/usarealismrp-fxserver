@@ -101,7 +101,7 @@ AddEventHandler('fleeca:drilledGoods', function(securityToken)
 
     local char = exports["usa-characters"]:GetCharacter(src)
     local payout = math.random()
-    local cash = math.random(300, 3100)
+    local cash = math.random(4500, 7100)
 
     if payout <= 0.20 then
         local randomItem = items[math.random(#items)]

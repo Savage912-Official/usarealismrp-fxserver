@@ -84,7 +84,7 @@ AddEventHandler('lawyer:payLawyer', function(targetSource, targetAmount, securit
 	if target.get("job") == "lawyer" and (srcJob == "sheriff" or srcJob == "corrections" or srcJob == "judge") then
 		local targetMoney = target.get('bank')
 		local targetName = target.getFullName()
-		target.giveBank(targetAmount)
+		target.giveBank(targetAmount, "Lawyer Payment")
 		TriggerClientEvent('usa:notify', source, 'Person has been paid ~y~$'..targetAmount..'~s~ by the ~y~San Andreas Court Administration~s~.')
 		TriggerClientEvent('usa:notify', targetSource, 'You have been paid ~y~$'..targetAmount..'~s~ by the ~y~San Andreas Court Administration~s~.')
 		print('LEGAL: '..GetPlayerName(source)..'['..GetPlayerIdentifier(source)..'] has paid (for free) amount['..targetAmount..'] to '..GetPlayerName(targetSource)..'['..GetPlayerIdentifier(targetSource)..'] for legal reward.')

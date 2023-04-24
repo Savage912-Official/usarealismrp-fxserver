@@ -14,7 +14,7 @@ function deposit(player, amount)
 		local new_balance = bankbalance + math.abs(amount)
 
 		local char = exports["usa-characters"]:GetCharacter(player)
-		char.giveBank(math.abs(amount))
+		char.giveBank(math.abs(amount), "Misc Deposit")
 
 		TriggerClientEvent("banking:updateBalance", player, new_balance)
 	end
@@ -25,7 +25,7 @@ function withdraw(player, amount)
 	local new_balance = bankbalance - math.abs(amount)
 
 	local char = exports["usa-characters"]:GetCharacter(player)
-	char.removeBank(math.abs(amount))
+	char.removeBank(math.abs(amount), "Misc Withdraw")
 
 	TriggerClientEvent("banking:updateBalance", player, new_balance)
 end
@@ -59,8 +59,8 @@ AddEventHandler('bank:transfer', function(targetID, amount)
 	if bank >= amount then 
 		local target = exports["usa-characters"]:GetCharacter(targetID)
 		if target then
-			char.removeBank(amount)
-			target.giveBank(amount)
+			char.removeBank(amount, target.getName())
+			target.giveBank(amount, char.getName())
 			TriggerClientEvent("usa:notify", source, "Transfer of ~g~$" .. exports["globals"]:comma_value(amount) .. "~w~ complete!")
 			TriggerClientEvent("usa:notify", targetID, "A transfer of ~g~$" .. exports["globals"]:comma_value(amount) .. "~w~ has been transferred to your account!")
 			-- Write to Admin log
@@ -92,7 +92,7 @@ AddEventHandler('bank:deposit', function(amount)
 				TriggerClientEvent("banking:updateBalance", source, (bank + rounded))
 				TriggerClientEvent("banking:addBalance", source, rounded)
 				char.removeMoney(rounded)
-				char.giveBank(rounded)
+				char.giveBank(rounded, "Cash Deposit")
 			else
 				TriggerClientEvent('usa:notify', source, "You do not have enough cash!")
 			end
@@ -121,7 +121,7 @@ AddEventHandler('bank:withdraw', function(amount)
 			  	TriggerClientEvent("banking:updateBalance", source, (bank - rounded))
 			 	TriggerClientEvent("banking:removeBalance", source, rounded)
 				char.giveMoney(rounded)
-				char.removeBank(rounded)	
+				char.removeBank(rounded, "Cash Withdraw")	
 			else
 			  TriggerClientEvent('usa:notify', source, "Amount to withdraw is over allowance!")
 			end
@@ -170,7 +170,7 @@ AddEventHandler('rconCommand', function(cmd, args)
 		local amountToGive = tonumber(args[2])
 		if GetPlayerName(target) and newAmount and newAmount > 0 then
 			local char = exports["usa-characters"]:GetCharacter(target)
-			char.giveBank(amountToGive)
+			char.giveBank(amountToGive, "Government Deposit")
 			TriggerClientEvent('chatMessage', target, "", {255, 255, 255}, "^2^*[SERVER] ^r^0You have received ^2^*" .. amount..'^r^0 in your bank.')
 			TriggerEvent("usa:notifyStaff", '^2^*[STAFF]^r^0 Player ^2'..GetPlayerName(target)..' ['..target..'] ^0 has received ^2^*'..amountToGive..'^r^0 bank money from ^2^*console^r^0.')
 			print('Bank set!')

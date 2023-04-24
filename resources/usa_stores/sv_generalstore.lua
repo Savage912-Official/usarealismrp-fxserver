@@ -165,7 +165,7 @@ AddEventHandler("generalStore:buyItem", function(item, store, inPrison, business
       if item.type and item.type == "weapon" then
         item.uuid = exports.globals:generateID()
       end
-      char.removeMoneyOrBank(item.price)
+      char.removeMoneyOrBank(item.price, "General Store ("..item.name..")")
       char.giveItem(exports.globals:deepCopy(item), item.quantity or 1)
       TriggerClientEvent("usa:notify", source, "Purchased: ~y~" .. item.name)
       if business then

@@ -113,7 +113,7 @@ AddEventHandler('vns_cs_wheel:give', function(s, reward, securityToken)
 		elseif reward.type == 'money' then
 			print("won money")
 			reward.count = math.abs(reward.count)
-			char.giveBank(reward.count)
+			char.giveBank(reward.count, "Diamond Casino")
 			TriggerClientEvent("usa:notify", s, "Won: $" .. exports.globals:comma_value(reward.count) .. "!", "INFO: " .. "You won $" .. exports.globals:comma_value(reward.count) .. "!")
 		end
 		TriggerClientEvent("vns_cs_wheel:rollFinished", -1)

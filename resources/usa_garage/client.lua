@@ -21,7 +21,8 @@ locations = {
 	{ ["x"] = -357.1, ["y"] = 6094.2, ["z"] = 31.4, ["jobs"] = {"sheriff", "ems", "police", "judge", "corrections", "doctor"} }, -- paleto FD
 	{ ['x'] = 1877.0660400391, ['y'] = 3707.8864746094, ['z'] = 33.546321868896, ["jobs"] = {"sheriff", "ems", "police", "judge", "corrections", "doctor"} }, -- sandy PD
 	{ ["x"] = 1712.8, ["y"] = 3599.5, ["z"] = 35.3, ["jobs"] = {"sheriff", "ems", "police", "judge", "corrections", "doctor"} }, -- sandy FD
-	{ ['x'] = 445.236328125, ['y'] = -991.69458007813, ['z'] = 25.699808120728, ["jobs"] = {"sheriff", "ems", "police", "judge", "corrections"} }, -- MRPD
+	-- { ['x'] = 445.236328125, ['y'] = -991.69458007813, ['z'] = 25.699808120728, ["jobs"] = {"sheriff", "ems", "police", "judge", "corrections"} }, -- MRPD GABZ MLO
+	{ ['x'] = 451.11856079102, ['y'] = -1024.4779052734, ['z'] = 28.549314498901, ["jobs"] = {"sheriff", "ems", "police", "judge", "corrections"} }, -- MRPD
 	{ x = -270.45816040039, y = 6329.8051757813, z = 32.421268463135, ["jobs"] = {"sheriff", "ems", "police", "judge", "corrections"} }, -- Paleto Medical
 	{ ['x'] = 326.3464, ['y'] = -588.4531, ['z'] = 28.7968, ["jobs"] = {"sheriff", "ems", "police", "judge", "corrections", "doctor"} }, -- pillbox medical
 	{ ['x'] = -842.25219726562, ['y'] = -1233.0513916016, ['z'] = 6.9339327812195, ["jobs"] = {"sheriff", "ems", "police", "judge", "corrections", "doctor"} }, -- viceroy medical

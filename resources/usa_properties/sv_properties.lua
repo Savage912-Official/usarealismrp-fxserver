@@ -792,7 +792,7 @@ function RefreshProperties(source, spawnAtProperty)
 			if GetWholeDaysFromTime(paid_time) >= 7 then
 				local bank = char.get('bank')
 				if bank - properties[property['location']].payment >= 0 then
-					char.removeBank(properties[property['location']].payment)
+					char.removeBank(properties[property['location']].payment, "Rent ("..property['location']..")")
 					property['paid_time'] = os.time()
 					TriggerClientEvent('usa:notify', source, 'You have paid ~y~$'..properties[property['location']].payment..'~s~ for your apartment!')
 					char.set('property', property)

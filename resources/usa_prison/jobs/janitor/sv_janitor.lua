@@ -61,7 +61,7 @@ AddEventHandler("prison-janitor:toggleJob", function(targetSrc)
             end
         end
         char.set("jailTime", math.max(0, time))
-        char.giveBank(payment)
+        char.giveBank(payment, "DOC Janitor Pay")
         TriggerClientEvent("usa:notify", src, "You've been paid: $" .. exports.globals:comma_value(payment), "^3INFO: ^0You've been paid: $" .. exports.globals:comma_value(payment))
         TriggerClientEvent("usa:notify", src, "Reduced Prison Time, New Time: " .. time, "^3INFO: ^0Reduced Prison Time, New Time: " .. time)
         -- record stoppage

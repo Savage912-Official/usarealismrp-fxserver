@@ -38,7 +38,7 @@ export default {
 		getItemImage(itemName) {
 			return this.$store.state.itemImages[itemName];
 		}
-	},
+	}
 };
 </script>
 

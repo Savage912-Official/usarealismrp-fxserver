@@ -17,7 +17,7 @@ AddEventHandler("insurance:buyInsurance", function(userSource)
 			purchaseTime = os.time()
 		}
 		char.set("insurance", insurancePlan)
-		char.removeBank(INSURANCE_COVERAGE_MONTHLY_COST)
+		char.removeBank(INSURANCE_COVERAGE_MONTHLY_COST, "Insurance Purchase")
 		TriggerClientEvent("usa:notify", userSource, "~w~Thanks for purchasing auto insurance coverage! Your coverage expires in ~y~31~w~ days.")
 	else
 		TriggerClientEvent("usa:notify", userSource, "You ~r~don't have enough money in the bank~w~ to buy auto insurance coverage!")
@@ -38,7 +38,7 @@ AddEventHandler("insurance:fileClaim", function(vehicle_to_claim)
 					local inv = exports["usa_vehinv"]:GetVehicleInventory(vehicle_to_claim.plate)
 					inv.items = {}
 					couchdb.updateDocument("vehicles", vehicle_to_claim.plate, {{inventory = inv}, stored = true, impounded = false}, function() end)
-					char.removeBank(CLAIM_PROCESSING_FEE)
+					char.removeBank(CLAIM_PROCESSING_FEE, "Insurance Claim")
 					if vehicle_to_claim.make and vehicle_to_claim.model then
 						TriggerClientEvent("usa:notify", _source, "Filed an insurance claim for your " .. vehicle_to_claim.make .. " " .. vehicle_to_claim.model .. ".\n~y~Fee:~w~ $" .. CLAIM_PROCESSING_FEE)
 					else

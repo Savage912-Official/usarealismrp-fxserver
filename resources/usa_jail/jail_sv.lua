@@ -165,7 +165,7 @@ function jailPlayer(src, data, officerName, gender)
 	inmate.set("jailTime", sentence)
 	inmate.set("job", "civ")
 
-	inmate.removeBank(fine)
+	inmate.removeBank(fine, "Los Santos City Fine")
 
 	if inmate.get("bank") < 0 then
 		TriggerClientEvent("usa:notify", src, "Person owes money to the state!", "^3INFO: ^0The person you jailed now owes $" .. inmate.get("bank") .. " to the state. They can now legally have their assets (vehicles, properties, etc) worth that amount seized now unless they can pay the amount they owe.")

@@ -202,7 +202,7 @@ TriggerEvent('es:addJobCommand', 'newrecord', {'ems', 'doctor'}, function(source
 	local targetName = target.getFullName()
 	local targetDOB = target.get('dateOfBirth')
 	local userName = char.getFullName()
-	target.removeBank(payment)
+	target.removeBank(payment, "Pillbox Hospital")
 	TriggerClientEvent('usa:notify', targetSource, 'You have been charged ~y~$' .. payment .. '~s~ in medical fees, payment processed from bank.')
 	TriggerClientEvent('usa:notify', source, 'Medical record has been created!')
 	PerformHttpRequest(WEBHOOK_URL, function(err, text, headers)
@@ -287,7 +287,7 @@ AddEventHandler('injuries:validateCheckin', function(playerInjuries, isPedDead, 
 	TriggerClientEvent('chatMessage', usource, 'The payment has been deducted from your bank balance.')
 	print('INJURIES: '..PlayerName(usource) .. ' has checked-in to hospital and was charged amount['..totalPrice..']')
 	if char.get('job') ~= 'sheriff' and char.get("job") ~= "corrections" and char.get("job") ~= "ems" then
-		char.removeBank(totalPrice)
+		char.removeBank(totalPrice, "Pillbox Hospital")
 	end
 end)
 
@@ -327,9 +327,9 @@ AddEventHandler('injuries:chargeForInjuries', function(playerInjuries, multiplie
 	end
 	local job = char.get("job")
 	if job == "sheriff" or job == "corrections" or job == "ems" then
-		char.removeBank(math.floor(totalPrice * 0.25))
+		char.removeBank(math.floor(totalPrice * 0.25), "Pillbox Hospital")
 	else
-		char.removeBank(totalPrice)
+		char.removeBank(totalPrice, "Pillbox Hospital")
 	end
 	print('INJURIES: '..PlayerName(source) .. ' has been charged amount['..totalPrice..'] in bank for hospital fees!')
 	if respawn then

@@ -35,6 +35,7 @@ export default {
 		this.listener2 = document.addEventListener("keydown", async (e) => {
 			if (e.keyCode == 27) {
 				$.post('https://usa-mechanic-parts-menu/exitMenu', JSON.stringify({}));
+				this.$store.state.top50Mechanics = [];
 			}
 		});
 	},

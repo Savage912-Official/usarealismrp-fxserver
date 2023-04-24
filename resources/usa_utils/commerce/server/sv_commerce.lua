@@ -152,7 +152,7 @@ TriggerEvent("es:addCommand", "claimreward", function(src, args, char, location)
         if ok then
             TriggerClientEvent("usa:notify", src, "Claimed Xmas 2022 Reward!", "^3INFO: ^0Claimed Christmas 2022 Present + $10k in the bank!")
             char.giveItem(exports.usa_rp2:getItem("Christmas Present"), 1)
-            char.giveBank(10000)
+            char.giveBank(10000, "Christmas Present")
         else
             TriggerClientEvent("usa:notify", src, "Something went wrong")    
         end

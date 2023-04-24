@@ -1,0 +1,14 @@
+{
+    "Lua.diagnostics.globals": [
+        "MySQL",
+        "Ox",
+        "loaded",
+        "phoneData",
+        "currentPhone",
+        "settings",
+        "ToggleDuty"
+    ],
+    "Lua.diagnostics.disable": [
+        "lowercase-global"
+    ]
+}

@@ -96,7 +96,7 @@ RegisterNetEvent("usa_lottery:purchaselottery", function()
     local ticketnumber = math.random(1, 500)
 	
     if char.hasEnoughMoneyOrBank(cost) then
-        char.removeMoneyOrBank(cost)
+        char.removeMoneyOrBank(cost, "LS Lottery")
         TriggerClientEvent('usa:notify', src, 'You have bought a lottery ticket!')
         MySQL.insert("INSERT INTO `lottery` (`cid`, `ticketnumber`) VALUES ('"..cid.."', '"..ticketnumber.."')")
         local check = 'placeholder'

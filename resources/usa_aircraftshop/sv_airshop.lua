@@ -86,7 +86,7 @@ AddEventHandler('aircraft:requestRent', function(name, business)
     local aircraft = getAircraftItemFromName(name)
     local rentalPrice = math.floor(RENTAL_PERCENTAGE * aircraft.price)
     if char.hasEnoughMoneyOrBank (rentalPrice) then
-        char.removeMoneyOrBank(rentalPrice)
+        char.removeMoneyOrBank(rentalPrice, "Aircraft Rental")
         if business then
             exports["usa-businesses"]:GiveBusinessCashPercent(business, rentalPrice)
         end
@@ -102,7 +102,7 @@ AddEventHandler('aircraft:requestPurchase', function(name, business)
     local char = exports["usa-characters"]:GetCharacter(source)
     local aircraft = getAircraftItemFromName(name)
     if char.hasEnoughMoneyOrBank (aircraft.price) then 
-        char.removeMoneyOrBank(aircraft.price)
+        char.removeMoneyOrBank(aircraft.price, "Aircraft Purchase")
         if business then 
             exports["usa-businesses"]:GiveBusinessCashPercent(business, aircraft.price)
         end
@@ -166,7 +166,7 @@ AddEventHandler('aircraft:claim', function(id)
             local fee = CLAIM_PERCENTAGE * aircraft[i].price
             fee = math.floor(fee)
             if char.hasEnoughMoneyOrBank (fee) then
-                char.removeMoneyOrBank(fee)
+                char.removeMoneyOrBank(fee, "Aircraft Claim")
                 aircraft[i].stored = true
                 char.set("aircraft", aircraft)
                 TriggerClientEvent("usa:notify", source, aircraft[i].name .. " claimed for $" .. exports.globals:comma_value(fee))
@@ -207,7 +207,7 @@ AddEventHandler("aircraft:purchaseLicense", function(business)
             return
         end
         char.giveItem(NEW_PILOT_LICENSE)
-        char.removeMoneyOrBank(LICENSE_PURCHASE_PRICE)
+        char.removeMoneyOrBank(LICENSE_PURCHASE_PRICE, "Aircraft License Purchase")
         if business then
             exports["usa-businesses"]:GiveBusinessCashPercent(business, LICENSE_PURCHASE_PRICE)
         end

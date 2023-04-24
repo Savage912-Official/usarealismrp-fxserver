@@ -7,6 +7,7 @@ export default new Vuex.Store({
 	state: {
 		playerName: "John Doe",
 		rank: 1,
+		top50Mechanics: [],
 		availableParts: [],
 		orderedParts: [],
 		deliveredParts: [],

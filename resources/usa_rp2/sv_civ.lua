@@ -444,8 +444,8 @@ function TradeVehicle(details)
 		buyer.removeMoney(details.price)
 		seller.giveMoney(details.price)
 	elseif buyer.get("bank") >= details.price then
-		buyer.removeBank(details.price)
-		seller.giveBank(details.price)
+		buyer.removeBank(details.price, "Vehicle Purchase ("..details.plate..")")
+		seller.giveBank(details.price, "Vehicle Sale ("..details.plate..")")
 	else
 		TriggerClientEvent("usa:notify", details.target, "Not enough money to pruchase vehicle!")
 		TriggerClientEvent("usa:notify", details.source, "Person did not have enough money to pruchase vehicle!")

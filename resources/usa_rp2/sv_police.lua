@@ -68,7 +68,7 @@ TriggerEvent('es:addJobCommand', 'ticket', { 'sheriff', 'police' , 'judge', "cor
 	local target_name = target.getFullName()
 	local target_bank = target.get('bank')
 	TriggerClientEvent('usa:notify', source, 'Ticket issued to ~y~'..target_name..'~s~ for ~y~$'..amount..'~s~!')
-	target.removeBank(amount)
+	target.removeBank(amount, "Police Ticket")
 	local ticket = {
 		reason = reason,
 		fine = amount,

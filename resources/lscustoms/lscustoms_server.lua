@@ -160,7 +160,7 @@ AddEventHandler("LSC:buttonSelected", function(name, button, mname, business)
 				end
 			elseif discountedPrice <= charBank then
 				TriggerClientEvent("usa:notify", source, "Not enough cash, taking from bank!")
-				char.removeBank(discountedPrice) -- half off for LEO/EMS
+				char.removeBank(discountedPrice, "LS Customs") -- half off for LEO/EMS
 				TriggerClientEvent("LSC:buttonSelected", source, name, button, true)
 				if business then
 					exports["usa-businesses"]:GiveBusinessCashPercent(business, button.price)
@@ -178,7 +178,7 @@ AddEventHandler("LSC:buttonSelected", function(name, button, mname, business)
 				end
 			elseif button.price <= charBank then
 				TriggerClientEvent("usa:notify", source, "Not enough cash, taking from bank!")
-				char.removeBank(button.price) -- -- full price
+				char.removeBank(button.price, "LS Customs") -- -- full price
 				TriggerClientEvent("LSC:buttonSelected", source, name, button, true)
 				if business then
 					exports["usa-businesses"]:GiveBusinessCashPercent(business, button.price)

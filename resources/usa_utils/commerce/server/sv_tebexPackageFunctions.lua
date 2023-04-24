@@ -7,7 +7,7 @@ TEBEX_PACKAGE_FUNCTIONS = {
     bronze = function(src)
         local c = exports["usa-characters"]:GetCharacter(src)
         if c then
-            c.giveBank(BRONZE_PACKAGE_REWARD_PAY)
+            c.giveBank(BRONZE_PACKAGE_REWARD_PAY, "Tebex Bronze Package")
             TriggerClientEvent("usa:notify", c.get("source"), "~g~Deposited: ~w~$" .. exports.globals:comma_value(BRONZE_PACKAGE_REWARD_PAY))
             return true
         else
@@ -17,7 +17,7 @@ TEBEX_PACKAGE_FUNCTIONS = {
     silver = function(src)
         local c = exports["usa-characters"]:GetCharacter(src)
         if c then
-            c.giveBank(SILVER_PACKAGE_REWARD_PAY)
+            c.giveBank(SILVER_PACKAGE_REWARD_PAY, "Tebex Silver Package")
             TriggerClientEvent("usa:notify", c.get("source"), "~g~Deposited: ~w~$" .. exports.globals:comma_value(SILVER_PACKAGE_REWARD_PAY))
             return true
         else
@@ -27,7 +27,7 @@ TEBEX_PACKAGE_FUNCTIONS = {
     gold = function(src)
         local c = exports["usa-characters"]:GetCharacter(src)
         if c then
-            c.giveBank(GOLD_PACKAGE_REWARD_PAY)
+            c.giveBank(GOLD_PACKAGE_REWARD_PAY, "Tebex Gold Package")
             TriggerClientEvent("usa:notify", c.get("source"), "~g~Deposited: ~w~$" .. exports.globals:comma_value(GOLD_PACKAGE_REWARD_PAY))
             return true
         else
@@ -37,7 +37,7 @@ TEBEX_PACKAGE_FUNCTIONS = {
     carePackage = function(src)
         local char = exports["usa-characters"]:GetCharacter(src)
         -- give money
-        char.giveBank(CARE_PACKAGE_REWARD_PAY)
+        char.giveBank(CARE_PACKAGE_REWARD_PAY, "Tebex Care Package")
         TriggerClientEvent("usa:notify", char.get("source"), "~g~Deposited: ~w~$" .. exports.globals:comma_value(CARE_PACKAGE_REWARD_PAY), "INFO: " .. "Deposited: $" .. exports.globals:comma_value(CARE_PACKAGE_REWARD_PAY))
         -- give 5 medkits
         local medkit = {name = "First Aid Kit", type = "misc", quantity = 5, legality = "legal", weight = 5, objectModel = "v_ret_ta_firstaid"}

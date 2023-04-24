@@ -640,22 +640,6 @@ AddEventHandler("properties:purchaseProperty", function(property)
         v.locked = true
         exports["usa_doormanager"]:toggleDoorLockByName(v.name, true)
       end
-			-- update all clients property info --
-            local PROPERTY_FOR_CLIENT = { -- only give client needed information for each property for performance reasons
-                name = property.name,
-                storage = {
-                    money = PROPERTIES[property.name].storage.money
-                },
-                fee = PROPERTIES[property.name].fee,
-                x = PROPERTIES[property.name].x,
-                y = PROPERTIES[property.name].y,
-                z = PROPERTIES[property.name].z,
-                garage_coords = PROPERTIES[property.name].garage_coords,
-                owner = PROPERTIES[property.name].owner,
-                type = PROPERTIES[property.name].type,
-                will_leave = PROPERTIES[property.name].will_leave
-            }
-			TriggerClientEvent("properties:update", -1, PROPERTY_FOR_CLIENT, true)
 			-- subtract money --
 			player.removeMoney(PROPERTIES[property.name].fee.price)
       -- save property --
@@ -725,8 +709,6 @@ AddEventHandler("properties:addCoOwner", function(property_name, id)
     table.insert(PROPERTIES[property_name].coowners, coowner)
     -- save --
     SavePropertyData(property_name)
-    -- update all clients --
-    TriggerClientEvent("properties:update", -1, PROPERTIES[property_name])
     -- add blip for co owner --
     TriggerClientEvent("properties:setPropertyBlips", id, GetOwnedPropertyCoords(coowner.identifier, true))
     -- notify --
@@ -784,8 +766,6 @@ AddEventHandler("properties:changeOwner", function(property_name, targetID, owne
               PROPERTIES[property_name].lastTransfer = os.time()
               -- save --
               SavePropertyData(property_name)
-              -- update all clients --
-              TriggerClientEvent("properties:update", -1, PROPERTIES[property_name])
               -- add blip for co owner --
               TriggerClientEvent("properties:setPropertyBlips", targetID, GetOwnedPropertyCoords(new_owner.identifier, true))
               TriggerClientEvent("properties:setPropertyBlips", ownerID, GetOwnedPropertyCoords(exports["usa-characters"]:GetCharacter(ownerID).get("_id"), true))
@@ -852,8 +832,6 @@ AddEventHandler("properties:addLEO", function(property_name, id, source)
         table.insert(PROPERTIES[property_name].coowners, coowner)
         -- save --
         SavePropertyData(property_name)
-        -- update all clients --
-        TriggerClientEvent("properties:update", -1, PROPERTIES[property_name])
         -- add blip for co owner --
         TriggerClientEvent("properties:setPropertyBlips", id, GetOwnedPropertyCoords(coowner.identifier, true))
         -- notify --
@@ -904,8 +882,6 @@ AddEventHandler("properties:removeCoOwner", function(property_name, index)
     table.remove(PROPERTIES[property_name].coowners, index)
     -- save --
     SavePropertyData(property_name)
-    -- update all clients --
-    TriggerClientEvent("properties:update", -1, PROPERTIES[property_name])
     -- notify --
     TriggerClientEvent("usa:notify", source, "Co-owner removed!")
   end
@@ -941,8 +917,6 @@ AddEventHandler("properties:removeLEO", function(property_name, id, source)
           table.remove(PROPERTIES[property_name].coowners, index)
           -- save --
           SavePropertyData(property_name)
-          -- update all clients --
-          TriggerClientEvent("properties:update", -1, PROPERTIES[property_name])
           -- notify --
           TriggerClientEvent("usa:notify", source, "Warrant Revoked!")
           TriggerClientEvent("usa:notify", id, "Your warrant for " .. PROPERTIES[property_name].name .. " was revoked!")
@@ -1081,6 +1055,9 @@ function SavePropertyData(property_name)
         end
       end
     end)
+    for _, playerId in ipairs(GetPlayers()) do
+      TriggerClientEvent("properties:update", playerId, TrimPropertyTableForClient(PROPERTIES[property_name]))
+    end
   end)
 end
 
@@ -1250,7 +1227,6 @@ AddEventHandler("properties:editProperty", function(arg, value, name)
             local doc = exports.essentialmode:getDocument("properties", property_to_edit._id)
             property_to_edit._rev = doc._rev
             PROPERTIES[name] = property_to_edit
-
             exports["usa-characters"]:GetCharacters(function(serverChars)
             local owners = {}
             for k,v in pairs(serverChars) do
@@ -1265,6 +1241,9 @@ AddEventHandler("properties:editProperty", function(arg, value, name)
             end
             for i,v in ipairs(owners) do
               TriggerClientEvent("properties:setPropertyBlips", tonumber(v.id), GetOwnedPropertyCoords(v.ident, true))
+            end
+            for _, playerId in ipairs(GetPlayers()) do
+              TriggerClientEvent("properties:update", playerId, TrimPropertyTableForClient(PROPERTIES[name]))
             end
           end)
         end)
@@ -1329,12 +1308,24 @@ AddEventHandler("properties:addNewProperty", function(pLoc, gLoc, name, price)
           -- update server --
           new_property._id = docID
           PROPERTIES[name] = new_property
+          for _, playerId in ipairs(GetPlayers()) do
+            TriggerClientEvent("properties:update", playerId, TrimPropertyTableForClient(PROPERTIES[name]))
+          end
         end)
       end)
     else
       TriggerClientEvent("usa:notify", usource, "A property with name already exists")
     end
   end
+end)
+
+RegisterServerEvent("properties:loadForClient")
+AddEventHandler("properties:loadForClient", function()
+  local trimmedProperties = {}
+  for name, info in pairs(PROPERTIES) do
+    trimmedProperties[name] = TrimPropertyTableForClient(info)
+  end
+  TriggerClientEvent("properties:setPropertiesForClient", source, trimmedProperties)
 end)
 
 -- To add business properties --
@@ -1394,6 +1385,9 @@ TriggerEvent('es:addGroupCommand', 'addbusinessproperty', 'admin', function(sour
         -- update server --
         new_property._id = docID
         PROPERTIES[name] = new_property
+        for _, playerId in ipairs(GetPlayers()) do
+          TriggerClientEvent("properties:update", playerId, PROPERTIES[name])
+        end
       end)
     end)
   else
@@ -1518,6 +1512,9 @@ AddEventHandler('rconCommand', function(commandName, args)
       local propertyId = PROPERTIES[name]._id
       -- remove from server memory
       PROPERTIES[name] = nil
+      for _, playerId in ipairs(GetPlayers()) do
+        TriggerClientEvent("properties:remove", playerId, name)
+      end
       -- remove from disk
       TriggerEvent('es:exposeDBFunctions', function(db)
         db.deleteDocument("properties", propertyId, function(ok)
@@ -1664,6 +1661,7 @@ function ownsProperty(name, src)
   return false
 end
 
+--[[
 -- send nearby property data to clients every CLIENT_UPDATE_INTERVAL seconds
 Citizen.CreateThread(function()
   local lastUpdateTime = os.time()
@@ -1686,3 +1684,4 @@ Citizen.CreateThread(function()
     Wait(1)
   end
 end)
+--]]

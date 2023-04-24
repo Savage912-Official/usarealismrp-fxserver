@@ -34,6 +34,30 @@ RegisterNUICallback('receiveData', function(data)
    elseif data.type == "claimPart" then
       local partId = data.uuid
       TriggerServerEvent("mechanic:claimDelivery", partId)
+   elseif data.type == "fetchOrders" then
+      local orders = TriggerServerCallback {
+         eventName = "mechanic:fetchOrders",
+         args = {}
+      }
+      SendDataToApp({
+         orderedParts = orders
+      })
+   elseif data.type == "fetchDeliveries" then
+      local deliveries = TriggerServerCallback {
+         eventName = "mechanic:fetchDeliveries",
+         args = {}
+      }
+      SendDataToApp({
+         deliveredParts = deliveries
+      })
+   elseif data.type == "fetchLeaderboard" then
+      local top50Mechanics = TriggerServerCallback {
+         eventName = "mechanic:fetchLeaderboard",
+         args = {}
+      }
+      SendDataToApp({
+         top50Mechanics = top50Mechanics
+      })
    end
 end)
 

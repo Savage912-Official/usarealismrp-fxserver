@@ -309,6 +309,6 @@ function removeMoney(char, amount)
 	if char.get("money") >= amount then
 		char.removeMoney(amount)
 	elseif char.get("bank") >= amount then
-		char.removeBank(amount)
+		char.removeBank(amount, "LS Garage System")
 	end
 end

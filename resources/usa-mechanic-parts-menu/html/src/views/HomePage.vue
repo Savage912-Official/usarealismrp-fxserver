@@ -7,13 +7,18 @@
 					bg-color="primary"
 					grow
 				>
+					<v-tab @click="fetchLeaderboard()">Leaderboard</v-tab>
 					<v-tab>Parts</v-tab>
-					<v-tab>Orders</v-tab>
-					<v-tab>Deliveries</v-tab>
+					<v-tab @click="fetchOrders()">Orders</v-tab>
+					<v-tab @click="fetchDeliveries()">Deliveries</v-tab>
 					<v-tab @click="exitMenu()">X</v-tab>
 				</v-tabs>
 
 				<v-tabs-items v-model="tab">
+					<v-tab-item>
+						<LeaderboardPage/>
+					</v-tab-item>
+
 					<v-tab-item>
 						<PartsPage/>
 					</v-tab-item>
@@ -55,10 +60,12 @@ import { mapGetters } from "vuex";
 import PartsPage from "./PartsPage";
 import OrdersPage from "./OrdersPage";
 import DeliveriesPage from "./DeliveriesPage";
+import LeaderboardPage from "./LeaderboardPage";
 
 export default {
 	name: "HomePage",
 	components: {
+		LeaderboardPage,
 		PartsPage,
 		OrdersPage,
 		DeliveriesPage
@@ -79,9 +86,25 @@ export default {
 				this.error = "";
 			}, 3000);
 		},
-		async exitMenu() {
+		exitMenu() {
 			$.post('https://usa-mechanic-parts-menu/exitMenu', JSON.stringify({}));
+			this.$store.state.top50Mechanics = [];
 		},
+		fetchOrders() {
+			$.post('https://usa-mechanic-parts-menu/receiveData', JSON.stringify({
+				type: "fetchOrders"
+			}));
+		},
+		fetchDeliveries() {
+			$.post('https://usa-mechanic-parts-menu/receiveData', JSON.stringify({
+				type: "fetchDeliveries"
+			}));
+		},
+		fetchLeaderboard() {
+			$.post('https://usa-mechanic-parts-menu/receiveData', JSON.stringify({
+				type: "fetchLeaderboard"
+			}));
+		}
 	}
 };
 </script>

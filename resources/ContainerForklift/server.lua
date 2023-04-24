@@ -53,7 +53,7 @@ AddEventHandler("containerjob:startJob", function(needsToPay)
             TriggerClientEvent("usa:notify", source, "Need: $" .. exports.globals:comma_value(TRUCK_SECURITY_DEPOSIT) .. " to start")
             return
         end
-        char.removeBank(TRUCK_SECURITY_DEPOSIT)
+        char.removeBank(TRUCK_SECURITY_DEPOSIT, "Job Security Deposit")
         TriggerClientEvent("usa:notify", source, "Security Deposit: $" .. exports.globals:comma_value(TRUCK_SECURITY_DEPOSIT))
     end
     local randomContainer = containers[math.random(#containers)]
@@ -66,7 +66,7 @@ AddEventHandler("containerjob:stopJob", function(truckExists)
     if truckExists then
         -- give truck security deposit back
         local char = exports["usa-characters"]:GetCharacter(source)
-        char.giveBank(TRUCK_SECURITY_DEPOSIT)
+        char.giveBank(TRUCK_SECURITY_DEPOSIT, "Job Security Deposit Return")
         TriggerClientEvent("usa:notify", source, "Truck deposit returned")
     end
     onJob[source] = nil
@@ -97,7 +97,7 @@ AddEventHandler("containerjob:reward", function(securityToken)
         local reward = math.floor(dist * 3.5)
         -- give reward
         local char = exports["usa-characters"]:GetCharacter(source)
-        char.giveBank(reward + math.random(0, 250))
+        char.giveBank(reward + math.random(0, 250), "Container Reward")
         TriggerClientEvent("usa:notify", source, "~g~Reward:~w~ $" .. exports.globals:comma_value(reward), "Container Reward: $" .. exports.globals:comma_value(reward))
         -- reset state
         onJob[source] = nil

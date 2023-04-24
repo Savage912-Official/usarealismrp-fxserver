@@ -127,7 +127,7 @@ AddEventHandler("dmv:orderCustomPlate", function(oldPlate, newPlate)
 						end
 						c.set("vehicles", vehs)
 						-- charge fee
-						c.removeBank(CUSTOM_PLATE_PRICE)
+						c.removeBank(CUSTOM_PLATE_PRICE, "DMV Custom Plate")
 						-- notify success
 						TriggerClientEvent("usa:notify", src, "Plate updated!")
 						TriggerClientEvent("usa:notify", src, "~y~Fee:~w~ " .. exports.globals:comma_value(CUSTOM_PLATE_PRICE))

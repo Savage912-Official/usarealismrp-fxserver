@@ -134,7 +134,7 @@ AddEventHandler('gopostal:quitJob', function(src, fee)
 	end
 	TriggerClientEvent('gopostal:quitJob', source, fee)
 	local char = exports["usa-characters"]:GetCharacter(source)
-	char.removeBank(200)
+	char.removeBank(200, "GoPostal Quit Fee")
 	TriggerEvent("swayam:RemoveWayPoint_s", source)
 end)
 
@@ -144,7 +144,7 @@ AddEventHandler('gopostal:getDeliveryLocations', function()
 end)
 
 TriggerEvent('es:addJobCommand', 'quitdelivery', { "gopostal" }, function(source, args, char)
-	char.removeBank(QUIT_JOB_FEE)
+	char.removeBank(QUIT_JOB_FEE, "GoPostal Quit Fee")
 	TriggerEvent('gopostal:quitJob', source, QUIT_JOB_FEE)
 end, {
 	help = "Forcefully quit the current GoPostal job"

@@ -248,6 +248,53 @@ CreateThread(function()
         }
     })
 
+    TriggerEvent('es:addCommand','changeaccountpassword', function(source, args, char)
+        local app, username, oldPassword, newPassword = args[2], args[3], args[4], args[5]
+        if (app ~= "twitter" and app ~= "instagram") or (not username) or (not oldPassword) or (not newPassword) then
+            Notify(source, "Invalid usage of /changeaccountpassword")
+        end
+
+        MySQL.Async.fetchAll('SELECT password FROM phone_'..app..'_accounts WHERE username = @username', { ['@username'] = username }, function(result)
+          if VerifyPasswordHash(oldPassword, result[1].password) then
+             local passwordChanged = exports["lb-phone"]:ChangePassword(app, username, newPassword)
+             if passwordChanged then
+                TriggerClientEvent("usa:notify", source, "You have changed the password for "..username.." on "..app)
+                TriggerClientEvent("lb-phone:reloadPhoneStandalone", source)
+             else
+                TriggerClientEvent("usa:notify", source, "There was an error changing the password try again later or contact staff!")
+             end
+          else
+            TriggerClientEvent("usa:notify", source, "The old password you have entered is wrong!")
+          end
+        end)
+    end, {
+        help = "Toggle verified for a user profile",
+        params = {
+            {
+                name = "app",
+                help = "The app, twitter or instagram"
+            },
+            {
+                name = "username",
+                help = "The profile username"
+            },
+            {
+                name = "oldPassword",
+                help = "Old Password of Account"
+            },
+            {
+                name = "newPassword",
+                help = "New Password of Account"
+            }
+        }
+    })
+
+    TriggerEvent('es:addCommand','reloadphone', function(source, args, char)
+        TriggerClientEvent("lb-phone:reloadPhoneStandalone", source)
+    end, {
+        help = "Reloads the Phone (Use for any bugs!)",
+    })
+
     lib.callback.register('lb-phone:hasPhone', function(source, number)
         return HasPhoneItem(source, number)
     end)

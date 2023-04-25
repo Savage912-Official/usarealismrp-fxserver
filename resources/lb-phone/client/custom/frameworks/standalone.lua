@@ -230,4 +230,8 @@ CreateThread(function()
     function ToggleDuty()
         return false    
     end
+
+    RegisterNetEvent("lb-phone:reloadPhoneStandalone", function()
+        RefreshPhone()
+    end)
 end)

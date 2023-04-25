@@ -11,15 +11,17 @@
 			<template v-slot:default>
 				<tbody>
 					<tr>
+						<th>Rank</th>
 						<th>Name</th>
 						<th>Repair Count</th>
 					</tr>
 				<tr
-				v-for="mech in menuData.top50Mechanics"
+				v-for="(mech, index) in menuData.top50Mechanics"
 				:key="mech.name"
 				>
-					<td width="50%" class="text-left">{{ mech.name }}</td>
-					<td width="50%" class="text-left">{{ mech.repairCount }}</td>
+					<td width="33%">{{ index + 1 }}</td>
+					<td width="33%" class="text-left">{{ mech.name }}</td>
+					<td width="33%" class="text-left">{{ mech.repairCount }}</td>
 				</tr>
 				</tbody>
 			</template>

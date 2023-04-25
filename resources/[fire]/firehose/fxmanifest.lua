@@ -34,6 +34,6 @@ client_scripts {
     'client.lua'
 }
 server_scripts {
-    'FireHoseServer.net.dll',
+    --'FireHoseServer.net.dll',
     'server.lua'
 }

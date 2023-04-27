@@ -80,7 +80,7 @@ Citizen.CreateThread(function()
         if not item.objectModel then
           DrawMarker(27, item.coords.x, item.coords.y, item.coords.z, 0, 0, 0, 0, 0, 0, 0.3, 0.3, 1.0, 240, 30, 140, 100, 0, 0, 2, 0, 0, 0, 0)
         end
-        if Vdist(coords.x, coords.y, coords.z, item.coords.x, item.coords.y, item.coords.z) < 3.5 then
+        if #(vector3(coords.x, coords.y, coords.z) - vector3(item.coords.x, item.coords.y, item.coords.z)) < 3.5 then
           DrawText3Ds(item.coords.x, item.coords.y, item.coords.z + 0.2, 370, 16, '[Y] - ' .. item.name)
           if IsControlJustPressed(1, E_KEY) and not attemptingPickup and not IsPedInAnyVehicle(ped, true) then
             TriggerServerEvent("interaction:attemptPickupWithGUI", coords)
@@ -126,7 +126,7 @@ function getNearbyDroppedItems(range)
   local nearby = {}
 	for i = #DROPPED_ITEMS, 1, -1 do
     local item = DROPPED_ITEMS[i]
-		local dist = Vdist(item.coords.x, item.coords.y, item.coords.z, mycoords)
+		local dist = #(vector3(item.coords.x, item.coords.y, item.coords.z) - mycoords)
 		if dist < range then
       nearby[i] = true
 		end

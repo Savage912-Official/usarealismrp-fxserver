@@ -127,7 +127,7 @@ function Display(ped, text, offset, maxDist, time)
       Wait(0)
       local targetPedCoords = GetEntityCoords(GetPlayerPed(ped), false)
       local myCoords = GetEntityCoords(PlayerPedId())
-      if Vdist(targetPedCoords, myCoords) < maxDist then
+      if #(targetPedCoords - myCoords) < maxDist then
         DrawText3D(targetPedCoords['x'], targetPedCoords['y'], targetPedCoords['z']+offset+0.3, text)
       end
     end
@@ -249,7 +249,7 @@ function getClosestVehicle(maxRange)
   closest.veh = nil
   for veh in EnumerateVehicles() do
       local vehCoords = GetEntityCoords(veh)
-      local dist = Vdist(mycoords.x, mycoords.y, mycoords.z, vehCoords.x, vehCoords.y, vehCoords.z)
+      local dist = #(mycoords - vehCoords)
       if dist < closest.dist and dist < (maxRange or 500) then
           closest.dist = dist
           closest.handle = veh
@@ -276,7 +276,8 @@ function createCulledNonNetworkedPedAtCoords(model, locations, maxDist, _3dText,
         local playerCoords = GetEntityCoords(PlayerPedId(), false)
         nearbyLocation = nil
         for i = 1, #locations do
-          local dist = Vdist(playerCoords, locations[i].x, locations[i].y, locations[i].z)
+          local loc = vector3(locations[i].x, locations[i].y, locations[i].z)
+          local dist = #(playerCoords - loc)
           if dist < maxDist then
             nearbyLocation = locations[i]
             nearbyLocation.dist = dist

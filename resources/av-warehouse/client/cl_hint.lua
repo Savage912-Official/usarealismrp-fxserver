@@ -23,7 +23,7 @@ Citizen.CreateThread(function()
     local spawnedPedHandle = nil
     while true do
         local mycoords = GetEntityCoords(PlayerPedId())
-        local dist = Vdist(mycoords, TRUCK_COORDS)
+        local dist = #(mycoords - TRUCK_COORDS)
         if dist < NPC_SPAWN_DISTANCE then
             if dist < DRAW_3D_TEXT_DIST then
                 isWithin3dTextDist = true

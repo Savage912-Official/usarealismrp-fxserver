@@ -378,7 +378,7 @@ function makeNearbyGuardsAggresive()
 	for ped in exports.globals:EnumeratePeds() do
 		local pedModel = GetEntityModel(ped)
 		if pedModel == guardPedModel1 or pedModel == guardPedModel2 then
-			local dist = Vdist(GetEntityCoords(ped), mycoords)
+			local dist = #(GetEntityCoords(ped) - mycoords)
 			if dist < MAX_DIST then
 				SetPedRelationshipGroupHash(ped, GetHashKey("Guardias"))
 			end

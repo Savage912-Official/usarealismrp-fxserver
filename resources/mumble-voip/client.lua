@@ -1241,7 +1241,7 @@ Citizen.CreateThread(function()
 			if otherPlayer ~= -1 then
 				local otherPed = GetPlayerPed(otherPlayer)
 				local otherPlayerCoords = GetEntityCoords(otherPed)
-				if Vdist(mycoords, otherPlayerCoords) > 60.0 then
+				if #(mycoords - otherPlayerCoords) > 60.0 then
 					if not radioTargetsFx[id] then
 						MumbleSetSubmixForServerId(id, RADIO_FX_SUBMIX_ID) -- add radio fx
 						radioTargetsFx[id] = true

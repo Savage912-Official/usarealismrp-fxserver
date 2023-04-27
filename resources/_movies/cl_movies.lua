@@ -123,7 +123,7 @@ function IsPlayerInArea()
   hour = GetClockHours()
   for k,v in ipairs(cinemaLocations) do
     -- Check if the player is near the cinema
-    if Vdist(playerCoords, v.x, v.y, v.z) < 4.8 then
+    if #(playerCoords - vector3(v.x, v.y, v.z)) < 4.8 then
       -- Check if the cinema is open or closed.
       if hour < openingHour or hour > closingHour then
         helpDisplay("The cinema is ~r~closed ~w~come back between 1am and 22pm.", 0)

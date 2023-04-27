@@ -199,7 +199,7 @@ function IsNearBank()
   local ply = GetPlayerPed(-1)
   local plyCoords = GetEntityCoords(ply, 0)
   for _, item in pairs(banks) do
-    local distance = Vdist(item.x, item.y, item.z,  plyCoords["x"], plyCoords["y"], plyCoords["z"])
+    local distance = #(vector3(item.x, item.y, item.z) - vector3(plyCoords["x"], plyCoords["y"], plyCoords["z"]))
     if distance <= 4 then
       return true
     end
@@ -212,7 +212,7 @@ function IsNearPlayer(player)
   local plyCoords = GetEntityCoords(ply, 0)
   local ply2 = GetPlayerPed(GetPlayerFromServerId(player))
   local ply2Coords = GetEntityCoords(ply2, 0)
-  local distance = Vdist(ply2Coords["x"], ply2Coords["y"], ply2Coords["z"],  plyCoords["x"], plyCoords["y"], plyCoords["z"])
+  local distance = #(vector3(ply2Coords["x"], ply2Coords["y"], ply2Coords["z"]) - vector3(plyCoords["x"], plyCoords["y"], plyCoords["z"]))
   if(distance <= 5) then
     return true
   end
@@ -327,7 +327,7 @@ end
 -----------------
 
 function DrawText3D(x, y, z, distance, text)
-  if Vdist(GetEntityCoords(PlayerPedId()), x, y, z) < distance then
+  if #(GetEntityCoords(PlayerPedId()) - vector3(x, y, z)) < distance then
     local onScreen,_x,_y=World3dToScreen2d(x,y,z)
     SetTextScale(0.35, 0.35)
     SetTextFont(4)

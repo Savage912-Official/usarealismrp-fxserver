@@ -130,9 +130,9 @@ function deliveringThread(playerId, playerCoordinates)
 			end
 		end
 
-		if trailerId and (not DoesEntityExist(trailerId) or not IsEntityAttachedToEntity(trailerId, truckId) or Vdist(GetEntityCoords(trailerId), GetEntityCoords(truckId)) > 300) then
+		if trailerId and (not DoesEntityExist(trailerId) or not IsEntityAttachedToEntity(trailerId, truckId) or #(GetEntityCoords(trailerId) - GetEntityCoords(truckId)) > 300) then
 			Wait(3000) -- wait and try again, Hopeful fix for a job ending bug that has been reported
-			if trailerId and (not DoesEntityExist(trailerId) or not IsEntityAttachedToEntity(trailerId, truckId) or Vdist(GetEntityCoords(trailerId), GetEntityCoords(truckId)) > 300) then
+			if trailerId and (not DoesEntityExist(trailerId) or not IsEntityAttachedToEntity(trailerId, truckId) or #(GetEntityCoords(trailerId) - GetEntityCoords(truckId)) > 300) then
 				if DoesEntityExist(trailerId) then
 					DeleteVehicle(trailerId)
 					trailerId = nil

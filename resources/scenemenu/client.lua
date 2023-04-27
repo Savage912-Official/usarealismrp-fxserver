@@ -286,7 +286,7 @@ AddEventHandler('RemoveBlip', function()
     local closestSpeedZone = 0
     local closestDistance = 1000
     for i = 1, #speedzones, 1 do
-        local distance = Vdist(speedzones[i][1], speedzones[i][2], speedzones[i][3], x, y, z)
+        local distance = #(vector3(speedzones[i][1], speedzones[i][2], speedzones[i][3]) - vector3(x, y, z))
         if distance < closestDistance then
             closestDistance = distance
             closestSpeedZone = i

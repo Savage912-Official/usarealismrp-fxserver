@@ -110,12 +110,12 @@ CreateThread(function()
 
 			for k,door in pairs(doors) do
 				-- draw marker
-				if Vdist(coords, door.coords.x, door.coords.y, door.coords.z) < 100 then
+				if #(coords - vector3(door.coords.x, door.coords.y, door.coords.z)) < 100 then
 					DrawMarker(0, door.coords.x, door.coords.y, door.coords.z + 0.2, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 204, 255, 0, 50, true, true, 2, nil, nil, false)
 				end
 				
 				-- can enter
-				if Vdist(coords, door.coords.x, door.coords.y, door.coords.z) < 2 then
+				if #(coords - vector3(door.coords.x, door.coords.y, door.coords.z)) < 2 then
 					DisplayHelpText("Press ~INPUT_CONTEXT~ to enter this house.")
 					
 					if IsControlJustPressed(0, 51) then
@@ -151,7 +151,7 @@ CreateThread(function()
 					-- draw exit doors in houses (even if not in mission)
 					DrawMarker(0, house.door, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 204, 255, 0, 50, true, true, 2, nil, nil, false)
 
-					if Vdist(coords, house.door) < 1 then
+					if #(coords - house.door) < 1 then
 						local door = doors[lastDoor]
 					
 						SetEntityCoords(PlayerPedId(), door.coords.x, door.coords.y, door.coords.z)

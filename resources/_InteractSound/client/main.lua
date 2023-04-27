@@ -70,7 +70,7 @@ RegisterNetEvent('InteractSound_CL:PlayWithinDistance')
 AddEventHandler('InteractSound_CL:PlayWithinDistance', function(playerNetId, maxDistance, soundFile, soundVolume)
     local lCoords = GetEntityCoords(GetPlayerPed(-1))
     local eCoords = GetEntityCoords(GetPlayerPed(GetPlayerFromServerId(playerNetId)))
-    local distIs  = Vdist(lCoords.x, lCoords.y, lCoords.z, eCoords.x, eCoords.y, eCoords.z)
+    local distIs  = #(vector3(lCoords.x, lCoords.y, lCoords.z) - vector3(eCoords.x, eCoords.y, eCoords.z))
     if(distIs <= maxDistance) then
         SendNUIMessage({
             transactionType     = 'playSound',
@@ -100,7 +100,7 @@ end)
 RegisterNetEvent('InteractSound_CL:PlayWithinDistanceOS')
 AddEventHandler('InteractSound_CL:PlayWithinDistanceOS', function(playerCoords, maxDistance, soundFile, soundVolume)
     local lCoords = GetEntityCoords(GetPlayerPed(-1))
-    local distIs  = Vdist(lCoords.x, lCoords.y, lCoords.z, playerCoords.x, playerCoords.y, playerCoords.z)
+    local distIs  = #(vector3(lCoords.x, lCoords.y, lCoords.z) - vector3(playerCoords.x, playerCoords.y, playerCoords.z))
     if(distIs <= maxDistance) then
         SendNUIMessage({
             transactionType     = 'playSound',

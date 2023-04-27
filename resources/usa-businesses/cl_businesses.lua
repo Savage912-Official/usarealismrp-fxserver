@@ -95,7 +95,7 @@ Citizen.CreateThread(function()
 		for name, data in pairs(BUSINESSES) do
 			local location = data.position
 			local mycoords = GetEntityCoords(PlayerPedId())
-			if Vdist (mycoords, location[1], location[2], location[3]) < 4 then
+			if #(mycoords - vector3(location[1], location[2], location[3])) < 4 then
 				NEARBY_BUSINESSES[name] = true
 			else
 				NEARBY_BUSINESSES[name] = nil
@@ -127,7 +127,7 @@ function GetClosestStore(range)
   local playerCoords = GetEntityCoords(playerPed)
   for name, data in pairs(BUSINESSES) do
     local pos = data.position
-    if Vdist(playerCoords.x, playerCoords.y, playerCoords.z, pos[1], pos[2], pos[3]) < range then
+    if #(vector3(playerCoords.x, playerCoords.y, playerCoords.z) - vector3(pos[1], pos[2], pos[3])) < range then
       return name
     end
   end

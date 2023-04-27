@@ -108,7 +108,7 @@ function getVehicleInFrontOfUser()
 	local coordA = GetEntityCoords(playerped, 1)
 	local coordB = GetOffsetFromEntityInWorldCoords(playerped, 0.0, 5.0, 0.0)
 	local targetVehicle = getVehicleInDirection(coordA, coordB)
-	return targetVehicle, Vdist(coordA.x, coordA.y, coordA.z, coordB.x, coordB.y, coordB.z)
+	return targetVehicle, #(vector3(coordA.x, coordA.y, coordA.z) - vector3(coordB.x, coordB.y, coordB.z))
 end
 
 function getVehicleInDirection(coordFrom, coordTo)

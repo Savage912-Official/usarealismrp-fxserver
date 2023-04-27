@@ -773,14 +773,14 @@ local warehousecoords
 function isAtAWarpPoint(x, y, z)
 	for i = 1, #COORDS_TO_ALLOW_TELEPORTATION_FROM do
 		local warp_to_check_against = COORDS_TO_ALLOW_TELEPORTATION_FROM[i]
-		if Vdist(x, y, z, warp_to_check_against.x, warp_to_check_against.y, warp_to_check_against.z) < 15.0 then
+		if #(vector3(x, y, z) - vector3(warp_to_check_against.x, warp_to_check_against.y, warp_to_check_against.z)) < 15.0 then
 			return true
 		end
 	end
 	for i = 1, #PROPERTY_COORDS do
 		local warp = PROPERTY_COORDS[i]
 		local _x, _y, _z = table.unpack(warp)
-		if Vdist(x, y, z, _x, _y, _z) < 15.0 then
+		if #(vector3(x, y, z) - vector3(_x, _y, _z)) < 15.0 then
 			return true
 		end
 	end
@@ -788,7 +788,7 @@ function isAtAWarpPoint(x, y, z)
 		warehousecoords = exports["av-warehouse"]:getWarehouseLocations()
 	else
 		for i = 1, #warehousecoords do
-			if Vdist(x, y, z, warehousecoords[i].x, warehousecoords[i].y, warehousecoords[i].z) < 15.0 then
+			if #(vector3(x, y, z) - vector3(warehousecoords[i].x, warehousecoords[i].y, warehousecoords[i].z)) < 15.0 then
 				return true
 			end
 		end
@@ -800,7 +800,7 @@ function isAtAnLSC()
 	local x, y, z = table.unpack(GetEntityCoords(PlayerPedId(),true))
 	for i = 1, #COORDS_THAT_ALLOW_INVISIBILITY do
 		local warp_to_check_against = COORDS_THAT_ALLOW_INVISIBILITY[i]
-		if Vdist(x, y, z, warp_to_check_against.x, warp_to_check_against.y, warp_to_check_against.z) < 20.0 then
+		if #(vector3(x, y, z) - vector3(warp_to_check_against.x, warp_to_check_against.y, warp_to_check_against.z)) < 20.0 then
 			return true
 		end
 	end
@@ -982,7 +982,7 @@ AddEventHandler("deletenearestobjects", function()
         for object in exports.globals:EnumerateObjects() do
     		local objcoords = GetEntityCoords(object)
 			local mycoords = GetEntityCoords(GetPlayerPed(-1))
-			if Vdist(mycoords.x, mycoords.y, mycoords.z, objcoords.x, objcoords.y, objcoords.z) < 50 then
+			if #(vector3(mycoords.x, mycoords.y, mycoords.z) - vector3(objcoords.x, objcoords.y, objcoords.z)) < 50 then
 				SetEntityAsMissionEntity(object, true, true)
 				DeleteObject(object)
 			end
@@ -998,7 +998,7 @@ AddEventHandler("deletenearestvehicles", function()
         for veh in exports.globals:EnumerateVehicles() do
     		local vehcoords = GetEntityCoords(veh)
 			local mycoords = GetEntityCoords(GetPlayerPed(-1))
-			if Vdist(mycoords.x, mycoords.y, mycoords.z, vehcoords.x, vehcoords.y, vehcoords.z) < 50 then
+			if #(vector3(mycoords.x, mycoords.y, mycoords.z) - vector3(vehcoords.x, vehcoords.y, vehcoords.z)) < 50 then
 				SetEntityAsMissionEntity(veh, true, true)
 				DeleteVehicle(veh)
 			end

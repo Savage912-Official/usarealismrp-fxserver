@@ -1840,7 +1840,7 @@ function GetClosestPlayerInfo(distance)
 		if NetworkIsPlayerActive(x) then
 			targetPed = GetPlayerPed(x)
 			targetPedCoords = GetEntityCoords(targetPed, false)
-			distanceToTargetPed = Vdist(playerPedCoords.x, playerPedCoords.y, playerPedCoords.z, targetPedCoords.x, targetPedCoords.y, targetPedCoords.z)
+			distanceToTargetPed = #(vector3(playerPedCoords.x, playerPedCoords.y, playerPedCoords.z) - vector3(targetPedCoords.x, targetPedCoords.y, targetPedCoords.z))
 			if targetPed ~= GetPlayerPed(-1) then
 				if distanceToTargetPed < distance then
 					if closestDistance == 0 then
@@ -1936,7 +1936,7 @@ function IsAreaPopulated()
 	}
 	local my_coords = GetEntityCoords(me, true)
 	for k = 1, #AREAS do
-		if Vdist(my_coords.x, my_coords.y, my_coords.z, AREAS[k].x, AREAS[k].y, AREAS[k].z) <= AREAS[k].range then
+		if #(vector3(my_coords.x, my_coords.y, my_coords.z) - vector3(AREAS[k].x, AREAS[k].y, AREAS[k].z)) <= AREAS[k].range then
 			--print("within range of populated area!")
 			return true
 		end

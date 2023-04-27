@@ -3071,7 +3071,7 @@ Citizen.CreateThread(function()
 		local me = PlayerPedId()
 		local mycoords = GetEntityCoords(me)
 		if atm.coords then
-			if Vdist(atm.coords.x, atm.coords.y, atm.coords.z, mycoords.x, mycoords.y, mycoords.z) < 100 then
+			if #(vector3(atm.coords.x, atm.coords.y, atm.coords.z) - vector3(mycoords.x, mycoords.y, mycoords.z)) < 100 then
 				local atmObject = GetClosestObjectOfType(atm.coords.x, atm.coords.y, atm.coords.z, 1.0, atm.objectHash, false, false, false)
 				if not DoesEntityExist(atmObject) then
 					CreateObjectByHash(atm.objectHash, atm.coords)

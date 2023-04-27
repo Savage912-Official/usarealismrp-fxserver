@@ -11,7 +11,7 @@ AddEventHandler('business:robStore', function(storeName)
 		while GetGameTimer() - beginTime < randomizedRobDuration and isRobbingStore do
 			Citizen.Wait(0)
 			local playerCoords = GetEntityCoords(playerPed)
-			if Vdist(playerCoords, x, y, z) > 10 then
+			if #(vector3(x, y, z) - playerCoords) > 10 then
 				TriggerEvent('usa:notify', 'You have left the store before receiving money, robbery has been ~y~cancelled~s~!')
 				TriggerServerEvent('business:cancelRobbery', storeName)
 				isRobbingStore = false

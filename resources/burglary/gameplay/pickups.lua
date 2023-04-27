@@ -38,7 +38,7 @@ CreateThread(function()
 					currentItem = {}
 				else
 					-- if outside only drop next to van
-					if Vdist(markerCoords, coords) < 3 then
+					if #(markerCoords - coords) < 3 then
 						ShowSubtitle("Item recovered, get back inside to steal more items.")
 						
 						-- send to server
@@ -70,7 +70,7 @@ CreateThread(function()
 				-- show marker above                                                           dir    |       rot
 				DrawMarker(20, pickupCoord.x, pickupCoord.y, pickupCoord.z + max.z + 0.3, 0.0, 0.0, 0.0, 0.0, 180.0, 0.0, 0.5, 0.5, 0.5, 0, 255, 0, 50, true, true, 2, nil, nil, false)
 			
-				if onMission and Vdist(coords, GetEntityCoords(pickup.prop)) < 2 and not isHolding then
+				if onMission and #(coords - GetEntityCoords(pickup.prop)) < 2 and not isHolding then
 					DisplayHelpText("Press ~INPUT_CONTEXT~ to steal his item")
 					
 					-- if pressed E

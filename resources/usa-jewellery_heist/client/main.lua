@@ -73,7 +73,7 @@ Citizen.CreateThread(function()
             local plyCoords = GetEntityCoords(pid, false)
             for k = 1, #JewelleryCases do
                 if not JewelleryCases[k].robbed then
-                    local dist = Vdist(plyCoords.x, plyCoords.y, plyCoords.z, JewelleryCases[k].x, JewelleryCases[k].y, JewelleryCases[k].z)
+                    local dist = #(vector3(plyCoords.x, plyCoords.y, plyCoords.z) - vector3(JewelleryCases[k].x, JewelleryCases[k].y, JewelleryCases[k].z))
                     if dist < 1.5 then
                         exports.globals:DrawText3D(JewelleryCases[k].x, JewelleryCases[k].y, JewelleryCases[k].z, '[E] - Smash')
                         if dist < 0.5 then
@@ -135,7 +135,7 @@ Citizen.CreateThread(function()
     while true do
         local playerCoords = GetEntityCoords(PlayerPedId(), false)
         local x,y,z = table.unpack(purchase_location)
-        if Vdist(playerCoords, x, y, z) < 40 then
+        if #(vector3(x, y, z) - playerCoords) < 40 then
             if not NPCHandle then
                 RequestModel(GetHashKey(purchaser))
                 while not HasModelLoaded(purchaser) do
@@ -191,5 +191,5 @@ end)
 
 function nearMarker(x, y, z)
     local p = GetEntityCoords(GetPlayerPed(-1))
-    return Vdist(x, y, z, p.x, p.y, p.z) < 3
+    return #(vector3(x, y, z) - vector3(p.x, p.y, p.z)) < 3
 end

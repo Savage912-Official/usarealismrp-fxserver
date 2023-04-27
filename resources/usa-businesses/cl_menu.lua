@@ -13,8 +13,8 @@ AddEventHandler("business:getPropertyGivenCoords", function(x,y,z, cb)
   local closest = 1000000000000.0
   local closest_property = nil
   for name, info in pairs(BUSINESSES) do
-    if Vdist(x, y, z, info.position.x, info.position.y, info.position.z)  < 50.0 and Vdist(x, y, z, info.position.x, info.position.y, info.position.z) < closest then
-      closest = Vdist(x, y, z, info.position.x, info.position.y, info.position.z)
+    if #(vector3(x, y, z) - vector3(info.position.x, info.position.y, info.position.z)) < 50.0 and #(vector3(x, y, z) - vector3(info.position.x, info.position.y, info.position.z)) < closest then
+      closest = #(vector3(x, y, z) - vector3(info.position.x, info.position.y, info.position.z))
       closest_property = info
     end
   end

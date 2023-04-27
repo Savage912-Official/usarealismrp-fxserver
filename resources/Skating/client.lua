@@ -34,7 +34,7 @@ Citizen.CreateThread(function()
 	    Citizen.Wait(500)
 		local currentTimer = GetGameTimer()
 		local curCoords = GetEntityCoords(PlayerPedId())
-		local dist = Vdist(curCoords,oldCoords)
+		local dist = #(curCoords - oldCoords)
 		-- print("dist = "..tostring(dist))
 		oldCoords = curCoords
 		

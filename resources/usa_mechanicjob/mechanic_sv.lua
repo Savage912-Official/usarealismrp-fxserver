@@ -519,26 +519,28 @@ end)
 
 AddEventHandler("character:loaded", function(char) -- migration from old db format
 	MechanicHelper.getMechanicInfo(char.get("_id"), function(info)
-		if info.orderedParts then
-			for i = #info.orderedParts, 1, -1 do
-				info.orderedParts[i]._rev = nil
-				info.orderedParts[i].owner = char.get("_id")
-				local ok = exports.essentialmode:createDocumentWithId("mechanic-part-orders", info.orderedParts[i].uuid, info.orderedParts[i])
-				if ok then
-					table.remove(info.orderedParts, i)
+		if info then
+			if info.orderedParts then
+				for i = #info.orderedParts, 1, -1 do
+					info.orderedParts[i]._rev = nil
+					info.orderedParts[i].owner = char.get("_id")
+					local ok = exports.essentialmode:createDocumentWithId("mechanic-part-orders", info.orderedParts[i].uuid, info.orderedParts[i])
+					if ok then
+						table.remove(info.orderedParts, i)
+					end
 				end
 			end
-		end
-		if info.deliveredParts then
-			for i = #info.deliveredParts, 1, -1 do
-				info.deliveredParts[i]._rev = nil
-				info.deliveredParts[i].owner = char.get("_id")
-				local ok = exports.essentialmode:createDocumentWithId("mechanic-part-deliveries", info.deliveredParts[i].uuid, info.deliveredParts[i])
-				if ok then
-					table.remove(info.deliveredParts, i)
+			if info.deliveredParts then
+				for i = #info.deliveredParts, 1, -1 do
+					info.deliveredParts[i]._rev = nil
+					info.deliveredParts[i].owner = char.get("_id")
+					local ok = exports.essentialmode:createDocumentWithId("mechanic-part-deliveries", info.deliveredParts[i].uuid, info.deliveredParts[i])
+					if ok then
+						table.remove(info.deliveredParts, i)
+					end
 				end
 			end
+			exports.essentialmode:updateDocument("mechanicjob", info._id, { deliveredParts = "deleteMePlz!", orderedParts = "deleteMePlz!" })
 		end
-		exports.essentialmode:updateDocument("mechanicjob", info._id, { deliveredParts = "deleteMePlz!", orderedParts = "deleteMePlz!" })
 	end)
 end)

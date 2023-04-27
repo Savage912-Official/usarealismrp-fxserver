@@ -151,6 +151,12 @@
                 "https://cdn.discordapp.com/attachments/1036595856989753345/1036625791842275368/unknown.png"
             ]
         },
+        "TikTok": {
+            "name": "TikTok",
+            "description": "Share photos and videos",
+            "removable": true,
+            "size": 223000
+        },
         "2048": {
             "name": "2048",
             "description": "Slide the tiles",

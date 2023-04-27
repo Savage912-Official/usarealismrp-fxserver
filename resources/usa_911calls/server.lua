@@ -199,6 +199,7 @@ RegisterServerEvent('911:NoTicketEnd')
 RegisterServerEvent('911:StolenTestDriveVehicle')
 RegisterServerEvent('911:ATMRobbery')
 RegisterServerEvent('911:IllegalRacing')
+RegisterServerEvent('911:SlashedTire')
 
 
 local DISPATCH_DELAY_PERIOD_SECONDS = 60
@@ -598,6 +599,14 @@ AddEventHandler('911:IllegalRacing', function(x, y, z)
     Citizen.Wait(time)
     local string = '^*Illegal Street Racing ^1^*|^r Caller reports race in progress. ^1^*|^r ^*Recommended Response:^r Interceptors, Air One, and Patrol Units.'
     Send911Notification({'sheriff', 'corrections'}, string, x, y, z, 'Illegal Street Race')
+end)
+
+AddEventHandler('911:SlashedTire', function(coords, plate, isMale, street)
+    if not recentCalls["Local Reports Tire Slashing"] then
+        recentCalls["Local Reports Tire Slashing"] = true
+        local string = '^*Local saw someone Slash a Tire:^r '..street..' ^1^*|^r ^*Plate:^r '..plate..' ^1^*|^r ^*Suspect:^r '..Gender(isMale)
+        Send911Notification({'sheriff', 'corrections'}, string, coords.x, coords.y, coords.z, 'Someone Slashed a Tire')
+    end
 end)
 
 RegisterServerEvent('carjack:playHandsUpOnAll')

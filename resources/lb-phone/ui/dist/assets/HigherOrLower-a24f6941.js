@@ -1,0 +1,1 @@
+import{j as r}from"./jsx-runtime-7cf68bf7.js";function o(e){return r("div",{className:"game-container",children:r("iframe",{className:"no-top",border:0,frameborder:0,marginheight:0,marginwidth:0,width:"288px",height:"512px",scrolling:0,allowtransparency:"true",src:"https://www.higherlowergame.com/"})})}export{o as default};

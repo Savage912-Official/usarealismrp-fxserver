@@ -1,0 +1,1 @@
+import{j as c,F as a}from"./jsx-runtime-7cf68bf7.js";function k(e){const s=e.checked;return c(a,{children:s?c("div",{className:"check checked",children:c("i",{className:"fas fa-check"})}):c("div",{className:"check"})})}export{k as C};

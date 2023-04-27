@@ -105,3 +105,4 @@ function FormatNumber(number)
     end
     return table.concat(result)
 end
+exports("FormatNumber", FormatNumber)

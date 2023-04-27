@@ -37,6 +37,6 @@
     },
     "apps": [
         ["Phone", "Messages", "Camera", "Photos"],
-        ["Settings", "AppStore", "Clock", "Garage", "Notes", "Calculator", "Weather", "Maps", "Wallet", "Music", "Mail", "Services"]
+        ["Settings", "AppStore", "Clock", "Garage", "Notes", "Calculator", "Weather", "Maps", "Wallet", "Home", "Music", "Mail", "Services"]
     ]
 }

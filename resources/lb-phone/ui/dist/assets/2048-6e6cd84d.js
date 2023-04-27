@@ -1,0 +1,1 @@
+import{j as e}from"./jsx-runtime-7cf68bf7.js";function a(){return e("div",{className:"game-container",style:{background:"#faf8ef"},children:e("iframe",{width:"288px",height:"512px",src:"https://funhtml5games.com/?embed=2048bit"})})}export{a as default};

@@ -1,0 +1,1 @@
+import{j as r}from"./jsx-runtime-7cf68bf7.js";function t(){return r("div",{className:"game-container",children:r("iframe",{border:0,frameborder:0,marginheight:0,marginwidth:0,width:"100%",height:"100%",scrolling:0,allowtransparency:"true",src:"https://freehtml5games.org/games/tetris-cube/index.html"})})}export{t as default};

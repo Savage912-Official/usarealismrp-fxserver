@@ -2,7 +2,7 @@ fx_version "cerulean"
 game "gta5"
 lua54 "yes"
 
-version "1.2.8"
+version "1.2.9"
 
 shared_scripts {
     '@ox_lib/init.lua',

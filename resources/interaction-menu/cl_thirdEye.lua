@@ -80,6 +80,8 @@ function onVehicleOptionSelect(a, buttonInfo, hitHandle)
         end
     elseif buttonInfo.label == "Stickers" then
         TriggerEvent("rcore_stickers:open")
+    elseif buttonInfo.label == "Slash Tire" then
+        exports.slashtires:TargetTireSlash(PlayerPedId())
     end
 end
 
@@ -387,6 +389,10 @@ function addCivVehicleOptions()
         {
             name = "tow",
             label = "Tow"
+        },
+        {
+            name = "slashtire",
+            label = "Slash Tire"
         },
     })
 end

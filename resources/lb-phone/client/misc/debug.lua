@@ -20,6 +20,8 @@ CreateThread(function()
     end, false)
 end)
 
+
+
 -- local control = 24
 -- local function DrawText(text)
 --     AddTextEntry(GetCurrentResourceName(), text)
@@ -30,6 +32,7 @@ end)
 --     SetTextDropShadow()
 --     EndTextCommandDisplayText(0.5, 0.5)
 -- end
+
 
 -- CreateThread(function()
 --     while true do

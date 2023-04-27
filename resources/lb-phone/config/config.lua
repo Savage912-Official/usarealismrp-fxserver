@@ -10,7 +10,7 @@ Config.Framework = "standalone"
         * ox: ox_core, https://github.com/overextended/ox_core
         * standalone: no framework, note that framework specific apps will not work unless you implement the functions
 ]]
-Config.CustomFramework = true -- if set to true and you use standalone, you will be able to use framework specific apps
+Config.CustomFramework = true -- if set to true and you use standalone, you will be able to use framework specific apps [DO NOT ENABLE UNLESS YOU HAVE CODING EXPERIENCE]
 
 Config.Item = {}
 Config.Item.Require = true -- require a phone item to use the phone
@@ -18,7 +18,7 @@ Config.Item.Name = "Cell Phone" -- name of the phone item
 
 Config.Item.Unique = false -- should each phone be unique? https://docs.lbphone.com/phone/configuration#unique-phones
 Config.Item.Inventory = "ox_inventory" --[[
-    The inventory you use
+    The inventory you use [ONLY CHOOSE THIS IF YOU'RE USING UNIQUE]
     Supported:
         * ox_inventory - https://github.com/overextended/ox_inventory
         * qb-inventory - https://github.com/qbcore-framework/qb-inventory
@@ -124,6 +124,7 @@ Config.HouseScript = "loaf_housing" --[[
 
 --[[ VOICE OPTIONS ]] --
 Config.Voice = {}
+Config.Voice.CallEffects = true
 Config.Voice.System = "mumble"
 --[[
     Supported voice systems:
@@ -145,9 +146,14 @@ Config.Voice.HearNearby = false --[[
     This feature is a work in progress and may not work as intended. It may have an impact on performance.
 ]]
 
+
+Config.Voice.RecordNearby = true --[[
+    Should video recordings include nearby players?
+]]
+
 --[[ PHONE OPTIONS ]] --
 Config.Locations = { -- Locations that'll appear in the maps app.
-    -- {
+      -- {
     --     position = vector2(428.9, -984.5),
     --     name = "MRPD",
     --     description = "Mission Row Police Department",
@@ -285,6 +291,62 @@ Config.PromoteTwitter = {}
 Config.PromoteTwitter.Enabled = true -- should you be able to promote tweets?
 Config.PromoteTwitter.Cost = 2500 -- how much does it cost to promote a tweet?
 Config.PromoteTwitter.Views = 100 -- how many views does a promoted tweet get?
+
+Config.TikTok = {}
+Config.TikTok.TTS = {
+    {"English (US) - Female", "en_us_001"},
+    {"English (US) - Male 1", "en_us_006"},
+    {"English (US) - Male 2", "en_us_007"},
+    {"English (US) - Male 3", "en_us_009"},
+    {"English (US) - Male 4", "en_us_010"},
+
+    {"English (UK) - Male 1", "en_uk_001"},
+    {"English (UK) - Male 2", "en_uk_003"},
+
+    {"English (AU) - Female", "en_au_001"},
+    {"English (AU) - Male", "en_au_002"},
+
+    {"French - Male 1", "fr_001"},
+    {"French - Male 2", "fr_002"},
+
+    {"German - Female", "de_001"},
+    {"German - Male", "de_002"},
+
+    {"Spanish - Male", "es_002"},
+
+    {"Spanish (MX) - Male", "es_mx_002"},
+
+    {"Portuguese (BR) - Female 2", "br_003"},
+    {"Portuguese (BR) - Female 3", "br_004"},
+    {"Portuguese (BR) - Male", "br_005"},
+
+    {"Indonesian - Female", "id_001"},
+
+    {"Japanese - Female 1", "jp_001"},
+    {"Japanese - Female 2", "jp_003"},
+    {"Japanese - Female 3", "jp_005"},
+    {"Japanese - Male", "jp_006"},
+
+    {"Korean - Male 1", "kr_002"},
+    {"Korean - Male 2", "kr_004"},
+    {"Korean - Female", "kr_003"},
+
+    {"Ghostface (Scream)", "en_us_ghostface"},
+    {"Chewbacca (Star Wars)", "en_us_chewbacca"},
+    {"C3PO (Star Wars)", "en_us_c3po"},
+    {"Stitch (Lilo & Stitch)", "en_us_stitch"},
+    {"Stormtrooper (Star Wars)", "en_us_stormtrooper"},
+    {"Rocket (Guardians of the Galaxy)", "en_us_rocket"},
+
+    {"Singing - Alto", "en_female_f08_salut_damour"},
+    {"Singing - Tenor", "en_male_m03_lobby"},
+    {"Singing - Sunshine Soon", "en_male_m03_sunshine_soon"},
+    {"Singing - Warmy Breeze", "en_female_f08_warmy_breeze"},
+    {"Singing - Glorious", "en_female_ht_f08_glorious"},
+    {"Singing - It Goes Up", "en_male_sing_funny_it_goes_up"},
+    {"Singing - Chipmunk", "en_male_m2_xhxs_m03_silly"},
+    {"Singing - Dramatic", "en_female_ht_f08_wonderful_world"}
+}
 
 Config.ICEServers = false -- ICE Servers for WebRTC (ig live, facetim). If you don't know what you're doing, leave this as false.
 

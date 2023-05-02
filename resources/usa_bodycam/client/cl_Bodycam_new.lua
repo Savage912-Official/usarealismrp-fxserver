@@ -19,7 +19,7 @@ CreateThread(function()
     while true do
         local sleep = 2500
         if bodycam then
-            local ped = GetPlayerPed(-1)
+            local ped = PlayerPedId()
             local veh = GetVehiclePedIsIn(ped, false)
             local isInVeh = false
             local plate = ""
@@ -70,10 +70,8 @@ end)
 local animation = false
 --Animation
 function Animation()
-    print("test")
-    local ped = GetPlayerPed(-1)
+    local ped = PlayerPedId()
     if not animation then
-        print("test2")
         animation = true
         RequestAnimDict("clothingtie")
         while (not HasAnimDictLoaded("clothingtie")) do Wait(0) end

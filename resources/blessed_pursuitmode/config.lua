@@ -8,7 +8,8 @@ Config.PursuitVehicles = {
 	"npolstang",
 	"npolvette",
 	"intchar",
-	"tolplam"
+	"tolplam",
+	"nm_avent"
 }
 
 -- If you want to allow your non pursuit emergency vehicle change mode to A+ you can edit line 14, 15 and 16.

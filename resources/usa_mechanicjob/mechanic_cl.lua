@@ -138,7 +138,7 @@ Citizen.CreateThread(function()
 			if IsPedInAnyVehicle(me) then
 				local veh = GetVehiclePedIsIn(me, false)
 				local vehModel = GetEntityModel(veh)
-				if vehModel == GetHashKey("flatbed") or vehModel == GetHashKey("isgtow") then
+				if vehModel == GetHashKey("flatbed") or vehModel == GetHashKey("isgtow") or vehModel == GetHashKey("fordflatbed") or vehModel == GetHashKey("wrecker") then
 					lastRecordedTimeDoingJob = GetGameTimer()
 				end
 			end
@@ -209,7 +209,7 @@ AddEventHandler('towJob:towVehicle', function()
 			local dist = #(GetEntityCoords(playerPed) - GetEntityCoords(veh))
 			if dist < 20 then
 				local model = GetEntityModel(veh)
-				if model == `flatbed` then
+				if model == GetHashKey("flatbed") or model == GetHashKey("fordflatbed") then
 					if closestTruckDist and closestTruckDist > dist then
 						toAttachTruck = veh
 						closestTruckDist = dist

@@ -489,6 +489,9 @@ RegisterServerCallback {
 		}
 		local orderedParts = (exports.essentialmode:getDocumentsByRows("mechanic-part-orders", query) or {})
 		orderedParts = updateDeliveryProgress(char, orderedParts)
+		table.sort(orderedParts, function(a, b)
+			return a.orderedTime < b.orderedTime
+		end)
 		return orderedParts
 	end
 }
@@ -501,6 +504,9 @@ RegisterServerCallback {
 			owner = char.get("_id")
 		}
 		local deliveries = (exports.essentialmode:getDocumentsByRows("mechanic-part-deliveries", query) or {})
+		table.sort(deliveries, function(a, b)
+			return a.orderedTime < b.orderedTime
+		end)
 		return deliveries
 	end
 }

@@ -95,7 +95,6 @@ locations = {
 }
 
 local VEHICLE_DAMAGES = {}
-closest_shop = nil
 
 Citizen.CreateThread(function()
     for _, info in pairs(locations) do
@@ -144,8 +143,7 @@ Citizen.CreateThread(function()
 					numberPlateText = exports.globals:trim(numberPlateText)
 					TriggerServerEvent("garage:storeVehicle", handle, numberPlateText, info["jobs"], info)
 				else
-					closest_shop = info
-					TriggerServerEvent("garage:openMenu", info["jobs"])
+					TriggerEvent("garage:openMenu", info["jobs"])
 				end
 			end
 		end
@@ -344,4 +342,18 @@ function hasChangedUnderglowColor(plate, currentRgb)
 	else
 		return false
 	end
+end
+
+function getNearestGarageCoords()
+	local mycoords = GetEntityCoords(PlayerPedId())
+	local closest = 1
+	local lastClosestDist = 9999999
+	for i = 1, #locations do
+		local dist = #(mycoords - vector3(locations[i].x, locations[i].y, locations[i].z))
+		if dist < lastClosestDist then
+			closest = i
+			lastClosestDist = dist
+		end
+	end
+	return locations[closest]
 end

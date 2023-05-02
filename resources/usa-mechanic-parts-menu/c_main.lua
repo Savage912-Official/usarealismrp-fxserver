@@ -91,11 +91,11 @@ AddEventHandler("mechanic:openMenu", function()
       eventName = "mechanic:loadMenuData",
       args = {}
    }
-   if not loadedItemImages then
-      loadedItemImages = true
-      mechData.itemImages = ITEM_IMAGES
-   end
    if mechData then
+      if not loadedItemImages then
+         loadedItemImages = true
+         mechData.itemImages = ITEM_IMAGES
+      end
       SendDataToApp(mechData)
       SetDisplay(not display, "base")
    end

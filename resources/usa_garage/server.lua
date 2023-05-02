@@ -312,3 +312,41 @@ function removeMoney(char, amount)
 		char.removeBank(amount, "LS Garage System")
 	end
 end
+
+RegisterServerCallback {
+	eventName = "garage:getVehicleList",
+	eventCallback = function(src)
+		local char = exports["usa-characters"]:GetCharacter(src)
+		local waiting = true
+		local ret = nil
+		local mycoords = GetEntityCoords(GetPlayerPed(src))
+		GetVehiclesForMenu(char.get("vehicles"), function(vehs)
+			for i = 1, #vehs do
+				if vehs[i].stored_location then
+					local varType = type(vehs[i].stored_location)
+					if varType == "string" then
+						vehs[i].storedStatus = vehs[i].stored_location
+					elseif varType == "table" then
+						if #(mycoords - vector3(vehs[i].stored_location.x, vehs[i].stored_location.y, vehs[i].stored_location.z)) > 15 then
+							vehs[i].storedStatus = "Other Garage"
+						else
+							vehs[i].storedStatus = "Stored"
+						end
+					end
+				elseif vehs[i].impounded == true then
+					vehs[i].storedStatus = "Impounded"
+				elseif vehs[i].stored == false then
+					vehs[i].storedStatus = "Not stored"
+				else
+					vehs[i].storedStatus = "Stored"
+				end
+			end
+			ret = vehs
+			waiting = false
+		end)
+		while waiting do
+			Wait(1)
+		end
+		return ret
+	end
+}

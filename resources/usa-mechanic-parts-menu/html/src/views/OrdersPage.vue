@@ -7,7 +7,7 @@
 				<tbody>
 				<tr
 				v-for="part in menuData.orderedParts"
-				:key="part.name"
+				:key="part.uuid"
 				>
 					<td width="23%" class="pa-0">
 						<v-img :src="getItemImage(part.name)" height="150px" width="200px"></v-img>

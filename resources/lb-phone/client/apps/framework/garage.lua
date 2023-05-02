@@ -122,11 +122,6 @@ RegisterNUICallback("Garage", function(data, cb)
 
     if action == "getVehicles" then
         lib.TriggerCallback("phone:garage:getVehicles", function(cars)
-            for i = 1, #cars do
-                cars[i].model = GetVehicleLabel(cars[i].model)
-                --If you're implementing your own lock system, you can use this to set the locked state
-                -- cars[i].locked = true
-            end
             cb(cars)
         end)
     elseif action == "valet" then

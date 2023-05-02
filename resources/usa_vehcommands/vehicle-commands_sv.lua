@@ -100,6 +100,11 @@ local VEHICLE_RANKS = {
 			allowedLiveries = {1, 2, 3, 4, 5},
 			hash = -989604086
 		},
+		["nm_avent"] = {
+			rank = 8,
+			allowedLiveries = {1, 2},
+			hash = 1765546396
+		},
 		["predator"] = {
 			rank = 1,
 			allowedLiveries = { 1 },
@@ -296,7 +301,7 @@ local VEHICLE_RANKS = {
 			rank = 5,
 			allowedLiveries = {1},
 			hash = GetHashKey("14suvrb")
-		},
+		}, 
 		["policet"] = {
 			rank = 1,
 			allowedLiveries = {1, 2, 3},
@@ -344,12 +349,12 @@ local VEHICLE_RANKS = {
 			allowedLiveries = { 1 },
 			hash = GetHashKey("buzzard2")
 		},
-		["ec145"] = {
+		["ec145med"] = {
 			rank = 1,
 			allowedLiveries = { 1, 2 },
 			hash = GetHashKey("ec145med")
 		},
-		["fd412"] = {
+		["safr412"] = {
 			rank = 1,
 			allowedLiveries = { 1, 2 },
 			hash = GetHashKey("safr412")

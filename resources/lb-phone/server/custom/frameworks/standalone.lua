@@ -223,7 +223,7 @@ CreateThread(function()
         end)
     end
 
-    TriggerEvent('es:addGroupCommand', 'toggleverified', "mod", function(source, args, char)
+    TriggerEvent('es:addGroupCommand', 'toggleverified', "owner", function(source, args, char)
         local app, username, verified = args[2], args[3], tonumber(args[4])
         if (app ~= "twitter" and app ~= "instagram") or (not username) or (verified ~= 1 and verified ~= 0) then
             Notify(source, "Invalid usage of /toggleverified")

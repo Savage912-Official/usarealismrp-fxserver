@@ -5,7 +5,7 @@ local VEHICLES = {
         COORDS = vector3(-1253.7752685547, -364.77194213867, 35.933825683594),
         HEADING = 295.0,
         PRICE = 190000,
-        CAPACITY = 185
+        CAPACITY = 180
     },
     {
         MODEL = "BMW M3 (e92)",
@@ -13,7 +13,7 @@ local VEHICLES = {
         COORDS = vector3(-1248.1538085938, -361.98043823242, 35.907482147217),
         HEADING = 115.0,
         PRICE = 135000,
-        CAPACITY = 200
+        CAPACITY = 180
     },
     {
         MODEL = "BMW M4 (f82)",
@@ -21,7 +21,7 @@ local VEHICLES = {
         COORDS = vector3(-1268.9112548828, -364.60543823242, 35.907493591309),
         HEADING = 117.0,
         PRICE = 180000,
-        CAPACITY = 200
+        CAPACITY = 220
     },
     {
         MODEL = "BMW M4 Widebody (f82lw)",
@@ -29,7 +29,7 @@ local VEHICLES = {
         COORDS = vector3(-1243.0841064453, -345.67370605469, 36.342809448242),
         HEADING = 211.0,
         PRICE = 190000,
-        CAPACITY = 200
+        CAPACITY = 220
     },
     {
         MODEL = "BMW M2",
@@ -37,7 +37,7 @@ local VEHICLES = {
         COORDS = vector3(-1270.4283447266, -358.63748168945, 35.907474517822),
         HEADING = 68.0,
         PRICE = 165000,
-        CAPACITY = 195
+        CAPACITY = 180
     },
     {
         MODEL = "2016 BMW X5 M",
@@ -45,7 +45,7 @@ local VEHICLES = {
         COORDS = vector3(-1265.2856445313, -354.64617919922, 35.907466888428),
         HEADING = 25.0,
         PRICE = 160000,
-        CAPACITY = 275
+        CAPACITY = 300
     },
     {
         MODEL = "BMW M5",
@@ -61,7 +61,7 @@ local VEHICLES = {
         COORDS = vector3(-1252.8897705078, -359.19836425781, 35.907455444336),
         HEADING = 115.0,
         PRICE = 245000,
-        CAPACITY = 170
+        CAPACITY = 120
     },
     {
         MODEL = "BMW M3 (e36)",
@@ -69,7 +69,7 @@ local VEHICLES = {
         COORDS = vector3(-1237.3372802734, -354.88641357422, 36.292712249756),
         HEADING = 24.0,
         PRICE = 70000,
-        CAPACITY = 160
+        CAPACITY = 180
     },
     {
         MODEL = "BMW M3 (e30)",
@@ -93,7 +93,7 @@ local VEHICLES = {
         COORDS = vector3(-1233.3747558594, -345.14904785156, 36.332824707031),
         HEADING = 114.0,
         PRICE = 80000,
-        CAPACITY = 165
+        CAPACITY = 160
     },
     {
         MODEL = "BMW M3 (e46)",
@@ -101,7 +101,7 @@ local VEHICLES = {
         COORDS = vector3(-1240.7839355469, -357.05194091797, 36.332832336426),
         HEADING = 21.0,
         PRICE = 80000,
-        CAPACITY = 165
+        CAPACITY = 180
     },
     {
         MODEL = "BMW M5 (e34)",
@@ -109,7 +109,7 @@ local VEHICLES = {
         COORDS = vector3(-1256.7427978516, -355.42782592773, 35.907447814941),
         HEADING = 120.0,
         PRICE = 90000,
-        CAPACITY = 165
+        CAPACITY = 220
     },
     --[[
     {

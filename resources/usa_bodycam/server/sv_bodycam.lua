@@ -1,4 +1,4 @@
-local POLICE_RANKS = {
+local GOV_RANKS = {
 	["SASP"] = {
 		[1] = "Cadet",
 		[2] = "Trooper",
@@ -26,21 +26,34 @@ local POLICE_RANKS = {
 		[9] = "Commander",
 		[10] = "Undersheriff",
 		[11] = "Sheriff"
+	},
+	["EMS"] = {
+		[1] = "Probationary Fire Paramedic",
+		[2] = "Fire Paramedic",
+		[3] = "Sr. Fire Paramedic",
+		[4] = "Engineer",
+		[5] = "Lieutenant",
+		[6] = "Captain",
+		[7] = "Battalion Chief",
+		[8] = "Assistant Fire Chief",
+		[9] = "Fire Chief"
 	}
 }
 
 function GetRankName(rank, dept)
 	local department = nil
-	if dept == "corrections" then 
+	if dept == "corrections" then
 		department = "BCSO"
-	elseif dept == "sheriff" then 
+	elseif dept == "sheriff" then
 		department = "SASP"
+	elseif dept == "ems" then
+		department = "EMS"
 	end
-	local retString = department .. " | " .. POLICE_RANKS[department][rank]
+	local retString = department .. " | " .. GOV_RANKS[department][rank]
 	return retString
 end
 
-TriggerEvent('es:addJobCommand', 'bodycam', { 'sheriff', "corrections"}, function(source, args, char)
+TriggerEvent('es:addJobCommand', 'bodycam', { 'sheriff', "corrections", "ems"}, function(source, args, char)
 	local char = exports["usa-characters"]:GetCharacter(source)
 	local name = char.getFullName()
 	local job = char.get("job")
@@ -55,6 +68,11 @@ TriggerEvent('es:addJobCommand', 'bodycam', { 'sheriff', "corrections"}, functio
 		local bcso_rank = char.get("bcsoRank")
 		if bcso_rank > 0 then
 			rank = GetRankName(bcso_rank, "corrections")
+		end
+	elseif job == "ems" then
+		local ems_rank = char.get("emsRank")
+		if ems_rank > 0 then
+			rank = GetRankName(ems_rank, "ems")
 		end
 	end
 	TriggerClientEvent("usa_bodycam:show", source, name, rank)

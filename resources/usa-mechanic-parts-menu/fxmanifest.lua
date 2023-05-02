@@ -1,8 +1,8 @@
 fx_version 'cerulean'
 game 'gta5'
 
-author 'alenvalek'
-description 'Vue boilerplate for building beautiful NUI-s'
+author 'alenvalek / minipunch'
+description 'mechanic parts menu based on alenvalek\'s vue/nui boilerplate'
 version '1.0.0'
 
 shared_scripts {

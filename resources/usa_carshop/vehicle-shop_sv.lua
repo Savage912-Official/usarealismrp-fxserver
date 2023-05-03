@@ -494,7 +494,7 @@ local vehicleShopItems = {
 			{make = "Chevrolet", model = "Nova", price = 70000, hash = "nova66", storage_capacity = 220.0},
 			{make = "Chevrolet", model = "Silverado (1986)", price = 56000, hash = "SILV86", storage_capacity = 340.0},
 			{make = "Chevrolet", model = "Silverado (Single Cab)", price = 70000, hash = "silv20", storage_capacity = 340.0},
-			{make = "Chevrolet", model = "Silverado 2500 (2011)", price 95000, hash = "fm11silv", storage_capacity = 340.0},
+			{make = "Chevrolet", model = "Silverado 2500 (2011)", price = 95000, hash = "fm11silv", storage_capacity = 340.0},
 			{make = "Chevrolet", model = "Silverado 2500 HD", price = 125000, hash = "silv2500hd", storage_capacity = 340.0},
 			{make = "Chevrolet", model = "Silverado 1500 (Lowered)", price = 65000, hash = "loweyezv", storage_capacity = 300.0},
 			{make = "Chevrolet", model = "Tahoe (2008)", price = 80000, hash = "tahoe08", storage_capacity = 280.0},

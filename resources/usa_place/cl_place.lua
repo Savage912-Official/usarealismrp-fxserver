@@ -13,27 +13,13 @@ end
 RegisterNetEvent("place:place")
 AddEventHandler("place:place", function(seatOption, placedByLEO, placerID)
 	local me = PlayerPedId()
+	local veh = exports.globals:getClosestVehicle(5.0)
+
 	if DoesEntityExist(me) then
-		local coordA = GetEntityCoords(me, 1)
-		local coordB = GetOffsetFromEntityInWorldCoords(me, 0.0, 20.0, 0.0)
-
-		local veh = exports.globals:getClosestVehicle(5.0)
-
-		if IsPedDeadOrDying(me, true) then
-			-- revive
-			TriggerEvent("death:allowRevive")
-			local start = GetGameTimer()
-			while GetGameTimer() - start < 1500 do
-				Wait(1)
-			end
-			-- place
+		if not IsPedDeadOrDying(me, true) then
 			_placeIntoVehicleInternal(me, veh, seatOption)
-			-- re-incapacitate
-			start = GetGameTimer()
-			while GetGameTimer() - start < 1000 do
-				Wait(1)
-			end
-			SetEntityHealth(me, 0)
+		elseif IsPedDeadOrDying(me, true) then
+			TriggerServerEvent("place:notifyPlacer", placerID, "Can't place yourself while downed!")
 		else
 			if placedByLEO then
 				_placeIntoVehicleInternal(me, veh, seatOption)

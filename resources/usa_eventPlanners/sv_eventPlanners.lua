@@ -41,3 +41,8 @@ TriggerEvent('es:addJobCommand', 'addblip', {'eventPlanner'}, function(source, a
 end, {
     help = "Add Temporary Event Blip To Map!",
 })
+
+RegisterNetEvent('usa_eventPlanners:server:addBlip')
+AddEventHandler('usa_eventPlanners:server:addBlip', function(blipData)
+    TriggerClientEvent('usa_eventPlanners:client:addBlip', -1, blipData)
+end)

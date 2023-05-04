@@ -80,8 +80,8 @@ function setup() {
         let link = $(this).data("link")
         if(copyTimeouts[id]) clearTimeout(copyTimeouts[id]);
 
-        window.open(link, '_blank', 'toolbar=0,location=0,menubar=0');
-        //copyToClipboard(link)
+        //window.open(link, '_blank', 'toolbar=0,location=0,menubar=0');
+        copyToClipboard(link)
 
         $(this).addClass("copied");
         copyTimeouts[id] = setTimeout(() => {

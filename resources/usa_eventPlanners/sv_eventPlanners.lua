@@ -34,3 +34,10 @@ AddEventHandler("playerDropped", function(reason)
         currentlySignedInPlayers[source] = nil
     end
 end)
+
+-- Temporary Blips --
+TriggerEvent('es:addJobCommand', 'addblip', {'eventPlanner'}, function(source, args, char)
+    TriggerClientEvent('usa_eventPlanners:client:blipDialog', source)
+end, {
+    help = "Add Temporary Event Blip To Map!",
+})

@@ -1,6 +1,3 @@
 [submodule "resources/[EmergencyBlips]"]
 	path = resources/[EmergencyBlips]
 	url = https://github.com/minipunch/EmergencyBlips
-[submodule "resources/[custom_maps]"]
-	path = resources/[custom_maps]
-	url = git@github.com:minipunch/usarrp-custom-maps.git

@@ -1,6 +1,6 @@
 local LOCATIONS = {
     {x = 1986.0, y = 3054.3, z = 47.3}, -- yellow jack
-    {x = -560.2, y = 286.7, z = 82.3}, -- tequilala
+    {x = -560.2, y = 286.7, z = 82.3}, -- Legacy Tavern
     {x = -1400.6872558594, y = -598.57208251953, z = 30.319957733154}, -- bahama mamas
     {x = 127.4, y = -1284.6, z = 29.3}, -- vanilla unicorn
     {x = -435.6, y = 273.24, z = 83.42}, -- comedy club

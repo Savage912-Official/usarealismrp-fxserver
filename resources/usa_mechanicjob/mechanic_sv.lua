@@ -9,8 +9,8 @@ local TOW_REWARD = {850, 1250}
 
 local TRUCKS_FOR_RANK = {
 	[1] = {"flatbed"},
-	[2] = {"flatbed"},
-	[3] = {"flatbed", "isgtow"}
+	[2] = {"flatbed", "fordflatbed"},
+	[3] = {"flatbed", "isgtow", "fordflatbed", "wrecker"}
 }
 
 local PARTS_FOR_RANK = {

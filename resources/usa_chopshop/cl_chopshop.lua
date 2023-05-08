@@ -23,12 +23,12 @@ Citizen.CreateThread(function()
   local handle = 0
   local display_name = "Undefined"
   while true do
-    Wait(0)
+    Citizen.Wait(0)
     local playerPed = PlayerPedId()
     local playerCoords = GetEntityCoords(playerPed)
     for i = 1, #drop_offs do
       DrawText3D(drop_offs[i].x, drop_offs[i].y, drop_offs[i].z, 10, '[E] - Drop-off Vehicle')
-      if IsControlJustPressed(1,KEY) and Vdist(playerCoords, drop_offs[i].x, drop_offs[i].y, drop_offs[i].z) < 3.0 then
+      if IsControlJustPressed(1,KEY) and #(playerCoords - vector3(drop_offs[i].x, drop_offs[i].y, drop_offs[i].z)) < 3.0 then
         if IsPedInAnyVehicle(playerPed, true) then
           local handle = GetVehiclePedIsIn(playerPed, true)
           if GetPedInVehicleSeat(handle, -1) == playerPed then
@@ -40,7 +40,7 @@ Citizen.CreateThread(function()
               local isMale = true
               if GetEntityModel(playerPed) == GetHashKey("mp_f_freemode_01") then
                 isMale = false
-              elseif GetEntityModel(playerPed) == GetHashKey("mp_m_freemode_01") then 
+              elseif GetEntityModel(playerPed) == GetHashKey("mp_m_freemode_01") then
                 isMale = true
               else
                 isMale = IsPedMale(playerPed)
@@ -57,7 +57,7 @@ Citizen.CreateThread(function()
             local beginTime = GetGameTimer()
             while GetGameTimer() - beginTime < chop_time do
               playerCoords = GetEntityCoords(playerPed)
-              if Vdist(playerCoords, drop_offs[i].x, drop_offs[i].y, drop_offs[i].z) < 15.0 then
+              if #(playerCoords - vector3(drop_offs[i].x, drop_offs[i].y, drop_offs[i].z)) < 15.0 then
                 DrawTimer(beginTime, chop_time, 1.42, 1.475, 'CHOPPING')
                 Citizen.Wait(0)
               else
@@ -70,7 +70,7 @@ Citizen.CreateThread(function()
             end
             if chopped then
               while securityToken == nil do
-								Wait(1)
+								Citizen.Wait(1)
 							end
               TriggerServerEvent("chopshop:reward", display_name, GetVehicleBodyDamage(handle), securityToken)
               SetEntityAsMissionEntity(handle, true, true)
@@ -78,9 +78,9 @@ Citizen.CreateThread(function()
               break
             end
           else
-            exports.globals:notify("Must be in driver seat!")  
+            exports.globals:notify("Must be in driver seat!")
           end
-        else 
+        else
           exports.globals:notify("Must be in a vehicle!")
         end
       end
@@ -94,13 +94,13 @@ end)
 Citizen.CreateThread(function()
   addBlips()
   while true do
-    Wait(0)
+    Citizen.Wait(0)
     local playerPed = PlayerPedId()
     local playerCoords = GetEntityCoords(playerPed)
     for i = 1, #peds do
       DrawText3D(peds[i].x, peds[i].y, peds[i].z + 1.0, 5, '[E] - Chop Shop')
-      if IsControlJustPressed(1, KEY) and Vdist(playerCoords, peds[i].x, peds[i].y, peds[i].z) < 3.0 then
-          TriggerEvent("usa:notify", "Bring me some vehicles!", "^3Pedro:^0 You can bring me any vehicle and we can hook you up with some cash!")
+      if IsControlJustPressed(1, KEY) and #(playerCoords - vector3(peds[i].x, peds[i].y, peds[i].z)) < 3.0 then
+        TriggerEvent("usa:notify", "Bring me some vehicles!", "^3Pedro:^0 You can bring me any vehicle and we can hook you up with some cash!")
       end
     end
   end
@@ -196,24 +196,25 @@ function addBlips()
     SetBlipScale(blip, 0.6)
     SetBlipAsShortRange(blip, true)
     BeginTextCommandSetBlipName("STRING")
-    AddTextComponentString("Chop Shop")
+    AddTextComponentSubstringPlayerName("Chop Shop")
     EndTextCommandSetBlipName(blip)
   end
 end
 
 function DrawText3D(x, y, z, distance, text)
-  if Vdist(GetEntityCoords(PlayerPedId()), x, y, z) < distance then
-    local onScreen,_x,_y=World3dToScreen2d(x,y,z)
+  if #(GetEntityCoords(PlayerPedId()) - vector3(x, y, z)) < distance then
+    local onScreen, _x, _y = GetScreenCoordFromWorldCoord(x, y, z)
+    local textLength = string.len(text)
+    local factor = textLength / 430
     SetTextScale(0.35, 0.35)
     SetTextFont(4)
     SetTextProportional(1)
     SetTextColour(255, 255, 255, 215)
-    SetTextEntry("STRING")
+    BeginTextCommandDisplayText("STRING")
     SetTextCentre(1)
-    AddTextComponentString(text)
-    DrawText(_x,_y)
-    local factor = (string.len(text)) / 430
-    DrawRect(_x,_y+0.0125, 0.015+factor, 0.03, 41, 11, 41, 68)
+    AddTextComponentSubstringPlayerName(text)
+    EndTextCommandDisplayText(_x, _y)
+    DrawRect(_x, _y + 0.0125, 0.015 + factor, 0.03, 41, 11, 41, 68)
   end
 end
 
@@ -232,30 +233,30 @@ function DrawTimer(beginTime, duration, x, y, text)
     local correction = ((1.0 - math.floor(GetSafeZoneSize(), 2)) * 100) * 0.005
     x, y = x - correction, y - correction
 
-    Set_2dLayer(0)
+    SetScriptGfxDrawOrder(0)
     DrawSprite('timerbars', 'all_black_bg', x, y, 0.15, 0.0325, 0.0, 255, 255, 255, 180)
 
-    Set_2dLayer(1)
+    SetScriptGfxDrawOrder(1)
     DrawRect(x + 0.0275, y, 0.085, 0.0125, 100, 0, 0, 180)
 
-    Set_2dLayer(2)
+    SetScriptGfxDrawOrder(2)
     DrawRect(x - 0.015 + (w / 2), y, w, 0.0125, 150, 0, 0, 180)
 
     SetTextColour(255, 255, 255, 180)
     SetTextFont(0)
     SetTextScale(0.3, 0.3)
     SetTextCentre(true)
-    SetTextEntry('STRING')
-    AddTextComponentString(text)
-    Set_2dLayer(3)
-    DrawText(x - 0.06, y - 0.012)
+    BeginTextCommandDisplayText('STRING')
+    AddTextComponentSubstringPlayerName(text)
+    SetScriptGfxDrawOrder(3)
+    EndTextCommandDisplayText(x - 0.06, y - 0.012)
 end
 
 function PlayChoppingSounds()
   Citizen.CreateThread(function()
     for i = 1, 5 do
       TriggerServerEvent("InteractSound_SV:PlayWithinDistance", 10, "chopshop", 0.3)
-      Wait(10000)
+      Citizen.Wait(10000)
     end
   end)
 end

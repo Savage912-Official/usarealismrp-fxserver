@@ -218,24 +218,23 @@ MechanicHelper.useRepairKit = function(veh, repairCount, cb)
             
             local passed = lib.skillCheck(todoSkillChecks)
             if passed then
-                TriggerServerEvent("usa:removeItem", "Repair Kit", 1)
                 SetVehicleDoorShut(veh, 4, false)
                 if not IsVehicleDriveable(veh, true) then
                     SetVehicleUndriveable(veh, false)
-                    SetVehicleEngineHealth(veh, 500.0)
+                    SetVehicleEngineHealth(veh, 650.0)
                 else
-                    SetVehicleEngineHealth(veh, 600.0)
+                    SetVehicleEngineHealth(veh, 850.0)
                 end
                 
                 FixAllTires(veh)
                 success = true
                 cb(true)
             else
-                if math.random() > 0.50 then
-                    TriggerServerEvent("usa:removeItem", "Repair Kit", 1)
-                    TriggerEvent("usa:notify", "Repair Kit have worn out!")
-                end
                 cb(false)
+            end
+	    if math.random() > 0.50 then
+                TriggerServerEvent("usa:removeItem", "Repair Kit", 1)
+                TriggerEvent("usa:notify", "Repair Kit has worn out!")
             end
             Wait(500)
             TriggerEvent("dpemotes:command", 'e', GetPlayerServerId(ped), {"c"})
@@ -250,10 +249,9 @@ MechanicHelper.installUpgrade = function(veh, upgrade, cb)
     TriggerEvent("interaction:setBusy", true)
     SetVehicleDoorOpen(veh, 4, false, false)
 
-    if lib.progressCircle({
+    if lib.progressBar({
         duration = Config.UPGRADE_INSTALL_TIME,
         label = 'Installing Part...',
-        position = 'bottom',
         useWhileDead = false,
         canCancel = true,
         disable = {
@@ -266,7 +264,7 @@ MechanicHelper.installUpgrade = function(veh, upgrade, cb)
             clip = MechanicHelper.animations.repair.name,
             flag = 39,
         },
-    }) then 
+    }) then
         if MechanicHelper.UPGRADE_FUNC_MAP[upgrade.id] then
             MechanicHelper.UPGRADE_FUNC_MAP[upgrade.id](veh, upgrade.increaseAmount) -- call appropriate native
         end
@@ -274,7 +272,7 @@ MechanicHelper.installUpgrade = function(veh, upgrade, cb)
         SetVehicleDoorShut(veh, 4, false)
         cb(true)
         TriggerEvent("interaction:setBusy", false)
-    else 
+    else
         cb(false)
         TriggerEvent("interaction:setBusy", false)
     end

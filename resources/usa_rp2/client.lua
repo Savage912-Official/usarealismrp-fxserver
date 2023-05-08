@@ -1000,6 +1000,11 @@ local STATIC_OBJECTS = {
     heading = 275.0,
     obj = ATM_MODEL2
   },
+  LEGACYTAVERN_ATM = {
+    coords = vector3(-563.4963, 280.9992, 81.07641),
+    heading = 175.0,
+    obj = ATM_MODEL2
+  },
   PRISON_TV = {
     coords = vector3(1749.0377197265625, 2478.02294921875, 44.60413619995117),
     heading = 30.0,
@@ -1042,13 +1047,25 @@ local STATIC_OBJECTS = {
   --]]
 }
 
-for name, info in pairs(STATIC_OBJECTS) do
-  info.handle = CreateObject(info.obj, info.coords.x, info.coords.y, info.coords.z, 0, 0, 0)
+for _, info in pairs(STATIC_OBJECTS) do
+  local handle = CreateObject(info.obj, info.coords.x, info.coords.y, info.coords.z, false, false, false)
+  info.handle = handle
   if info.heading then
-    SetEntityHeading(info.handle, info.heading)
+    SetEntityHeading(handle, info.heading)
   end
-  FreezeEntityPosition(info.handle, true)
+  FreezeEntityPosition(handle, true)
 end
+
+AddEventHandler('onResourceStop', function(resourceName)
+  if GetCurrentResourceName() == resourceName then
+    for _, info in pairs(STATIC_OBJECTS) do
+      if info.handle and DoesEntityExist(info.handle) then
+        DeleteObject(info.handle)
+        info.handle = nil
+      end
+    end
+  end
+end)
 
 -- Vehicle Neon Controls --
 local VehiclesWithNeons = {}
@@ -1169,5 +1186,21 @@ Citizen.CreateThread(function()
         lastPedWeSetConfigFor = me
     end
     Wait(1)
+  end
+end)
+
+-- Remove Legacy Tavern Peds --
+Citizen.CreateThread(function()
+  while true do
+    ClearAreaOfPeds(-556.6475, 286.6953, 82.17631, 25.0, 1)
+    Citizen.Wait(10000)
+  end
+end)
+
+-- Remove Legacy Tavern Music --
+Citizen.CreateThread(function()
+  while true do
+    SetStaticEmitterEnabled("collision_9qv4ecm", false)
+    Citizen.Wait(10000)
   end
 end)

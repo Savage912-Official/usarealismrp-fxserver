@@ -401,10 +401,9 @@ AddEventHandler("usa_police:checkwindowtint", function()
     if vehicle then
 		if not IsPedInVehicle(me, vehicle, false) then
 			TriggerEvent("dpemotes:command", 'e', GetPlayerServerId(PlayerId()), {"parkingmeter"})
-			if lib.progressCircle({
+			if lib.progressBar({
 				duration = 7 * 1000,
 				label = 'Checking Tint...',
-				position = 'bottom',
 				useWhileDead = false,
 				canCancel = true,
 				disable = {

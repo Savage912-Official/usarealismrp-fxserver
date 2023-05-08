@@ -71,10 +71,9 @@ AddEventHandler("crafting:beginCrafting", function(recipe)
         TriggerEvent("dpemotes:command", 'e', GetPlayerServerId(PlayerId()), {"weld"})
         ToggleGui()
 
-        if lib.progressCircle({
+        if lib.progressBar({
             duration = (recipe.craftDurationSeconds or Config.DEFAULT_CRAFT_DURATION_SECONDS) * 1000,
             label = 'Crafting...',
-            position = 'bottom',
             useWhileDead = false,
             canCancel = true,
             disable = {

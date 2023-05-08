@@ -97,7 +97,7 @@ PARTS = {
 		price = 5000,
 		quantity = 1,
 		weight = 50,
-    type = "mechanicPart"
+    	type = "mechanicPart"
 	},
 	["Underglow Kit"] = {
 		name = "Underglow Kit",

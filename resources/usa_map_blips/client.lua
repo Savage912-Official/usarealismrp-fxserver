@@ -91,7 +91,7 @@ local blips = {
 	{ title="Hospital", colour = 51, id = 61, scale = 0.7, x = -817.61511230469, y = -1236.6121826172, z = 7.3374252319336, group = "hospitals" }, -- viceroy medical
 	{ title="Hospital", colour = 51, id = 61, scale = 0.7, x = 360.5, y = -584.7, z = 28.8, group = "hospitals" }, -- pillbox medical
 	{ title="Vanilla Unicorn", colour = 50, id = 121, scale = 0.7, x=129.607, y=-1299.83, z=29.2327, group = "entertainment"},
-	{ title="Tequilala", colour = 15, id = 93, scale = 0.7, x=-564.778, y=274.195, z=83.0197, group = "entertainment"},
+	{ title="Legacy Tavern", colour = 15, id = 93, scale = 0.7, x=-564.778, y=274.195, z=83.0197, group = "entertainment"},
 	{ title="Bahama Mamas", colour = 15, id = 93, scale = 0.7, x=-1388.94, y=-585.919, z=29.2195, group = "entertainment" },
 	{ title="Comedy Club", colour = 4, id = 362, scale = 0.7, x = -429.9, y = 261.6, z = 83.0, group = "entertainment" },
 	{ title="Yellow Jack", colour = 15, id = 93, scale = 0.7, x = 1986.1, y = 3050.57, z = 47.2151, group = "entertainment" },

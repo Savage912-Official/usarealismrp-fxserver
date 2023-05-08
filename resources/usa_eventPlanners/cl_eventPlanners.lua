@@ -49,6 +49,8 @@ RegisterNetEvent('usa_eventPlanners:client:addBlip')
 AddEventHandler('usa_eventPlanners:client:addBlip', function(blipData)
     local x, y, z, name, duration, sprite, color = table.unpack(blipData)
     
+    name = "Event: " .. name
+    
     local blip = AddBlipForCoord(x, y, z)
     SetBlipSprite(blip, sprite)
     SetBlipColour(blip, color)

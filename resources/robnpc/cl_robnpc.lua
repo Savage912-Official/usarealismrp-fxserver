@@ -49,15 +49,15 @@ end
 
 function canRobOtherPed(me, targetPed)
     -- valid other ped? --
-    if not DoesEntityExist(targetPed) or not IsEntityAPed(targetPed) or IsPedInAnyVehicle(targetPed, true) or IsPedDeadOrDying(targetPed, true) or IsPedAPlayer(targetPed) then
+    if not DoesEntityExist(targetPed) or not isValidPedModel(targetPed) or not IsEntityAPed(targetPed) or IsPedInAnyVehicle(targetPed, true) or IsPedDeadOrDying(targetPed, true) or IsPedAPlayer(targetPed) then
         return false
     end
-    
+
     -- is player robbing with a valid weapon? --
     local selectedPedWeapon = GetSelectedPedWeapon(me)
     if prohibitedWeapons[selectedPedWeapon] then
         return false
-    else 
+    else
         return true
     end
 end
@@ -185,7 +185,7 @@ Citizen.CreateThread(function()
                                             end
                                         end
                                     end
-                                    
+
                                 end 
                                 break
                             end

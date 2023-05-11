@@ -166,12 +166,13 @@ end)
 -- help register towed vehicles for impounding for money when using the 'isgtow' model truck --
 Citizen.CreateThread(function()
 	local ISGTOW_HASH = GetHashKey("isgtow")
+	local WRECKER_HASH = GetHashKey("wrecker")
 	while true do
 		if onDuty == "yes" then
 			local me = PlayerPedId()
 			if IsPedInAnyVehicle(me, false) then
 				local myveh = GetVehiclePedIsIn(me, false)
-				if ISGTOW_HASH == GetEntityModel(myveh) then
+				if ISGTOW_HASH == GetEntityModel(myveh) or WRECKER_HASH == GetEntityModel(myveh) then
 					local towingveh = GetEntityAttachedToTowTruck(myveh)
 					if towingveh > 0 then
 						vehicleToImpound = towingveh
@@ -478,26 +479,34 @@ function ImpoundVehicle()
 	end
 end
 
-function SpawnHeavyHauler(coords)
-	local numberHash = 'isgtow' -- tow truck
+function SpawnJobVeh(coords, model, vehType)
+	local numberHash = GetHashKey(model)
+
 	Citizen.CreateThread(function()
 		RequestModel(numberHash)
+
 		while not HasModelLoaded(numberHash) do
 			RequestModel(numberHash)
 			Citizen.Wait(0)
 		end
+
 		local vehicle = CreateVehicle(numberHash, coords.x, coords.y, coords.z, coords.heading, true, false)
 		local vehPlate = GetVehicleNumberPlateText(vehicle)
 		vehPlate = exports.globals:trim(vehPlate)
+
 		TriggerServerEvent("fuel:setFuelAmount", vehPlate, 100)
 		SetVehicleOnGroundProperly(vehicle)
 		SetVehRadioStation(vehicle, "OFF")
 		SetEntityAsMissionEntity(vehicle, true, true)
 		SetVehicleExplodesOnHighExplosionDamage(vehicle, true)
-		SetVehicleExtra(vehicle, 1, false)
-		SetVehicleExtra(vehicle, 2, true)
-		SetVehicleExtra(vehicle, 3, true)
-		SetVehicleExtra(vehicle, 4, true)
+
+		if model == "isgtow" then
+			SetVehicleExtra(vehicle, 1, false)
+			SetVehicleExtra(vehicle, 2, true)
+			SetVehicleExtra(vehicle, 3, true)
+			SetVehicleExtra(vehicle, 4, true)
+		end
+
 		lastTowTruck = vehicle
 		lastRecordedTimeDoingJob = GetGameTimer()
 		local vehicle_key = {
@@ -506,53 +515,18 @@ function SpawnHeavyHauler(coords)
 			type = "key",
 			owner = "Bubba's Mechanic",
 			make = "MTL",
-			model = "Industrial",
+			model = vehType,
 			plate = vehPlate
 		}
 
 		-- give key to owner
 		TriggerServerEvent("garage:giveKey", vehicle_key)
-		TriggerServerEvent('mdt:addTempVehicle', 'MTL Flatbed', "Bubba's Mechanic Co.", vehPlate)
+		TriggerServerEvent('mdt:addTempVehicle', vehType, "Bubba's Mechanic Co.", vehPlate)
 
 		-- give repair kit to start with --
-		--TriggerServerEvent("mechanic:giveRepairKit", vehPlate)
-	end)
-end
-
-function SpawnTowFlatbed(coords)
-	local numberHash = 1353720154 -- tow truck
-	Citizen.CreateThread(function()
-		RequestModel(numberHash)
-		while not HasModelLoaded(numberHash) do
-			RequestModel(numberHash)
-			Citizen.Wait(0)
+		if vehType == "TowFlatbed" then
+			TriggerServerEvent("mechanic:giveRepairKit", vehPlate)
 		end
-		local vehicle = CreateVehicle(numberHash, coords.x, coords.y, coords.z, coords.heading, true, false)
-		local vehPlate = GetVehicleNumberPlateText(vehicle)
-		vehPlate = exports.globals:trim(vehPlate)
-		TriggerServerEvent("fuel:setFuelAmount", vehPlate, 100)
-		SetVehicleOnGroundProperly(vehicle)
-		SetVehRadioStation(vehicle, "OFF")
-		SetEntityAsMissionEntity(vehicle, true, true)
-		SetVehicleExplodesOnHighExplosionDamage(vehicle, true)
-		lastTowTruck = vehicle
-		lastRecordedTimeDoingJob = GetGameTimer()
-		local vehicle_key = {
-			name = "Key -- " .. vehPlate,
-			quantity = 1,
-			type = "key",
-			owner = "Bubba's Mechanic",
-			make = "MTL",
-			model = "Flatbed",
-			plate = vehPlate
-		}
-
-		-- give key to owner
-		TriggerServerEvent("garage:giveKey", vehicle_key)
-		TriggerServerEvent('mdt:addTempVehicle', 'MTL Flatbed', "Bubba's Mechanic Co.", vehPlate)
-
-		-- give repair kit to start with --
-		TriggerServerEvent("mechanic:giveRepairKit", vehPlate)
 	end)
 end
 

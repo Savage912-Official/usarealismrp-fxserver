@@ -1000,6 +1000,11 @@ local STATIC_OBJECTS = {
     heading = 275.0,
     obj = ATM_MODEL2
   },
+  MRPDINSIDE_ATM = {
+    coords = vector3(450.7041015625, -978.35429199219, 29.659582824707),
+    heading = 0.0,
+    obj = ATM_MODEL2
+  },
   LEGACYTAVERN_ATM = {
     coords = vector3(-563.4963, 280.9992, 81.07641),
     heading = 175.0,

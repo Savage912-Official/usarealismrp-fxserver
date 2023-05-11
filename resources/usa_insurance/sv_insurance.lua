@@ -1,6 +1,6 @@
 local INSURANCE_COVERAGE_MONTHLY_COST = 5000
 local BASE_FEE = 100
-local PERCENTAGE = 0.03
+local PERCENTAGE = 0.038
 
 RegisterServerEvent("insurance:buyInsurance")
 AddEventHandler("insurance:buyInsurance", function(userSource)
@@ -34,6 +34,11 @@ AddEventHandler("insurance:fileClaim", function(vehicle_to_claim)
 			local bank = char.get("bank")
 			local CLAIM_PROCESSING_FEE = math.floor(BASE_FEE + (PERCENTAGE * vehicle_to_claim.price))
 			if CLAIM_PROCESSING_FEE <= bank then
+				local policeImpoundInfo = exports.essentialmode:getDocument("police-impounded-vehicles", vehicle_to_claim.plate)
+				if policeImpoundInfo then
+					TriggerClientEvent("usa:notify", _source, "Cannot claim that", "^3INFO: ^0That vehicle is being held by police")
+					return
+				end
 				TriggerEvent('es:exposeDBFunctions', function(couchdb)
 					local inv = exports["usa_vehinv"]:GetVehicleInventory(vehicle_to_claim.plate)
 					inv.items = {}

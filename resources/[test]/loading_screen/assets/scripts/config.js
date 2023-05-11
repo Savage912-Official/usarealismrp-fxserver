@@ -22,3 +22,5 @@ Config.Categories = [
 
 // Music
 Config.Song = "song.mp3";
+
+Config.DEFAULT_VOLUME = 0.5

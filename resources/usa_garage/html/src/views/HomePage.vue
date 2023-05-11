@@ -26,7 +26,7 @@
 							<td>{{ veh.storedStatus }}</td>
 							<td>
 								<v-btn
-									color="primary"
+									:color="veh.storedStatus == 'Stored' ? 'primary' : 'secondary'"
 									elevation="2"
 									@click='sendData("retrieve", { vehicle: veh })'
 									>

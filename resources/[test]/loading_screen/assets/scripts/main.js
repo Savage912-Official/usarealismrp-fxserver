@@ -34,6 +34,7 @@ $(document).keydown(function(e) {
 
 var song;
 function setup() {
+
     let currentDate = new Date();
 
     let year = currentDate.getFullYear();
@@ -50,6 +51,7 @@ function setup() {
 
     // Music
     song = new Audio("assets/media/" + Config.Song);
+    song.volume = Config.DEFAULT_VOLUME
     song.play()
 
     // Categories
@@ -164,7 +166,7 @@ function onPlayerReady() {
         muted = !muted;
         clearInterval(interval)
         if(muted) {
-            let volume = 0.3;
+            let volume = Config.DEFAULT_VOLUME;
             interval = setInterval(() => {
                 if(volume > 0.00) {
                     volume -= 0.02
@@ -182,7 +184,7 @@ function onPlayerReady() {
                     song.volume = volume;
                 } else {
                     clearInterval(interval)
-                    song.volume = 0.3;
+                    song.volume = Config.DEFAULT_VOLUME;
                 }
             }, 1);
         }

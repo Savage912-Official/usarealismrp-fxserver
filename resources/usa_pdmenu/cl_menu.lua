@@ -153,7 +153,7 @@ function AddGarageMenuItems(menu, vehs, job)
 					    SetVehicleMod(spawnedVeh, 12, 2, false)
 						SetVehicleMod(spawnedVeh, 22, 1, false)
 						
-						if selectedVeh == "1200RT" then
+						if selectedVeh == "polbike3" then
 							ModifyVehicleTopSpeed(spawnedVeh, 0.0) -- reset first to avoid doubling up issue
         					ModifyVehicleTopSpeed(spawnedVeh, 30.0)
 						end

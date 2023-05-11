@@ -31,7 +31,7 @@ end)
 IsCar = function(veh)
             local vc = GetVehicleClass(veh)
             local model = GetEntityModel(veh)
-            return (vc >= 0 and vc <= 7) or (vc >= 9 and vc <= 12) or (vc >= 15 and vc <= 20) and model ~= GetHashKey("policeb") and model ~= GetHashKey("1200RT")
+            return (vc >= 0 and vc <= 7) or (vc >= 9 and vc <= 12) or (vc >= 15 and vc <= 20) and model ~= GetHashKey("polbike3")
         end
 
 Fwv = function (entity)

@@ -20,10 +20,10 @@ local function SpawnTruck(model)
 	for name, info in pairs(Config.Mechanic_Locations) do
 		local dutyCoordsVector = vector3(info.duty.x, info.duty.y, info.duty.z)
 		if Vdist(mycoords, dutyCoordsVector) < 10 then
-            if model == "isgtow" then
-                SpawnHeavyHauler(info.truck_spawn)
-            else
-                SpawnTowFlatbed(info.truck_spawn)  
+            if model == "isgtow" or model == "wrecker" then
+                SpawnJobVeh(info.truck_spawn, model, "HeavyHauler")
+            elseif model == "flatbed" or model == "fordflatbed" then
+                SpawnJobVeh(info.truck_spawn, model, "TowFlatbed")
             end
             isWindowOpened = false
             return

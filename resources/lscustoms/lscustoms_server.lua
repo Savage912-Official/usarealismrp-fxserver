@@ -110,7 +110,7 @@ AddEventHandler("LSC:buttonSelected", function(name, button, mname, business)
 		local job = char.get("job")
 		local charMoney = char.get("money")
 		local charBank = char.get("bank")
-		button.price = math.abs(button.price) -- prevent mem hack to gain money
+		button.price = math.abs(button.price) -- prevent hack to gain money
 		--[[
 		if mname ~= 'main' then
 			for menuname, contents in pairs(prices) do
@@ -388,3 +388,16 @@ function JobGetsDiscountedUpgrades(job)
 		return false
 	end
 end
+
+RegisterServerCallback { 
+	eventName = "lsc:getVehiclePrice",
+	eventCallback = function(src, plate)
+		plate = exports.globals:trim(plate)
+		local veh = exports.essentialmode:getDocument("vehicles", plate)
+		if veh then
+			return veh.price
+		else
+			return nil
+		end
+	end
+}

@@ -305,11 +305,11 @@ local function DriveInGarage()
 
 		LSCMenu:addSubMenu("CATEGORIES", "categories",nil, false)
 		LSCMenu.categories.buttons = {}
+
 		--Calculate price for vehicle repair and add repair  button
-		local maxvehhp = 1000
-		local damage = 0
-		damage = (maxvehhp - GetVehicleBodyHealth(veh))/100
-		LSCMenu:addPurchase("Repair vehicle",round(550+150*damage,0), "Full body repair and engine service.")
+		local repairPrice = getRepairCost(veh)
+
+		LSCMenu:addPurchase("Repair vehicle", repairPrice, "Full body repair and engine service.")
 
 		--Setup table for vehicle with all mods, colors etc.
 		SetVehicleModKit(veh,0)
@@ -767,7 +767,7 @@ local function DriveInGarage()
 			SetCamActive(cam, false)
 
 			--If vehicle is damaged then it will open repair menu
-			if IsVehicleDamaged(veh) then
+			if GetVehicleBodyHealth(veh) <= 960 or GetVehicleEngineHealth(veh) <= 700 then
 				LSCMenu:Open("main")
 			else
 				LSCMenu:Open("categories")
@@ -1756,3 +1756,26 @@ Citizen.CreateThread(function()
 		end
 	end
 end)
+
+function getRepairCost(veh)
+	local total = 0
+	local maxEngineBodyHp = 1000
+	-- scale based on MSRP
+	local price = TriggerServerCallback {
+		eventName = "lsc:getVehiclePrice",
+		args = { GetVehicleNumberPlateText(veh) }
+	}
+	if price then
+		-- body damage
+		local bodyDamage = (maxEngineBodyHp - GetVehicleBodyHealth(veh))/maxEngineBodyHp
+		local bodyRepairCost = math.floor(bodyDamage / 25 * price)
+		total = total + bodyRepairCost
+		-- engine damage
+		local engineDamage = (maxEngineBodyHp - GetVehicleEngineHealth(veh))/maxEngineBodyHp
+		local engineRepairCost = math.floor(engineDamage / 40 * price)
+		total = total + engineRepairCost
+	else
+		total = math.floor(500+150*(1000 - GetVehicleBodyHealth(veh))/100) -- this was the OG pricing calculation (currently used for non player owned vehs)
+	end
+	return total
+end

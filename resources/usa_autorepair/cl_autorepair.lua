@@ -99,6 +99,7 @@ Citizen.CreateThread(function()
 					local engineHp = GetVehicleEngineHealth(playerVeh)
 					local bodyHp = GetVehicleBodyHealth(playerVeh)
 					local canBeRepaired = engineHp < 1000.0 or bodyHp < 1000.0
+					local plate = GetVehicleNumberPlateText(playerVeh)
 					if canBeRepaired then
 						if GetIsVehicleEngineRunning(playerVeh) then
 							TriggerEvent('usa:notify', '~y~Vehicle engine must be off!')
@@ -107,7 +108,7 @@ Citizen.CreateThread(function()
 							while securityToken == nil do
 								Wait(1)
 							end
-							TriggerServerEvent('autoRepair:checkMoney', business, engineHp, bodyHp, securityToken)
+							TriggerServerEvent('autoRepair:checkMoney', plate, (business or false), engineHp, bodyHp, securityToken)
 							local begin = GetGameTimer()
 							while GetGameTimer() - begin < EVENT_TRIGGER_DELAY do
 								Wait(1)

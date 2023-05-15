@@ -380,7 +380,7 @@ const mdtApp = new Vue({
                 if (this.employee.job.rawName == "sheriff") {
                     return "sasp-badge.png"
                 } else if (this.employee.job.rawName == "corrections") {
-                    return "https://imgur.com/slnSzJQ.png"
+                    return "https://i.imgur.com/5eQsoOH.png"
                 }
             }
         }

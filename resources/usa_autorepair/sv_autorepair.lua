@@ -26,16 +26,18 @@ AddEventHandler("autoRepair:checkMoney", function(vehPlate, business, engineHp, 
 end)
 
 function CalculateRepairCost(engineHp, bodyHp, plate)
+  local repairCostScaleFactor = 0.7
   local total = 0
   local veh = exports.essentialmode:getDocument("vehicles", plate)
   local vehPrice = veh and veh.price or 25000
   -- body damage
   local bodyDamage = (1000 - bodyHp)/1000
-  local bodyRepairCost = math.floor(bodyDamage / 25 * vehPrice)
+  local bodyRepairCost = math.floor(bodyDamage / 30 * vehPrice)
   total = total + bodyRepairCost
   -- engine damage
   local engineDamage = (1000 - engineHp)/1000
   local engineRepairCost = math.floor(engineDamage / 40 * vehPrice)
   total = total + engineRepairCost
-  return total
+  total = total * repairCostScaleFactor
+  return math.floor(total)
 end

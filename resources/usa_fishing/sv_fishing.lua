@@ -1,12 +1,12 @@
 local fishItems = {
-  {name = "Trout", quantity = 1, worth = 105, type = "fish", weight = 5, legality = "legal"},
-  {name = "Flounder", quantity = 1, worth = 135, type = "fish", weight = 5, legality = "legal"},
-  {name = "Halibut", quantity = 1, worth = 155, type = "fish", weight = 5, legality = "legal"}
+  {name = "Trout", quantity = 1, worth = 350, type = "fish", weight = 5, legality = "legal"},
+  {name = "Flounder", quantity = 1, worth = 450, type = "fish", weight = 5, legality = "legal"},
+  {name = "Halibut", quantity = 1, worth = 575, type = "fish", weight = 5, legality = "legal"}
 }
 
 local seaFishItems = {
-  {name = "Yellowfin Tuna", quantity = 1, worth = 300, type = "seafish", weight = 15, legality = "legal"},
-  {name = "Swordfish", quantity = 1, worth = 400, type = "seafish", weight = 20, legality = "legal"}
+  {name = "Yellowfin Tuna", quantity = 1, worth = 650, type = "seafish", weight = 15, legality = "legal"},
+  {name = "Swordfish", quantity = 1, worth = 750, type = "seafish", weight = 20, legality = "legal"}
 }
 
 RegisterServerEvent("fish:giveFish")

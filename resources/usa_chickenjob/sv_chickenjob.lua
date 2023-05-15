@@ -1,4 +1,4 @@
-local PAY_PER_CHICKEN_MEAT = 60
+local PAY_PER_CHICKEN_MEAT = 250
 local KILL = {}
 
 local chickenItems = {

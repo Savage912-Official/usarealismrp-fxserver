@@ -45,7 +45,7 @@ AddEventHandler("vehicleCommands:spawnVehicle", function(modelName, userJob)
 
 	local plate = GetVehicleNumberPlateText(vehicle)
 	TriggerServerEvent('mdt:addTempVehicle', 'Govt. Vehicle [' .. userJob .. ']', "", plate)
-
+        TriggerServerEvent("fuel:setFuelAmount", plate, 100)
 end)
 
 RegisterNetEvent("vehicleCommands:setLivery")

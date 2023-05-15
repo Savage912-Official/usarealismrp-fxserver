@@ -1758,6 +1758,7 @@ Citizen.CreateThread(function()
 end)
 
 function getRepairCost(veh)
+	local repairCostScaleFactor = 0.7
 	local total = 0
 	local maxEngineBodyHp = 1000
 	-- scale based on MSRP
@@ -1768,14 +1769,15 @@ function getRepairCost(veh)
 	if price then
 		-- body damage
 		local bodyDamage = (maxEngineBodyHp - GetVehicleBodyHealth(veh))/maxEngineBodyHp
-		local bodyRepairCost = math.floor(bodyDamage / 25 * price)
+		local bodyRepairCost = math.floor(bodyDamage / 30 * price)
 		total = total + bodyRepairCost
 		-- engine damage
 		local engineDamage = (maxEngineBodyHp - GetVehicleEngineHealth(veh))/maxEngineBodyHp
 		local engineRepairCost = math.floor(engineDamage / 40 * price)
 		total = total + engineRepairCost
+		total = total * repairCostScaleFactor
 	else
 		total = math.floor(500+150*(1000 - GetVehicleBodyHealth(veh))/100) -- this was the OG pricing calculation (currently used for non player owned vehs)
 	end
-	return total
+	return math.floor(total)
 end

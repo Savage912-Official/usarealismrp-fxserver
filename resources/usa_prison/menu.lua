@@ -19,6 +19,7 @@ local vehicles = {
   { name = "2016 Ford Taurus", hash = GetHashKey("p16tau") },
   { name = "2018 Dodge Charger", hash = GetHashKey("p18char") },
   { name = "2018 Ford F-250", hash = GetHashKey("p18xl") },
+  { name = "2018 Ford F-150 Raptor", hash = GetHashKey("GC18Raptor") },
   { name = "2020 Ford Explorer", hash = GetHashKey("p20exp") },
   { name = "2020 Chevorlet Tahoe", hash = GetHashKey("p20tah") },
   { name = "2021 Dodge Durango", hash = GetHashKey("p21dur") },

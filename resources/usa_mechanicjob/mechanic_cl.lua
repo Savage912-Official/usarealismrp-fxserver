@@ -11,6 +11,9 @@ local lastRecordedTimeDoingJob = 0
 
 local isRepairing = false
 
+local lastTowedVehicleCoords = nil
+local lastTowedVehicleModel = nil
+
 local KEYS = {
 	E = 38,
 	V = 0
@@ -234,6 +237,14 @@ AddEventHandler('towJob:towVehicle', function()
 				local towTruckCoords = GetEntityCoords(toAttachTruck, true)
 				if Vdist(targetVehicleCoords, towTruckCoords) < 12.0 and IsVehicleWhitelisted(targetVehicle) then
 					if toAttachTruck ~= targetVehicle and IsVehicleSeatFree(targetVehicle, -1) then
+						local targetVehCoords = GetEntityCoords(targetVehicle)
+						local targetVehModel = GetEntityModel(targetVehicle)
+						if (lastTowedVehicleCoords and lastTowedVehicleModel) and #(targetVehCoords - lastTowedVehicleCoords) <= 2 and targetVehModel == lastTowedVehicleModel then
+							exports.globals:notify("Can't tow that", "^3INFO: ^0Can't tow that!")
+							return
+						end
+						lastTowedVehicleCoords = targetVehCoords
+						lastTowedVehicleModel = targetVehModel
 						local dict = "mini@repair"
 						RequestAnimDict(dict)
 						while not HasAnimDictLoaded(dict) do Citizen.Wait(100) end

@@ -85,7 +85,7 @@ Citizen.CreateThread(function()
     while true do
         if nearMarker(purchase_location.x, purchase_location.y, purchase_location.z, 3) then
             exports.globals:DrawText3D(purchase_location.x, purchase_location.y, purchase_location.z, '[E] - Sell Goods | [H] - Hint')
-            if IsControlJustPressed(0, 86) then
+            if IsControlJustPressed(0, 86) and not IsPedInAnyVehicle(PlayerPedId()) then
                 local thisSellTime = BASE_SELL_TIME + math.random(1000, 5000)
                 local beginTime = GetGameTimer()
                 while GetGameTimer() - beginTime < thisSellTime do

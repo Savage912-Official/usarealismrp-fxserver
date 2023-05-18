@@ -87,27 +87,29 @@ local data = {
 }
 
 CreateThread(function()
-    speakerEffect = CreateAudioSubmix("phonespeaker")
-    SetAudioSubmixEffectRadioFx(speakerEffect, 0)
-    SetAudioSubmixEffectParamInt(speakerEffect, 0, `default`, 1)
-
-    callEffect = CreateAudioSubmix("phonecall")
-    SetAudioSubmixEffectRadioFx(callEffect, 0)
-    SetAudioSubmixEffectParamInt(callEffect, 0, `default`, 1)
-
-    for hash, value in pairs(data) do
-        SetAudioSubmixEffectParamFloat(speakerEffect, 0, hash, value)
-        SetAudioSubmixEffectParamFloat(callEffect, 0, hash, value)
+    if Config.Voice.CallEffects then
+        speakerEffect = CreateAudioSubmix("phonespeaker")
+        SetAudioSubmixEffectRadioFx(speakerEffect, 0)
+        SetAudioSubmixEffectParamInt(speakerEffect, 0, `default`, 1)
+    
+        callEffect = CreateAudioSubmix("phonecall")
+        SetAudioSubmixEffectRadioFx(callEffect, 0)
+        SetAudioSubmixEffectParamInt(callEffect, 0, `default`, 1)
+    
+        for hash, value in pairs(data) do
+            SetAudioSubmixEffectParamFloat(speakerEffect, 0, hash, value)
+            SetAudioSubmixEffectParamFloat(callEffect, 0, hash, value)
+        end
+    
+        SetAudioSubmixEffectParamFloat(speakerEffect, 0, `rm_mix`, 0.15)
+        SetAudioSubmixEffectParamFloat(callEffect, 0, `rm_mix`, 0.05)
+    
+        SetAudioSubmixOutputVolumes(speakerEffect, 0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0)
+        SetAudioSubmixOutputVolumes(callEffect, 0, 0.25, 1.0, 0.0, 0.0, 1.0, 1.0)
+    
+        AddAudioSubmixOutput(speakerEffect, 0)
+        AddAudioSubmixOutput(callEffect, 0)
     end
-
-    SetAudioSubmixEffectParamFloat(speakerEffect, 0, `rm_mix`, 0.15)
-    SetAudioSubmixEffectParamFloat(callEffect, 0, `rm_mix`, 0.05)
-
-    SetAudioSubmixOutputVolumes(speakerEffect, 0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0)
-    SetAudioSubmixOutputVolumes(callEffect, 0, 0.25, 1.0, 0.0, 0.0, 1.0, 1.0)
-
-    AddAudioSubmixOutput(speakerEffect, 0)
-    AddAudioSubmixOutput(callEffect, 0)
 end)
 
 local voiceTargets = {}

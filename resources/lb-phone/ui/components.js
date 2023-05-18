@@ -46,6 +46,13 @@ if (!window.componentsLoaded) {
     }
     window.setContextMenu = SetContextMenu;
 
+    function SetContactModal(number) {
+        if (!number) return;
+
+        fetchNui('SetContactModal', number, 'lb-phone');
+    }
+    window.setContactModal = SetContactModal;
+
     function UseComponent(cb, data) {
         if (!cb || !data?.component) return;
 

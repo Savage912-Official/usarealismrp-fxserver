@@ -22,7 +22,7 @@ local function FindCarLocation(minDist)
 end
 
 local function BringCar(data, cb)
-    local location, heading = FindCarLocation(100)
+    local location, heading = FindCarLocation(50)
     if not location then
         debugprint("No location found")
         return

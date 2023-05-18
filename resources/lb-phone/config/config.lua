@@ -147,7 +147,7 @@ Config.Voice.HearNearby = false --[[
 ]]
 
 
-Config.Voice.RecordNearby = false --[[
+Config.Voice.RecordNearby = true --[[
     Should video recordings include nearby players?
 ]]
 

@@ -53,7 +53,7 @@ USARRP
 		end)
 		```
 7) Create your CouchDB database views (see below view definitions). For more information about views: https://docs.couchdb.org/en/3.2.0/ddocs/views/index.html
-8) Download and install [MySQL 5.7](https://dev.mysql.com/downloads/mysql/5.7.html)
+8) Download and install [MariaDB 10.11.3](https://mariadb.org/download/?t=mariadb&p=mariadb&r=11.1.0&os=windows&cpu=x86_64&pkg=msi&m=xtom_fre)
 9) Set up a user with password (used in step 11)
 10) Create a new MySQL database the scripts will use (name of DB used in following step)
 11) Create a new file named `mysql_connection_string.cfg` in the `usarealismrp-fxserver` folder

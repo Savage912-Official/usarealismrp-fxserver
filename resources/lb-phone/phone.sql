@@ -203,8 +203,9 @@ CREATE TABLE IF NOT EXISTS `phone_phone_contacts` (
     `firstname` VARCHAR(50) NOT NULL DEFAULT "",
     `lastname` VARCHAR(50) NOT NULL DEFAULT "",
     `profile_image` VARCHAR(200) DEFAULT NULL,
+    `email` VARCHAR(50) DEFAULT NULL,
+    `address` VARCHAR(50) DEFAULT NULL,
     `favourite` BOOLEAN DEFAULT FALSE,
-
     `phone_number` VARCHAR(15) NOT NULL, -- the phone number of the person who added the contact
 
     PRIMARY KEY (`contact_phone_number`, `phone_number`)
@@ -308,7 +309,6 @@ CREATE TABLE IF NOT EXISTS `phone_instagram_likes` (
     `is_comment` BOOLEAN NOT NULL DEFAULT FALSE, -- whether this like was on a comment or a post
     
     PRIMARY KEY (`id`, `username`),
-    FOREIGN KEY (`id`) REFERENCES `phone_instagram_posts`(`id`) ON DELETE CASCADE,
     FOREIGN KEY (`username`) REFERENCES `phone_instagram_accounts`(`username`) ON DELETE CASCADE ON UPDATE CASCADE
 ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -340,8 +340,7 @@ CREATE TABLE IF NOT EXISTS `phone_instagram_notifications` (
 
     PRIMARY KEY (`id`),
     FOREIGN KEY (`username`) REFERENCES `phone_instagram_accounts`(`username`) ON DELETE CASCADE ON UPDATE CASCADE,
-    FOREIGN KEY (`from`) REFERENCES `phone_instagram_accounts`(`username`) ON DELETE CASCADE ON UPDATE CASCADE,
-    FOREIGN KEY (`post_id`) REFERENCES `phone_instagram_posts`(`id`) ON DELETE CASCADE
+    FOREIGN KEY (`from`) REFERENCES `phone_instagram_accounts`(`username`) ON DELETE CASCADE ON UPDATE CASCADE
 ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `phone_instagram_stories` (

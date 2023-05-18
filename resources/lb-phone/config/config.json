@@ -151,6 +151,12 @@
                 "https://cdn.discordapp.com/attachments/1036595856989753345/1036625791842275368/unknown.png"
             ]
         },
+        "Crypto": {
+            "name": "Crypto",
+            "description": "Track your crypto portfolio",
+            "removable": true,
+            "size": 256700
+        },
         "TikTok": {
             "name": "TikTok",
             "description": "Share photos and videos",

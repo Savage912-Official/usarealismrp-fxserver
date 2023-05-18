@@ -155,7 +155,7 @@ CreateThread(function()
                             location = "Impounded"
                         end
                         local fuel = 100.0
-                        if data.rows[i].value[8] ~= nil then
+                        if data.rows[i].value[8] and data.rows[i].value[8].fuel then
                             fuel = data.rows[i].value[8].fuel
                         end
                         local veh = {

@@ -22,6 +22,7 @@ AddEventHandler('vns_cs_wheel:getwheel', function()
 				if not playerSpinRecord[char.get("_id")] then
 					TriggerEvent("vns_cs_wheel:startwheel", char, source)
 					char.removeMoney(Config.SpinMoney)
+					exports["usa-businesses"]:GiveBusinessCashPercent("Casino", Config.SpinMoney)
 				else
 					TriggerClientEvent("usa:notify", source, "You've already used your daily spin", "INFO: You've already used your daily spin")
 				end

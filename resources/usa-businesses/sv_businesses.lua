@@ -187,6 +187,33 @@ AddEventHandler("business:lease", function(name)
   end)
 end)
 
+RegisterNetEvent("usa-businesses:server:resetcharbusinesses")
+AddEventHandler("usa-businesses:server:resetcharbusinesses", function(char_identifier)
+  TriggerEvent("es:exposeDBFunctions", function(db)
+    local query = {
+      owner = {
+        identifiers = {
+          id = char_identifier
+        }
+      }
+    }
+    db.findDocuments("businesses", { selector = query }, function(docs)
+      for i = 1, #docs do
+        local doc = docs[i]
+        if doc.owner and doc.owner.identifiers and doc.owner.identifiers.id == char_identifier then
+          db.updateDocument("businesses", doc._id, { owner = {} }, function(err)
+            if not err then
+              print("Owner reset for " .. doc._id .. "!")
+            end
+          end)
+        end
+      end
+    end, function(err)
+      print("Error finding documents: " .. tostring(err))
+    end)
+  end)
+end)
+
 AddEventHandler("character:loaded", function(char)
   -- grab all owned businesses with this char's identifier and send their positions to the client for adding blips to map
   loadCharBusinesses(char)

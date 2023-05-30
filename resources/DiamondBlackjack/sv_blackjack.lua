@@ -15,7 +15,7 @@ function tryTakeChips(source, amount)
     --returns true if taken 'chips' succesfully
     --returns false if doesn't have enough 'chips'
     if amount > MAX_BET then
-        TriggerClientEvent("usa:notify", source, "Max bet of $500k exceeded")
+        TriggerClientEvent("usa:notify", source, "Max bet of $100k exceeded")
         return
     end
     local char = exports["usa-characters"]:GetCharacter(source)
@@ -259,6 +259,7 @@ for i=0,31,1 do
                                                     nextCardCount = 0
                                                     blackjackGameData[gameId][source]["status"] = "bust"
                                                     local lostAmount = blackjackGameData[gameId][source][1]
+                                                    exports["usa-businesses"]:GiveBusinessCashPercent("Casino", lostAmount)
                                                     TriggerClientEvent("blackjack:notify",source,"~r~-"..tostring(lostAmount).." chips")
                                                     if lostAmount > 10000000 then
                                                         TriggerClientEvent('chatMessage', -1, "Diamond Casino | " .. GetPlayerName(source) .. " has LOST " .. tostring(getMoneyStringFormatted(lostAmount)) .. " chips!")
@@ -404,6 +405,7 @@ for i=0,31,1 do
                                                         if playerPing > 0 then
                                                             TriggerClientEvent("Blackjack:blackjackLose",source,tableId)
                                                             TriggerClientEvent("blackjack:notify",source,"~r~-"..tostring(potentialPushAmount).." chips")
+                                                            exports["usa-businesses"]:GiveBusinessCashPercent("Casino", potentialPushAmount)
                                                             if potentialPushAmount > 10000000 then
                                                                 TriggerClientEvent('chatMessage', -1, "Diamond Casino | " .. GetPlayerName(source) .. " has LOST " .. tostring(getMoneyStringFormatted(potentialPushAmount)) .. " chips!")
                                                             end

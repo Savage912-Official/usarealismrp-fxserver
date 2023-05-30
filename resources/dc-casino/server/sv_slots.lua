@@ -82,6 +82,7 @@ RegisterNetEvent('dc-casino:slots:server:spin', function(ChosenBetAmount)
     if not SlotReferences[SlotModel].betamounts[ChosenBetAmount] then return end
     if UseCash and char.get("money") > SlotReferences[SlotModel].betamounts[ChosenBetAmount] then 
         char.removeMoney(SlotReferences[SlotModel].betamounts[ChosenBetAmount])
+        exports["usa-businesses"]:GiveBusinessCashPercent("Casino", SlotReferences[SlotModel].betamounts[ChosenBetAmount])
     else 
         TriggerClientEvent('usa:notify', src, 'No cash to bet with!') 
         return 

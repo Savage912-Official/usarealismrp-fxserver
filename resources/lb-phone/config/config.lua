@@ -70,9 +70,9 @@ Config.Companies.Services = {
         location = nil
     },
     {
-        job = "taxi",
-        name = "Taxi",
-        icon = "https://w7.pngwing.com/pngs/82/433/png-transparent-taxi-yellow-cab-taxi-text-logo-sign.png",
+        job = "uber",
+        name = "Uber",
+        icon = "https://i.imgur.com/IMEd71C.png",
         canCall = true, -- if true, players can call the company
         canMessage = true, -- if true, players can message the company
         bossRanks = {}, -- ranks that can manage the company

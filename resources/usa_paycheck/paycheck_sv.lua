@@ -74,8 +74,6 @@ function DepositPayCheck(char)
         elseif rank == 9 then
             paycheckAmount = 1800 -- Fire Chief
         end
-    elseif job == "taxi" then
-        paycheckAmount = 800
     elseif job == "mechanic" then
         paycheckAmount = 1000
     elseif job == "reporter" then
@@ -151,9 +149,7 @@ function DepositPayCheck(char)
     else
         msg = msg .. "check "
     end
-    if job == "taxi" then
-        msg = msg .. "of $" .. paycheckAmount .. " from ~y~Downtown Cab Co.~s~."
-    elseif job == "mechanic" then
+    if job == "mechanic" then
         msg = msg .. "of $" .. paycheckAmount .. " from ~y~Bubba's Mechanic Co.~s~."
     elseif job == "reporter" then
         msg = msg .. "of $" .. paycheckAmount .. " from ~y~Weazel News~s~."
@@ -188,8 +184,8 @@ function myJob(job, source)
     if job == "civ" then
         TriggerClientEvent('usa:notify', source,
                            "You do not currently work for any companies.")
-    elseif job == "taxi" then
-        TriggerClientEvent('usa:notify', source, "You currently work for ~y~Downtown Cab Co~s~.")
+    elseif job == "uber" then
+        TriggerClientEvent('usa:notify', source, "You currently work for ~y~Uber~s~.")
     elseif job == "mechanic" then
         TriggerClientEvent('usa:notify', source, "You currently work for ~y~Bubba's Mechanic Co.~s~.")
     elseif job == "sheriff" then

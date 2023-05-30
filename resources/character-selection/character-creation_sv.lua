@@ -73,6 +73,8 @@ AddEventHandler("character:delete", function(data)
 	if characterAge >= 3 then
 		DeleteCharacterById(id, rev, function()
 			print("Done deleting character with id: " .. id .. ".")
+			TriggerEvent("usa-properties-og:server:resetcharproperties", id)
+			TriggerEvent("usa-businesses:server:resetcharbusinesses", id)
 			TriggerEvent("character:getCharactersAndOpenMenu", "home", usource)
 		end)
 	else

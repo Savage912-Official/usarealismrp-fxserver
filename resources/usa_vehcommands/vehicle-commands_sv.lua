@@ -40,10 +40,10 @@ local VEHICLE_RANKS = {
 			allowedLiveries = {1, 2, 3},
 			hash = GetHashKey("p18xl")
 		},
-		["GC18Raptor"] = {
+		["trx"] = {
 			rank = 5,
 			allowedLiveries = { 1 },
-			hash = GetHashKey("GC18Raptor")
+			hash = GetHashKey("trx")
 		},
 		["polbike3"] = {
 			rank = 2,
@@ -202,10 +202,10 @@ local VEHICLE_RANKS = {
 			allowedLiveries = {1, 2, 3},
 			hash = GetHashKey("p18xl")
 		},
-		["GC18Raptor"] = {
+		["trx"] = {
 			rank = 5,
 			allowedLiveries = { 1 },
-			hash = GetHashKey("GC18Raptor")
+			hash = GetHashKey("trx")
 		},
 		["polbike3"] = {
 			rank = 2,

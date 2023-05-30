@@ -388,7 +388,11 @@ end
 
 function getNameFromCharId(id)
 	local char = exports.essentialmode:getDocument("characters", id)
-	return char.name.first .. " " .. char.name.last
+	if char then
+		return char.name.first .. " " .. char.name.last
+	else
+		return nil
+	end
 end
 
 function fetchLeaderboard()
@@ -400,7 +404,9 @@ function fetchLeaderboard()
 	for i = 1, 50 do
 		if allMechanics[i] then
 			allMechanics[i].name = getNameFromCharId(allMechanics[i].owner_identifier)
-			table.insert(only50, allMechanics[i])
+			if allMechanics[i].name then
+				table.insert(only50, allMechanics[i])
+			end
 		end
 	end
 	return only50

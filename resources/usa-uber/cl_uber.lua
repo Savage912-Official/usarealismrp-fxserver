@@ -1,16 +1,10 @@
-local taxi_duty_locations = {
+local uber_duty_locations = {
 	["Los Santos"] = {
 			duty = {
 				x = 894.74,
 				y = -180.43,
 				z = 73.8,
 				heading = 260.0
-			},
-			spawn = {
-				x = 899.63,
-				y = -180.77,
-				z = 73.79,
-				heading = 236.0
 			}
 	}
 }
@@ -18,7 +12,6 @@ local taxi_duty_locations = {
 local NPC_REQUESTS_ENABLED = true
 
 local JOB = {
-	taxi = nil,
 	isOnJob = false,
 	start = nil,
 	destination = nil,
@@ -32,6 +25,8 @@ local NPC_CALL_WAIT_MIN = 20
 
 local hasMissionPedSpawned = false
 
+local onDuty = false
+
 --------------------
 -- list of models --
 --------------------
@@ -40,81 +35,110 @@ local PED_MODELS = {
 
 
 local LOCATIONS = {
-	{x = -423.45, y = 5971.05, z = 31.49, name = "Sheriff's Office - Paleto", arrived = false},
-	{x = 184.412, y = 6633.04,  z = 31.56, name = "Paleto Blvd / Pyrite Ave.", arrived = false},
-	{x = -256.11, y = 6265.68, z = 31.42, name = "Hen House - Paleto", arrived = false},
-	--{x = -221.63, y = 6325.18, z = 31.46, name = "UNKNOWN", arrived = false},
-	--{x = -170.38, y = 6379.18, z = 31.47, name = "UNKNOWN", arrived = false},
-	{x = 56.25, y = 6607.67, z = 31.42, name = "Paleto Blvd.", arrived = false},
-	--{x = 914.06, y = 6478.74, z = 21.27, name = "UNKNOWN", arrived = false},
-	--{x = 1725.16, y = 6409.43, z = 34.26, name = "UNKNOWN", arrived = false},
-	{x = 2751.39, y = 4405.67, z = 48.69, name = "East Joshua Rd.", arrived = false},
-	{x = 934.95, y = 3546.02, z = 33.99, name = "Marina Dr. / E. Joshua", arrived = false},
-	{x = -1292.26, y = 2545.11, z = 18.01, name = "Fort Zancudo - Route 68", arrived = false},
-	{x = -859.79, y = 5422.63, z = 34.91, name = "Lumber Yard - GOH", arrived = false},
-	{x = -391.85, y = 6051.66, z = 31.5, name = "Paleto Blvd. / GOH", arrived = false},
-	{x = -426.28, y = 6029.36, z = 31.5, name = "Paleto Blvd. / GOH", arrived = false},
-	{x = -686.5, y = 5838.5, z = 17.3, name = "Bayview Lodge", arrived = false},
-	{x = -710.08, y = 5787.66, z = 17.4, name = "Bayview Lodge", arrived = false},
-	{x = -767.45, y = 5556.3, z = 33.6, name = "Bike Shop", arrived = false},
-	{x = -776.6, y = 5592.9, z = 33.6, name = "Bike Shop", arrived = false},
-	{x = -1583.6, y = 5170.87, z = 19.56, name = "Fishing Dock", arrived = false},
-	{x = -2203.84, y = 4274.9, z = 48.3, name = "Hookies Restaruant", arrived = false},
-	{x = -2205.6, y = 4283.4, z = 48.5, name = "Hookies Restaruant", arrived = false},
-	{x = -2508.6, y = 3620.6, z = 13.7, name = "Great Ocean Highway", arrived = false},
-	{x = -2561.1, y = 2316.8, z = 33.2, name = "Ron Gas Station", arrived = false},
-	{x = -2536.4, y = 2318.6, z = 33.2, name = "Ron Gas Station", arrived = false},
-	{x = 1720.6, y = 6416.8, z = 33.7, name = "24/7 Paleto", arrived = false},
-	{x = 1684.0, y = 6421.3, z = 32.3, name = "24/7 Paleto", arrived = false},
-	{x = 1593.5, y = 6447.5, z = 25.3, name = "Up N' Atom", arrived = false},
-	{x = 1515.0, y = 6332.8, z = 24.1, name = "Great Ocean Highway", arrived = false},
-	{x = 2174.3, y = 4760.6, z = 41.1, name = "Grapeseed Airfield", arrived = false},
-	{x = 1778.1, y = 4587.0, z = 37.7, name = "Seaview Rd.", arrived = false},
-	{x = 1705.13, y = 4692.9, z = 42.7, name = "Grapeseed Main St.", arrived = false},
-	{x = 1680.8, y = 4827.9, z = 42.0, name = "Grapeseed Clothing", arrived = false},
-	{x = 1658.6, y = 4869.8, z = 42.1, name = "Grapeseed Main St.", arrived = false},
-	{x = 1704.4, y = 4940.8, z = 42.1, name = "Grapeseed Garage", arrived = false},
-	{x = 1687.6, y = 4912.1, z = 42.1, name = "Grapeseed Garage", arrived = false},
-	{x = 1923.5, y = 5152.5, z = 44.6, name = "Grapeseed Main St.", arrived = false},
-	{x = 1983.0, y = 3064.6, z = 47.2, name = "Yellow Jack", arrived = false},
-	{x = 2010.2, y = 3051.9, z = 47.2, name = "Yellow Jack", arrived = false},
-	{x = 1770.1, y = 3338.7, z = 41.4, name = "Sandy Shores Airport", arrived = false},
-	{x = 1817.8, y = 3659.8, z = 34.3, name = "Alhambra Dr.", arrived = false},
-	{x = 1853.0, y = 3706.5, z = 33.2, name = "Zancudo Ave.", arrived = false},
-	{x = 1863.9, y = 3741.9, z = 33.1, name = "Zancudo Ave.", arrived = false},
-	{x = 1696.9, y = 3771.3, z = 34.7, name = "Algonquin Blvd.", arrived = false},
-	{x = 1513.0, y = 3766.3, z = 34.2, name = "Sandy Shores Garage", arrived = false},
-	{x = 1992.7, y = 3759.2, z = 32.2, name = "Alhambra Dr.", arrived = false},
-	{x = 1853.4, y = 2582.1, z = 45.7, name = "Bolingbroke Prison", arrived = false},
-	{x = 1853.3, y = 2592.5, z = 45.7, name = "Bolingbroke Prison", arrived = false},
-	{x = 1852.5, y = 2615.1, z = 45.7, name = "Bolingbroke Prison", arrived = false},
-	{x = 77.2, y = -972.4, z = 29.4, name = "Vespucci Blvd. / Elgin Ave.", arrived = false},
-	{x = 197.5, y = -1066.3, z = 29.3, name = "Strawberry Ave. / Vespucci Blvd.", arrived = false},
-	{x = 90.6, y = -1076.7, z = 29.3, name = "Elgin Ave.", arrived = false},
-	{x = 5.6, y = -1124.3, z = 28.4, name = "Adam's Apple Blvd.", arrived = false},
-	{x = -191.9, y = -1295.3, z = 31.3, name = "Benny's / Power St.", arrived = false},
-	{x = -171.5, y = -1415.2, z = 31.1, name = "Innocence Blvd.", arrived = false},
-	{x = 5.3, y = -1594.8, z = 29.3, name = "Strawberry Ave.", arrived = false},
-	{x = 104.3, y = -1429.4, z = 29.3, name = "Strawberry Ave.", arrived = false},
-	{x = 112.0, y = -1344.6, z = 29.3, name = "Vanilla Unicorn", arrived = false},
-	{x = 162.4, y = -891.2, z = 30.5, name = "Legion Square", arrived = false},
-	{x = 224.8, y = -857.7, z = 30.11, name = "Legion Square", arrived = false},
-	{x = 216.2, y = -817.9, z = 30.6, name = "Legion Square", arrived = false},
-	{x = 282.1, y = -610.7, z = 43.3, name = "Pillbox Hill Hospital", arrived = false},
-	{x = 315.7, y = 167.9, z = 103.8, name = "Vinewood Blvd.", arrived = false},
-	{x = 280.1, y = 180.9, z = 104.5, name = "Vinewood Blvd.", arrived = false},
-	{x = -429.0, y = 255.7, z = 83.1, name = "Eclipse Blvd.", arrived = false},
-	{x = -558.2, y = 269.7, z = 83.02, name = "Tequilala", arrived = false},
-	{x = -576.5, y = 271.4, z = 82.8, name = "Tequilala", arrived = false},
-	{x = -610.5, y = -167.5, z = 37.8, name = "Eastbourne Way", arrived = false},
-	{x = -1013.4, y = -690.7, z = 21.3, name = "San Andreas Ave.", arrived = false},
-	{x = -1069.9, y = -795.9, z = 19.3, name = "South Rockford Dr.", arrived = false},
-	{x = -190.9, y = -1610.9, z = 33.9, name = "Forum Dr.", arrived = false},
-	{x = -102.7, y = -1775.7, z = 29.5, name = "Grove St.", arrived = false}
+	{x = -423.45, y = 5971.05, z = 31.49, name = "Sheriff's Office - Paleto"},
+	{x = 184.412, y = 6633.04,  z = 31.56, name = "Paleto Blvd / Pyrite Ave."},
+	{x = -256.11, y = 6265.68, z = 31.42, name = "Hen House - Paleto"},
+	--{x = -221.63, y = 6325.18, z = 31.46, name = "UNKNOWN"},
+	--{x = -170.38, y = 6379.18, z = 31.47, name = "UNKNOWN"},
+	{x = 56.25, y = 6607.67, z = 31.42, name = "Paleto Blvd."},
+	--{x = 914.06, y = 6478.74, z = 21.27, name = "UNKNOWN"},
+	--{x = 1725.16, y = 6409.43, z = 34.26, name = "UNKNOWN"},
+	{x = 2751.39, y = 4405.67, z = 48.69, name = "East Joshua Rd."},
+	{x = 934.95, y = 3546.02, z = 33.99, name = "Marina Dr. / E. Joshua"},
+	{x = -1292.26, y = 2545.11, z = 18.01, name = "Fort Zancudo - Route 68"},
+	{x = -859.79, y = 5422.63, z = 34.91, name = "Lumber Yard - GOH"},
+	{x = -391.85, y = 6051.66, z = 31.5, name = "Paleto Blvd. / GOH"},
+	{x = -426.28, y = 6029.36, z = 31.5, name = "Paleto Blvd. / GOH"},
+	{x = -686.5, y = 5838.5, z = 17.3, name = "Bayview Lodge"},
+	{x = -710.08, y = 5787.66, z = 17.4, name = "Bayview Lodge"},
+	{x = -767.45, y = 5556.3, z = 33.6, name = "Bike Shop"},
+	{x = -776.6, y = 5592.9, z = 33.6, name = "Bike Shop"},
+	{x = -1583.6, y = 5170.87, z = 19.56, name = "Fishing Dock"},
+	{x = -2203.84, y = 4274.9, z = 48.3, name = "Hookies Restaruant"},
+	{x = -2205.6, y = 4283.4, z = 48.5, name = "Hookies Restaruant"},
+	{x = -2508.6, y = 3620.6, z = 13.7, name = "Great Ocean Highway"},
+	{x = -2561.1, y = 2316.8, z = 33.2, name = "Ron Gas Station"},
+	{x = -2536.4, y = 2318.6, z = 33.2, name = "Ron Gas Station"},
+	{x = 1720.6, y = 6416.8, z = 33.7, name = "24/7 Paleto"},
+	{x = 1684.0, y = 6421.3, z = 32.3, name = "24/7 Paleto"},
+	{x = 1593.5, y = 6447.5, z = 25.3, name = "Up N' Atom"},
+	{x = 1515.0, y = 6332.8, z = 24.1, name = "Great Ocean Highway"},
+	{x = 2174.3, y = 4760.6, z = 41.1, name = "Grapeseed Airfield"},
+	{x = 1778.1, y = 4587.0, z = 37.7, name = "Seaview Rd."},
+	{x = 1705.13, y = 4692.9, z = 42.7, name = "Grapeseed Main St."},
+	{x = 1680.8, y = 4827.9, z = 42.0, name = "Grapeseed Clothing"},
+	{x = 1658.6, y = 4869.8, z = 42.1, name = "Grapeseed Main St."},
+	{x = 1704.4, y = 4940.8, z = 42.1, name = "Grapeseed Garage"},
+	{x = 1687.6, y = 4912.1, z = 42.1, name = "Grapeseed Garage"},
+	{x = 1923.5, y = 5152.5, z = 44.6, name = "Grapeseed Main St."},
+	{x = 1983.0, y = 3064.6, z = 47.2, name = "Yellow Jack"},
+	{x = 2010.2, y = 3051.9, z = 47.2, name = "Yellow Jack"},
+	{x = 1770.1, y = 3338.7, z = 41.4, name = "Sandy Shores Airport"},
+	{x = 1817.8, y = 3659.8, z = 34.3, name = "Alhambra Dr."},
+	{x = 1853.0, y = 3706.5, z = 33.2, name = "Zancudo Ave."},
+	{x = 1863.9, y = 3741.9, z = 33.1, name = "Zancudo Ave."},
+	{x = 1696.9, y = 3771.3, z = 34.7, name = "Algonquin Blvd."},
+	{x = 1513.0, y = 3766.3, z = 34.2, name = "Sandy Shores Garage"},
+	{x = 1992.7, y = 3759.2, z = 32.2, name = "Alhambra Dr."},
+	{x = 1853.4, y = 2582.1, z = 45.7, name = "Bolingbroke Prison"},
+	{x = 1853.3, y = 2592.5, z = 45.7, name = "Bolingbroke Prison"},
+	{x = 1852.5, y = 2615.1, z = 45.7, name = "Bolingbroke Prison"},
+	{x = 77.2, y = -972.4, z = 29.4, name = "Vespucci Blvd. / Elgin Ave."},
+	{x = 197.5, y = -1066.3, z = 29.3, name = "Strawberry Ave. / Vespucci Blvd."},
+	{x = 90.6, y = -1076.7, z = 29.3, name = "Elgin Ave."},
+	{x = 5.6, y = -1124.3, z = 28.4, name = "Adam's Apple Blvd."},
+	{x = -191.9, y = -1295.3, z = 31.3, name = "Benny's / Power St."},
+	{x = -171.5, y = -1415.2, z = 31.1, name = "Innocence Blvd."},
+	{x = 5.3, y = -1594.8, z = 29.3, name = "Strawberry Ave."},
+	{x = 104.3, y = -1429.4, z = 29.3, name = "Strawberry Ave."},
+	{x = 112.0, y = -1344.6, z = 29.3, name = "Vanilla Unicorn"},
+	{x = 162.4, y = -891.2, z = 30.5, name = "Legion Square"},
+	{x = 224.8, y = -857.7, z = 30.11, name = "Legion Square"},
+	{x = 216.2, y = -817.9, z = 30.6, name = "Legion Square"},
+	{x = 282.1, y = -610.7, z = 43.3, name = "Pillbox Hill Hospital"},
+	{x = 315.7, y = 167.9, z = 103.8, name = "Vinewood Blvd."},
+	{x = 280.1, y = 180.9, z = 104.5, name = "Vinewood Blvd."},
+	{x = -429.0, y = 255.7, z = 83.1, name = "Eclipse Blvd."},
+	{x = -558.2, y = 269.7, z = 83.02, name = "Tequilala"},
+	{x = -576.5, y = 271.4, z = 82.8, name = "Tequilala"},
+	{x = -610.5, y = -167.5, z = 37.8, name = "Eastbourne Way"},
+	{x = -1013.4, y = -690.7, z = 21.3, name = "San Andreas Ave."},
+	{x = -1069.9, y = -795.9, z = 19.3, name = "South Rockford Dr."},
+	{x = -190.9, y = -1610.9, z = 33.9, name = "Forum Dr."},
+	{x = -102.7, y = -1775.7, z = 29.5, name = "Grove St."},
+	{x = -773.54333496094, y = -72.531997680664, z = 37.771766662598, name = "Blvd Del Perro"},
+	{x = -789.80706787109, y = -99.32349395752, z = 37.699066162109, name = "Blvd Del Perro"},
+	{x = -1594.9387207031, y = -932.15966796875, z = 14.686369895935, name = "LS Pier"},
+	{x = -1658.5628662109, y = -947.64642333984, z = 7.7187242507935, name = "LS Pier"},
+	{x = -1585.1470947266, y = -858.49151611328, z = 10.127608299255, name = "LS Pier"},
+	{x = -1597.2512207031, y = -1013.8643188477, z = 13.021708488464, name = "LS Pier"},
+	{x = -2105.9208984375, y = -345.12982177734, z = 13.067786216736, name = "Great Ocean Highway / West Eclipse Blvd"},
+	{x = -1100.8135986328, y = -1965.7258300781, z = 13.14351272583, name = "Greenwich Pkwy"},
+	{x = -1037.6057128906, y = -2730.650390625, z = 20.169271469116, name = "LSIA"},
+	{x = -1026.8984375, y = -2737.3166503906, z = 20.169271469116, name = "LSIA"},
+	{x = -1004.0098876953, y = -2747.9875488281, z = 20.173109054565, name = "LSIA"},
+	{x = -977.40301513672, y = -2749.798828125, z = 13.756634712219, name = "LSIA"},
+	{x = -1046.2393798828, y = -2718.9233398438, z = 13.756636619568, name = "LSIA"},
+	{x = 62.28258895874, y = 6.7169995307922, z = 69.078895568848, name = "Spanish Ave"},
+	{x = 52.901660919189, y = 104.72672271729, z = 79.089767456055, name = "Las Lagunas Blvd"},
+	{x = -96.532295227051, y = 50.743602752686, z = 71.653823852539, name = "Spanish Ave"},
+	{x = -489.6962890625, y = 408.20489501953, z = 99.128761291504, name = "Cox Ave"},
+	{x = 249.50717163086, y = -571.95764160156, z = 43.278659820557, name = "Elgin Ave"},
+	{x = 278.80123901367, y = -585.77239990234, z = 43.311336517334, name = "Elgin Ave"},
+	{x = 222.3493347168, y = -856.20599365234, z = 30.184255599976, name = "Legion Square"},
+	{x = 427.8879699707, y = -817.63208007813, z = 28.933910369873, name = "Sinner St"},
+	{x = 1114.4884033203, y = -766.87255859375, z = 57.733703613281, name = "Mirror Park"},
+	{x = 939.05999755859, y = -572.86224365234, z = 58.089939117432, name = "Mirror Park"},
+	{x = 910.59692382813, y = 25.660533905029, z = 80.041297912598, name = "Casino"},
+	{x = 1174.6300048828, y = -3121.3645019531, z = 6.0280232429504, name = "LS Docks"},
+	{x = 179.78440856934, y = -3002.2470703125, z = 5.7553157806396, name = "LS Docks"},
+	{x = 1139.2293701172, y = -1484.8413085938, z = 34.843647003174, name = "Capital Blvd"},
+	{x = 1341.0140380859, y = -1637.7999267578, z = 52.217491149902, name = "Sustancia Rd"},
+	{x = -1992.3309326172, y = 451.70986938477, z = 101.79264068604, name = "North Rockford Dr"},
 }
 
-RegisterNetEvent("taxi:toggleNPCRequests")
-AddEventHandler("taxi:toggleNPCRequests", function()
+RegisterNetEvent("uber:toggleNPCRequests")
+AddEventHandler("uber:toggleNPCRequests", function()
 	if NPC_REQUESTS_ENABLED and JOB.isOnJob then
 		JOB.isOnJob = false
 		JOB.end_time = GetGameTimer()
@@ -124,38 +148,36 @@ AddEventHandler("taxi:toggleNPCRequests", function()
 	if NPC_REQUESTS_ENABLED then
 		exports.globals:notify('You are now ~g~accepting~s~ taxi requests from locals!')
 	else
-		exports.globals:notify('Taxi requests from locals have been temporarily ~y~muted~s~!')
+		exports.globals:notify('Ride requests from locals have been temporarily ~y~muted~s~!')
 	end
 end)
 
 
-RegisterNetEvent("taxiJob:onDuty")
-AddEventHandler("taxiJob:onDuty", function()
+RegisterNetEvent("uber:onDuty")
+AddEventHandler("uber:onDuty", function()
 	keypressOnHold = true
-	TriggerEvent("chatMessage", "", {}, "Use ^3/dispatch [id] [msg]^0 to respond to a player taxi request!")
-	Citizen.Wait(3000)
-	TriggerEvent("chatMessage", "", {}, "Use ^3/togglerequests^0 to allow or deny local taxi requests.")
-	Citizen.Wait(3000)
-	TriggerEvent("chatMessage", "", {}, "Use ^3/ping [id]^0 to request a person\'s location.")
-	Citizen.Wait(3000)
-	TriggerEvent("chatMessage", "", {}, "A taxi is waiting for you, use this vehicle while working.")
-	DrawCoolLookingNotificationWithTaxiPic("Here's your cab! Have a good shift!")
-	SpawnTaxi()
+	TriggerEvent("chatMessage", "", {}, "Welcome! Use your own vehicle to pickup people who request a ride through the 'services' app! Charge them what you want!")
+	Wait(3000)
+	TriggerEvent("chatMessage", "", {}, "Locals can also randomly call you while you are on duty. Use ^3/togglerequests^0 to stop or start receiving requests from locals.")
+	Wait(3000)
+	TriggerEvent("chatMessage", "", {}, "Use your cell phone to communicate with customers and/or type ^3/ping [id]^0 to request a person\'s location.")
+	Wait(3000)
+	TriggerEvent("chatMessage", "", {}, "You can have people use ^3/payuber^0 to give you money so you don't need to share your contact info.")
+	DrawCoolLookingNotificationWithTaxiPic("Have a good shift!")
 	keypressOnHold = false
+	onDuty = true
 end)
 
-RegisterNetEvent("taxiJob:offDuty")
-AddEventHandler("taxiJob:offDuty", function()
+RegisterNetEvent("uber:offDuty")
+AddEventHandler("uber:offDuty", function()
 	DrawCoolLookingNotificationWithTaxiPic("You have clocked out! Have a good one!")
 	if JOB.isOnJob then
-		TaskLeaveVehicle(JOB.customer_ped, JOB.taxi, 1)
+		TaskLeaveVehicle(JOB.customer_ped, GetVehiclePedIsIn(PlayerPedId(), true), 1)
 		JOB.isOnJob = false
 		JOB.end_time = GetGameTimer()
 		TriggerEvent("swayam:RemoveWayPoint")
 	end
-	--print('taxi:' .. JOB.taxi)
-	DelVehicle(JOB.taxi)
-	JOB.taxi = nil
+	onDuty = false
 end)
 
 --------------------------------------
@@ -170,12 +192,12 @@ Citizen.CreateThread(function()
 
 		local start_location = LOCATIONS[math.random(#LOCATIONS)]
 		local end_location = LOCATIONS[math.random(#LOCATIONS)]
-		while end_location == start_location do
+		while end_location == start_location or #(exports.globals:tableToVector3(end_location) - exports.globals:tableToVector3(start_location)) <= 500 do
 			end_location = LOCATIONS[math.random(#LOCATIONS)]
 		end
 		TriggerEvent("chatMessage", "", {}, "^3^*[DISPATCH] ^r^7A pickup has been requested at ^3" .. start_location.name .. "^7, please respond as soon as possible!")
 		TriggerServerEvent('InteractSound_SV:PlayOnSource', 'demo', 0.1)
-		TriggerEvent("swayam:SetWayPointWithAutoDisable", start_location.x, start_location.y, start_location.z, 280, 60, "Taxi Request")
+		TriggerEvent("swayam:SetWayPointWithAutoDisable", start_location.x, start_location.y, start_location.z, 280, 60, "Ride Request")
 
 		-- set as on job
 		JOB.isOnJob = true
@@ -183,6 +205,7 @@ Citizen.CreateThread(function()
 		JOB.destination = end_location
 		JOB.destination.arrived = false
 		JOB.start.arrived = false
+		JOB.pickupDist = #(vector3(JOB.start.x, JOB.start.y, JOB.start.z) - GetEntityCoords(PlayerPedId()))
 
 		-- spawn ped and start job when close to pick up point since there are problems with the ped despawning and ending the job prematurely, hopeful fix
 		Citizen.CreateThread(function()
@@ -198,12 +221,11 @@ Citizen.CreateThread(function()
 							Wait(100)
 						end
 						JOB.customer_ped = CreatePed(4, model, start_location.x, start_location.y, start_location.z, 0.0, true, false)
-						-- TODO: make ped start random scenario
 						SetEntityAsMissionEntity(JOB.customer_ped, true, true)
 						hasMissionPedSpawned = true
 						return
 					elseif GetGameTimer() - startedWaitingTime >= NPC_CALL_WAIT_MIN * 60 * 1000 then
-						exports.globals:notify("Call canceled!", "^3INFO: ^0Taxi call canceled!")
+						exports.globals:notify("Call canceled!", "^3INFO: ^0Ride cancelled!")
 						JOB.isOnJob = false
 						return
 					end
@@ -229,8 +251,8 @@ Citizen.CreateThread(function()
 		----------------
 		-- NOT ON JOB --
 		----------------
-		if NPC_REQUESTS_ENABLED then
-			if not JOB.isOnJob and GetVehiclePedIsIn(playerPed, false) == JOB.taxi then
+		if NPC_REQUESTS_ENABLED and onDuty then
+			if not JOB.isOnJob then
 				if JOB.end_time then -- had previous job
 					if GetGameTimer() - JOB.end_time >= AUTO_JOB_TIME_DELAY then
 						GenerateNPCJob()
@@ -244,35 +266,40 @@ Citizen.CreateThread(function()
 		----------------------
 		-- ON JOB -- PICKUP --
 		----------------------
-		if JOB.isOnJob and GetVehiclePedIsIn(playerPed, false) == JOB.taxi then
+		if JOB.isOnJob then
 			local playerCoords = GetEntityCoords(playerPed)
 			if Vdist(playerCoords, JOB.start.x, JOB.start.y, JOB.start.z) < 8.5 and not JOB.start.arrived then
-				TaskEnterVehicle(JOB.customer_ped, JOB.taxi, 10000, 1, 1.0, 1, 0)
+				local curVeh = GetVehiclePedIsIn(playerPed)
+				for i = 2, 0, -1 do
+					if IsVehicleSeatFree(curVeh, i) then
+						TaskEnterVehicle(JOB.customer_ped, curVeh, 10000, i, 1.0, 1, 0)
+						break
+					end
+				end
 				JOB.start.arrived = true
 				--ClearGpsPlayerWaypoint()
 				--SetNewWaypoint(JOB.destination.x, JOB.destination.y)
-				TriggerEvent("swayam:SetWayPointWithAutoDisable", JOB.destination.x, JOB.destination.y, JOB.destination.z, 1, 60, "Taxi Destination")
+				TriggerEvent("swayam:SetWayPointWithAutoDisable", JOB.destination.x, JOB.destination.y, JOB.destination.z, 1, 60, "Ride Destination")
 				TriggerEvent("usa:notify", "Take the customer safely to ~y~" .. JOB.destination.name .. '~s~.')
 			end
 		end
 		---------------------
 		-- ON JOB -- ROUTE --
 		---------------------
-		if JOB.isOnJob and GetVehiclePedIsIn(playerPed, false) == JOB.taxi then
+		if JOB.isOnJob then
 			local playerCoords = GetEntityCoords(playerPed)
 			if Vdist(playerCoords, JOB.destination.x, JOB.destination.y, JOB.destination.z) < 8 and not JOB.destination.arrived then
-				TaskLeaveVehicle(JOB.customer_ped, JOB.taxi, 1)
+				TaskLeaveVehicle(JOB.customer_ped, GetVehiclePedIsIn(PlayerPedId(), true), 0)
 				TaskWanderStandard(JOB.customer_ped, 10.0, 10)
 				JOB.destination.arrived = true
 				JOB.isOnJob = false
 				JOB.end_time = GetGameTimer()
 				JOB.customer_ped = nil
-				while securityToken == nil do
-					Wait(1)
+				TriggerServerEvent("uber:payDriver", Vdist(JOB.start.x, JOB.start.y, JOB.start.z, JOB.destination.x, JOB.destination.y, JOB.destination.z), JOB.pickupDist)
+				Wait(3000)
+				for i = 0, 4 do
+					SetVehicleDoorShut(GetVehiclePedIsIn(PlayerPedId(), true), i, true)
 				end
-				TriggerServerEvent("taxiJob:payDriver", Vdist(JOB.start.x, JOB.start.y, JOB.start.z, JOB.destination.x, JOB.destination.y, JOB.destination.z), securityToken)
-				Wait(1200)
-				SetVehicleDoorShut(JOB.taxi, 2, false)
 			end
 		end
 		---------------------------------
@@ -304,11 +331,11 @@ Citizen.CreateThread(function()
 	EnumerateBlips()
 	local timeout = 0
 	while true do
-		for name, data in pairs(taxi_duty_locations) do
-			DrawText3D(data.duty.x, data.duty.y, (data.duty.z + 1.0), 20, '[E] - On/Off Duty (~y~Taxi~s~)')
+		for name, data in pairs(uber_duty_locations) do
+			DrawText3D(data.duty.x, data.duty.y, (data.duty.z + 1.0), 20, '[E] - On/Off Duty (~y~Uber~s~) | [L] - Leaderboard')
 		end
 		if IsControlJustPressed(0, 38) and not keypressOnHold then
-			for name, data in pairs(taxi_duty_locations) do
+			for name, data in pairs(uber_duty_locations) do
 		        local playerCoords = GetEntityCoords(PlayerPedId(), false)
 			    if GetDistanceBetweenCoords(playerCoords, data.duty.x, data.duty.y, data.duty.z, true) < 3 then
 			    	if timeout > 3 then
@@ -324,7 +351,7 @@ Citizen.CreateThread(function()
 								timeout = 0
 							end)
 						end
-						TriggerServerEvent("taxiJob:setJob")
+						TriggerServerEvent("uber:setJob")
 						JOB.isOnJob = false
 						JOB.end_time = GetGameTimer()
 						TriggerEvent("swayam:RemoveWayPoint")
@@ -336,38 +363,6 @@ Citizen.CreateThread(function()
 		Wait(1)
 	end
 end)
-
-function SpawnTaxi()
-	local numberHash = -956048545
-	Citizen.CreateThread(function()
-		RequestModel(numberHash)
-		while not HasModelLoaded(numberHash) do
-			Wait(100)
-		end
-		JOB.taxi = CreateVehicle(numberHash, closest_location.spawn.x, closest_location.spawn.y, closest_location.spawn.z, closest_location.spawn.heading, true, false)
-		local plate = GetVehicleNumberPlateText(JOB.taxi)
-		TriggerEvent('persistent-vehicles/register-vehicle', JOB.taxi)
-		TriggerServerEvent("fuel:setFuelAmount", plate, 100)
-		SetVehicleOnGroundProperly(JOB.taxi)
-		SetVehRadioStation(JOB.taxi, "OFF")
-		SetEntityAsMissionEntity(JOB.taxi, true, true)
-		SetVehicleExplodesOnHighExplosionDamage(JOB.taxi, true)
-
-		local vehicle_key = {
-			name = "Key -- " .. GetVehicleNumberPlateText(JOB.taxi),
-			quantity = 1,
-			type = "key",
-			owner = "Downtown Taxi Co.",
-			make = "Vapid",
-			model = "Stanier",
-			plate = GetVehicleNumberPlateText(JOB.taxi)
-		}
-
-		-- give key to owner
-		TriggerServerEvent("garage:giveKey", vehicle_key)
-		TriggerServerEvent('mdt:addTempVehicle', 'Vapid Stainer (Taxi)', "Downtown Cab Co.", plate)
-	end)
-end
 
 RegisterNetEvent('character:setCharacter')
 AddEventHandler('character:setCharacter', function()
@@ -399,22 +394,16 @@ function DrawText3D(x, y, z, distance, text)
   end
 end
 
--- Delete car function borrowed frtom Mr.Scammer's model blacklist, thanks to him!
-function DelVehicle(entity)
-	TriggerEvent('persistent-vehicles/forget-vehicle', entity)
-    Citizen.InvokeNative( 0xEA386986E786A54F, Citizen.PointerValueIntInitialized( entity ) )
-end
-
 function EnumerateBlips()
-	for name, data in pairs(taxi_duty_locations) do
+	for name, data in pairs(uber_duty_locations) do
       	local blip = AddBlipForCoord(data.duty.x, data.duty.y, data.duty.z)
 		SetBlipSprite(blip, 198)
 		SetBlipDisplay(blip, 4)
 		SetBlipScale(blip, 0.75)
 		SetBlipAsShortRange(blip, true)
-		SetBlipColour(blip, 33)
+		SetBlipColour(blip, 39)
 		BeginTextCommandSetBlipName("STRING")
-		AddTextComponentString('Downtown Cab Co.')
+		AddTextComponentString('Uber HQ')
 		EndTextCommandSetBlipName(blip)
     end
 end
@@ -424,9 +413,6 @@ function IsMissionPedWell(JOB)
 		if IsPedDeadOrDying(JOB.customer_ped, 1) then
 			return false
 		end
-		if JOB.start.arrived == true and Vdist(GetEntityCoords(JOB.customer_ped), GetEntityCoords(JOB.taxi)) > 10.0 then
-			return false
-		end
 	else
 		if hasMissionPedSpawned then
 			return false
@@ -434,3 +420,26 @@ function IsMissionPedWell(JOB)
 	end
 	return true
 end
+
+RegisterCommand('showLeaderboard', function()
+	local mycoords = GetEntityCoords(PlayerPedId())
+	for locName, info in pairs(uber_duty_locations) do
+		if #(mycoords - vector3(info.duty.x, info.duty.y, info.duty.z)) < 3 then
+			print("fetching leaderboard")
+			TriggerServerEvent("uber:fetchLeaderboard")
+			break
+		end
+	end
+end, false)
+
+RegisterKeyMapping('showLeaderboard', 'Show Leaderboard', 'keyboard', 'l')
+
+RegisterClientCallback {
+	eventName = "uber:isNearDropOff",
+	eventCallback = function()
+		if JOB.destination and JOB.destination.arrived then
+				return true
+		end
+		return false
+	end
+}

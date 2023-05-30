@@ -1037,6 +1037,26 @@ function Evict_Owners()
 end
 -----------------------------------------
 
+RegisterNetEvent("usa-properties-og:server:resetcharproperties")
+AddEventHandler("usa-properties-og:server:resetcharproperties", function(char_identifier)
+  for name, info in pairs(PROPERTIES) do
+    if PROPERTIES[name].owner.identifier == char_identifier then
+      PROPERTIES[name].fee.end_date = 0
+      PROPERTIES[name].fee.due_days = 0
+      PROPERTIES[name].fee.paid_time = 0
+      PROPERTIES[name].fee.paid = 0
+      PROPERTIES[name].owner.name = nil
+      PROPERTIES[name].owner.purchase_date = 0
+      PROPERTIES[name].owner.identifier = "undefined"
+      PROPERTIES[name].coowners = {}
+      if info.type == "house" then
+        PROPERTIES[name].will_leave = false
+      end
+      SavePropertyData(name)
+    end
+  end
+end)
+
 ------------------------
 -- Save Property Data --
 ------------------------

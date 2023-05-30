@@ -258,6 +258,7 @@ RegisterNetEvent('fuel:refuelAmount')
 AddEventHandler('fuel:refuelAmount', function(_fuelAmount)
 	local startTime = GetGameTimer()
 	local timeWaiting = 500 * _fuelAmount
+	fuelData.isRefuelling = true
 	Citizen.CreateThread(function()
 		while _fuelAmount > 0 do
 			Citizen.Wait(0)
@@ -266,11 +267,9 @@ AddEventHandler('fuel:refuelAmount', function(_fuelAmount)
 			DrawTimer(startTime, timeWaiting, 1.42, 1.475, 'REFUELING')
 		end
 	end)
-
-	fuelData.isRefuelling = true
 	while _fuelAmount > 0 do
 		Citizen.Wait(500)
-		if fuelData.fuelAmount == 100 then
+		if fuelData.fuelAmount >= 100 then
 			break
 		else
 			_fuelAmount = _fuelAmount - 1

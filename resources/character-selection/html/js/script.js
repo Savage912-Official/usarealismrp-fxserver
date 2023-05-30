@@ -21,7 +21,7 @@ var characterSelectionApp = new Vue({
           this.createCharacter()
         }
       } else if (e.key == "Backspace") {
-        if (this.page == "create" || this.page == "spawn") {
+        if (this.page == "spawn") {
           this.page = "list"
         }
       }

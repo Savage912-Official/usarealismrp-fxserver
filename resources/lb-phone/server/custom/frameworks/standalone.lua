@@ -100,7 +100,7 @@ CreateThread(function()
     ---@param amount integer
     ---@return boolean # Success
     function RemoveMoney(source, amount)
-        if GetBalance(source) > amount then
+        if GetBalance(source) >= amount then
             local char = exports["usa-characters"]:GetCharacter(source)
             if char ~= nil then
                 char.removeBank(amount)

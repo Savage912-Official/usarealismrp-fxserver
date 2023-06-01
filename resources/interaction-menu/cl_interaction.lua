@@ -1242,7 +1242,7 @@ function interactionMenuUse(index, itemName, wholeItem)
 		ExecuteCommand("placehoop")
 	elseif itemName == "Skateboard" then
 		TriggerEvent('usa_skateboard:PlaceDown')
-  elseif wholeItem.type == "magicPotion" then
+  	elseif wholeItem.type == "magicPotion" then
 		TriggerServerEvent("magicPotion:used", wholeItem)
 	elseif itemName == "Drill" then
 		TriggerEvent("banking:DrillATM")
@@ -1262,6 +1262,28 @@ function interactionMenuUse(index, itemName, wholeItem)
 		TriggerServerEvent("rcore_spray:spray")
 	elseif itemName == "Rag" then
 		TriggerServerEvent("rcore_spray:sprayremover")
+	elseif itemName == "Car Wash Kit" then
+		local nearestVeh = lib.getClosestVehicle(GetEntityCoords(PlayerPedId()), 3, false)
+		local success = lib.skillCheck({'easy', 'easy', 'easy', 'easy', 'easy', 'medium', 'medium', 'medium'})
+		if success then
+			TriggerEvent("dpemotes:command", 'e', GetPlayerServerId(PlayerId()), {"clean2"})
+			lib.progressBar({
+				duration = 60000,
+				label = 'Cleaning vehicle',
+				canCancel = true,
+				disable = {
+					car = true,
+					move = true,
+					combat = true,
+				},
+			})
+			NetworkRequestControlOfEntity(nearestVeh)
+			SetVehicleDirtLevel(nearestVeh, 0.0)
+			exports.globals:notify("Vehicle clean!", "^3INFO: ^0Vehicle cleaned!")
+		else
+			exports.globals:notify("Wash failed!", "^3INFO: ^Wash failed!")
+		end
+		TriggerEvent("dpemotes:command", 'e', GetPlayerServerId(PlayerId()), {"c"})
 	else
 		TriggerEvent("interaction:notify", "There is no use action for that item!")
 	end

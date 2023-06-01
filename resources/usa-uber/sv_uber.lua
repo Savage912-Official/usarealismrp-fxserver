@@ -77,7 +77,7 @@ AddEventHandler("uber:fetchLeaderboard", function()
 	TriggerClientEvent("usa:notify", src, false, "^3INFO: ^0Top 10 Uber Drivers:")
 	for i = 1, 10 do
 		if allDocs[i] then
-			TriggerClientEvent("usa:notify", src, false, i .. ": " .. allDocs[i].name .. ": " .. allDocs[i].ridesCompleted)
+			TriggerClientEvent("usa:notify", src, false, "#" .. i .. " - " .. allDocs[i].name .. ": " .. allDocs[i].ridesCompleted)
 		end
 	end
 end)

@@ -205,4 +205,11 @@ PARTS = {
 		type = "misc",
 		notStackable = true
 	},
+	["Car Wash Kit"] = {
+		name = "Car Wash Kit",
+		price = 3500,
+		quantity = 1,
+		weight = 30,
+		type = "misc"
+	},
 }

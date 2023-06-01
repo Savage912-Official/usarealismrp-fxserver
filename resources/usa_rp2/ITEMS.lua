@@ -336,6 +336,13 @@ local ITEMS = {
     type = "misc",
     notStackable = true},
     { name = "Empty 7.62mm Mag [30]", type = "magazine", price = 150, weight = 5, receives = "7.62mm", MAX_CAPACITY = 30, currentCapacity = 0, objectModel = "w_ar_carbinerifle_mag1" },
+    {
+		name = "Car Wash Kit",
+		price = 3500,
+		quantity = 1,
+		weight = 30,
+		type = "misc"
+	},
 }
 
 

@@ -17,7 +17,7 @@ for i = 1, #carWashes do
   SetBlipScale(blip, 0.8)
   SetBlipAsShortRange(blip, true)
   BeginTextCommandSetBlipName("STRING")
-  AddTextComponentString('Carwash')
+  AddTextComponentString('Car Wash')
   EndTextCommandSetBlipName(blip)
 end
 -----------------

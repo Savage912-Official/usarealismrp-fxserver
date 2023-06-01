@@ -1,4 +1,4 @@
-local CARWASH_PRICE = 50
+local CARWASH_PRICE = 200
 
 
 RegisterServerEvent('carwash:checkmoney')

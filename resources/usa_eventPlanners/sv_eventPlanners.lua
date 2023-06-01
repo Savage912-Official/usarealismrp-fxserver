@@ -2,6 +2,8 @@ local DISCORD_WEBHOOK_URL = GetConvar("event-team-webhook", "")
 
 local currentlySignedInPlayers = {}
 
+local createdBlips = {}
+
 RegisterNetEvent("eventPlanner:toggleDuty")
 AddEventHandler("eventPlanner:toggleDuty", function()
     local c = exports["usa-characters"]:GetCharacter(source)
@@ -44,5 +46,30 @@ end, {
 
 RegisterNetEvent('usa_eventPlanners:server:addBlip')
 AddEventHandler('usa_eventPlanners:server:addBlip', function(blipData)
-    TriggerClientEvent('usa_eventPlanners:client:addBlip', -1, blipData)
+
+    print(string.format('A blip has been set by ID: %s, with the name of %s for %smins!', tostring(source), blipData.name, blipData.duration / 60000))
+
+    blipData.duration = blipData.duration + GetGameTimer() -- (Client & server time values are for some reason different)
+    table.insert(createdBlips, blipData)
+    TriggerClientEvent('usa_eventPlanners:client:addBlip', -1, {blipData}) -- Adds blip to others in game (Sync)
+
+end)
+
+RegisterNetEvent('usa_eventPlanners:server:syncBlips')
+AddEventHandler('usa_eventPlanners:server:syncBlips', function()
+    TriggerClientEvent('usa_eventPlanners:client:addBlip', source, createdBlips) -- ensures newly loaded clients can see the blip (Sync)
+end)
+
+Citizen.CreateThread(function()
+    while true do
+        Citizen.Wait(1000)
+        local currentTime = GetGameTimer()
+        for i, blipToRemove in pairs(createdBlips) do
+            if currentTime >= blipToRemove.duration then
+                print(currentTime, blipToRemove.duration)
+                table.remove(createdBlips, i)
+                TriggerClientEvent('usa_eventPlanners:client:removeBlip', -1, blipToRemove.name)
+            end
+        end
+    end
 end)

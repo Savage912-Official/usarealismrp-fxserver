@@ -1,7 +1,9 @@
 local JOB_TOGGLE_TEXT = "[E] - Toggle Duty (Event Planner)"
 local JOB_TOGGLE_KEY = 38
+local client_blips = {}
 
 Citizen.CreateThread(function()
+    TriggerServerEvent('usa_eventPlanners:server:syncBlips')
     while true do
         local me = PlayerPedId()
         local mycoords = GetEntityCoords(me)
@@ -21,9 +23,9 @@ Citizen.CreateThread(function()
     end
 end)
 
-local temporaryBlips = {}
 RegisterNetEvent('usa_eventPlanners:client:blipDialog')
 AddEventHandler('usa_eventPlanners:client:blipDialog', function()
+    
     local input = lib.inputDialog('Temporary Blip Information', {
         {type = 'input', label = 'Coordinates', description = 'Format: x, y, z'},
         {type = 'input', label = 'Name', description = 'Blip Name Shown On Map'},
@@ -36,54 +38,48 @@ AddEventHandler('usa_eventPlanners:client:blipDialog', function()
     local x, y, z = string.match(coordinates, "([^,]+),([^,]+),([^,]+)")
     x, y, z = tonumber(x), tonumber(y), tonumber(z)
     local name = input[2]
+    print(GetGameTimer())
     local duration = input[3] * 60000
     local sprite = tonumber(input[4])
     local color = tonumber(input[5])
 
-    print(string.format("A new blip has been created with sprite %s and color %s at coordinates (%.2f, %.2f, %.2f). Name: %s, Duration: %s Minutes", sprite, color, x, y, z, name, duration / 60000))
+    TriggerServerEvent('usa_eventPlanners:server:addBlip', {x = x, y = y, z = z, name = name, duration = duration, sprite = sprite, color = color})
 
-    TriggerServerEvent('usa_eventPlanners:server:addBlip', {x, y, z, name, duration, sprite, color})
+end)
+
+RegisterNetEvent('usa_eventPlanners:client:removeBlip')
+AddEventHandler('usa_eventPlanners:client:removeBlip', function(blipName)
+
+    for k, v in pairs(client_blips) do
+        if v.name == blipName then
+            RemoveBlip(v.blip)
+            table.remove(client_blips, k)
+        end
+    end
+
 end)
 
 RegisterNetEvent('usa_eventPlanners:client:addBlip')
 AddEventHandler('usa_eventPlanners:client:addBlip', function(blipData)
-    local x, y, z, name, duration, sprite, color = table.unpack(blipData)
-    
-    name = "Event: " .. name
-    
-    local blip = AddBlipForCoord(x, y, z)
-    SetBlipSprite(blip, sprite)
-    SetBlipColour(blip, color)
-    SetBlipScale(blip, 1.0)
-    SetBlipDisplay(blip, 2)
-    BeginTextCommandSetBlipName("STRING")
-    AddTextComponentSubstringPlayerName(name)
-    EndTextCommandSetBlipName(blip)
 
-    local blipData = {blip = blip, endTime = GetGameTimer() + duration}
-    table.insert(temporaryBlips, blipData)
+    for k, v in pairs(blipData) do
 
-    TriggerEvent('usa:notify', "Blip has been added!")
-end)
+        name = "Event: " .. v.name
 
-AddEventHandler('onResourceStop', function(resource)
-    if resource == GetCurrentResourceName() then
-        for i, blipData in ipairs(temporaryBlips) do
-            RemoveBlip(blipData.blip)
-        end
-        temporaryBlips = {}
+        local blip = AddBlipForCoord(v.x, v.y, v.z)
+        SetBlipSprite(blip, v.sprite)
+        SetBlipColour(blip, v.color)
+        SetBlipScale(blip, 1.0)
+        SetBlipDisplay(blip, 2)
+        BeginTextCommandSetBlipName("STRING")
+        AddTextComponentSubstringPlayerName(name)
+        EndTextCommandSetBlipName(blip)
+
+
+        table.insert(client_blips, {blip = blip, name = v.name})
+
     end
-end)
 
-Citizen.CreateThread(function()
-    while true do
-        Citizen.Wait(1000)
-        local currentTime = GetGameTimer()
-        for i, blipData in ipairs(temporaryBlips) do
-            if currentTime >= blipData.endTime then
-                RemoveBlip(blipData.blip)
-                table.remove(temporaryBlips, i)
-            end
-        end
-    end
+    TriggerEvent('usa:notify', "An event blip has been added!")
+
 end)

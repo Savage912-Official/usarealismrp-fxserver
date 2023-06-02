@@ -1758,7 +1758,7 @@ Citizen.CreateThread(function()
 end)
 
 function getRepairCost(veh)
-	local repairCostScaleFactor = 0.7
+	local repairCostScaleFactor = 0.6
 	local total = 0
 	local maxEngineBodyHp = 1000
 	-- scale based on MSRP

@@ -98,6 +98,7 @@ RegisterNetEvent('erp_adminmenu:toggleyayeet', function()
 
 	if group == "owner" or group == "superadmin" or group == "admin" or group == "mod" then
 		TriggerClientEvent('erp_adminmenu:toggleyayeet', source)
+		LogAndNotify(source, ' has started/stopped using NoClip.')
 	end
 end)
 
@@ -209,13 +210,16 @@ AddEventHandler('erp_adminmenu:spectate', function(target, on, src)
                 --if not policeblips[tPed] then
                     SetEntityDistanceCullingRadius(tPed, 0.0)
                 --end
+				LogAndNotify(source, "Player stopped spectating [^2"..GetPlayerName(target).."^0] #"..target..".")
                 TriggerClientEvent('erp_adminmenu:cancelSpectate', source)
                 spectating[source] = nil
+				
             elseif on then
                 --if not policeblips[tPed] then
                     SetEntityDistanceCullingRadius(tPed, 10000000000000000.0)
                 --end
                 Wait(500)
+				LogAndNotify(source, "Player started spectating [^2"..GetPlayerName(target).."^0] #"..target..".")
                 TriggerClientEvent('erp_adminmenu:requestSpectate', source, NetworkGetNetworkIdFromEntity(tPed), target, GetPlayerName(target))
                 spectating[source] = true
             end
@@ -233,6 +237,7 @@ RegisterCommand("goto", function(source, args, rawCommand)
 			if DoesEntityExist(ped) then
 				local targetCoords = GetEntityCoords(ped)
 				TriggerClientEvent('erp_adminmenu:teleporttoplayer', source, targetCoords)
+				LogAndNotify(source, "Player went [^2"..GetPlayerName(target).."^0]")
 			end
 		end
 	end
@@ -249,6 +254,7 @@ RegisterCommand("tome", function(source, args, rawCommand)
 			if DoesEntityExist(ped) then
 				local targetCoords = GetEntityCoords(ped)
 				TriggerClientEvent('erp_adminmenu:teleporttoplayer', target, targetCoords)
+				LogAndNotify(source, "Player brought [^2"..GetPlayerName(target).."^0] #"..target.." to them.")
 			end
 		end 
 	end
@@ -261,6 +267,7 @@ AddEventHandler('erp_adminmenu:Cloak', function(target)
 
 	if group == "owner" or group == "superadmin" or group == "admin" or group == "mod" then
 		TriggerClientEvent('erp_adminmenu:Cloak', target, GetPlayerName(source))
+		LogAndNotify(source, "Player used cloak command on ["..GetPlayerName(target).."] #"..target..".")
 	end
 end)
 
@@ -339,6 +346,7 @@ AddEventHandler('erp_adminmenu:unbanPlayer', function(banid)
 				end
 			end)
 		end
+		LogAndNotify(source, "Player used unban command.")
     end
 end)
 
@@ -348,6 +356,7 @@ AddEventHandler('erp_adminmenu:cleararea', function(radius)
 
 	if group == "owner" or group == "superadmin" or group == "admin" or group == "mod" then
 		TriggerClientEvent('erp_adminmenu:cleararea', -1, GetEntityCoords(GetPlayerPed(source)), radius)
+		LogAndNotify(source, "Player used [clear area] command.")
     end
 end)
 
@@ -377,6 +386,7 @@ AddEventHandler('erp_adminmenu:deleteentity', function(gamepool)
             DeleteEntity(info.obj)
             if DoesEntityExist(info.obj) then
 				TriggerClientEvent('usa:notify', source, "Entity deleted on the server side.")
+				LogAndNotify(source, "Player used [delete entity] command.")
             end
         else
 			TriggerClientEvent('usa:notify', source, "Entity found, but it\'s too far.")
@@ -410,6 +420,7 @@ AddEventHandler('erp_adminmenu:deletevehicle', function()
             DeleteEntity(info.obj)
             if DoesEntityExist(info.obj) then
 				TriggerClientEvent('usa:notify', source, "Vehicle deleted on the server side.")
+				LogAndNotify(source, "Player used [delete vehicle] command.")
             end
         else
 			TriggerClientEvent('usa:notify', source, "Vehicle found, but it\'s too far.")
@@ -447,6 +458,7 @@ AddEventHandler('erp_adminmenu:deleteped', function()
             DeleteEntity(info.obj)
             if DoesEntityExist(info.obj) then
 				TriggerClientEvent('usa:notify', source, "Ped deleted by server")
+				LogAndNotify(source, "Player used [delete ped] command.")
             end
         else
 			TriggerClientEvent('usa:notify', source, "Ped found, but it\'s too far")
@@ -476,6 +488,7 @@ AddEventHandler('erp_adminmenu:deleteallvehicles', function()
                 end
             end
         end
+		LogAndNotify(source, "Player has deleted all the vehicles.")
     end
 end)
 
@@ -499,3 +512,9 @@ RegisterCommand("closestveh", function(source, args, rawCommand)
 
 	print("Does Entity Exist: "..DoesEntityExist(info.obj).."\nOwner: "..NetworkGetEntityOwner(info.obj).."\nDistance: "..info.dist)
 end, false) -- set this to false to allow anyone.
+
+function LogAndNotify(source, text)
+	Wait(150) -- To avoid display in text-chat
+	TriggerEvent("usa:notifyStaff", '^2^*[STAFF]^r^0 Player ^2'..GetPlayerName(source)..' ['..source..'] ^0'..text)
+	print("["..GetPlayerName(source)..'] ['..source..'] '..text)
+end

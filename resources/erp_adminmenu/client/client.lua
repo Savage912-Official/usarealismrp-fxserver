@@ -2,7 +2,7 @@ local open = false
 
 local requestId, requestData = 0, {}
 local spectateInfo = { toggled = false, target = 0, targetPed = 0 }
-local ShowNames, Cloack = false, false
+local ShowNames, Cloak = false, false
 
 CreateThread(function()
   while true do
@@ -168,10 +168,10 @@ end)
 RegisterNetEvent('erp_adminmenu:Cloak')
 AddEventHandler('erp_adminmenu:Cloak', function(from)
     if from ~= nil then
-        Cloack = not Cloack
-        SetEntityVisible(PlayerPedId(), not Cloack, 0)
+        Cloak = not Cloak
+        SetEntityVisible(PlayerPedId(), not Cloak, 0)
         SetLocalPlayerVisibleLocally(true)
-        if Cloack then
+        if Cloak then
           SetEntityAlpha(PlayerPedId(), 50, false)
         else
           ResetEntityAlpha(PlayerPedId())
@@ -179,15 +179,25 @@ AddEventHandler('erp_adminmenu:Cloak', function(from)
     end
 end)
 
+local alerted = false
+
 CreateThread(function()
   while true do 
     Wait(0)
-    if Cloack then
+    if Cloak then
       local yayeetEntity = PlayerPedId()
       SetEntityVisible(yayeetEntity, false, false)
       SetLocalPlayerVisibleLocally(true)
       SetEntityAlpha(yayeetEntity, 50, false)
+      if not alerted then
+        NotifyStaff(PlayerId(), 'has started using the cloak command.')
+        alerted = true
+      end
     else
+      if alerted and not Cloak then
+        NotifyStaff(PlayerId(), 'has stopped using the cloak command.')
+        alerted = false
+      end
       Wait(100)
     end
   end
@@ -307,10 +317,10 @@ RegisterNUICallback('deleteAllVehicles', function(data, cb)
 end)
 
 RegisterNUICallback('magicTrick', function(data, cb)
-  Cloack = not Cloack
-  SetEntityVisible(PlayerPedId(), not Cloack, 0)
+  Cloak = not Cloak
+  SetEntityVisible(PlayerPedId(), not Cloak, 0)
   SetLocalPlayerVisibleLocally(true)
-  if Cloack then
+  if Cloak then
     SetEntityAlpha(PlayerPedId(), 50, false)
   else
     ResetEntityAlpha(PlayerPedId())
@@ -354,6 +364,7 @@ local function DrawText3DTalking(coords, text, textColor)
 end
 
 local waitTimerName = 1000
+local namesDisplayed = false
 
 CreateThread(function()
   while true do
@@ -379,9 +390,23 @@ CreateThread(function()
           end
         end
       end
+      if not namesDisplayed then
+        NotifyStaff(PlayerId(), 'has enabled view player names command.')
+        namesDisplayed = true
+      end
     else
+      if namesDisplayed and not ShowNames then
+        NotifyStaff(PlayerId(), 'has disabled view player names command.')
+        namesDisplayed = false
+      end
       waitTimerName = 1000
     end
     Wait(waitTimerName)
   end
 end)
+
+function NotifyStaff(pid, text)
+  local steam = GetPlayerName(pid)
+  local serverNum = GetPlayerServerId(pid)
+  TriggerServerEvent("usa:notifyStaff", '^2^*[STAFF]^r^0 Player ^2'..steam..' ['..serverNum..'] ^0 '..text)
+end

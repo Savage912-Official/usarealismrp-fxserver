@@ -2287,6 +2287,11 @@ DP.Emotes = {
    {
        EmoteMoving = false,
    }},
+   ["pockets"] = {"hoodie_hands@dad", "hoodie_hands_clip", "Hands in pockets (Hoodie)", AnimationOptions =
+   {
+       EmoteLoop = true,
+       EmoteMoving = true
+   }},
 }
 
 DP.PropEmotes = {
@@ -4055,5 +4060,119 @@ DP.PropEmotes = {
         PropBone = 28422,
         PropPlacement = {0.0, -0.0100, -0.0100, 0.0, 0.0, 100.0000},
         EmoteLoop = true
+    }},
+    ["basket"] = {"missfbi4prepp1", "idle", "Basket", AnimationOptions =
+    {
+        Prop = 'bzzz_prop_shop_basket_a',
+        PropBone = 57005,
+        PropPlacement = {0.34, -0.25, -0.24, -146.0, 115.0, 19.0},
+        EmoteLoop = true,
+        EmoteMoving = true
+    }},
+    ["basket2"] = {"missfbi4prepp1", "idle", "Basket 2", AnimationOptions = 
+    {
+        Prop = 'bzzz_prop_shop_basket_b',
+        PropBone = 57005,
+        PropPlacement = {0.34, -0.25, -0.24, -146.0, 115.0, 19.0},
+        EmoteLoop = true,
+        EmoteMoving = true
+    }},
+    ["power"] = {"move_weapon@jerrycan@generic", "idle", "Power House", AnimationOptions = 
+    {
+        Prop = 'prop_bzzz_elektro_powerhouse001',
+        PropBone = 57005,
+        PropPlacement = {0.11, 0.06, 0.0, 98.0, 12.0, -99.0},
+        EmoteLoop = true,
+        EmoteMoving = true
+    }},
+    ["wlight"] = {"missfbi4prepp1", "idle", "Weed Light", AnimationOptions = 
+    {
+        Prop = 'prop_bzzz_drugs_light001',
+        PropBone = 57005,
+        PropPlacement = {0.08, 0.18, -0.02, -130.0, 0.0, -90.0},
+        EmoteLoop = true,
+        EmoteMoving = true
+    }},
+    ["poolcue"] = {"pool_pack_1@dark", "pool_pack_1_clip", "Play Pool", AnimationOptions =
+    {
+        Prop = 'prop_pool_cue',
+        PropBone = 57005,
+        PropPlacement = {0.0900, 0.2000, 0.0800, -61.4338, -7.2194, 3.1642},
+        EmoteLoop = true,
+        EmoteMoving = true
+    }},
+    ["poolcue2"] = {"pool_pack_2@dark", "pool_pack_2_clip", "Play Pool 2 (Pose)", AnimationOptions =
+    {
+        Prop = 'prop_pool_cue',
+        PropBone = 57005,
+        PropPlacement = {0.1200, -0.5200, -0.1200, -78.0400, -1.4526, 1.8479},
+        EmoteLoop = true,
+        EmoteMoving = false
+    }},
+    ["poolcue3"] = {"pool_pack_3@dark", "pool_pack_3_clip", "Play Pool 3 (Pose)", AnimationOptions =
+    {
+        Prop = 'prop_pool_cue',
+        PropBone = 57005,
+        PropPlacement = {0.1200, -0.3500, -0.0200, -90.0000, 0.0, 0.0},
+        EmoteLoop = true,
+        EmoteMoving = false
+    }},
+    ["poolcue4"] = {"pool_pack_4@dark", "pool_pack_4_clip", "Play Pool 4 (Pose)", AnimationOptions =
+    {
+        Prop = 'prop_pool_cue',
+        PropBone = 61163,
+        PropPlacement = { 0.2600, -0.1600, -0.3100, -31.8144, 14.4214, -13.2854},
+        EmoteLoop = true,
+        EmoteMoving = false
+    }},
+    ["poolcue5"] = {"pool_pack_5@dark", "pool_pack_5_clip", "Play Pool 5", AnimationOptions =
+    {
+        Prop = 'prop_pool_cue',
+        PropBone = 57005,
+        PropPlacement = {0.0700, 0.5500, 0.1000, -76.6157, -9.5838, 2.9748},
+        EmoteLoop = true,
+        EmoteMoving = true
+    }},
+    ["bookb"] = {"holding_book_1@dark", "holding_book_1_clip", "Book 2", AnimationOptions =
+    {
+        Prop = 'prop_cs_book_01',
+        PropBone = 57005,
+        PropPlacement = {0.0900, 0.0900, -0.0400, 80.1585, 158.5623, 24.7080},
+        EmoteLoop = true,
+        EmoteMoving = true
+    }},
+    ["bookc"] = {"holding_book_2@dark", "holding_book_2_clip", "Book 3", AnimationOptions =
+    {
+        Prop = "prop_michael_backpack",
+        PropBone = 40269,
+        PropPlacement = {0.0300, -0.1600, -0.0900, -170.7740, 112.8415, -20.0836},
+        SecondProp = 'prop_cs_book_01',
+        SecondPropBone = 18905,
+        SecondPropPlacement = {0.0400, 0.0400, 0.0300, -69.0815, 176.3905, 19.3724},
+        EmoteLoop = true,
+        EmoteMoving = true
+    }},
+    ["bookd"] = {"holding_book_3@dark", "holding_book_3_clip", "Book 4", AnimationOptions =
+    {
+        Prop = 'prop_cs_stock_book',
+        PropBone = 18905,
+        PropPlacement = {0.0700, 0.0400, 0.0700, 0.0000, 0.0000, -15.0000},
+        EmoteLoop = true,
+        EmoteMoving = true
+    }},
+    ["booke"] = {"holding_book_4@dark", "holding_book_4_clip", "Book 5", AnimationOptions =
+    {
+        Prop = 'prop_cs_stock_book',
+        PropBone = 57005,
+        PropPlacement = {0.0100, 0.0100, -0.0600, 15.1511, 3.1232, -21.2448},
+        EmoteLoop = true,
+        EmoteMoving = true
+    }},
+    ["bookf"] = {"holding_book_5@dark", "holding_book_5_clip", "Book 6", AnimationOptions =
+    {
+        Prop = 'v_ilev_mp_bedsidebook',
+        PropBone = 18905,
+        PropPlacement = {0.2100, 0.0600, 0.0400, 170.6161, -14.2960, 28.8727},
+        EmoteLoop = true,
     }},
 }

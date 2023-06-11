@@ -13,14 +13,22 @@ CreateThread(function()
 
     RegisterCommand("testnotification", function()
         SendReactMessage("newNotification", {
-            app = "Phone",
+            app = "Wallet",
             title = "Test Notification",
             content = "This is a test notification",
         })
     end, false)
+
+
+    RegisterCommand("setbattery", function(source, args)
+        battery = tonumber(args[1]) or 50
+        exports["lb-phone"]:SetBattery(battery)
+    end, false) 
+
+    RegisterCommand("togglecharging", function(source, args)
+        exports["lb-phone"]:ToggleCharging(args[1] == "true" and true or false)
+    end, false) 
 end)
-
-
 
 -- local control = 24
 -- local function DrawText(text)

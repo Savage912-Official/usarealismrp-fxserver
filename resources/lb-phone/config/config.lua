@@ -10,7 +10,8 @@ Config.Framework = "standalone"
         * ox: ox_core, https://github.com/overextended/ox_core
         * standalone: no framework, note that framework specific apps will not work unless you implement the functions
 ]]
-Config.CustomFramework = true -- if set to true and you use standalone, you will be able to use framework specific apps [DO NOT ENABLE UNLESS YOU HAVE CODING EXPERIENCE]
+Config.CustomFramework = true -- if set to true and you use standalone, you will be able to use framework specific apps
+Config.QBMailEvent = false -- if you want this script to listen for qb email events, enable this. NOTE: This allows players to send emails from the client.
 
 Config.Item = {}
 Config.Item.Require = true -- require a phone item to use the phone
@@ -18,7 +19,7 @@ Config.Item.Name = "Cell Phone" -- name of the phone item
 
 Config.Item.Unique = false -- should each phone be unique? https://docs.lbphone.com/phone/configuration#unique-phones
 Config.Item.Inventory = "ox_inventory" --[[
-    The inventory you use [ONLY CHOOSE THIS IF YOU'RE USING UNIQUE]
+    The inventory you use, IGNORE IF YOU HAVE Config.Item.Unique DISABLED.
     Supported:
         * ox_inventory - https://github.com/overextended/ox_inventory
         * qb-inventory - https://github.com/qbcore-framework/qb-inventory
@@ -49,7 +50,13 @@ Config.Companies.Services = {
         canCall = true, -- if true, players can call the company
         canMessage = true, -- if true, players can message the company
         bossRanks = {}, -- ranks that can manage the company
-        location = nil
+        location = {
+            name = "MRPD",
+            coords = {
+                x = 407.41409301758,
+                y = -1004.1865844727
+            }
+        }
     },
     {
         job = "ems",
@@ -58,7 +65,13 @@ Config.Companies.Services = {
         canCall = true, -- if true, players can call the company
         canMessage = true, -- if true, players can message the company
         bossRanks = {}, -- ranks that can manage the company
-        location = nil
+        location = {
+            name = "Pillbox",
+            coords = {
+                x = 290.85055541992,
+                y = -585.56072998047
+            }
+        }
     },
     {
         job = "mechanic",
@@ -67,7 +80,13 @@ Config.Companies.Services = {
         canCall = true, -- if true, players can call the company
         canMessage = true, -- if true, players can message the company
         bossRanks = {}, -- ranks that can manage the company
-        location = nil
+        location = {
+            name = "Mechanic",
+            coords = {
+                x = 409.3684387207,
+                y = -1623.8493652344
+            }
+        }
     },
     {
         job = "uber",
@@ -76,7 +95,13 @@ Config.Companies.Services = {
         canCall = true, -- if true, players can call the company
         canMessage = true, -- if true, players can message the company
         bossRanks = {}, -- ranks that can manage the company
-        location = nil
+        location = {
+            name = "Uber",
+            coords = {
+                x = 897.15142822266,
+                y = -182.11782836914
+            }
+        }
     },
     {
         job = "lawyer",
@@ -85,7 +110,13 @@ Config.Companies.Services = {
         canCall = true, -- if true, players can call the company
         canMessage = true, -- if true, players can message the company
         bossRanks = {}, -- ranks that can manage the company
-        location = nil
+        location = {
+            name = "Lawyer",
+            coords = {
+                x = 247.13447570801,
+                y = -393.89321899414
+            }
+        }
     }
 }
 
@@ -153,7 +184,7 @@ Config.Voice.RecordNearby = true --[[
 
 --[[ PHONE OPTIONS ]] --
 Config.Locations = { -- Locations that'll appear in the maps app.
-      -- {
+ -- {
     --     position = vector2(428.9, -984.5),
     --     name = "MRPD",
     --     description = "Mission Row Police Department",
@@ -222,8 +253,15 @@ Config.Locales = { -- languages that the player can choose from when setting up 
         locale = "tr",
         name = "Türkçe"
     },
+    {
+        locale = "pt-br",
+        name = "Português (Brasil)"
+    },
+    {
+        locale = "it",
+        name = "Italiano"
+    }
 }
-
 
 Config.DefaultLocale = "en"
 Config.DateLocale = "en-US" -- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat/DateTimeFormat
@@ -235,6 +273,7 @@ Config.PhoneNumber.Prefixes = { -- These are the first numbers of the phone numb
     "205",
     "907",
     "480",
+    "520",
     "602",
     "949",
     "323"
@@ -250,6 +289,9 @@ Config.Battery.DischargeWhenInactive = true -- Should the phone remove battery w
 Config.CurrencyFormat = "$%s" -- ($100) Choose the formatting of the currency. %s will be replaced with the amount.
 Config.MaxTransferAmount = 1000000 -- The maximum amount of money that can be transferred at once via wallet / messages.
 
+Config.EnableMessagePay = true -- Allow players to pay other players via messages?
+Config.EnableVoiceMessages = true -- Allow players to send voice messages?
+
 Config.CityName = "San Andreas" -- The name that's being used in the weather app etc.
 Config.RealTime = true -- if true, the time will use real life time depending on where the user lives, if false, the time will be the ingame time.
 
@@ -259,6 +301,7 @@ Config.DeleteMessages = true -- allow players to delete messages in the messages
 
 Config.SyncFlash = true -- should flashlights be synced across all players? May have an impact on performance
 Config.EndLiveClose = false -- should IG live end when you close the phone?
+
 Config.AllowExternal = { -- allow people to upload external images? (note: this means they can upload nsfw / gore etc)
     Twitter = false, -- set to true to enable external images on that specific app, set to false to disable it.
     Instagram = false,
@@ -269,7 +312,7 @@ Config.AllowExternal = { -- allow people to upload external images? (note: this 
     Mail = false,
     Messages = false,
     Other = false, -- other apps that don't have a specific setting (ex: setting a profile picture for a contact, backgrounds for the phone etc)
-} 
+}
 
 Config.AutoBackup = true -- should the phone automatically create a backup when you get a new phone?
 

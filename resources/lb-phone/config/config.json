@@ -1,13 +1,13 @@
 {
-    "wallpapers": ["IOS16_2","IOS16_3","IOS16_4","IOS16_5", "BlueSabers", "GreenSabers", "NeonSabers", "OrangeSabers", "PurpleSabers", "Bubble", "BubbleB", "BubbleC", "TwistBlack", "TwistBlue", "TwistGreen", "TwistPink", "TwistRed", "TwistWhite", "IOS15", "IOS16", "Beach", "Beach2", "ClownFish", "OrbsPurple", "Globe", "GlobeNight", "Moon"],
+    "wallpapers": ["IOS16_2", "IOS16_3", "IOS16_4", "IOS16_5", "BlueSabers", "GreenSabers", "NeonSabers", "OrangeSabers", "PurpleSabers", "Bubble", "BubbleB", "BubbleC", "TwistBlack", "TwistBlue", "TwistGreen", "TwistPink", "TwistRed", "TwistWhite", "IOS15", "IOS16", "Beach", "Beach2", "ClownFish", "OrbsPurple", "Globe", "GlobeNight", "Moon"],
     "sounds": {
         "ringtone": {
-            "default": "default.mp3", 
+            "default": "default.mp3",
             "harp": "harp.mp3",
-            "apex": "apex.mp3", 
-            "radar": "radar.mp3", 
-            "sencha": "sencha.mp3", 
-            "silk": "silk.mp3", 
+            "apex": "apex.mp3",
+            "radar": "radar.mp3",
+            "sencha": "sencha.mp3",
+            "silk": "silk.mp3",
             "summit": "summit.mp3"
         },
         "appNotifications": {}
@@ -109,11 +109,18 @@
             "images": ["https://cdn.discordapp.com/attachments/1036595856989753345/1036596139094450267/unknown.png", "https://cdn.discordapp.com/attachments/1036595856989753345/1036596239854211122/unknown.png"]
         },
         "Twitter": {
-            "name": "Twitter",
+            "name": "Birdy",
+            "icon": "./assets/img/icons/apps/Birdy.png",
             "description": "Live news, sports and chat",
             "removable": true,
             "size": 256700,
             "images": ["https://cdn.discordapp.com/attachments/1036595856989753345/1036621576931643493/unknown.png", "https://cdn.discordapp.com/attachments/1036595856989753345/1036621630090268723/unknown.png", "https://cdn.discordapp.com/attachments/1036595856989753345/1036623616911081533/unknown.png", "https://cdn.discordapp.com/attachments/1036595856989753345/1036621683005587476/unknown.png"]
+        },
+        "Crypto": {
+            "name": "Crypto",
+            "description": "Track your crypto portfolio",
+            "removable": true,
+            "size": 256700
         },
         "Mail": {
             "name": "Mail",
@@ -126,7 +133,8 @@
             "size": 23200
         },
         "Instagram": {
-            "name": "Instagram",
+            "name": "InstaPic",
+            "icon": "./assets/img/icons/apps/InstaPic.png",
             "description": "Share photos and videos",
             "removable": true,
             "size": 223000,
@@ -139,7 +147,8 @@
             ]
         },
         "Tinder": {
-            "name": "Tinder",
+            "name": "Spark",
+            "icon": "./assets/img/icons/apps/Spark.png",
             "description": "Meet new people",
             "removable": true,
             "size": 187500,
@@ -151,20 +160,15 @@
                 "https://cdn.discordapp.com/attachments/1036595856989753345/1036625791842275368/unknown.png"
             ]
         },
-        "Crypto": {
-            "name": "Crypto",
-            "description": "Track your crypto portfolio",
-            "removable": true,
-            "size": 256700
-        },
         "TikTok": {
-            "name": "TikTok",
+            "name": "Trendy",
+            "icon": "./assets/img/icons/apps/Trendy.png",
             "description": "Share photos and videos",
             "removable": true,
             "size": 223000
         },
         "2048": {
-            "name": "2048",
+            "name": "Numbers",
             "description": "Slide the tiles",
             "images": ["https://cdn.discordapp.com/attachments/1036595856989753345/1036595872361885696/unknown.png"],
             "removable": true,

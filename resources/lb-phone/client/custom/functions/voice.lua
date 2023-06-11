@@ -140,13 +140,10 @@ RegisterNetEvent("phone:phone:addVoiceTarget", function(sources, audio, phoneCal
 
     for i = 1, #sources do
         local id = sources[i]
-        voiceTargets[id] = audio
+        voiceTargets[id] = audio or false
         if phoneCall and Config.Voice.CallEffects then
             MumbleSetSubmixForServerId(id, speakerEffect)
         end
-        -- MumbleAddVoiceTargetPlayerByServerId(1, id)
-        -- MumbleSetVolumeOverrideByServerId(id, audio and 1.0 or -1.0)
-        debugprint("Added voice target", id)
     end
 end)
 

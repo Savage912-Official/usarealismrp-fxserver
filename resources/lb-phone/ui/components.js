@@ -82,6 +82,10 @@ if (!window.componentsLoaded) {
     }
     window.selectEmoji = SelectEmoji;
 
+    function useCamera(cb, data) {
+        UseComponent(cb, { ...data, component: 'camera' });
+    }
+
     function GetSettings() {
         return new Promise((resolve, reject) => {
             fetchNui('GetSettings', {}, 'lb-phone').then(resolve).catch(reject);

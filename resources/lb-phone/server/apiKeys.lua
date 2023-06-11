@@ -1,27 +1,28 @@
--- Webhook for instagram posts, recommended to be a public channel
 local DISCORD_WEBHOOK_URL = GetConvar("lb-phone-media", "")
 
-INSTAGRAM_WEBHOOK = DISCORD_WEBHOOK_URL
--- Webhook for tweets, recommended to be a public channel
-TWITTER_WEBHOOK = DISCORD_WEBHOOK_URL
+-- Webhook for instapic posts, recommended to be a public channel
+INSTAPIC_WEBHOOK = "DISCORD_WEBHOOK_URL"
+-- Webhook for birdy posts, recommended to be a public channel
+BIRDY_WEBHOOK = "DISCORD_WEBHOOK_URL"
 
 -- Discord webhook for server logs
 LOGS = {
-    Calls = GetConvar("lb-phone-calls", ""), -- set to false to disable
-    Messages = GetConvar("lb-phone-messages", ""),
-    Instagram = GetConvar("lb-phone-insta", ""),
-    Twitter = GetConvar("lb-phone-twitter", ""),
-    YellowPages = GetConvar("lb-phone-yp", ""),
-    Marketplace = GetConvar("lb-phone-market", ""),
-    Mail = GetConvar("lb-phone-mail", ""),
-    Wallet = GetConvar("lb-phone-wallet", ""),
-    DarkChat = GetConvar("lb-phone-darkchat", ""),
-    Services = GetConvar("lb-phone-services", ""),
-    Crypto = GetConvar("lb-phone-crypto", ""),
+    Calls = "DISCORD_WEBHOOK_URL", -- set to false to disable
+    Messages = "DISCORD_WEBHOOK_URL",
+    InstaPic = "DISCORD_WEBHOOK_URL",
+    Birdy = "DISCORD_WEBHOOK_URL",
+    YellowPages = "DISCORD_WEBHOOK_URL",
+    Marketplace = "DISCORD_WEBHOOK_URL",
+    Mail = "DISCORD_WEBHOOK_URL",
+    Wallet = "DISCORD_WEBHOOK_URL",
+    DarkChat = "DISCORD_WEBHOOK_URL",
+    Services = "DISCORD_WEBHOOK_URL",
+    Crypto = "DISCORD_WEBHOOK_URL",
+    Trendy = "DISCORD_WEBHOOK_URL"
 }
 
 API_KEYS = {
-    Video = DISCORD_WEBHOOK_URL,
-    Image = DISCORD_WEBHOOK_URL,
-    Audio = DISCORD_WEBHOOK_URL,
+    Video = "DISCORD_WEBHOOK_URL",
+    Image = "DISCORD_WEBHOOK_URL",
+    Audio = "DISCORD_WEBHOOK_URL",
 }

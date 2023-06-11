@@ -101,14 +101,16 @@ RegisterCommand("getammo", function()
     print("max ammo for wep: " .. GetMaxAmmoInClip(me, currentWeaponHash, 1))
 end, false)
 
-RegisterNetEvent("ammo:ejectMag")
-AddEventHandler("ammo:ejectMag", function(data)
+RegisterNetEvent("ammo:ejectAmmo")
+AddEventHandler("ammo:ejectAmmo", function(data)
     if MAGS_ENBALED then
         local me = PlayerPedId()
-        TriggerServerEvent("ammo:ejectMag", data.inventoryItemIndex)
+        TriggerServerEvent("ammo:ejectAmmo", data.inventoryItemIndex)
         exports.globals:playAnimation("cover@weapon@machinegun@combat_mg_str", "low_reload_left", 2000, 48, "Unloading")
-        SetPedAmmo(me, GetSelectedPedWeapon(me), 0)
-        SetAmmoInClip(me, GetSelectedPedWeapon(me), 0)
+        if data.itemType == "weapon" then
+            SetPedAmmo(me, GetSelectedPedWeapon(me), 0)
+            SetAmmoInClip(me, GetSelectedPedWeapon(me), 0)
+        end
     else 
         exports.globals:notify("Disabled in ammo only mode")
     end

@@ -321,6 +321,10 @@ AddEventHandler("properties-og:moveItemFromProperty", function(src, data)
   -- get item from property storage
   local inv = inventoryAsMapNotArray(PROPERTIES[data.propertyName].storage.items)
   local item = inv[data.fromSlot]
+  if item.quantity < data.quantity then
+    TriggerClientEvent("usa:notify", src, "Invalid quantity")
+    return
+  end
   -- try to store in player's inventory
   local char = exports["usa-characters"]:GetCharacter(src)
   if char.canHoldItem(item, (data.quantity or item.quantity)) then

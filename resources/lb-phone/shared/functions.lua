@@ -19,6 +19,15 @@ function debugprint(...)
     end
 end
 
+function contains(t, v)
+    for i = 1, #t do
+        if t[i] == v then
+            return true
+        end
+    end
+    return false
+end
+
 local function GenerateLocales(localesFile)
     local tempLocals = {}
     local function FormatLocales(localeTable, prefix)
@@ -45,7 +54,7 @@ function L(path, args)
 
     if args then
         for k, v in pairs(args) do
-            translation = translation:gsub("{" .. k .. "}", v)
+            translation = translation:gsub("{" .. k .. "}", tostring(v))
         end
     end
 
@@ -73,6 +82,10 @@ function SpamError(error)
 end
 
 function FormatNumber(number)
+    if not number or type(number) ~= "string" then
+        return ""
+    end
+
     local format = Config.PhoneNumber.Format
     -- remove any non-numeric characters from the number
     number = number:gsub("%D", "")

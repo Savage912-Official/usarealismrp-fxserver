@@ -343,6 +343,15 @@ local ITEMS = {
 		weight = 30,
 		type = "misc"
 	},
+    {
+        name = "Double Action Revolver",
+        hash = GetHashKey("WEAPON_DOUBLEACTION"),
+        quantity = 1,
+        type = "weapon",
+        weight = 18,
+        objectModel = "w_pi_wep1_gun",
+        notStackable = true
+    }
 }
 
 

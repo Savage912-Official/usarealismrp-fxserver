@@ -187,7 +187,7 @@ CreateThread(function()
     QB.Commands.Add("toggleverified", "Toggle verified for a user profile", {
         {
             name = "app",
-            help = "The app, twitter, instagram or tiktok"
+            help = "The app: trendy, instapic or birdy"
         },
         {
             name = "username",
@@ -204,6 +204,9 @@ CreateThread(function()
             ["twitter"] = true,
             ["instagram"] = true,
             ["tiktok"] = true,
+            ["birdy"] = true,
+            ["trendy"] = true,
+            ["instapic"] = true
         }
         
         if not allowedApps[app:lower()] or (not username) or (verified ~= 1 and verified ~= 0) then
@@ -211,6 +214,46 @@ CreateThread(function()
         end
 
         ToggleVerified(app, username, verified == 1)
+    end, "admin")
+
+    QB.Commands.Add("changepassword", "Change a user's password", {
+        {
+            name = "app",
+            help = "The app: trendy, instapic or birdy"
+        },
+        {
+            name = "username",
+            help = "The profile username"
+        },
+        {
+            name = "password",
+            help = "The new password"
+        }
+    }, true, function(_, args)
+        local app, username, password = args[1], args[2], args[3]
+
+        local allowedApps = {
+            ["twitter"] = true,
+            ["instagram"] = true,
+            ["tiktok"] = true,
+            ["birdy"] = true,
+            ["trendy"] = true,
+            ["instapic"] = true
+        }
+
+        if not allowedApps[app:lower()] then
+            return
+        end         
+
+        if not username then
+            return
+        end
+
+        if not password then
+            return
+        end
+
+        ChangePassword(app, username, password)
     end, "admin")
 
     -- COMPANIES APP
@@ -247,4 +290,51 @@ CreateThread(function()
             id = GetIdentifier(player),
         })
     end)
+
+    if Config.QBMailEvent then
+        local SendQBMail = function(phoneNumber, data)
+            if not phoneNumber then
+                return
+            end
+
+            local address = exports["lb-phone"]:GetEmailAddress(phoneNumber)
+            if not address then
+                return
+            end
+
+            local actions
+            if data.button?.enabled then
+                actions = {
+                    {
+                        label = data.button.buttonData.locationLabel,
+                        data = {
+                            event = data.button.buttonEvent,
+                            isServer = false,
+                            data = data.button.buttonData
+                        }
+                    }
+                }
+            end
+
+            exports["lb-phone"]:SendMail({
+                to = address,
+                sender = data.sender,
+                subject = data.subject,
+                message = data.message,
+                actions = actions
+            })
+        end
+
+        RegisterNetEvent("qb-phone:server:sendNewMail", function(data)
+            local phoneNumber = GetEquippedPhoneNumber(source)
+            SendQBMail(phoneNumber, data)
+        end)
+
+        RegisterNetEvent("qb-phone:server:sendNewMailToOffline", function(citizenid, data)
+            local phoneNumber = GetEquippedPhoneNumber(citizenid)
+            SendQBMail(phoneNumber, data)
+        end)
+    end
 end)
+
+

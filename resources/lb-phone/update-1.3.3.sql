@@ -1,0 +1,1 @@
+ALTER TABLE `phone_instagram_posts` ADD COLUMN `location` VARCHAR(50) DEFAULT NULL AFTER `caption`;

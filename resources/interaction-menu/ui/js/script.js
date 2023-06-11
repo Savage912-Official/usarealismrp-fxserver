@@ -178,10 +178,13 @@ var interactionMenu = new Vue({
                 this.left = event.x;
                 /* Saved clicked inventory index */
                 this.clickedInventoryIndex = clickedInventoryIndex;
-                /* Show 'Reload' option if clicked on weapon */
+                /* Show 'Reload' option if clicked on weapon or magazine */
                 if (fullItem.type == "weapon") {
                     this.doShowReloadOption = true;
                     this.doShowUnloadOption = true;
+                } else if (fullItem.type == "magazine") {
+                    this.doShowUnloadOption = true;
+                    this.doShowReloadOption = false;
                 } else {
                     this.doShowReloadOption = false;
                     this.doShowUnloadOption = false;
@@ -358,7 +361,8 @@ var interactionMenu = new Vue({
                 }));
             } else if (action == "Unload") {
                 $.post('http://interaction-menu/unloadWeapon', JSON.stringify({
-                    inventoryItemIndex: index
+                    inventoryItemIndex: index,
+                    typeType: item.type
                 }));
             } else if (action == "Drop") {
                 /* Perform Action */
@@ -687,6 +691,7 @@ function CloseMenu() {
     interactionMenu.showSecondaryInventory = false;
     interactionMenu.contextMenu.showContextMenu = false;
     interactionMenu.inputBox.show = false;
+    interactionMenu.inputBox.value = 1;
     interactionMenu.locked = false;
     interactionMenu.tooltip.visible = false;
     navigationHistory = [{ name: "Home", children: menuItems }];

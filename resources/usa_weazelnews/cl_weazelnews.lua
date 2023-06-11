@@ -10,6 +10,9 @@ local micanimDict = "missheistdocksprep1hold_cellphone"
 local micanimName = "hold_cellphone"
 local mic_net = nil
 local cam_net = nil
+local lastCompletedCall = nil
+
+local CALL_COMPLETE_DIST = 15
 
 --- 911 calls ---
 local current_call = {}
@@ -303,6 +306,7 @@ end)
 function ClearCurrentCall(dist)
 	TriggerServerEvent('weazelnews:completeCall', dist)
 	RemoveBlip(current_call.handle)
+	lastCompletedCall = current_call
 	current_call = {}
 end
 
@@ -317,9 +321,9 @@ Citizen.CreateThread(function()
 			local playerCoords = GetEntityCoords(PlayerPedId())
 			local player = current_call.player_coords
 			local call = current_call.call_coords
-			if Vdist(playerCoords, call[1], call[2], call[3]) < 15 then
+			if Vdist(playerCoords, call[1], call[2], call[3]) < CALL_COMPLETE_DIST then
 				Wait(10000)
-				if Vdist(playerCoords, call[1], call[2], call[3]) < 15 then
+				if Vdist(playerCoords, call[1], call[2], call[3]) < CALL_COMPLETE_DIST then
 					local dist = Vdist(player[1], player[2], player[3], call[1], call[2], call[3])
 					ClearCurrentCall(dist)
 				end
@@ -342,6 +346,23 @@ end)
 ---------------------------------------------------------------------------
 -- Events --
 ---------------------------------------------------------------------------
+
+RegisterClientCallback {
+	eventName = "news:clientCheck",
+	eventCallback = function()
+		if lastCompletedCall and lastCompletedCall.call_coords then
+			local x = lastCompletedCall.call_coords[1]
+			local y = lastCompletedCall.call_coords[2]
+			local z = lastCompletedCall.call_coords[3]
+			local dist = #(GetEntityCoords(PlayerPedId()) - vector3(x, y, z))
+			if dist <= CALL_COMPLETE_DIST then
+				return true
+			else
+				return false
+			end
+		end
+	end
+}
 
 RegisterNetEvent('weazelnews:911call')
 AddEventHandler('weazelnews:911call', function(string, x, y, z, blipText)

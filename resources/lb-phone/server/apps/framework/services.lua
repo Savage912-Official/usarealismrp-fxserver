@@ -41,10 +41,15 @@ lib.RegisterCallback("phone:services:getChannelId", function(source, cb, job)
     cb(channelId)
 end)
 
-lib.RegisterCallback("phone:services:sendMessage", function(source, cb, channelId, company, message)
+lib.RegisterCallback("phone:services:sendMessage", function(source, cb, channelId, company, message, anonymous)
     local phoneNumber = GetEquippedPhoneNumber(source)
     if not phoneNumber then
         return
+    end
+
+    if anonymous then
+        phoneNumber = L("BACKEND.SERVICES.ANONYMOUS")
+        channelId = GetChannel(company, phoneNumber)
     end
 
     debugprint("phone:services:sendMessage, company:", company, " message:", message)
@@ -115,7 +120,11 @@ lib.RegisterCallback("phone:services:sendMessage", function(source, cb, channelI
             })
         end
 
-        Log("Services", source, "info", "New message", ("**Sender**: %s\n**Channel id**: %s\n**Message**:%s"):format(phoneNumber, channelId, message))
+        Log("Services", source, "info", L("BACKEND.LOGS.NEW_SERVICE_TITLE"), L("BACKEND.LOGS.NEW_SERVICE_CONTENT", {
+            sender = FormatNumber(phoneNumber),
+            channel = company,
+            message = message
+        }))
 
         cb(messageId)
     end)

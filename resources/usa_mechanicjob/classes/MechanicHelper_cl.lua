@@ -151,15 +151,16 @@ MechanicHelper.useMechanicTools = function(veh, repairCount, cb)
             
             local todoSkillChecks = {}
             local numLongSkillChecks = nil
+            local easyMedium = {areaSize = 50, speedMultiplier = 1.25}
             
             if repairCount >= Config.LEVEL_3_RANK_THRESH then
-                todoSkillChecks = {'easy', 'medium', 'easy', 'easy', 'easy', 'easy'}
+                todoSkillChecks = {'easy', easyMedium, 'easy', 'easy', 'easy', 'easy'}
                 numLongSkillChecks = 6
             elseif repairCount >= Config.LEVEL_2_RANK_THRESH then
-                todoSkillChecks = {'easy', 'medium', 'easy', 'medium', 'easy', 'medium', 'easy'}
+                todoSkillChecks = {'easy', easyMedium, 'easy', 'easy'}
                 numLongSkillChecks = 10
             else
-                todoSkillChecks = {'easy', 'medium', 'medium', 'medium', 'medium', 'medium', 'medium'}
+                todoSkillChecks = {'easy', easyMedium, 'easy', easyMedium, easyMedium}
                 numLongSkillChecks = 14
             end
             for i = 1, numLongSkillChecks do
@@ -200,15 +201,16 @@ MechanicHelper.useRepairKit = function(veh, repairCount, cb)
             TriggerEvent("dpemotes:command", 'e', GetPlayerServerId(ped), {"mechanic"})
             local todoSkillChecks = {}
             local numLongSkillChecks = nil
+            local easyMedium = {areaSize = 50, speedMultiplier = 1.25}
             
             if repairCount >= Config.LEVEL_3_RANK_THRESH then
-                todoSkillChecks = {'easy', 'medium', 'easy', 'easy', 'easy', 'easy'}
+                todoSkillChecks = {'easy', easyMedium, 'easy', 'easy', 'easy', 'easy'}
                 numLongSkillChecks = 6
             elseif repairCount >= Config.LEVEL_2_RANK_THRESH then
-                todoSkillChecks = {'easy', 'medium', 'easy', 'medium', 'easy', 'medium', 'easy'}
+                todoSkillChecks = {'easy', easyMedium, 'easy', 'easy'}
                 numLongSkillChecks = 10
             else
-                todoSkillChecks = {'easy', 'medium', 'medium', 'medium', 'medium', 'medium', 'medium'}
+                todoSkillChecks = {'easy', easyMedium, 'easy', easyMedium, easyMedium}
                 numLongSkillChecks = 14
             end
 

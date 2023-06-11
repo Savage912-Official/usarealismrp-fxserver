@@ -426,10 +426,13 @@ AddEventHandler("ammo:useMagazine", function(magazine)
     end
 end)
 
-RegisterServerEvent("ammo:ejectMag")
-AddEventHandler("ammo:ejectMag", function(itemIndex)
+RegisterServerEvent("ammo:ejectAmmo")
+AddEventHandler("ammo:ejectAmmo", function(itemIndex)
     local char = exports["usa-characters"]:GetCharacter(source)
     local item = char.getItemByIndex(itemIndex)
+    if not item then
+        return
+    end
     if item.type == "weapon" then
         -- remove mag from weapon
         local mag = removeMagFromWeapon(char, item)
@@ -443,6 +446,15 @@ AddEventHandler("ammo:ejectMag", function(itemIndex)
             end
         else
             TriggerClientEvent("usa:notify", source, "No magazine!")
+        end
+    elseif item.type == "magazine" then
+        -- remove bullets from magazine
+        local ammoCount = item.currentCapacity
+        if ammoCount > 0 then
+            char.modifyItemByUUID(item.uuid, { currentCapacity = 0 })
+            -- give to player
+            local ammoItem = { name = item.receives .. " Bullets", type = "ammo", weight = 0.5, quantity = ammoCount, legality = "legal", objectModel = "prop_ld_ammo_pack_03" }
+            char.giveItem(ammoItem)
         end
     end
 end)

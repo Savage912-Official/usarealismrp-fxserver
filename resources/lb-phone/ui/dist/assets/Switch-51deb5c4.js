@@ -1,0 +1,1 @@
+import{a as t,j as c}from"./jsx-runtime-f40812bf.js";import{k as a}from"./Phone-bbdfbfe1.js";function n(e){return t("label",{className:`switch ${e.theme??"light"}`,children:[e.disabled?c(a,{type:"checkbox",checked:e.checked,disabled:!0}):c(a,{type:"checkbox",checked:e.checked,onChange:e.onChange}),c("span",{className:"slider round"})]})}export{n as S};

@@ -224,15 +224,18 @@ CreateThread(function()
 
     if ESX.RegisterCommand then
         ESX.RegisterCommand("toggleverified", "admin", function(xPlayer, args, showError)
-            local app, username, verified = args.app, args.username, args.verified
+            local app, username, verified = args.app:lower(), args.username, args.verified
 
             local allowedApps = {
                 ["twitter"] = true,
                 ["instagram"] = true,
                 ["tiktok"] = true,
+                ["birdy"] = true,
+                ["trendy"] = true,
+                ["instapic"] = true
             }
 
-            if not allowedApps[app:lower()] then
+            if not allowedApps[app] then
                 return showError("No such app " .. tostring(app))
             end         
 
@@ -250,7 +253,7 @@ CreateThread(function()
             arguments = {
                 {
                     name = "app",
-                    help = "The app, twitter, instagram or tiktok",
+                    help = "The app: trendy, instapic or birdy",
                     type = "any"
                 },
                 {
@@ -265,8 +268,54 @@ CreateThread(function()
                 }
             }
         })
+
+        ESX.RegisterCommand("changepassword", "admin", function(xPlayer, args, showError)
+            local app, username, verified = args.app:lower(), args.username, args.verified
+
+            local allowedApps = {
+                ["twitter"] = true,
+                ["instagram"] = true,
+                ["tiktok"] = true,
+                ["birdy"] = true,
+                ["trendy"] = true,
+                ["instapic"] = true
+            }
+
+            if not allowedApps[app] then
+                return showError("No such app " .. tostring(app))
+            end         
+
+            if not username then
+                return showError("No username provided")
+            end
+
+            if not password then
+                return showError("No password provided")
+            end
+
+            ChangePassword(app, username, password)
+        end, false, {
+            help = "Change a user's password",
+            arguments = {
+                {
+                    name = "app",
+                    help = "The app: trendy, instapic or birdy",
+                    type = "any"
+                },
+                {
+                    name = "username",
+                    help = "The profile username",
+                    type = "any"
+                },
+                {
+                    name = "password",
+                    help = "The new password",
+                    type = "any"
+                }
+            }
+        })
     else
-        print("^6[LB Phone] ^3[WARNING]^0: ESX.RegisterCommand not found, /toggleverified command not registered, update your ESX")
+        print("^6[LB Phone] ^3[WARNING]^0: ESX.RegisterCommand not found, commands not registered. If you wish to use commands, update your ESX. The phone will still work.")
     end
 
     -- COMPANIES APP

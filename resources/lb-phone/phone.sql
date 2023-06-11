@@ -276,6 +276,7 @@ CREATE TABLE IF NOT EXISTS `phone_instagram_posts` (
 
     `media` TEXT, -- json array of attached media
     `caption` VARCHAR(500) NOT NULL DEFAULT "",
+    `location` VARCHAR(50) DEFAULT NULL,
 
     `like_count` INT(11) NOT NULL DEFAULT 0,
     `comment_count` INT(11) NOT NULL DEFAULT 0,

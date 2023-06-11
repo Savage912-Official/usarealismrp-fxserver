@@ -753,7 +753,7 @@ RegisterNUICallback('reloadWeapon', function(data, cb)
 end)
 
 RegisterNUICallback('unloadWeapon', function(data, cb)
-	TriggerEvent("ammo:ejectMag", data)
+	TriggerEvent("ammo:ejectAmmo", data)
 end)
 
 RegisterNUICallback('notification', function(data, cb)
@@ -1000,34 +1000,35 @@ function interactionMenuUse(index, itemName, wholeItem)
 			dict = "weapon@w_sp_jerrycan",
 			name = "fire"
 		}
-
 		exports.globals:loadAnimDict(JERRY_CAN_ANIMATION.dict)
-
 		hitHandleVehicle = getVehicleInFrontOfUser()
 		if tonumber(hitHandleVehicle) ~= 0 then
 			busy = true
 			local ped = GetPlayerPed(-1)
 			local jcan = 883325847
 			GiveWeaponToPed(ped, jcan, 20, false, true) -- easiest way to remove jerry can object off back when using it (from weapons-on-back resource)
-			Wait(1000)
-			TriggerEvent("usa:playAnimation", JERRY_CAN_ANIMATION.dict, JERRY_CAN_ANIMATION.name, -8, 1, -1, 53, 0, 0, 0, 0, 24.5)
-			local start = GetGameTimer()
-			while GetGameTimer() - start < JERRY_CAN_REFUEL_TIME do
-				if not IsEntityPlayingAnim(playerPed, JERRY_CAN_ANIMATION.dict, JERRY_CAN_ANIMATION.name, 3) then
-					TaskPlayAnim(playerPed, JERRY_CAN_ANIMATION.dict, JERRY_CAN_ANIMATION.name, 8.0, -8, -1, 31, 0, 0, 0, 0)
-				end
-				if GetSelectedPedWeapon(ped) ~= jcan then
-					GiveWeaponToPed(ped, jcan, 20, false, true)
-				end
-				DrawTimer(start, JERRY_CAN_REFUEL_TIME, 1.42, 1.475, "Refueling")
-				Wait(0)
+			if lib.progressBar({
+				duration = JERRY_CAN_REFUEL_TIME,
+				label = 'Refueling',
+				useWhileDead = false,
+				canCancel = true,
+				disable = {
+					car = true,
+					move = true,
+					combat = true,
+				},
+				anim = {
+					dict = JERRY_CAN_ANIMATION.dict,
+					clip = JERRY_CAN_ANIMATION.name,
+					flag = 39
+				},
+			}) then
+				-- refuel --
+				TriggerServerEvent("fuel:refuelWithJerryCan", exports.globals:trim(GetVehicleNumberPlateText(hitHandleVehicle)))
+				-- remove jerry can weapon from inventory --
+				TriggerServerEvent("usa:removeItem", wholeItem, 1)
+				TriggerEvent("interaction:equipWeapon", wholeItem, false)
 			end
-			ClearPedTasksImmediately(ped)
-			-- refuel --
-			TriggerServerEvent("fuel:refuelWithJerryCan", exports.globals:trim(GetVehicleNumberPlateText(hitHandleVehicle)))
-			-- remove jerry can weapon from inventory --
-			TriggerServerEvent("usa:removeItem", wholeItem, 1)
-			TriggerEvent("interaction:equipWeapon", wholeItem, false)
 			busy = false
 		else
 			TriggerEvent("usa:notify", "No vehicle found!")

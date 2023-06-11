@@ -38,7 +38,12 @@ function AddTransaction(phoneNumber, amount, company, logo)
             timestamp = os.time()
         })
 
-        Log("Wallet", source, amount > 0 and "success" or "error", amount > 0 and "Received $" .. amount or "Paid $" .. math.abs(amount), ("%s made a transaction of $%s to %s"):format(phoneNumber, amount, company), logo)
+        -- amount > 0 and "Received $" .. amount or "Paid $" .. math.abs(amount)
+        Log("Wallet", source, amount > 0 and "success" or "error", L("BACKEND.LOGS." .. (amount > 0 and "RECEIVED" or "PAID") .. "_TITLE", { amount = math.abs(amount) }), L("BACKEND.LOGS.TRANSACTION", {
+            number = FormatNumber(phoneNumber),
+            amount = amount,
+            company = company
+        }), logo)
     end)
 
     TriggerEvent("lb-phone:onAddTransaction", amount > 0 and "received" or "paid", phoneNumber, amount, company, logo)
@@ -93,7 +98,7 @@ lib.RegisterCallback("phone:wallet:sendPayment", function(source, cb, sendTo)
     if not phoneNumber then
         return cb({
             success = false,
-            reason = "internal_error"
+            reason = "No phone number equipped found"
         })
     end
 
@@ -117,7 +122,7 @@ lib.RegisterCallback("phone:wallet:sendPayment", function(source, cb, sendTo)
     if not added then
         return cb({
             success = false,
-            reason = "internal_error"
+            reason = "Cannot add money to the other person's account"
         })
     end
 

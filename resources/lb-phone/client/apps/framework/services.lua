@@ -97,15 +97,15 @@ RegisterNetEvent("phone:services:newMessage", function(data)
     SendReactMessage("services:newMessage", data)
 end)
 
-exports("SendCompanyMessage", function(company, message)
+exports("SendCompanyMessage", function(company, message, anonymous)
     assert(type(company) == "string", "Expected string for company")
     assert(type(message) == "string", "Expected string for message")
 
     debugprint("SendCompanyMessage triggered")
-    return lib.TriggerCallbackSync("phone:services:sendMessage", nil, company, message)
+    return lib.TriggerCallbackSync("phone:services:sendMessage", nil, company, message, anonymous == true)
 end)
 
-exports("SendCompanyCoords", function(company, coords)
+exports("SendCompanyCoords", function(company, coords, anonymous)
     assert(type(company) == "string", "Expected string for company")
 
     if not coords then
@@ -115,5 +115,5 @@ exports("SendCompanyCoords", function(company, coords)
     assert(type(coords) == "vector3", "Coords is not defined")
 
     debugprint("SendCompanyCoords triggered")
-    return lib.TriggerCallbackSync("phone:services:sendMessage", nil, company, ("<!SENT-LOCATION-X=%.2fY=%.2f!>"):format(coords.x, coords.y))
+    return lib.TriggerCallbackSync("phone:services:sendMessage", nil, company, ("<!SENT-LOCATION-X=%.2fY=%.2f!>"):format(coords.x, coords.y), anonymous == true)
 end)

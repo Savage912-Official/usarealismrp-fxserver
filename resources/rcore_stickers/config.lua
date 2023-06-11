@@ -334,6 +334,12 @@ Config.Stickers = {
                 flip = false,
                 dict = 'real_life_brands'
             },
+			{
+                name = 'Uber',
+                price = 150,
+                flip = false,
+                dict = 'real_life_brands'
+            },
         }
     },
     {

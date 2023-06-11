@@ -3,6 +3,11 @@ local vans_out = {}
 local VAN_DEPOSIT_AMOUNT = 150
 local BASE_PAY = 20
 
+local MAX_CALL_DIST = 15294
+local MINIMUM_MINUTES_BETWEEN_REASONABLE_PAY = 2
+
+local lastRewardedTimes = {}
+
 TriggerEvent('es:addJobCommand', 'cam', { "reporter" }, function(source, args, char, location)
     TriggerClientEvent("weazelnews:ToggleCam", source)
 end, { help = "Take out or put away the camera" })
@@ -87,16 +92,30 @@ AddEventHandler('weazelnews:completeCall', function(distance)
 		TriggerClientEvent('usa:notify', source, 'Call ended!')
 		return
 	end
+	if distance > MAX_CALL_DIST then
+		return
+	end
+	local passedClientChecks = TriggerClientCallback {
+		eventName = "news:clientCheck",
+		source = source,
+		args = {}
+	}
+	if not passedClientChecks then
+		return
+	end
+	if lastRewardedTimes[source] then
+		if os.difftime(os.time(), lastRewardedTimes[source]) < MINIMUM_MINUTES_BETWEEN_REASONABLE_PAY * 60 then
+			return
+		end
+	end
+	lastRewardedTimes[source] = os.time()
 	local char = exports["usa-characters"]:GetCharacter(source)
 	if char.get("job") == "reporter" then
-		local amountRewarded = math.ceil(BASE_PAY + (0.05 * distance))
+		local amountRewarded = math.ceil(BASE_PAY + (0.50 * distance))
 		char.giveMoney(amountRewarded)
 		TriggerClientEvent('usa:notify', source, 'Call completed, you have received: ~y~$'..amountRewarded..'.00')
 		print("WEAZEL_NEWS: " .. GetPlayerName(source) .. "["..GetPlayerIdentifier(source).."] has received amount["..amountRewarded..'] after distance['..distance..'] for 911 call!')
-	else
-		DropPlayer(source, "Exploiting. Your information has been logged and staff has been notified. If you feel this was by mistake, let a staff member know.")
-    	TriggerEvent("usa:notifyStaff", '^1^*[ANTICHEAT]^r^0 Player ^1'..GetPlayerName(source)..' ['..GetPlayerIdentifier(source)..'] ^0 has been kicked for attempting to exploit weazelnews:completeCall event, please intervene^0!')
-    end
+	end
 end)
 
 RegisterServerEvent("weazelnews:verifyReturnVan")

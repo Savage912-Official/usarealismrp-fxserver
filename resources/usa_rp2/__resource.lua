@@ -3,6 +3,8 @@ resource_type 'gametype' { name = 'usa_realism_rp' }
 -- Manifest
 resource_manifest_version '44febabe-d386-4d18-afbe-5e627f4af937'
 
+lua54 'yes'
+
 ui_page 'html/index.html'
 
 files {
@@ -16,7 +18,8 @@ dependency 'essentialmode'
 
 shared_scripts {
   "@pmc-callbacks/import.lua",
-  "ITEMS.lua"
+  "ITEMS.lua",
+  '@ox_lib/init.lua',
 }
 
 -- General

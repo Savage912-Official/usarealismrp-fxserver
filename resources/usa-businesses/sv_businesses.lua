@@ -220,10 +220,12 @@ AddEventHandler("character:loaded", function(char)
 end)
 
 AddEventHandler('onResourceStart', function(resourceName)
-  for i,v in ipairs(GetPlayers()) do
-    -- grab all owned businesses with this char's identifier and send their positions to the client for adding blips to map
-    local char = exports["usa-characters"]:GetCharacter(tonumber(v))
-    loadCharBusinesses(char)
+  if resourceName == "usa-businesses" then
+    for i,v in ipairs(GetPlayers()) do
+      -- grab all owned businesses with this char's identifier and send their positions to the client for adding blips to map
+      local char = exports["usa-characters"]:GetCharacter(tonumber(v))
+      loadCharBusinesses(char)
+    end
   end
 end)
 

@@ -474,6 +474,7 @@ RegisterServerCallback {
 				info.rank = rank
 				info.availableParts = availableParts
 				info.playerName = char.getName()
+				info.lvl2RequiredRepairCount = Config.LEVEL_2_RANK_THRESH
 				ret = info
 			end)
 			while ret == nil do

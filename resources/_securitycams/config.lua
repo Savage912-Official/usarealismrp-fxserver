@@ -23,64 +23,23 @@ SecurityCamConfig.Locations = {
     {
         camBox = {label = "Bolingbroke Penitentiary", id = 'prison'},
         cameras = {
-            {label = "Front Gate 1", x = 1823.2, y = 2616.7, z = 61.0, r = {x = -50.0, y = 0.0, z = 208.0}},
-            {label = "Main Gate Entrance Cam 1", x = 1804.9, y = 2597.7, z = 50.7, r = {x = -30.0, y = 0.0, z = 40.0}},
-            {label = "Main Gate Entrance Cam 2", x = 1817.8, y = 2581.1, z = 59.9, r = {x = -45.0, y = 0.0, z = 60.0}}, 
-            {label = "Receptionist Entrance", x = 1845.9899902344, y = 2579.78125, z = 49.0, r = {x = -30.0, y = 0.0, z = 318.0}},
-            {label = "Cafeteria Ext", x = 1792.5628662109, y = 2548.4223632813, z = 49.0, r = {x = -30.0, y = 0.0, z = 318.0}},
+            {label = "Intake Entrance 1", x = 1804.9, y = 2597.7, z = 50.7, r = {x = -30.0, y = 0.0, z = 40.0}},
+            {label = "Intake Entrance A2", x = 1817.8, y = 2581.1, z = 59.9, r = {x = -45.0, y = 0.0, z = 60.0}},
+            {label = "Intake", x = 1789.97, y = 2599.16, z = 48.0, r = {x = -30.0, y = 0.0, z = 140.0}},
+            {label = "Main Cell Block", x = 1772.66, y = 2570.34, z = 53.0, r = {x = -30.0, y = 0.0, z = -40.0}},
+            {label = "Main Cell Block 2", x = 1787.08, y = 2570.47, z = 53.0, r = {x = -25.0, y = 0.0, z = 40.0}},
+            {label = "Main Cell Block 3", x = 1783.52, y = 2599.52, z = 52.81, r = {x = -30.0, y = 0.0, z = 115.0}},
+            {label = "Main Cell Block 4", x = 1779.68, y = 2589.72, z = 48.8, r = {x = -25.0, y = 0.0, z = 170.0}},
+            {label = "Medical Ward", x = 1776.68, y = 2565.58, z = 47.64, r = {x = -28.0, y = 0.0, z = 230.0}},
 
-        }
-    },
-    {
-        camBox = {label = "Bolingbroke Penitentiary Cell Block", id = 'prisoncb'},
-        cameras = {
-            -- Cell Block
-            {label = "Lower Cell Block", x = 1777.5905761719, y = 2487.2336425781, z = 48.14, r = {x = -30.0, y = 0.0, z = 85.0}},
-            {label = "Lower Cell Block 2", x = 1770.7250976563, y = 2499.2023925781, z = 48.14, r = {x = -30.0, y = 0.0, z = 152.0}},
-            {label = "Lower Cell Block 3", x = 1748.6000976563, y = 2486.3684082031, z = 48.14, r = {x = -30.0, y = 0.0, z = 264.0}},
-            {label = "Upper Cell Block", x = 1777.5905761719, y = 2487.2336425781, z = 51.14, r = {x = -30.0, y = 0.0, z = 85.0}},
-            {label = "Upper Cell Block 2", x = 1770.7250976563, y = 2499.2023925781, z = 51.14, r = {x = -30.0, y = 0.0, z = 152.0}},
-            {label = "Upper Cell Block 3", x = 1748.6000976563, y = 2486.3684082031, z = 51.14, r = {x = -30.0, y = 0.0, z = 264.0}},
-            {label = "Recreational Center",x = 1748.1362304688, y = 2469.8210449219, z = 47.80, r = {x = -30.0, y = 0.0, z = 334.0}},
-            {label = "Gym", x = 1740.875, y = 2482.1071777344, z = 48.14, r = {x = -40.0, y = 0.0, z = 266.0}},
-
-        }
-    },
-    {
-        camBox = {label = "Bolingbroke Penitentiary Medical Ward ", id = 'prisonw'},
-        cameras = {
-            -- Medical Ward
-            {label = "Medical Ward Entrance 1", x = 1772.1832275391, y = 2567.4692382813, z = 47.75, r = {x = -28.0, y = 0.0, z = 65.0}}, 
-            {label = "Medical Ward Entrance 2", x = 1767.9697265625, y = 2574.1293945313, z = 47.75, r = {x = -28.0, y = 0.0, z = 158.0}},
-            {label = "Medical Ward Hallway", x = 1763.5450439453, y = 2575.1535644531, z = 47.75, r = {x = -28.0, y = 0.0, z = 345.0}}, 
-            {label = "Medical Ward Labatory", x = 1768.033203125, y = 2580.8266601563, z = 47.75, r = {x = -40.0, y = 0.0, z = 225.0}}, 
-            {label = "Medical Ward Surgery", x = 1767.7001953125, y = 2582.1340332031, z = 47.75, r = {x = -40.0, y = 0.0, z = 329.0}},
-            {label = "Medical Ward Medical Room cam1", x = 1768.0932617188, y = 2590.1574707031, z = 47.75, r = {x = -30.0, y = 0.0, z = 43.0}},
-            {label = "Medical Ward Medical Room cam2", x = 1765.3934326172, y = 2599.5427246094, z = 47.75, r = {x = -30.0, y = 0.0, z = 224.0}},
-        }
-    },
-    {
-        camBox = {label = "Bolingbroke Penitentiary Recepitionist Area ", id = 'prisonr'},
-        cameras = {
-            -- Recepitionist Area
-            {label = "Recepition Lobby", x = 1844.6666259766, y = 2585.3400878906, z = 48.14, r = {x = -30.0, y = 0.0, z = 61.0}},
-            {label = "Recepition Lobby cam2",x = 1844.5198974609, y = 2591.4206542969, z = 48.14, r = {x = -25.0, y = 0.0, z = 147.0}},
-            {label = "Recepition Lobby cam3", x = 1844.6199951172, y = 2577.5241699219, z = 48.14, r = {x = -25.0, y = 0.0, z = 28.0}},
-            {label = "Recepition Visitors", x = 1834.8422851563, y = 2579.8520507813, z = 48.14, r = {x = -30.0, y = 0.0, z = 23.0}},
-            {label = "Recepition Processing", x = 1838.056640625, y = 2596.0402832031, z = 48.14, r = {x = -45.0, y = 0.0, z = 129.0}},
-            {label = "Recepition Visitation", x = 1827.4921875, y = 2591.5583496094, z = 48.14, r = {x = -30.0, y = 0.0, z = 206.0}},
-            {label = "Recepition Hallway", x = 1830.6329345703, y = 2595.9274902344, z = 48.14, r = {x = -30.0, y = 0.0, z = 114.0}},
         }
     },
     {
         camBox = {label = "Bolingbroke Penitentiary Cafeteria ", id = 'prisonc'},
         cameras = {
             -- Cafeteria
-            {label = "Cafeteria Cam1", x = 1790.5042724609, y = 2546.0795898438, z = 47.75, r = {x = -25.0, y = 0.0, z = 37.0}}, 
-            {label = "Cafeteria Cam2", x = 1790.4088134766, y = 2557.9733886719, z = 47.75, r = {x = -25.0, y = 0.0, z = 116.0}},
-            {label = "Cafeteria Cam3", x = 1777.5377197266, y = 2546.4201660156, z = 47.75, r = {x = -25.0, y = 0.0, z = 314.0}}, 
-            {label = "Cafeteria Cam4", x = 1783.6435546875, y = 2560.8171386719, z = 47.75, r = {x = -35.0, y = 0.0, z = 51.0}}, 
-            {label = "Cafeteria Cam5", x = 1777.4647216797, y = 2560.775390625, z = 47.75, r = {x = -35.0, y = 0.0, z = 289.0}},
+            {label = "Kitchen Cam", x = 1775.4255371094, y = 2591.0290527344, z = 48.197798919678, r = {x = -25.0, y = 0.0, z = 318.0}},
+            {label = "Storage", x = 1779.8646240234, y = 2599.6398925781, z = 47.897832489014, r = {x = -25.0, y = 0.0, z = 234.0}}
         }
     },
     {
@@ -92,6 +51,8 @@ SecurityCamConfig.Locations = {
             {label = "Yard 3", x = 1768.32, y = 2531.38, z = 49.91, r = {x = -20.0, y = 0.0, z = -05.0}},
             {label = "Yard 4", x = 1765.59, y = 2554.28, z = 50.19, r = {x = -25.0, y = 0.0, z = 110.0}},
             {label = "Yard 5", x = 1685.75, y = 2528.86, z = 59.31, r = {x = -45.0, y = 0.0, z = 120.0}},
+            {label = "Visit Inmate", x = 1770.0, y = 2613.1, z = 48.2, r = {x = -30.0, y = 0.0, z = -50.0}},
+            {label = "Visit Vistor", x = 1781.5, y = 2620.33, z = 48.2, r = {x = -30.0, y = 0.0, z = 135.0}},
         }
     },
     {
@@ -108,6 +69,7 @@ SecurityCamConfig.Locations = {
             {label = "Ring Road 4", x = 1537.45, y = 2472.68, z = 64.06, r = {x = -25.0, y = 0.0, z = 30.0}},
             {label = "Ring Road 5", x = 1567.42, y = 2684.21, z = 64.09, r = {x = -25.0, y = 0.0, z = 320.0}},
             {label = "Ring Road 6", x = 1775.45, y = 2766.47, z = 64.34, r = {x = -25.0, y = 0.0, z = 254.0}},
+            {label = "Vistor Entrance", x = 1838.44, y = 2595.66, z = 48.15, r = {x = -30.0, y = 0.0, z = 210.0}},
         }
     },
     {

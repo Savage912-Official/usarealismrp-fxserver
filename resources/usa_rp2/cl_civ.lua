@@ -1,6 +1,7 @@
 local hands_up = false
 local hands_tied = false
 local blindfolded = false
+knocked_out = false
 
 local bag = nil
 
@@ -398,15 +399,17 @@ Citizen.CreateThread(function()
   end
 end)
 
-RegisterNetEvent("crim:areHandsUp")
-AddEventHandler("crim:areHandsUp", function(from_source, to_source, action, x, y, z, heading)
-  if hands_up == true and closeEnoughToPlayer(from_source) then
-    if action == "tie" then
+RegisterNetEvent("crim:canBeTied")
+AddEventHandler("crim:canBeTied", function(from_source, to_source, action, x, y, z, heading)
+  if closeEnoughToPlayer(from_source) then
+    if action == "tie" and (hands_up or knocked_out) then
       TriggerServerEvent("crim:continueTyingHands", from_source, to_source, true, x, y, z, heading)
-    elseif action == "rob" then
+    elseif action == "rob" and hands_up then
       TriggerServerEvent("crim:continueRobbing", true, from_source, to_source)
-    elseif action == "search" then
+    elseif action == "search" and hands_up then
       TriggerServerEvent("search:searchPlayer", to_source, from_source)
+    else
+      TriggerServerEvent("crim:continueTyingHands", from_source, to_source, false)
     end
   else
     TriggerServerEvent("crim:continueTyingHands", from_source, to_source, false)
@@ -497,7 +500,7 @@ function closeEnoughToPlayer(from_id)
     if NetworkIsPlayerActive(id) then
       if GetPlayerServerId(id) == tonumber(from_id) then
         local target_ped = GetPlayerPed(id)
-        if Vdist(GetEntityCoords(lPed, 1), GetEntityCoords(target_ped, 1)) < 1.0 then
+        if Vdist(GetEntityCoords(lPed, 1), GetEntityCoords(target_ped, 1)) < 1.2 then
           return true
         else
           return false
@@ -597,8 +600,6 @@ local enableWeatherControl = false
 
 local G_KEY = 47
 
-
--- No need to touch anything below.
 Citizen.CreateThread(function()
 
     local showHelp = true
@@ -649,58 +650,6 @@ Citizen.CreateThread(function()
       end
       Wait(0)
     end
-end)
-
-phone = false
-phoneId = 0
-frontCam = false
-local on = false
-
-function CellFrontCamActivate(activate)
-  return Citizen.InvokeNative(0x2491A93618B7D838, activate)
-end
-
-RegisterNetEvent("camera:selfie")
-AddEventHandler("camera:selfie", function()
-  if not on then
-    -- create phone:
-    CreateMobilePhone(0)
-    CellCamActivate(true, true)
-    phone = true
-    -- go into selfie mode:
-    frontCam = true
-    CellFrontCamActivate(frontCam)
-    on = true
-  else
-    -- close phone:
-    DestroyMobilePhone()
-    phone = false
-    CellCamActivate(false, false)
-    if firstTime == true then
-      firstTime = false
-      Citizen.Wait(2500)
-      displayDoneMission = true
-    end
-    on = false
-    frontCam = false
-  end
-end)
-
-Citizen.CreateThread(function()
-DestroyMobilePhone()
-  while true do
-    Citizen.Wait(0)
-
-    if phone == true then
-      HideHudComponentThisFrame(7)
-      HideHudComponentThisFrame(8)
-      HideHudComponentThisFrame(9)
-      HideHudComponentThisFrame(6)
-      HideHudComponentThisFrame(19)
-      HideHudAndRadarThisFrame()
-    end
-
-  end
 end)
 
 function DrawTimer(beginTime, duration, x, y, text)

@@ -74,8 +74,8 @@ AddEventHandler("uber:fetchLeaderboard", function()
 	table.sort(allDocs, function(a, b)
 		return a.ridesCompleted > b.ridesCompleted
 	end)
-	TriggerClientEvent("usa:notify", src, false, "^3INFO: ^0Top 10 Uber Drivers:")
-	for i = 1, 10 do
+	TriggerClientEvent("usa:notify", src, false, "^3INFO: ^0Top 15 Uber Drivers:")
+	for i = 1, 15 do
 		if allDocs[i] then
 			TriggerClientEvent("usa:notify", src, false, "#" .. i .. " - " .. allDocs[i].name .. ": " .. allDocs[i].ridesCompleted)
 		end

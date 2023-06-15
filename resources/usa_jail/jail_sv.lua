@@ -4,33 +4,32 @@
 
 -- Each cell block floor starts from the leftmost cell and wraps around until finished (cell numbers)
 local CELLS = {
-	{x = 1767.6765136719, y = 2501.0712890625, z = 45.740745544434, occupant = nil}, -- Cell 1
-	{x = 1764.2520751953, y = 2499.0471191406, z = 45.740772247314, occupant = nil}, -- Cell 2
-	{x = 1761.2839355469, y = 2497.3190917969, z = 45.740772247314, occupant = nil}, -- Cell 3
-	{x = 1754.935546875, y = 2493.5183105469, z = 45.740772247314, occupant = nil}, -- Cell 4
-	{x = 1752.2100830078, y = 2491.8581542969, z = 45.740749359131, occupant = nil}, -- Cell 5
-	{x = 1748.9245605469, y = 2490.0551757813, z = 45.740749359131, occupant = nil}, -- Cell 6
-	{x = 1767.6411132813, y = 2500.9851074219, z = 49.693042755127, occupant = nil}, -- Cell 7
-	{x = 1764.6899414063, y = 2499.1826171875, z = 49.693050384521, occupant = nil}, -- Cell 8
-	{x = 1761.4486083984, y = 2497.2639160156, z = 49.693046569824, occupant = nil}, -- Cell 9
-	{x = 1758.0531005859, y = 2495.8103027344, z = 49.693054199219, occupant = nil}, -- Cell 10
-	{x = 1754.9320068359, y = 2494.3276367188, z = 49.693046569824, occupant = nil}, -- Cell 11
-	{x = 1751.9644775391, y = 2492.0417480469, z = 49.693050384521, occupant = nil}, -- Cell 12
-	{x = 1748.7556152344, y = 2490.1962890625, z = 49.693042755127, occupant = nil}, -- Cell 13
-	{x = 1758.5069580078, y = 2472.4377441406, z = 45.740745544434, occupant = nil}, -- Cell 14
-	{x = 1761.7844238281, y = 2474.1655273438, z = 45.740745544434, occupant = nil}, -- Cell 15
-	{x = 1764.6411132813, y = 2476.3666992188, z = 45.740772247314, occupant = nil}, -- Cell 16
-	{x = 1768.19921875, y = 2477.8666992188, z = 45.740726470947, occupant = nil}, -- Cell 17
-	{x = 1771.2290039063, y = 2479.6123046875, z = 45.740745544434, occupant = nil}, -- Cell 18
-	{x = 1774.1466064453, y = 2481.6750488281, z = 45.740760803223, occupant = nil}, -- Cell 19
-	{x = 1777.7443847656, y = 2483.2238769531, z = 45.740760803223, occupant = nil}, -- Cell 20
-	{x = 1758.3173828125, y = 2472.7045898438, z = 49.693050384521, occupant = nil}, -- Cell 21
-	{x = 1762.1300048828, y = 2473.6948242188, z = 49.693050384521, occupant = nil}, -- Cell 22
-	{x = 1764.7816162109, y = 2476.2902832031, z = 49.693054199219, occupant = nil}, -- Cell 23
-	{x = 1767.9769287109, y = 2477.9680175781, z = 49.693046569824, occupant = nil}, -- Cell 24
-	{x = 1770.8480224609, y = 2479.720703125, z = 49.693046569824, occupant = nil}, -- Cell 25
-	{x = 1774.1553955078, y = 2481.6520996094, z = 49.693042755127, occupant = nil}, -- Cell 26
-	{x = 1777.3125, y = 2483.3032226563, z = 49.693046569824, occupant = nil}, -- Cell 27
+	{x = 1789.84, y = 2586.21, z = 45.8, occupant = nil},
+	{x = 1789.79, y = 2582.03, z = 45.8, occupant = nil},
+	{x = 1789.47, y = 2578.59, z = 45.8, occupant = nil},
+	{x = 1789.92, y = 2574.67, z = 45.8, occupant = nil},
+	{x = 1768.73, y = 2573.49, z = 45.8, occupant = nil},
+	{x = 1769.41, y = 2577.74, z = 45.8, occupant = nil},
+	{x = 1769.22, y = 2581.41, z = 45.8, occupant = nil},
+	{x = 1769.21, y = 2585.43, z = 45.8, occupant = nil}, -- last lower cell
+	{x = 1769.26, y = 2573.5, z = 50.55, occupant = nil}, -- first upper cell
+	{x = 1769.73, y = 2577.66, z = 50.55, occupant = nil},
+	{x = 1769.27, y = 2581.5, z = 50.55, occupant = nil},
+	{x = 1769.8, y = 2585.53, z = 50.55, occupant = nil},
+	{x = 1769.6, y = 2589.24, z = 50.55, occupant = nil},
+	{x = 1769.66, y = 2593.24, z = 50.55, occupant = nil},
+	{x = 1769.71, y = 2597.22, z = 50.55, occupant = nil},
+	{x = 1785.16, y = 2602.04, z = 50.55, occupant = nil},
+	{x = 1789.52, y = 2598.19, z = 50.55, occupant = nil},
+	{x = 1789.54, y = 2594.22, z = 50.55, occupant = nil},
+	{x = 1789.44, y = 2590.13, z = 50.55, occupant = nil},
+	{x = 1789.72, y = 2586.0, z = 50.55, occupant = nil},
+	{x = 1789.45, y = 2582.4, z = 50.55, occupant = nil},
+	{x = 1789.73, y = 2577.97, z = 50.55, occupant = nil},
+	{x = 1785.85, y = 2568.26, z = 50.55, occupant = nil},
+	{x = 1781.75, y = 2568.45, z = 50.55, occupant = nil},
+	{x = 1778.07, y = 2568.4, z = 50.55, occupant = nil},
+	{x = 1774.32, y = 2568.13, z = 50.55, occupant = nil},
 }
 
 local alarm_on = false
@@ -324,14 +323,10 @@ function jailStatusLoop()
 	SetTimeout(60000, function()
 		exports["usa-characters"]:GetCharacters(function(characters)
 			for id, char in pairs(characters) do
-				local jailtime = char.get("jailTime")
-				if not jailtime then
-					jailtime = 0
-				end
+				local jailtime = (char.get("jailTime") or 0)
 				if jailtime > 0 then
-					local newJailTime = jailtime - 1
-					char.set("jailTime", newJailTime)
-					if newJailTime == 0 then
+					char.set("jailTime", math.max(jailtime - 1, 0))
+					if char.get("jailTime") == 0 then
 						TriggerClientEvent("jail:release", tonumber(id), char.get("appearance"))
 						exports["globals"]:notifyPlayersWithJob("corrections", "^3CORRECTIONS:^0 " .. char.getName() .. " has been released.")
 					end

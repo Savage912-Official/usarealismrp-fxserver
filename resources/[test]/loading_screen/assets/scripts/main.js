@@ -52,7 +52,7 @@ function setup() {
     // Music
     song = new Audio("assets/media/" + Config.Song);
     song.volume = Config.DEFAULT_VOLUME
-    song.play()
+    //song.play()
 
     // Categories
     var currentCat = "";

@@ -93,37 +93,37 @@ local hospitalBeds = {
 	-- Prison Beds
 	{
 		occupied = nil,
-		objCoords = {1762.1318359375, 2591.5173339844, 45.72},
+		objCoords = {1777.81, 2558.01, 45.8},
 		objModel = 2117668672
 	},
 	{
 		occupied = nil,
-		objCoords = {1762.2557373047, 2594.5734863281, 45.72},
+		objCoords = {1778.09, 2560.46, 45.8},
 		objModel = 2117668672
 	},
 	{
 		occupied = nil,
-		objCoords = {1762.1657714844, 2597.6586914063, 45.72},
+		objCoords = {1777.71, 2562.4, 45.8},
 		objModel = 2117668672
 	},
 	{
 		occupied = nil,
-		objCoords = {1771.6264648438, 2597.9948730469, 45.72},
+		objCoords = {1777.74, 2564.5, 45.8},
 		objModel = 2117668672
 	},
 	{
 		occupied = nil,
-		objCoords = {1771.6417236328, 2594.97265625, 45.72},
+		objCoords = {1781.71, 2564.5, 45.8},
 		objModel = 2117668672
 	},
 	{
 		occupied = nil,
-		objCoords = {1771.6176757813, 2591.9416503906, 45.72},
+		objCoords = {1781.59, 2562.5, 45.8},
 		objModel = 2117668672
 	},
 	{
 		occupied = nil,
-		objCoords = {1770.2434082031, 2586.0727539063, 46.0},
+		objCoords = {1781.11, 2560.51, 45.8},
 		objModel = 2117668672
 	},
 	-- viceroy medical --

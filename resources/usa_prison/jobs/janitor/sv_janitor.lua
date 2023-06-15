@@ -1,14 +1,25 @@
 local cleaningLocations = {
     ["tables"] = {
-        {x = 1759.0582275391, y = 2484.3369140625, z = 46.561180114746},
-        {x = 1763.8211669922, y = 2487.0903320313, z = 46.561172485352},
-        {x = 1768.84375, y = 2489.9106445313, z = 46.561157226563}
+        {x = 1775.7236328125, y = 2585.8447265625, z = 46.590061187744},
+        {x = 1779.7224121094, y = 2585.9016113281, z = 46.590114593506},
+        {x = 1775.8326416016, y = 2582.4924316406, z = 46.590114593506},
+        {x = 1779.740234375, y = 2582.2458496094, z = 46.590152740479},
+        {x = 1783.2489013672, y = 2585.978515625, z = 46.59005355835},
+        {x = 1783.2403564453, y = 2582.1547851563, z = 46.590110778809},
+        {x = 1783.3665771484, y = 2578.2507324219, z = 46.590110778809},
+        {x = 1775.7790527344, y = 2578.224609375, z = 46.590118408203}
     },
-    ["gym"] = {
-        {x = 1746.9866943359, y = 2481.8576660156, z = 45.740688323975},
-        {x = 1742.3884277344, y = 2481.8435058594, z = 45.740657806396},
-        {x = 1745.3166503906, y = 2483.8564453125, z = 45.740657806396},
-        {x = 1747.2858886719, y = 2479.1188964844, z = 45.740657806396}
+    ["shower"] = {
+        {x = 1762.5603027344, y = 2584.1528320313, z = 45.79780960083},
+        {x = 1762.4711914063, y = 2583.0393066406, z = 45.79780960083},
+        {x = 1762.5052490234, y = 2581.9421386719, z = 45.79780960083},
+        {x = 1762.5593261719, y = 2580.9379882813, z = 45.79780960083},
+        {x = 1762.6495361328, y = 2579.7543945313, z = 45.79780960083},
+        {x = 1764.2890625, y = 2579.771484375, z = 45.79780960083},
+        {x = 1764.2041015625, y = 2580.8955078125, z = 45.79780960083},
+        {x = 1764.2381591797, y = 2581.9560546875, z = 45.79780960083},
+        {x = 1764.1721191406, y = 2583.0883789063, z = 45.79780960083},
+        {x = 1764.2390136719, y = 2584.1032714844, z = 45.79780960083}
     },
     --[[
     ["kitchen"] = {
@@ -22,12 +33,12 @@ local cleaningLocations = {
 
 local REDUCE_TIME_RATES = {
     tables = 1,
-    gym = 1
+    shower = 1
 }
 
 local PAY_RATES = {
     tables = math.random(20, 100),
-    gym = math.random(25, 100)
+    shower = math.random(25, 100)
 }
 
 local CLEANING_TIME_SECONDS = 45
@@ -60,10 +71,10 @@ AddEventHandler("prison-janitor:toggleJob", function(targetSrc)
                 payment = payment + PAY_RATES[currentlyCleaningTaskName[src]]
             end
         end
-        char.set("jailTime", math.max(0, time))
+        char.set("jailTime", math.max(time, 1))
         char.giveBank(payment, "DOC Janitor Pay")
         TriggerClientEvent("usa:notify", src, "You've been paid: $" .. exports.globals:comma_value(payment), "^3INFO: ^0You've been paid: $" .. exports.globals:comma_value(payment))
-        TriggerClientEvent("usa:notify", src, "Reduced Prison Time, New Time: " .. time, "^3INFO: ^0Reduced Prison Time, New Time: " .. time)
+        TriggerClientEvent("usa:notify", src, "Reduced Prison Time, New Time: " .. math.max(time, 1), "^3INFO: ^0Reduced Prison Time, New Time: " .. math.max(time, 1))
         -- record stoppage
         currentlyCleaning[src] = nil
         currentlyCleaningTaskName[src] = nil

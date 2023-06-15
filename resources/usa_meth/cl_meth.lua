@@ -24,6 +24,8 @@ local meth = {
 
 local peds = {}
 
+-- /gotoc 1387.02 4281.44 36.21
+-- /gotoc 738.85601806641 -773.63940429688 25.093187332153
 local BUY_RED_PHOS_COORDS = {x = 1387.02, y = 4281.44, z = 36.21}
 local BUY_PSEUDOPHEDRINE_COORDS = {x = 704.62, y = 4185.3, z = 40.70}
 local PACKAGE_COORDS = {x = 2434.78, y = 4964.29, z = 42.34}
@@ -31,9 +33,11 @@ local COOK_COORDS = {x = 738.85601806641, y = -773.63940429688, z = 25.093187332
 
 local methRank = nil
 
-local blowChances = {0.60, 0.70, 0.75, 0.85, 0.90}
+local blowChances = {0.15, 0.12, 0.9, 0.07, 0.03}
 local produceTimes = {23000, 19000, 15000, 12000, 10000}
 local packageTimes = {7500,6500,5500,4500,3500}
+
+math.randomseed(GetGameTimer())
 
 -- JOB HANDLING
 Citizen.CreateThread(function()
@@ -239,7 +243,8 @@ Citizen.CreateThread(function()
                     break
                 end
             end
-            if math.random() > blowChances[methRank] then
+            local randomNum = math.random()
+            if randomNum <= blowChances[methRank] then
                 AddExplosion(GetEntityCoords(PlayerPedId()), 9, 1.0, true, false, 1.0)
                 meth.producingMeth = false
                 ClearPedTasksImmediately(GetPlayerPed(-1))

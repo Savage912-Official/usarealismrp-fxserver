@@ -1,16 +1,16 @@
 config = {
 
     detectors = {
-		-- { -- Prison Corridor Left
-		-- 	info = { id = 1, sound = { range = 10 } },
-		-- 	coords = { x = 1827.3799, y = 2592.0012, z = 45.9524, radius = 0.5 },
-		-- 	entity = { enable = true, heading = 3 }
-		-- },
-		-- { -- Prison Corridor Right
-		-- 	info = { id = 2, sound = { range = 10 } },
-		-- 	coords = { x = 1828.4799, y = 2592.0012, z = 45.9524, radius = 0.5 },
-		-- 	entity = { enable = true, heading = 3 }
-		-- },
+		{ -- Prison Corridor Left
+			info = { id = 1, sound = { range = 10 } },
+			coords = { x = 1827.3799, y = 2592.0012, z = 45.9524, radius = 0.5 },
+			entity = { enable = true, heading = 3 }
+		},
+		{ -- Prison Corridor Right
+			info = { id = 2, sound = { range = 10 } },
+			coords = { x = 1828.4799, y = 2592.0012, z = 45.9524, radius = 0.5 },
+			entity = { enable = true, heading = 3 }
+		},
 		{ -- Cityhall Right
 			info = { id = 3, sound = { range = 10 } },
 			coords = {x = -546.04187011719, y = -201.1865234375, z = 38.226989746094, radius = 0.5 },
@@ -20,16 +20,6 @@ config = {
 			info = { id = 4, sound = { range = 10 } },
 			coords = {x = -547.27020263672, y = -201.81419372559, z = 38.226989746094, radius = 0.5 },
 			entity = { enable = true, heading = 30.0 }
-		},
-		{ -- Prison Main Entrance
-			info = { id = 5, sound = { range = 10 } },
-			coords = {x = 1843.5974121094, y = 2585.9030761719, z = 46.014305114746, radius = 1.0 },
-			entity = { enable = false, heading = nil }
-		},
-		{ -- Prison Side Entrance
-			info = { id = 6, sound = { range = 10 } },
-			coords = {x = 1834.1218261719, y = 2594.2885742188, z = 46.014324188232, radius = 1.0 },
-			entity = { enable = false, heading = nil }
 		},
 	},
 

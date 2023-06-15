@@ -13,7 +13,8 @@ export default new Vuex.Store({
 		deliveredParts: [],
 		itemImages: [],
 		showNotification: false,
-		notificationText: ""
+		notificationText: "",
+		lvl2RequiredRepairCount: null
 	},
 	getters: {
 		menuData(state) {

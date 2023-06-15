@@ -1,5 +1,5 @@
-local NPC_COORDS = vector3(1774.2919921875, 2492.8383789063, 44.740768432617)
-local NPC_HEADING = 120.0
+local NPC_COORDS = vector3(1762.3232421875, 2593.0949707031, 45.797840118408)
+local NPC_HEADING = 280.0
 local NPC_PED_MODEL = 1456041926
 
 local currentJobLocations = nil
@@ -99,7 +99,7 @@ local function getAnimationInfoForTask(taskName)
             dict = "timetable@floyd@clean_kitchen@base",
             name = "base"
         }
-    elseif taskName == "gym" then
+    elseif taskName == "shower" then
         return {
             dict = "amb@world_human_maid_clean@",
             name = "base"

@@ -71,6 +71,7 @@ AddEventHandler("catcafe:startJob", function(location)
         end
         if config.debugMode then print("Player not found in DB, Adding to DB and clocking in") end
     end
+    TriggerEvent("catcafe:updateLeaderboard")
 end)
 
 RegisterServerEvent("catcafe:quitJob")
@@ -382,6 +383,7 @@ AddEventHandler("catcafe:retrievestats", function()
     local usource = source
     local char = exports["usa-characters"]:GetCharacter(usource)
     local ident = char.get("_id")
+    local name = char.get("name")
     if config.debugMode then
         if ident then
             print(ident)
@@ -395,12 +397,15 @@ AddEventHandler("catcafe:retrievestats", function()
     if stats then
         rank = stats.rank
         if config.debugMode then
-            print("Existing User | "..ident.." | Player name is | "..char.get("name").first.." "..char.get("name").last)
+            print("Existing User | "..ident.." | Player name is | "..name.first.." "..name.last)
             print("Rank was successfully retrieved")
         end
         local PayBonus = config.ranks[rank].PayBonus
         local craftAdjustmentTime = config.ranks[rank].craftAdjustmentTime
         local data = {a = rank, b = craftAdjustmentTime, c = PayBonus}
+        if not stats.FirstName then
+            addName(name, ident)
+        end
         TriggerClientEvent("catcafe:loaddata", usource, data)
     else
         if config.debugMode then
@@ -465,6 +470,23 @@ function checkStrikes(char, src)
     end)
 end
 
+function addName(name, ident)
+    MySQL.update('UPDATE usa_catcafe SET FirstName = ? WHERE uid = ?', {name.first, ident}, function(affectedRows)
+        if affectedRows then
+            if config.debugMode then
+                print("First Name updated")
+            end
+        end
+    end)
+    MySQL.update('UPDATE usa_catcafe SET LastName = ? WHERE uid = ?', {name.last, ident}, function(affectedRows)
+        if affectedRows then
+            if config.debugMode then
+                print("Last Name updated")
+            end
+        end
+    end)
+end
+
 RegisterServerCallback {
 	eventName = 'catcafe:removecashforingredients',
 	eventCallback = function(source, category, index)
@@ -501,3 +523,51 @@ RegisterServerCallback {
         end
 	end
 }
+
+RegisterServerCallback {
+	eventName = 'catcafe:isPlayerInJob',
+	eventCallback = function(source)
+        local char = exports["usa-characters"]:GetCharacter(source)
+        local job = char.get("job")
+        if job == "civ" then
+            return false
+        else
+            return true
+        end
+	end
+}
+
+RegisterServerCallback {
+    eventName = 'catcafe:leaderboard',
+    eventCallback = function()
+        return GetLeaderboard()
+    end
+}
+
+local data, firstPlace, secondPlace, thirdPlace, fourthPlace, fifthPlace
+function GetLeaderboard()
+
+    MySQL.query("SELECT * FROM usa_catcafe ORDER BY xp DESC LIMIT 5",{}, 
+    function(result)
+        if result[1] then
+            firstPlace = {FirstName = result[1].FirstName, LastName = result[1].LastName, xp = result[1].xp}
+        end
+        if result[2] then
+            secondPlace = {FirstName = result[2].FirstName, LastName = result[2].LastName, xp = result[2].xp}
+        end
+        if result[3] then
+            thirdPlace = {FirstName = result[3].FirstName, LastName = result[3].LastName, xp = result[3].xp}
+        end
+        if result[4] then
+            fourthPlace = {FirstName = result[4].FirstName, LastName = result[4].LastName, xp = result[4].xp}
+        end
+        if result[5] then
+            fifthPlace = {FirstName = result[5].FirstName, LastName = result[5].LastName, xp = result[5].xp}
+        end
+    end)
+    if config.debugMode then print("Updating CatCafe Leaderboard") end
+
+    data = { first = firstPlace,  second = secondPlace,  third = thirdPlace,  fourth = fourthPlace,  fifth = fifthPlace }
+
+    return data
+end

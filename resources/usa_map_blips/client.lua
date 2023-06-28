@@ -121,6 +121,7 @@ local blips = {
 	{ title = "Autocare Garage", x = 945.94091796875, y = -986.71118164063, id = 402, colour = 5, scale = 0.9},
 	{ title = "Apartments", x = -914.08343505859, y = -1306.4748535156, id = 40, colour = 0, scale = 0.7},
 	{ title = "Apartments", x = 325.38638305664, y = -209.88813781738, id = 40, colour = 0, scale = 0.7},
+	{ title = "Arena", x = -1295.9306640625, y = -3389.06640625, id = 76, colour = 0, scale = 0.7},
 }
 
 Citizen.CreateThread(function()

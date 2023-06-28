@@ -178,6 +178,7 @@ MechanicHelper.useMechanicTools = function(veh, repairCount, cb)
                 end
 
                 FixAllTires(veh)
+                TriggerEvent("kq_wheeldamage:fixCar", veh)
                 success = true
                 cb(true)
             else 
@@ -229,6 +230,7 @@ MechanicHelper.useRepairKit = function(veh, repairCount, cb)
                 end
                 
                 FixAllTires(veh)
+                TriggerEvent("kq_wheeldamage:fixCar", veh)
                 success = true
                 cb(true)
             else

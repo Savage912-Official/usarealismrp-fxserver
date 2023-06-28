@@ -17,6 +17,13 @@ local lastKillerID = nil
 
 local emscalled = false
 
+local playingArena = false
+
+RegisterNetEvent("arena:setPlayingArenaState")
+AddEventHandler("arena:setPlayingArenaState", function(value)
+	playingArena = value
+end)
+
 AddEventHandler('death:allowRespawn', function()
 	allowRespawn = true
 end)
@@ -141,7 +148,7 @@ Citizen.CreateThread(function()
 				playsound = false
 			end
 
-			if not emscalled then
+			if not emscalled and not playingArena then
 				local emswaitPeriod = diedTime + (60*1000)
 				if (GetGameTimer() < emswaitPeriod) then
 					local seconds = math.ceil((emswaitPeriod - GetGameTimer()) / 1000)
@@ -160,7 +167,12 @@ Citizen.CreateThread(function()
 				end
 			end
 
-			DrawTxt(0.817, 1.25, 1.0, 1.0, 0.50, 'Incapacitated, wait for medical attention or respawn (After 1 minute a local will call 911 for you)!', 255, 255, 255, 255)
+			if not playingArena then
+				DrawTxt(0.817, 1.25, 1.0, 1.0, 0.50, 'Incapacitated, wait for medical attention or respawn (After 1 minute a local will call 911 for you)!', 255, 255, 255, 255)
+			else
+				DrawTxt(0.817, 1.25, 1.0, 1.0, 0.50, 'You will respawn shortly', 255, 255, 255, 255)
+			end
+
 			if GetEntitySpeed(ped) < 0.05 and not IsEntityInAir(ped) and not IsEntityInWater(ped) and not IsPedInAnyVehicle(ped) then
 				if freeze then
 					-- workaround for desync when player dies and ragdolls somewhere (quickly revive them so their location syncs again and then re-down)
@@ -175,7 +187,7 @@ Citizen.CreateThread(function()
 				end
 			end
 			SetEntityHealth(ped, 1)
-			if not jailed then
+			if not jailed and not playingArena then
 				local waitPeriod = diedTime + (RESPAWN_WAIT_TIME) -- how long you must wait (5 mins)
 				if(GetGameTimer() < waitPeriod)then
 					local seconds = math.ceil((waitPeriod - GetGameTimer()) / 1000)
@@ -384,3 +396,8 @@ RegisterClientCallback {
 		return lastKillerID
 	end
 }
+
+RegisterNetEvent("death:revivePed")
+AddEventHandler("death:revivePed", function()
+	revivePed(PlayerPedId())
+end)

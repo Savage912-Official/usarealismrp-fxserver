@@ -32,9 +32,7 @@ AddEventHandler("crafting:finishedCrafting", function(recipe, securityToken)
         if doesCharHaveAllRequiredItems(char, recipe) then
             -- remove recipe required item(s) from char
             for i = 1, #recipe.requires do
-                for j = 1, recipe.requires[i].quantity do
-                    char.removeItemWithField("name", recipe.requires[i].name)
-                end
+                char.removeItem(recipe.requires[i].name, recipe.requires[i].quantity)
             end
             -- drop produced item(s)
             for i = 1, #recipe.produces do

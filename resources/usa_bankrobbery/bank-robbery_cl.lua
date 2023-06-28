@@ -1015,3 +1015,7 @@ function call911(bank)
 	end
 	TriggerServerEvent("911:BankRobbery", x, y, z, lastStreetNAME, isMale, (bank and bank.name or "Pacific Standard Bank"), (bank and bank.camID or "N/A"))
 end
+
+exports("getBankCoords", function()
+	return vector3(bankCoords[1].coords.x, bankCoords[1].coords.y, bankCoords[1].coords.z)
+end)

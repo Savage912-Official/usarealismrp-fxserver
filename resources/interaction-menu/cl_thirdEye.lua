@@ -514,7 +514,17 @@ AddEventHandler("thirdEye:updateActionsForNewJob", function(job)
     end
 end)
 
-target.addPoint("911CallPoint", "911", "fas fa-siren", vector3(1772.273, 2495.202, 45.74072), 1, function() end, {
+target.addPoint("UHH", "Art", "fas fa-money-bill", vector3(288.0126, -2981.809, 5.866447), 1, function() end, {
+    {
+        name = 'sellArt',
+        label = 'Sell Art',
+        onSelect = function(a, b, entityHandle)
+            TriggerEvent("vt-artheist:finishHeist")
+        end
+    },
+})
+
+target.addPoint("911CallPoint", "911", "fas fa-siren", vector3(1776.873, 2572.845, 45.79781), 1, function() end, {
     {
         name = 'call',
         label = 'Call 911',
@@ -526,6 +536,7 @@ target.addPoint("911CallPoint", "911", "fas fa-siren", vector3(1772.273, 2495.20
     },
 })
 
+-- CatCafe ThirdEye Items
 target.addPoint("catCafeSignIn", "Cat Cafe", "fas fa-cat", vector3(-597.52642822266, -1053.5493164063, 22.344202041626), 1, function() end, {
     {
         name = 'signIn',
@@ -535,3 +546,13 @@ target.addPoint("catCafeSignIn", "Cat Cafe", "fas fa-cat", vector3(-597.52642822
         end
     },
 })
+target.addPoint("catCafeLeaderboard", "Cat Cafe", "fas fa-cat", vector3(-593.94860839844, -1052.7293701172, 22.344200134277), 1, function() end, {
+    {
+        name = 'leaderboard',
+        label = 'Check Leaderboard',
+        onSelect = function(a, b, entityHandle)
+            TriggerEvent("catcafe:leaderboard")
+        end
+    },
+})
+-- End of CatCafe ThirdEye

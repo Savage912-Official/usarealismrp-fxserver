@@ -187,8 +187,7 @@ Citizen.CreateThread(function()
 					print("cause: " .. cause)
 				end
 				--SetEntityHealth(myPed, 0.0)
-				TriggerEvent("usa:notify", "You have passed out from: ~y~" .. cause)
-				TriggerEvent("chatMessage", "", {}, "You have passed out from: ^3" .. cause)
+				TriggerEvent("usa:notify", "You have passed out from: ~y~" .. cause, "^3INFO: ^0You have passed out from " .. cause .. ". Eat, drink, call for help, or respawn in a few minutes when prompted.")
 				local time_until_death = 140000
 				local passed_out_time = GetGameTimer()
 				while person.hunger_level <= 0.0 or person.thirst_level <= 0.0 do

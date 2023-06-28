@@ -66,7 +66,7 @@ AddEventHandler("gunShop:requestPurchase", function(category, index, business)
   local buyerName = char.getFullName()
   if permit_status == "valid" then
     local money = char.get("money")
-    if money - STORE_ITEMS[category][index].price >= 0 then
+    if char.hasEnoughMoneyOrBank(STORE_ITEMS[category][index].price) then
       if not char.canHoldItem(requestedItem) then
         TriggerClientEvent("usa:notify", source, "Inventory full!")
       else
@@ -78,7 +78,7 @@ AddEventHandler("gunShop:requestPurchase", function(category, index, business)
           TriggerClientEvent("gunShop:addRecentlyPurchased", usource, buyerName)
         end
         char.giveItem(requestedItem, (requestedItem.quantity or 1))
-        char.removeMoney(STORE_ITEMS[category][index].price)
+        char.removeMoneyOrBank(STORE_ITEMS[category][index].price)
         if business then
             exports["usa-businesses"]:GiveBusinessCashPercent(business, STORE_ITEMS[category][index].price)
         end
@@ -133,7 +133,6 @@ AddEventHandler("gunShop:purchaseLicense", function(business)
   local char = exports["usa-characters"]:GetCharacter(usource)
   local permit_status = checkPermit(char)
   if not exports.globals:hasFelonyOnRecord(usource) then
-    local m = char.get("money")
     local NEW_GUN_LICENSE = {
       name = 'Firearm Permit',
       number = 'FP' .. tostring(math.random(1, 254367)),
@@ -152,9 +151,9 @@ AddEventHandler("gunShop:purchaseLicense", function(business)
       return
     end
     if char.canHoldItem(NEW_GUN_LICENSE) then
-      if m >= LICENSE_PURCHASE_PRICE then
+      if char.hasEnoughMoneyOrBank(LICENSE_PURCHASE_PRICE) then
           char.giveItem(NEW_GUN_LICENSE)
-          char.removeMoney(LICENSE_PURCHASE_PRICE)
+          char.removeMoneyOrBank(LICENSE_PURCHASE_PRICE)
           TriggerClientEvent("usa:notify", usource, "You have accepted the terms and conditions and have been issued a CCW")
           TriggerClientEvent("gunShop:showCCWTerms", usource)
           if business then

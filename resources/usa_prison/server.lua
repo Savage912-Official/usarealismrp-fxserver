@@ -3,6 +3,7 @@ local DB_NAME = "correctionaldepartment"
 exports.globals:PerformDBCheck("usa_prison", DB_NAME)
 
 local WEAPONS = {
+	{ name = "IFAK", price = 25, weight = 1, type = "misc"},
 	{ hash = "WEAPON_NIGHTSTICK", type = "weapon", name = "Nightstick", rank = 1, weight = 4, price = 50},
     { hash = "WEAPON_FLASHLIGHT", type = "weapon", name = "Flashlight", rank = 1, weight = 4, price = 50},
     { hash = GetHashKey("WEAPON_STUNGUN"), type = "weapon", name = "Stun Gun", rank = 1, weight = 5, price = 200},

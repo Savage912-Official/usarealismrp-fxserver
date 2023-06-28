@@ -7,7 +7,34 @@ local TOO_SMALL_WEAPONS = {
     [`WEAPON_KNIFE`] = true,
     [`WEAPON_SWITCHBLADE`] = true,
     [`WEAPON_DAGGER`] = true,
-    [`WEAPON_MACHETE`] = true
+    [`WEAPON_MACHETE`] = true,
+    [`WEAPON_SNSPISTOL`] = true,
+    [`WEAPON_SNSPISTOL_MK2`] = true,
+    [`WEAPON_STUNGUN`] = true,
+    [`WEAPON_FLAREGUN`] = true,
+    --[[
+    [`WEAPON_PISTOL`] = true,
+    [`weapon_pistol_mk2`] = true,
+    [`weapon_combatpistol`] = true,
+    [`weapon_appistol`] = true,
+    [`weapon_stungun`] = true,
+    [`weapon_pistol50`] = true,
+    [`weapon_snspistol`] = true,
+    [`weapon_snspistol_mk2`] = true,
+    [`weapon_heavypistol`] = true,
+    [`weapon_vintagepistol`] = true,
+    [`weapon_flaregun`] = true,
+    [`weapon_marksmanpistol`] = true,
+    [`weapon_revolver`] = true,
+    [`weapon_revolver_mk2`] = true,
+    [`weapon_doubleaction`] = true,
+    [`weapon_raypistol`] = true,
+    [`weapon_ceramicpistol`] = true,
+    [`weapon_navyrevolver`] = true,
+    [`weapon_gadgetpistol`] = true,
+    [`weapon_stungun_mp`] = true,
+    [`weapon_pistolxm3`] = true,
+    --]]
 }
 
 local COOLDOWN_SECONDS = 12
@@ -15,14 +42,13 @@ local KNOCKOUT_SECONDS = 7
 
 local lastKnockoutAttemptTime = GetGameTimer()
 
-
 function knockoutNearest()
     if IsControlPressed(0, KEYS.SHIFT) then
         -- look for nearest ped, confirm nearby
         local nearbyPlayerId, ped, coords = lib.getClosestPlayer(GetEntityCoords(PlayerPedId()), 1.0, false)
         if nearbyPlayerId and ped and coords then
             if GetGameTimer() - lastKnockoutAttemptTime >= COOLDOWN_SECONDS * 1000 then
-                if IsPedArmed(PlayerPedId(), 1) then
+                if IsPedArmed(PlayerPedId(), 1 | 4) then
                     if not TOO_SMALL_WEAPONS[GetSelectedPedWeapon(PlayerPedId())] then
                         -- ask server to knockout target for x seconds!
                         TriggerServerEvent("usa:knockout", GetPlayerServerId(nearbyPlayerId))
@@ -48,7 +74,7 @@ function knockoutNearest()
                         exports.globals:notify("Weapon too small")
                     end
                 else
-                    exports.globals:notify("Need melee weapon")
+                    exports.globals:notify("Need weapon")
                 end
             else
                 exports.globals:notify("On cooldown!")

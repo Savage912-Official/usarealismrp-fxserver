@@ -135,14 +135,51 @@ end)
 RegisterNetEvent('catcafe:toggleClockOn')
 AddEventHandler('catcafe:toggleClockOn', function()
     if working == 'no' then
-        TriggerServerEvent('catcafe:checkCriminalHistory')
-        TriggerServerEvent("catcafe:getrank")
-        TriggerServerEvent('catcafe:retrievestats')
+        local job = TriggerServerCallback {
+            eventName = "catcafe:isPlayerInJob",
+            args = {}
+        }
+        if job then
+            hrNotify("You are currently working for another job. You need to stop working for them first", "error")
+        else
+            TriggerServerEvent('catcafe:checkCriminalHistory')
+            TriggerServerEvent("catcafe:getrank")
+            TriggerServerEvent('catcafe:retrievestats')
+        end
     else
         TriggerServerEvent("catcafe:quitJob")
         working = "no"
         addStrikeCheck()
     end
+end)
+
+local leaderboard
+RegisterNetEvent('catcafe:leaderboard')
+AddEventHandler('catcafe:leaderboard', function()
+    leaderboard = TriggerServerCallback {
+        eventName = "catcafe:leaderboard",
+        args = {}
+    }
+
+    if leaderboard.first == nil then
+        leaderboard = TriggerServerCallback { eventName = "catcafe:leaderboard", args = {}}
+    end
+
+    local content = ""
+    local places = {leaderboard.first, leaderboard.second, leaderboard.third, leaderboard.fourth, leaderboard.fifth}
+    for i, place in ipairs(places) do
+        if place then
+            content = content .. i .. ". [" .. (place.FirstName or "Not") .. " " .. (place.LastName or "Set") .. "] with [" .. place.xp .. "] xp.\n"
+        end
+    end
+    local alert = lib.alertDialog({
+        header = 'Cat Cafe Leaderboard',
+        content = content,
+        centered = true,
+        cancel = true
+    })
+    
+    print(alert)
 end)
 
 -- handles kitchen actions
@@ -359,33 +396,6 @@ function addStrikeCheck()
             hrNotify('Clocking out already? You have gained 1 strike against your name.', 'error')
             Wait(8000)
             hrNotify('If you get 3 strikes you will have to pay a fine to work again.', 'inform')
-        end
-    end
-end
-
-function nearMarker(x, y, z)
-    local mycoords = GetEntityCoords(GetPlayerPed(-1))
-    return GetDistanceBetweenCoords(x, y, z, mycoords.x, mycoords.y, mycoords.z, true) < config_cl.textDistance
-end
-
-function promptJob(location)
-    local x,y,z = table.unpack(location)
-    if working == 'no' then
-        DrawText3D(x,y,z, 8, startWork)
-        if IsControlJustPressed(0, 38) then
-            TriggerServerEvent('catcafe:checkCriminalHistory')
-            TriggerServerEvent("catcafe:getrank")
-            TriggerServerEvent('catcafe:retrievestats')
-        end
-    else
-        DrawText3D(x,y,z,  5, quitWork)
-        if IsControlJustPressed(0, 38) then
-            TriggerServerEvent("catcafe:quitJob")
-            working = "no"
-            addStrikeCheck()
-            if config_cl.debugMode then
-                print("User quit job.")
-            end
         end
     end
 end

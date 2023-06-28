@@ -40,6 +40,6 @@ config = {
     },
 
     -- Does a bunch of printing
-    debugMode = true
+    debugMode = false
 }
 

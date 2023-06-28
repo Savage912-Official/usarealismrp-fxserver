@@ -403,7 +403,19 @@ local DOORS = {
   -- MRPD 2nd Floor
   {name = "MRPD - 2nd Floor Entrance", x = 463.59753417969, y = -984.08740234375, z = 35.931060791016, model = -131296141, locked = true, offset={0.0, 1.25, 0.0}, heading = 90, _dist = 1.5, allowedJobs = {"sheriff","corrections"}},
   {name = "MRPD - Roof Access", x = 464.29544067383, y = -983.88635253906, z = 43.699733734131, model = -340230128, locked = true, offset={0.0, -1.25, 0.0}, heading = 90, _dist = 1.5, allowedJobs = {"sheriff","corrections"}},
-
+  -- art heist mansion
+  {name = "Art Mansion - Side 1 - 1", x = 1402.154296875, y = 1127.9736328125, z = 114.33444213867, model = -1032171637, locked = true, static = true, _dist = 1.5},
+  {name = "Art Mansion - Side 1 - 2", x = 1402.154296875, y = 1127.9736328125, z = 114.33444213867, model = -52575179, locked = true, static = true, _dist = 1.5},
+  {name = "Art Mansion - Side 1 - 3", x = 1399.4102783203, y = 1128.2850341797, z = 114.33444213867, model = -1032171637, locked = true, static = true, _dist = 1.5},
+  {name = "Art Mansion - Side 1 - 4", x = 1398.9840087891, y = 1127.8630371094, z = 114.33444213867, model = -52575179, locked = true, static = true, _dist = 1.5},
+  {name = "Art Mansion - Back - 1", x = 1408.7618408203, y = 1150.4019775391, z = 114.33365631104, model = -52575179, locked = true, static = true, _dist = 1.5},
+  {name = "Art Mansion - Back - 2", x = 1409.7213134766, y = 1150.0662841797, z = 114.33400726318, model = -1032171637, locked = true, static = true, _dist = 1.5},
+  {name = "Art Mansion - Back - 3", x = 1409.7117919922, y = 1148.0660400391, z = 114.33373260498, model = -52575179, locked = true, static = true, _dist = 1.5},
+  {name = "Art Mansion - Back - 4", x = 1409.5006103516, y = 1146.9422607422, z = 114.33364105225, model = -1032171637, locked = true, static = true, _dist = 1.5},
+  {name = "Art Mansion - Back - 5", x = 1409.5349121094, y = 1145.7175292969, z = 114.33359527588, model = -52575179, locked = true, static = true, _dist = 1.5},
+  {name = "Art Mansion - Back - 6", x = 1409.4536132813, y = 1144.7302246094, z = 114.33365631104, model = -1032171637, locked = true, static = true, _dist = 1.5},
+  {name = "Art Mansion Front 1", x = 1395.4973144531, y = 1142.4392089844, z = 114.64179229736, model = 1504256620, locked = true, static = true, _dist = 1.5},
+  {name = "Art Mansion Front 2", x = 1395.3582763672, y = 1140.9799804688, z = 114.63740539551, model = 262671971, locked = true, static = true, _dist = 1.5},
 }
 -- allowedJobs - table of job names allowed to use door, the player's job must match any value in the list for the door to lock/unlock
 -- offsetX, offsetY, offsetZ - 3D text offset from the object's coordinates (used to display text)
@@ -508,8 +520,10 @@ function toggleDoorLock(index, optionalVal)
 end
 
 function toggleDoorLockByName(doorName, optionalVal)
+  print("looking for: " .. doorName .. " to set to val: " .. tostring(optionalVal))
   for i = 1, #DOORS do
     if DOORS[i].name:find(doorName) then
+      print("found door, setting to: " .. tostring(optionalVal))
       if optionalVal ~= nil then
         DOORS[i].locked = optionalVal
       else

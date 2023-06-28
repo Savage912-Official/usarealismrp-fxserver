@@ -351,7 +351,8 @@ local ITEMS = {
         weight = 18,
         objectModel = "w_pi_wep1_gun",
         notStackable = true
-    }
+    },
+    {name = 'Switchblade', type = 'weapon', hash = -538741184, price = 1500, legality = 'illegal', quantity = 1, weight = 5, stock = math.random(0, 3)},
 }
 
 

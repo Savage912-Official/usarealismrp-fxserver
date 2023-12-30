@@ -21,8 +21,8 @@ locations = {
 	{ ["x"] = -357.1, ["y"] = 6094.2, ["z"] = 31.4, ["jobs"] = {"sheriff", "ems", "police", "judge", "corrections", "doctor"} }, -- paleto FD
 	{ ['x'] = 1877.0660400391, ['y'] = 3707.8864746094, ['z'] = 33.546321868896, ["jobs"] = {"sheriff", "ems", "police", "judge", "corrections", "doctor"} }, -- sandy PD
 	{ ["x"] = 1712.8, ["y"] = 3599.5, ["z"] = 35.3, ["jobs"] = {"sheriff", "ems", "police", "judge", "corrections", "doctor"} }, -- sandy FD
-	-- { ['x'] = 445.236328125, ['y'] = -991.69458007813, ['z'] = 25.699808120728, ["jobs"] = {"sheriff", "ems", "police", "judge", "corrections"} }, -- MRPD GABZ MLO
-	{ ['x'] = 451.11856079102, ['y'] = -1024.4779052734, ['z'] = 28.549314498901, ["jobs"] = {"sheriff", "ems", "police", "judge", "corrections"} }, -- MRPD
+	{ ['x'] = 445.236328125, ['y'] = -991.69458007813, ['z'] = 25.699808120728, ["jobs"] = {"sheriff", "ems", "police", "judge", "corrections"} }, -- MRPD GABZ MLO
+	--{ ['x'] = 451.11856079102, ['y'] = -1024.4779052734, ['z'] = 28.549314498901, ["jobs"] = {"sheriff", "ems", "police", "judge", "corrections"} }, -- MRPD
 	{ x = -270.45816040039, y = 6329.8051757813, z = 32.421268463135, ["jobs"] = {"sheriff", "ems", "police", "judge", "corrections"} }, -- Paleto Medical
 	{ ['x'] = 326.3464, ['y'] = -588.4531, ['z'] = 28.7968, ["jobs"] = {"sheriff", "ems", "police", "judge", "corrections", "doctor"} }, -- pillbox medical
 	{ ['x'] = -842.25219726562, ['y'] = -1233.0513916016, ['z'] = 6.9339327812195, ["jobs"] = {"sheriff", "ems", "police", "judge", "corrections", "doctor"} }, -- viceroy medical
@@ -67,7 +67,7 @@ locations = {
 	{x = -2187.1748046875, y = 1135.5759277344, z = -23.259094238281, noBlip = true}, -- LS Car Meet
 	{x =  1013.5130004883, y = -2358.1096191406, z = 30.509565353394, noBlip = true}, -- LS Fight Club
 	{x = -424.23614501953, y = -38.142559051514, z = 46.215244293213, noBlip = true}, -- cocaktoos
-	{x = 550.98217773438, y = -206.7356262207, z = 54.104431152344, noBlip = true}, -- auto exotic repair on elgin ave
+	{x = 573.20947265625, y = -218.34083557129, z = 55.830551147461, noBlip = true}, -- auto exotic repair on elgin ave
 	{x = 2524.6560058594, y = 4109.4716796875, z = 38.584625244141, noBlip = true}, -- lunatix garage
 	{x = 366.37405395508, y = 293.75842285156, z = 103.41968536377, noBlip = false}, -- Parking behing vault
 	{x = 813.39111328125, y = -824.33929443359, z = 26.181001663208, noBlip = true}, -- Otto's Auto Repair
@@ -88,7 +88,6 @@ locations = {
 	{x = -1916.8400878906, y = 2030.8366699219, z = 140.73731994629, noBlip = false}, -- Orange Farm
 	{x = 436.27728271484, y = 6529.9682617188, z = 27.877355575562, noBlip = false}, -- Orange Farm Paleto
 	{x = -181.43, y = -1289.32, z = 31.3, noBlip = true}, -- Benny's
-	{x = -372.1146, y = -109.6916, z = 38.70002, noBlip = true}, -- AASC
 	{x = 1313.3503417969, y = -1662.0200195313, z = 51.236389160156, noBlip = true}, -- Eastside Deli
 	{x = 3542.7263183594, y = 3782.8959960938, z = 29.955053329468, ['noBlip'] = false}, -- Humane Labs
 	{x = -205.56878662109, y = 308.45645141602, z = 96.946670532227, ['noBlip'] = false}, -- West Vinewood Garage

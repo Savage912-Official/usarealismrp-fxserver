@@ -111,7 +111,6 @@ local HARDWARE_STORE_ITEMS = {
     { name = "Hammer", type = "weapon", hash = 1317494643, price = 50, legality = "legal", quantity = 1, weight = 10, objectModel = "prop_tool_hammer" },
     { name = "Knife", type = "weapon", hash = -1716189206, price = 200, legality = "legal", quantity = 1, weight = 8, objectModel = "w_me_knife_01" },
     { name = "Bat", type = "weapon", hash = -1786099057, price = 100, legality = "legal", quantity = 1, weight = 20, objectModel = "w_me_bat" },
-    { name = "Crowbar", type = "weapon", hash = -2067956739, price = 150, legality = "legal", quantity = 1, weight = 17, objectModel = "w_me_crowbar" },
     { name = "Hatchet", type = "weapon", hash = -102973651, price = 250, legality = "legal", quantity = 1, weight = 12, objectModel = "w_me_hatchet" },
     { name = "Wrench", type = "weapon", hash = 419712736, price = 400, legality = "legal", quantity = 1, weight = 12, objectModel = "prop_tool_wrench" },
     { name = "Machete", type = "weapon", hash = -581044007, price = 250, legality = "legal", quantity = 1, weight = 15, objectModel = "prop_ld_w_me_machette" },
@@ -119,8 +118,8 @@ local HARDWARE_STORE_ITEMS = {
     { name = "Spray Paint", price = 1000, type = "misc", quantity = 1, legality = "legal", weight = 15, objectModel = "ng_proc_spraycan01a", remainingUses = 5, notStackable = true},
     { name = "Paint Remover", price = 1000, type = "misc", quantity = 1, legality = "legal", weight = 15, objectModel = "bkr_prop_meth_ammonia", remainingUses = 5, notStackable = true},
     { name = "Rag", price = 200, type = "misc", quantity = 1, legality = "legal", weight = 5, objectModel = "prop_shower_towel"},
-    { name = "Sign Kit", price = 200, type = "misc", quantity = 1, legality = "legal", weight = 5, objectModel = "prop_cd_paper_pile1"},
     { name = "Drill", price = 2000, legality = "legal", quantity = 1, type = "misc", weight = 10, objectModel = "hei_prop_heist_drill" },
+    { name = "Sign Kit", price = 200, type = "misc", quantity = 1, legality = "legal", weight = 5, objectModel = "prop_cd_paper_pile1"},
     { name = "Beer Pong Kit", price = 300, type = "misc", quantity = 1, legality = "legal", weight = 5, objectModel = "apa_prop_cs_plastic_cup_01"},
     { name = "Basketball Hoop", price = 1500, type = "misc", quantity = 1, legality = "legal", weight = 10, objectModel = "prop_basketball_net2"},
     { name = "Skateboard", price = 1500, type = "misc", quantity = 1, legality = "legal", weight = 10, objectModel = "v_res_skateboard"}

@@ -144,11 +144,15 @@ AddEventHandler('veh:toggleEngine', function(_hasKey, _engineOn)
         end
       end
       if not isHotwiring then
+        local sentAlert = false
         local beginTime = GetGameTimer()
         while GetGameTimer() - beginTime < 3000 do
           Citizen.Wait(0)
           ShowHelp('You do not have the keys to this vehicle!', 0)
-          exports.globals:notify('You do not have the keys to this vehicle!')
+          if not sentAlert then 
+            sentAlert = true
+            exports.globals:notify('You do not have the keys to this vehicle!')
+          end
         end
       end
     end

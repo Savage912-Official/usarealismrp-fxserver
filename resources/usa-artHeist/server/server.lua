@@ -1,13 +1,21 @@
-local lastrob = Config.Cooldown * 60000
+local lastRobTime = nil
 
 local lastRewardRequestTime = {}
 
 local hasDoorBeenThermited = false
+local haveGuardsSpawned = false
 
 RegisterServerCallback {
     eventName = "artHeist:hasDoorBeenThermited",
     eventCallback = function(source)
         return hasDoorBeenThermited
+    end
+}
+
+RegisterServerCallback {
+    eventName = "artHeist:haveGuardsSpawned",
+    eventCallback = function(source)
+        return haveGuardsSpawned
     end
 }
 
@@ -30,16 +38,15 @@ RegisterServerCallback {
 RegisterServerCallback {
     eventName = "artHeist:checkRobTime",
     eventCallback = function(source)
-        local src = source
-        if (os.time() - lastrob) < Config['ArtHeist']['nextRob'] and lastrob ~= 0 then
-            local seconds = Config['ArtHeist']['nextRob'] - (os.time() - lastrob)
-            TriggerClientEvent('usa:notify', source, Strings['wait_nextrob'] .. '' .. math.floor(seconds / 60) .. '' .. Strings['minute'], "^3INFO: ^0" .. Strings['wait_nextrob'])
-            return false
-        else
+        if lastRobTime == nil or os.time() - lastRobTime >= Config.CooldownHours * 60 * 60 then
             hasDoorBeenThermited = false
+            haveGuardsSpawned = false
             exports.usa_doormanager:toggleDoorLockByName("Art Mansion Front", true)
-            lastrob = os.time()
+            lastRobTime = os.time()
             return true
+        else
+            TriggerClientEvent("usa:notify", source, "Not ready to be robbed yet", "^3INFO: ^0Not ready to be robbed yet")
+            return false
         end
     end
 }
@@ -47,6 +54,7 @@ RegisterServerCallback {
 RegisterServerEvent('artHeist:makeGuardsAggressiveForAll')
 AddEventHandler('artHeist:makeGuardsAggressiveForAll', function()
     TriggerClientEvent("artHeist:makeGuardsAggressive", -1)
+    haveGuardsSpawned = true
 end)
 
 RegisterServerEvent('vt-artheist:server:syncHeistStart')
@@ -132,7 +140,8 @@ RegisterNetEvent('vt-artheist:server:items', function()
     local char = exports["usa-characters"]:GetCharacter(src)
     if not char then return end
 
-    if lastRewardRequestTime[src] and os.time() - lastRewardRequestTime[src]["money"] <= Config.Cooldown * 60 * 1000 then
+    if lastRewardRequestTime[src] and os.time() - lastRewardRequestTime[src]["money"] <= Config.CooldownHours * 60 * 60 then
+        TriggerClientEvent("usa:notify", src, "Too soon for money reward, try again later")
         print("too soon for money reward")
         return
     end
@@ -165,6 +174,10 @@ AddEventHandler('artHeist:useThermite', function()
     print("toggling door locks")
     -- remove thermite
     local char = exports["usa-characters"]:GetCharacter(source)
+    if not char.hasItem("Thermite") then
+        TriggerClientEvent("usa:notify", source, "Missing thermite item")
+        return
+    end
     char.removeItem("Thermite", 1)
     -- unlock mansion doors
     exports.usa_doormanager:toggleDoorLockByName("Art Mansion Front", false)

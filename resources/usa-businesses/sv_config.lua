@@ -26,7 +26,7 @@ BUSINESSES = {
 		price = 5000
 	},
 	["Auto Repair (Elgin Ave.)"] = {
-		position = {548.21875, -172.63174438477, 54.481338500977},
+		position = {559.68804931641, -197.12748718262, 58.152648925781},
 		cameraID = 'store44',
 		isBeingRobbed = false,
 		lastRobbedTime = 0,
@@ -447,10 +447,11 @@ BUSINESSES = {
 	},
 	["Casino"] = {
 		position = {1114.8431396484, 243.80151367188, -45.840980529785},
+		cameraID = 'casino',
 		isBeingRobbed = false,
 		lastRobbedTime = 0,
 		price = 25000,
-		purchasePercentage = 0.07
+		purchasePercentage = 0.09
 	},
 }
 

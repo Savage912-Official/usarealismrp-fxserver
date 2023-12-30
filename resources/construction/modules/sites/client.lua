@@ -103,7 +103,7 @@ CreateThread(function()
                         local pdist = #(location - coords)
                         if GetDuty() then
                             DrawMarker(0, location.x, location.y, location.z + 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.35, 0.35, 0.35, 255, 172, 28, 127, false, false)
-                            if pdist < 1.25 and not ShowInteractText(_L("sites_build_point")) and IsControlJustPressed(1, 51) then
+                            if pdist < 2.0 and not ShowInteractText(_L("sites_build_point")) and IsControlJustPressed(1, 51) then
                                 InteractSitePoint(i, j)
                             end 
                         end

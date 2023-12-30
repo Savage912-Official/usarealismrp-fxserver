@@ -1,6 +1,7 @@
 local inventoriesBeingAccessed = {}
 
 local lastInvMovTimeStamps = {}
+local lastItemGiveTimeStamps = {}
 
 local LAG_SWTICH_THRESHOLD_MS = 300 -- 300 ms per move action would prob be too fast for any human to do naturally
 
@@ -101,7 +102,14 @@ RegisterServerEvent("interaction:giveItemToPlayer")
 AddEventHandler("interaction:giveItemToPlayer", function(item, targetPlayerId)
 	local toChar = exports["usa-characters"]:GetCharacter(targetPlayerId)
 	local fromChar = exports["usa-characters"]:GetCharacter(source)
-	if toChar.canHoldItem(item) then
+	if toChar.canHoldItem(item) and fromChar.hasItem(item) then
+		if lastItemGiveTimeStamps[source] then
+			if GetGameTimer() - lastItemGiveTimeStamps[source] <= LAG_SWTICH_THRESHOLD_MS then
+				print("sus inventory item give detected (lag switch dupe attempt?) from #" .. source .. " / " .. GetPlayerName(source))
+				return
+			end
+		end
+		lastItemGiveTimeStamps[source] = GetGameTimer()
 		if not item.type or item.type == "license" then
 			TriggerClientEvent("usa:notify", targetPlayerId, "Can't trade licenses. Sorry!")
 			return
@@ -289,7 +297,8 @@ AddEventHandler("inventory:moveItem", function(data)
 end)
 
 RegisterServerEvent("inventory:dropItem")
-AddEventHandler("inventory:dropItem", function(name, index, posX, posY, posZ, heading)
+AddEventHandler("inventory:dropItem", function(name, index, posX, posY, posZ, heading, quantity)
+	quantity = math.abs(tonumber(quantity))
 	--------------------
 	-- play animation --
 	--------------------
@@ -303,15 +312,23 @@ AddEventHandler("inventory:dropItem", function(name, index, posX, posY, posZ, he
 	}
 	local char = exports["usa-characters"]:GetCharacter(source)
 	local item = char.getItemByIndex(index)
-	item.quantity = 1 -- only drop 1
+	if item.quantity < quantity then
+		TriggerClientEvent("usa:notify", source, "Invalid quantity")
+		return
+	end
+	item.quantity = quantity
 	item.coords = coords
 	if item.type == "weapon" then
 		TriggerClientEvent("interaction:equipWeapon", source, item, false)
 	end
 	if not item.invisibleWhenDropped then
-		TriggerEvent("interaction:addDroppedItem", item)
+		if quantity <= 1 then
+			TriggerEvent("interaction:addDroppedItem", item)
+		else
+			TriggerEvent("interaction:dropMultipleOfItem", item)
+		end
 	end
-	char.removeItemByIndex(index, 1)
+	char.removeItemByIndex(index, quantity)
 end)
 
 -- /e [emoteName]
@@ -377,6 +394,9 @@ end)
 AddEventHandler('playerDropped', function(reason)
 	if lastInvMovTimeStamps[source] then
 		lastInvMovTimeStamps[source] = nil
+	end
+	if lastItemGiveTimeStamps[source] then
+		lastItemGiveTimeStamps[source] = nil
 	end
 end)
 

@@ -18,7 +18,8 @@ PlantManager.newPlant = function(char, type, coords, cb)
         coords = coords,
         plantedAt = os.time(),
         lastWaterTime = os.time(),
-        lastFeedTime = os.time()
+        lastFeedTime = os.time(),
+        stage = product.stages[1]
     }
     TriggerEvent("es:exposeDBFunctions", function(db)
         db.createDocument("cultivation", newPlant, function(docID)
@@ -98,10 +99,25 @@ end
 
 -- set plant's object for client based on time since planted
 PlantManager.setPlantStage = function(plant)
-    if not plant.stage then
-        plant.stage = {}
-    end
     local hoursSincePlanted = exports.globals:GetHoursFromTime(plant.plantedAt)
+    if not plant.stage then
+        plant.stage = PRODUCTS[plant.type].stages[1]
+    end
+    for i = 1, #PRODUCTS[plant.type].stages do
+        local stageInfo = PRODUCTS[plant.type].stages[i]
+        if hoursSincePlanted < stageInfo.lengthInHours then
+            -- not in last stage
+            plant.stage.objectModels = stageInfo.objectModels
+            plant.stage.name = stageInfo.name
+            PLANTED[plant._id] = plant
+            return
+        end
+    end
+    -- in last stage:
+    plant.stage.objectModels = PRODUCTS[plant.type].stages[#PRODUCTS[plant.type].stages].objectModels
+    plant.stage.name = "harvest"
+    PLANTED[plant._id] = plant
+    --[[
     if hoursSincePlanted < PLANT_STAGE_HOURS.VEGETATIVE then
         plant.stage.objectModels = { "bkr_prop_weed_01_small_01a", "bkr_prop_weed_01_small_01b", "bkr_prop_weed_01_small_01c" }
     elseif hoursSincePlanted < PLANT_STAGE_HOURS.FLOWER then
@@ -111,6 +127,7 @@ PlantManager.setPlantStage = function(plant)
         plant.stage.name = "harvest"
     end
     PLANTED[plant._id] = plant
+    --]]
 end
 
 -- set lastWaterTime and save to DB:

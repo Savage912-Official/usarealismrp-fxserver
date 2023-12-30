@@ -5,7 +5,7 @@ exports["globals"]:PerformDBCheck("usa_mechanicjob", "mechanic-part-deliveries")
 
 local NEEDS_TO_BE_CLOCKED_IN = true
 
-local TOW_REWARD = {850, 1250}
+local TOW_REWARD = {500, 750}
 
 local TRUCKS_FOR_RANK = {
 	[1] = {"flatbed"},
@@ -142,13 +142,17 @@ AddEventHandler("mechanic:installedUpgrade", function(plate, vehNetId, rank)
 	local char = exports["usa-characters"]:GetCharacter(usource)
 	plate = exports.globals:trim(plate)
 	if upgrade then
+		if upgrade.requiresItem then
+			if not char.hasItem(upgrade.requiresItem) then
+				TriggerClientEvent("usa:notify", usource, "Missing required item")
+				return
+			end
+			char.removeItem(upgrade.requiresItem, 1)
+		end
 		MechanicHelper.upgradeInstalled(plate, upgrade, function()
 			installQueue[usource] = nil
 			if upgrade.doSync then
 				TriggerClientEvent("mechanic:syncUpgrade", -1, vehNetId, upgrade)
-			end
-			if upgrade.requiresItem then
-				char.removeItem(upgrade.requiresItem, 1)
 			end
 		end)
 	end

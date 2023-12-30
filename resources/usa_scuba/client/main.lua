@@ -49,13 +49,13 @@ AddEventHandler("scuba:useGear", function()
             toGive.shirt = nil
             toGive.feet = nil
             if GetEntityModel(PlayerPedId()) == `mp_m_freemode_01` then -- male
-                toGive.glasses = 40
-                toGive.shirt = 144
-                toGive.feet = 111
+                toGive.glasses = 39
+                toGive.shirt = 148
+                toGive.feet = 114
             else
-                toGive.glasses = 42
-                toGive.shirt = 177
-                toGive.feet = 91
+                toGive.glasses = 37
+                toGive.shirt = 187
+                toGive.feet = 97
             end
             SetPedMaxTimeUnderwater(p, 1500.00)
             SetPedComponentVariation(p, 6, toGive.feet, 4, 1) -- flippers

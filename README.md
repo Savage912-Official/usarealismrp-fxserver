@@ -224,6 +224,36 @@ see resources/essentialmode/db.lua, example todo still
 
 Also check out `resources/[system]/globals` for a library of some miscellaneous commonly used functions for both the server and client side.
 
+**Registering Commands**
+
+An example of creating a new command that anyone can use:
+```
+TriggerEvent('es:addCommand', 'mynewcommand', function(source, args, char)
+	local firstArgument = args[2]
+	-- ...
+end, {
+	help = "Fancy new command description here",
+	params = {
+		{ name = "firstArgument", help = "description here" },
+		{ name = "secondArgument", help = "description here" }
+	}
+})
+```
+
+An example of creating a new command restricted by group (has to be used on server side):
+```
+TriggerEvent('es:addGroupCommand', 'mynewcommand', 'admin', function(source, args, char)
+	local firstArgument = args[2]
+	-- ...
+end, {
+	help = "Fancy new command description here",
+	params = {
+		{ name = "firstArgument", help = "description here" },
+		{ name = "secondArgument", help = "description here" }
+	}
+})
+```
+
 **Job Types**
 1. "civ"
 2. "sheriff" (AKA SASP)

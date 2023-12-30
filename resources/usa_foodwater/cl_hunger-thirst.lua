@@ -29,6 +29,8 @@ local person = {
 }
 local showText = true
 
+local HUD_ENABLED = false
+
 ---------------
 -- API FUNCS --
 ---------------
@@ -94,6 +96,7 @@ AddEventHandler("hungerAndThirst:replenish", function(type, item)
 	else
 		print("error: no item type specified!")
 	end
+	TriggerEvent("hud:client:UpdateNeeds", person.hunger_level, person.thirst_level)
 end)
 
 AddEventHandler('usa:toggleImmersion', function(toggleOn)
@@ -130,7 +133,7 @@ Citizen.CreateThread(function()
 		-------------------------------------
 		-- draw hunger & thirst indicators --
 		-------------------------------------
-		if showText then
+		if showText and HUD_ENABLED then
 			drawHud(person)
 		end
 		-----------------------------------------------------------------------
@@ -287,3 +290,15 @@ function drawHud(person)
 	DrawRect(0.087 + (Thirst / 2), 0.991, Thirst, 0.00833, 188, 152, 206, 230)
 	DrawRect(0.1214, 0.991, 0.069, 0.00833, 188, 152, 206, 130)
 end
+
+-- publish change event every so often for HUDs and other scripts to subscribe to --
+Citizen.CreateThread(function()
+	local lastPublish = GetGameTimer()
+	while true do
+		if GetGameTimer() - lastPublish >= 10 * 1000 then
+			lastPublish = GetGameTimer()
+			TriggerEvent("hud:client:UpdateNeeds", person.hunger_level, person.thirst_level)
+		end
+		Wait(1)
+	end
+end)

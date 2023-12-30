@@ -1127,5 +1127,5 @@ Config.MAX_FAIL_CHANCE = 0.60 -- max (and initial) chance to fail when crafting
 Config.FAILURE_COEFFICIENT = 0.0058 -- the higher the number, the less chance of failing when crafting (should be < MAX_FAIL_CHANCE)
 
 Config.LEVEL_1_MAX_CRAFT_COUNT = 50
-Config.LEVEL_2_MAX_CRAFT_COUNT = 100
-Config.LEVEL_3_MAX_CRAFT_COUNT = 150
+Config.LEVEL_2_MAX_CRAFT_COUNT = 150
+Config.LEVEL_3_MAX_CRAFT_COUNT = 250

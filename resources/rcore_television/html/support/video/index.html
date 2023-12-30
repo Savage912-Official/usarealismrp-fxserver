@@ -10,8 +10,11 @@
 </head>
 <body>
 	<div>
-		<video onplay="updateTime()" controls autoplay>
-			<source>
+		<video id = "main-video" preload="none" onplay="updateTime(1)" controls autoplay>
+			<source id = "main-video-source">
+		</video>
+		<video id = "blurred-video" preload="none" onplay="updateTime(2)" onloadstart="this.volume=0.0" controls autoplay>
+			<source id = "blurred-video-source">
 		</video>
 	</div>
 </body>
@@ -25,23 +28,39 @@ var time = result.time;
 updateFrame();
 
 $( document ).ready(function() {
-	$("source").attr("src", result.url);
-	$("video")[0].load();
-	$('video').trigger('play');
+	$("#main-video-source").attr("src", result.url);
+	$("#main-video")[0].load();
+	$('#main-video').trigger('play');
+
+	$("#blurred-video-source").attr("src", result.url);
+	$("#blurred-video")[0].load();
+	$('#blurred-video').trigger('play');
 });
 
-function updateTime(){
-	var player = $("video").get(0);
+function updateTime(video){
+	if(video == 1){
+		var player = $("#main-video").get(0);
 
-	player.currentTime = time;
-	player.volume = 0;
+		player.currentTime = time;
+		player.volume = 0;
+		setTimeout(UpdatVolume, 100);
+	}
+	if(video == 2){
+		var blurredVideo = $("#blurred-video").get(0);
 
-	setTimeout(UpdatVolume, 100);
+		blurredVideo.currentTime = time;
+		blurredVideo.volume = 0;
+	}
+
+	$.post('http://rcore_television/updatePos', JSON.stringify({
+		identifier: result.identifier,
+	}));
 }
 
 function UpdatVolume(){
-	var player = $("video").get(0);
+	var player = $("#main-video").get(0);
 	player.volume = GetNewVolume();
+
     setTimeout(UpdatVolume, 100);
 }
 </script>

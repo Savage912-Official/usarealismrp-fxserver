@@ -134,6 +134,10 @@ var vehicleActions = [
     { name: "Brakelights" }
 ];
 
+const sleep = (milliseconds) => {
+    return new Promise(resolve => setTimeout(resolve, milliseconds))
+}
+
 /* Helps navigate backwards when going into multiple submenus (stack) */
 var navigationHistory = [{ name: "Home", children: menuItems }];
 
@@ -351,7 +355,7 @@ var interactionMenu = new Vue({
             this.currentPage = "Vehicle Actions";
             navigationHistory.push({ name: "Vehicle Actions", children: vehicleActions });
         },
-        contextMenuClicked: function(event, action) {
+        contextMenuClicked: async function(event, action) {
             var index = this.contextMenu.clickedInventoryIndex;
             var item = this.inventory.items[index];
             /* Perform Action */
@@ -365,11 +369,20 @@ var interactionMenu = new Vue({
                     typeType: item.type
                 }));
             } else if (action == "Drop") {
+                // get user input for drop amount if item has quantity > 1
+                this.inputBox.value = 1
+                if (item.quantity > 1) {
+                    // gather quantity input
+                    this.inputBox.show = true
+                    this.contextMenu.showContextMenu = false
+                }
+                await this.waitForInput()
                 /* Perform Action */
                 $.post('http://interaction-menu/dropItem', JSON.stringify({
                     index: index,
                     itemName: item.name,
-                    objectModel: item.objectModel
+                    objectModel: item.objectModel,
+                    quantity: this.inputBox.value
                 }));
             } else {
                 $.post('http://interaction-menu/inventoryActionItemClicked', JSON.stringify({
@@ -394,8 +407,6 @@ var interactionMenu = new Vue({
             CloseMenu();
         },
         continueInventoryMove: function(doInputCheck) {
-            /* Hide input */
-            this.inputBox.show = false;
             if (doInputCheck) {
                 /* Make input quantity valid */
                 if (this.inputBox.value <= 0) {
@@ -477,6 +488,21 @@ var interactionMenu = new Vue({
                 weight += (item.weight * (item.quantity || 1) || 1.0)
             }
             return weight
+        },
+        async waitForInput() {
+            // wait for input
+            while (this.inputBox.show) {
+                await sleep(300)
+            }
+        },
+        async performAction(action) {
+            switch(action) {
+                case 'inventoryMove': {
+                    this.inputBox.show = true
+                    await this.waitForInput()
+                    this.continueInventoryMove(true)
+                }
+            }
         }
     },
     computed: {
@@ -571,7 +597,7 @@ var interactionMenu = new Vue({
 
                             if (fromType != toType && ((fromType == "primary" && componentInstance.inventory.items[originIndex].quantity > 1) || fromType == "secondary" && componentInstance.secondaryInventory.items[originIndex].quantity > 1)) {
                                 /* Get user input for quantity to move */
-                                componentInstance.inputBox.show = true;
+                                componentInstance.performAction("inventoryMove")
                             } else {
                                 componentInstance.continueInventoryMove(false);
                             }
@@ -580,14 +606,14 @@ var interactionMenu = new Vue({
             }
         }
     },
-    updated: function() {
+    updated: async function() {
         //var t1 = performance.now();
 
         /* Resize item name text */
         jQuery(".inventory-item footer span").fitText(1.0, { minFontSize: '9px', maxFontSize: '40px' });
 
         var app = this;
-        $(".secondary-inv-slot").each(function(index) {
+        $(".secondary-inv-slot").each(async function(index) {
             if ($(this).droppable("instance") == undefined)
                 $(this).droppable({
                     classes: {
@@ -615,7 +641,7 @@ var interactionMenu = new Vue({
 
                         if (fromType != toType && ((fromType == "primary" && app.inventory.items[originIndex].quantity > 1) || fromType == "secondary" && app.secondaryInventory.items[originIndex].quantity > 1)) {
                             /* Get user input for quantity to move */
-                            app.inputBox.show = true;
+                            app.performAction("inventoryMove")
                         } else {
                             app.continueInventoryMove(false);
                         }

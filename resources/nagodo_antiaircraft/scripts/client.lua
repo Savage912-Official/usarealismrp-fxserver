@@ -39,8 +39,8 @@ Citizen.CreateThread(function()
                                     eventName = "antiaircraft:numCopsOn",
                                     args = {}
                                 }
-                                if copsOnDuty >= 1 then
-                                    if math.random() > 0.5 then
+                                if copsOnDuty >= Config.CopsNeeded then
+                                    if math.random() < Config.chanceToHit then
                                         DestroyVehicle()
                                         TriggerServerEvent('911:call', zoneCoords.x, zoneCoords.y, zoneCoords.z, "US Air Force reports target destroyed. Anti-Air entering cooldown.")
                                     else

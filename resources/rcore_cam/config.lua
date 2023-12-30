@@ -111,7 +111,7 @@ Config = {
     },
     RecordingStorages = {
         MRPD = {
-            pos = vector3(465.59173583984, -975.90551757813, 23.914709091187),
+            pos = vector3(442.7690, -997.5549, 34.0),
             folders = {
                 {
                     name = 'evidence_1',

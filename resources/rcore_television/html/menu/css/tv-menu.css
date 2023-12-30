@@ -1,0 +1,161 @@
+#blackscreen{
+    background: black;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 999999;
+}
+
+.bounce-enter-active {
+  animation: bounce-in 0.5s;
+}
+
+@keyframes bounce-in {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.10);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+#offButton{
+	font-size: 32px;
+    position: absolute;
+    top: 6px;
+    right: 52px;
+}
+
+#off{
+    background: aliceblue;
+    position: absolute;
+    height: 50px;
+    width: 70px;
+    position: absolute;
+    top: 0;
+    right: 0;
+	z-index: 100;
+}
+
+#circle{
+    height: 75px;
+    width: 75px;
+    background-color: aliceblue;
+    border-radius: 50%;
+    display: inline-block;
+    position: absolute;
+    top: -25px;
+    right: 32px;
+}
+
+body {
+    background-image: url(./img/bg.jpg);
+    background-size: cover;
+    overflow: hidden;
+}
+
+#icon-size{
+    font-size: 47px;
+    padding: unset;
+    padding-bottom: 40px;
+    padding-top: 22px;
+}
+
+@media screen and (max-width: 768px) {
+	#menu {
+		max-height: 43vw;
+		max-width: 60vw;
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		right: 0;
+		left: 0;
+		margin: auto;
+		height: 100%;
+		width: 100%;
+	}
+}
+@media screen and (min-width: 768px) {
+	#menu{
+		max-height: 43vw;
+		max-width: 76vw;
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		right: 0;
+		left: 0;
+		margin: auto;
+		height: 100%;
+		width: 100%;
+	}
+}
+
+@media screen and (max-width: 768px) {
+	.text {
+		font-family: Montserrat, sans-serif;
+		text-overflow: ellipsis;
+		position: relative;
+		justify-content: center;
+		align-items: center;
+		font-size: 25px;
+	}	
+}
+
+@media screen and (min-width: 768px) {
+	.text{
+		font-family: Montserrat, sans-serif;
+		height: 95px;
+		text-overflow: ellipsis;
+		font-size: 39px;
+		position: relative;
+		bottom: 83px;
+		width: 419px;
+		left: 26px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+}
+
+.box.active {
+    z-index: 999 !important;
+    border-radius: 17px;
+    background: #e0eefb;
+    transform: scale(1.25);
+    box-shadow: 1px 7px 63px 0px #000000;
+}
+
+@media screen and (min-width: 768px) {
+	.box{
+	    transition-duration: 500ms;
+		background: aliceblue;
+		max-height: 160px;
+		max-width: 467px;
+		float: left;
+		margin: 8px;
+		text-align: center;
+		height: 100%;
+		width: 100%;
+		z-index: 9 !imporant;
+	}
+}
+@media screen and (max-width: 768px) {
+	.box {
+	    transition-duration: 500ms;
+		background: aliceblue;
+		float: left;
+		margin: 8px;
+		text-align: center;
+		width: 100%;
+		z-index: 9 !imporant;
+	}
+	
+	#icon-size{
+		display: none;
+	}	
+}

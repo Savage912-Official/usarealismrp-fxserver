@@ -152,6 +152,22 @@ AddEventHandler("vehicle:seizeVeh", function(plate, arg)
   end
 end)
 
+RegisterServerEvent("vehInv:setTempVehicleCapacity")
+AddEventHandler("vehInv:setTempVehicleCapacity", function(plate, newCapacity)
+    local tempVehInv = VehInventoryManager:getTempVehInv(plate)
+    tempVehInv.MAX_CAPACITY = newCapacity
+    VehInventoryManager:updateTempVehInv(plate, tempVehInv)
+end)
+
+RegisterServerEvent("vehInv:newTempVehInv")
+AddEventHandler("vehInv:newTempVehInv", function(plate, capacity)
+    local tempVehInv = VehInventoryManager:newTempVehInv(plate)
+    if capacity then
+        tempVehInv.MAX_CAPACITY = capacity
+        VehInventoryManager:updateTempVehInv(plate, tempVehInv)
+    end
+end)
+
 function GetVehicleInventory(plate)
     local ret = nil
     -- query for the information needed from each vehicle --

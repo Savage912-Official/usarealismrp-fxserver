@@ -316,6 +316,10 @@ AddEventHandler("search:civSearchedCheckFailedNotify", function(playerId)
 end)
 
 TriggerEvent('es:addCommand', 'search', function(source, args, char)
+	if exports["usa-arena"]:isPlayerPlaying(source) then
+		TriggerClientEvent("usa:notify", source, "Can't do that here", "^3INFO: ^0Can't search when playing in the arena")
+		return
+	end
 	local job = char.get("job")
 	if job == "sheriff" or job == "corrections" then
 		if not tonumber(args[2]) then

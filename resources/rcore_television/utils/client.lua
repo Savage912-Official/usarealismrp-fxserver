@@ -2,36 +2,37 @@
 -- Need to be changed to your framework, for now default is ESX --
 ------------------------------------------------------------------
 if Config.FrameWork == 1 then
-    PlayerData = {}
-    ESX = nil
+    local PlayerData = {}
+    ESX = GetEsxObject()
 
     CreateThread(function()
-        local breakme = 0
-        while ESX == nil do
-            Wait(100)
-            breakme = breakme + 1
-            TriggerEvent(Config.ESX_Object, function(obj) ESX = obj end)
-            if breakme == 10 then
-                return
+        if ESX then
+            if ESX.IsPlayerLoaded() then
+                PlayerData = ESX.GetPlayerData()
             end
-        end
-
-        if ESX.IsPlayerLoaded() then
-            PlayerData = ESX.GetPlayerData()
         end
     end)
 
-    RegisterNetEvent('esx:playerLoaded')
-    AddEventHandler('esx:playerLoaded', function(xPlayer)
+    RegisterNetEvent(Config.EsxPlayerLoaded or 'esx:playerLoaded', function(xPlayer)
         PlayerData = xPlayer
     end)
 
-    RegisterNetEvent('esx:setJob')
-    AddEventHandler('esx:setJob', function(job)
+    RegisterNetEvent(Config.EsxSetJob or 'esx:setJob', function(job)
         PlayerData.job = job
     end)
 
-    function isAtJob(name)
+    function IsAtJob(name, grade)
+        if not PlayerData or not PlayerData.job then
+            print("ERROR", "the job for ESX is nil value please check if your  events are correct.")
+            return true
+        end
+
+        if grade and grade == "*" and PlayerData.job.name == name then
+            return true
+        end
+        if grade then
+            return PlayerData.job.name == name and PlayerData.job.grade_name == grade
+        end
         return PlayerData.job.name == name
     end
 end
@@ -79,13 +80,24 @@ if Config.FrameWork == 2 then
         UpdatePlayerDataForQBCore()
     end)
 
-    function isAtJob(name)
+    function IsAtJob(name, grade)
+        if not PlayerData or not PlayerData.job then
+            print("ERROR", "the job for QBcore is nil value please check if your  events are correct.")
+            return true
+        end
+
+        if grade and grade == "*" and PlayerData.job.name == name then
+            return true
+        end
+        if grade then
+            return PlayerData.job.name == name and PlayerData.job.grade_name == grade
+        end
         return PlayerData.job.name == name
     end
 end
 
 if Config.FrameWork == 0 then
-    function isAtJob(name)
+    function IsAtJob(name, grade)
         return true
     end
 end
@@ -107,77 +119,32 @@ end
 RegisterNetEvent('rcore_tv:notification')
 AddEventHandler('rcore_tv:notification', showNotification)
 
----------------------------------
--- Do not change anything here --
----------------------------------
-local cameras = {}
+--- call callback
 
-function createCamera(name, pos, rot, fov)
-    fov = fov or 60.0
-    rot = rot or vector3(0, 0, 0)
-    local cam = CreateCamWithParams("DEFAULT_SCRIPTED_CAMERA", pos.x, pos.y, pos.z, rot.x, rot.y, rot.z, fov, false, 0)
-    local try = 0
-    while cam == -1 or cam == nil do
-        Citizen.Wait(10)
-        cam = CreateCamWithParams("DEFAULT_SCRIPTED_CAMERA", pos.x, pos.y, pos.z, rot.x, rot.y, rot.z, fov, false, 0)
-        try = try + 1
-        if try > 20 then
-            return nil
-        end
-    end
-    local self = {}
-    self.cam = cam
-    self.position = pos
-    self.rotation = rot
-    self.fov = fov
-    self.name = name
-    self.lastPointTo = nil
-    self.pointTo = function(pos)
-        self.lastPointTo = pos
-        PointCamAtCoord(self.cam, pos.x, pos.y, pos.z)
-    end
-    self.render = function()
-        SetCamActive(self.cam, true)
-        RenderScriptCams(true, true, 1, true, true)
-    end
-    self.changeCam = function(newCam, duration)
-        duration = duration or 3000
-        SetCamActiveWithInterp(newCam, self.cam, duration, true, true)
-    end
-    self.destroy = function()
-        SetCamActive(self.cam, false)
-        DestroyCam(self.cam)
-        cameras[name] = nil
-    end
-    self.changePosition = function(newPos, newPoint, newRot, duration)
-        newRot = newRot or vector3(0, 0, 0)
-        duration = duration or 4000
-        if IsCamRendering(self.cam) then
-            local tempCam = createCamera(string.format('tempCam-%s', self.name), newPos, newRot, self.fov)
-            tempCam.render()
-            if self.lastPointTo ~= nil then
-                tempCam.pointTo(newPoint)
-            end
-            self.changeCam(tempCam.cam, duration)
-            Citizen.Wait(duration)
-            self.destroy()
-            local newMain = deepCopy(tempCam)
-            newMain.name = self.name
-            self = newMain
-            tempCam.destroy()
-        else
-            createCamera(self.name, newPos, newRot, self.fov)
-        end
-    end
+---TAKEN FROM rcore framework
+---https://githu.com/Isigar/relisoft_core
+---https://docs.rcore.cz
 
-    cameras[name] = self
-    return self
+local clientCallbacks = {}
+local currentRequest = 0
+
+function callCallback(name, cb, ...)
+    clientCallbacks[currentRequest] = cb
+    TriggerServerEvent(TriggerName('callCallback'), name, currentRequest, GetPlayerServerId(PlayerId()), ...)
+
+    if currentRequest < 65535 then
+        currentRequest = currentRequest + 1
+    else
+        currentRequest = 0
+    end
 end
 
-function stopRendering()
-    RenderScriptCams(false, false, 1, false, false)
-end
+exports('callCallback', callCallback)
 
-function disableControls(toggle)
-    blockInput = toggle
-end
+RegisterNetEvent(TriggerName('callback'))
+AddEventHandler(TriggerName('callback'), function(requestId, ...)
+    if clientCallbacks[requestId] == nil then
+        return
+    end
+    clientCallbacks[requestId](...)
+end)

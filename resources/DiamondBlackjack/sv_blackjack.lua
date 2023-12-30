@@ -375,6 +375,7 @@ for i=0,31,1 do
                                                             if potentialPushAmount > 10000000 then
                                                                 TriggerClientEvent('chatMessage', -1, "Diamond Casino | " .. GetPlayerName(source) .. " has WON " .. tostring(getMoneyStringFormatted(potentialPushAmount)) .. " chips!")
                                                             end
+                                                            print("Player ["..GetPlayerName(source).."] has won at the casino. Amount : [$"..potentialWinAmount.."]")
                                                         end
                                                     end
                                                     TriggerClientEvent("Blackjack:dealerBusts",-1,tableId) 
@@ -388,6 +389,7 @@ for i=0,31,1 do
                                                             if potentialPushAmount > 10000000 then
                                                                 TriggerClientEvent('chatMessage', -1, "Diamond Casino | " .. GetPlayerName(source) .. " has WON " .. tostring(getMoneyStringFormatted(potentialPushAmount)) .. " chips!")
                                                             end
+                                                            print("Player ["..GetPlayerName(source).."] has won at the casino. Amount : [$"..potentialWinAmount.."]")
                                                         end
                                                     end
                                                 elseif currentHand == dealerHand then

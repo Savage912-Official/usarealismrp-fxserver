@@ -147,9 +147,11 @@ Citizen.CreateThread(function()
                 Wait(1)
             end
             if not IsPedShooting(myped) then
-                local w = GetSelectedPedWeapon(myped)
-                local b1, wa = GetAmmoInClip(myped, w)
-                TriggerServerEvent("ammo:save", wa)
+                if not exports["usa-arena"]:isPlayingArena() then
+                    local w = GetSelectedPedWeapon(myped)
+                    local b1, wa = GetAmmoInClip(myped, w)
+                    TriggerServerEvent("ammo:save", wa)
+                end
             end
         end
         Wait(1)
@@ -268,10 +270,12 @@ Citizen.CreateThread(function()
             if GetGameTimer() - lastPressTime >= RELOAD_TIME_MS then
                 lastPressTime = GetGameTimer()
                 if IsPedArmed(PlayerPedId(), 4 | 2) and not NO_WEAPON_RELOADS[GetSelectedPedWeapon(PlayerPedId())] then
-                    if MAGS_ENBALED then
-                        TriggerServerEvent("ammo:checkForMagazine")
-                    else
-                        TriggerServerEvent("ammo:checkForAmmo")
+                    if not exports["usa-arena"]:isPlayingArena() then
+                        if MAGS_ENBALED then
+                            TriggerServerEvent("ammo:checkForMagazine")
+                        else
+                            TriggerServerEvent("ammo:checkForAmmo")
+                        end
                     end
                 end
             end

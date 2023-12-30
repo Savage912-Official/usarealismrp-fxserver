@@ -5,6 +5,10 @@ local tbl = {
 	[4] = {locked = false, player = nil},
 	[5] = {locked = false, player = nil},
 	[6] = {locked = false, player = nil},
+	[7] = {locked = false, player = nil},
+	[8] = {locked = false, player = nil},
+	[9] = {locked = false, player = nil},
+	[10] = {locked = false, player = nil},
 }
 
 prices = {

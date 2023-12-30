@@ -116,7 +116,7 @@ end)
 RegisterNetEvent("lock:sendNotification")
 AddEventHandler("lock:sendNotification", function(param, message, duration)
 	if param == 1 then
-		TriggerEvent("lock:notify", message, duration)
+		TriggerEvent("usa:notify", message)
 	elseif param == 2 then
 		TriggerEvent('chatMessage', 'LockSystem', { 255, 128, 0 }, message)
 	end
@@ -124,10 +124,7 @@ end)
 
 RegisterNetEvent("lock:notify")
 AddEventHandler("lock:notify", function(text, time)
-	SetNotificationTextEntry("STRING")
-	AddTextComponentString(text)
-	Citizen.InvokeNative(0x1E6611149DB3DB6B, "CHAR_LIFEINVADER", "CHAR_LIFEINVADER", true, 1, "Mini-Lock", "Version 1.0.3b", time)
-	DrawNotification_4(false, true)
+	TriggerEvent("usa:notify", text)
 end)
 
 RegisterNetEvent("lock:printLockStatus")

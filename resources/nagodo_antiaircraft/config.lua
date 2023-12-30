@@ -13,6 +13,7 @@ Config = {
     BlipText = "No Fly Zone",
 
     cooldownTimeSeconds = 60,
-    timeToLeaveBeforeShootingSeconds = 5
-
+    timeToLeaveBeforeShootingSeconds = math.random(7,13),
+    chanceToHit = 0.4,
+    CopsNeeded = 2 -- If number of cops on is below this number, chance of hit is 100%
 }

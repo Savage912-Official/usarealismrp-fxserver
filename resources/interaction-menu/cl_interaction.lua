@@ -910,7 +910,7 @@ RegisterNUICallback("dropItem", function(data, cb)
 			finalPos = GetOffsetFromEntityInWorldCoords(myped, table.unpack(NORMAL_OBJ_SPAWN_OFFSET))
 		end
 		TriggerEvent("usa:playAnimation", "anim@move_m@trash", "pickup", -8, 1, -1, 48, 0, 0, 0, 0)
-		TriggerServerEvent("inventory:dropItem", data.itemName, data.index, finalPos.x, finalPos.y, finalPos.z, GetEntityHeading(PlayerPedId()))
+		TriggerServerEvent("inventory:dropItem", data.itemName, data.index, finalPos.x, finalPos.y, finalPos.z, GetEntityHeading(PlayerPedId()), data.quantity)
 		if data.itemName:find("Radio") then
 			TriggerEvent("Radio.Set", false, {})
 		end
@@ -1293,7 +1293,7 @@ function interactionMenuUse(index, itemName, wholeItem)
 	elseif itemName == "lift" or itemName == "lift_rail" then
 		TriggerEvent("pickle_construction:createLift")
 	else
-		TriggerEvent("interaction:notify", "There is no use action for that item!")
+		TriggerServerEvent("interaction:attemptItemUse", wholeItem)
 	end
 end
 
@@ -1533,6 +1533,9 @@ AddEventHandler("interaction:equipWeapon", function(item, equip, ammoAmount, pla
 		end
 		SetPedAmmo(ped, item.hash, currentWeaponAmmo)
 		SetAmmoInClip(ped, item.hash, currentWeaponAmmo)
+		if exports["usa-arena"]:isPlayingArena() then
+			SetPedInfiniteAmmo(PlayerPedId(), true, item.hash)
+		end
 		if playAnim then
 			exports["usa_holster"]:handleHolsterAnim()
 		end

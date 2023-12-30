@@ -29,8 +29,12 @@ $( document ).ready(function() {
 		volume: 0,
 		autoplay: true,
 		onplay: function() {
+			$.post('http://rcore_television/updatePos', JSON.stringify({
+				identifier: result.identifier,
+			}));
+
 			this.seek(result.time);
-			setTimeout(UpdatVolume, 100);
+			setTimeout(UpdatVolume, 70);
 		},
 	});
 });
@@ -39,6 +43,6 @@ function UpdatVolume(){
     if(howl){
         howl.volume(GetNewVolume());
     }
-    setTimeout(UpdatVolume, 100);
+    setTimeout(UpdatVolume, 70);
 }
 </script>

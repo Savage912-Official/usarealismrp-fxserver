@@ -18,7 +18,6 @@ AddEventHandler("character:swapChar", function()
 	char.set("lastRecordedLocation", GetEntityCoords(GetPlayerPed(usource)))
 	exports["usa_rp2"]:handlePlayerDropDutyLog(char, GetPlayerName(usource), accountIdentifier)
 	char.set("job", "civ")
-	TriggerEvent("high_callback:drop", usource)
 	exports["usa-characters"]:SaveCurrentCharacter(usource, function()
 		local steamID = GetPlayerIdentifiers(usource)[1]
 		exports["usa-characters"]:LoadCharactersForSelection(steamID, function(characters)
@@ -65,6 +64,7 @@ end)
 
 RegisterServerEvent("character:delete")
 AddEventHandler("character:delete", function(data)
+	-- todo: make sure calling client actually owns a character with provided data.id to prevent deleting other players' chars
 	local usource = source
 	local id = data.id
 	local rev = data.rev

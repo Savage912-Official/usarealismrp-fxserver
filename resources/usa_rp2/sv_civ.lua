@@ -50,6 +50,10 @@ end)
 -- Steal a player's cash --
 ---------------------------
 TriggerEvent('es:addCommand','rob', function(source, args, char)
+	if exports["usa-arena"]:isPlayerPlaying(source) then
+		TriggerClientEvent("usa:notify", source, "Can't do that here", "^3INFO: ^0Can't rob when playing in the arena")
+		return
+	end
 	TriggerClientEvent("crim:attemptToRobNearestPerson", source)
 end, {
 	help = "Steal the nearest player's money."

@@ -207,6 +207,20 @@ function getNumCops(cb)
 	end)
 end
 
+RegisterServerCallback {
+	eventName = "globals:getNumCops",
+	eventCallback = function(src)
+		local ret = nil
+		getNumCops(function(num)
+			ret = num
+		end)
+		while ret == nil do
+			Wait(1)
+		end
+		return ret
+	end
+}
+
 function getCopIds(cb)
 	Citizen.CreateThread(function()
 		local done = false

@@ -24,7 +24,7 @@ Config.Workplace = {
             {
                 label = "Construction Lift",
                 item = "lift",
-                price = 2000,
+                price = 1000,
                 weight = 30,
                 type = "misc"
             },
@@ -62,6 +62,11 @@ Config.Workplace = {
         location = vector3(-505.7420, -966.3918, 23.5755),
         heading = 86.5400,
         vehicles = {
+            {
+                label = "Van",
+                model = `rumpo`,
+                price = 500,
+            },
             {
                 label = "Bulldozer",
                 model = `bulldozer`,
@@ -182,7 +187,7 @@ Config.Sites = {
     -- Airport
     {
         model = `p_cs_mp_jet_01_s`,
-        location = vector3(-1275.8625, -3388.2761, 12.9401),
+        location = vector3(-1658.935, -3154.286, 12.99201),
         heading = 147.9113,
     },
     -- Boat Dock
@@ -198,9 +203,95 @@ Config.Sites = {
         heading = 139.5437,
     },
     {
+        model = `prop_cctv_pole_02`,
+        location = vector3(-45.52844, -1743.681, 28.31407),
+        heading = 48.5437,
+    },
+    {
+        model = `prop_cctv_pole_02`,
+        location = vector3(1895.215, 2606.191, 44.75982),
+        heading = 356.5437,
+    },
+    {
         model = `prop_billboard_01`,
         location = vector3(-90.0106, -1714.3567, 27.3416),
         heading = 139.5437,
+    },
+    {
+        model = `prop_cctv_pole_02`,
+        location = vector3(1873.201, 2584.823, 44.67204),
+        heading = 271.5437,
+    },
+    {
+        model = `prop_cctv_pole_02`,
+        location = vector3(1855.539, 2520.389, 44.91222),
+        heading = 0.5437,
+    },
+    {
+        model = `prop_cctv_pole_02`,
+        location = vector3(1873.137, 2632.748, 44.672),
+        heading = 267.5437,
+    },
+    {
+        model = `prop_cctv_pole_02`,
+        location = vector3(1857.48, 2687.143, 44.82111),
+        heading = 0.5437,
+    },
+    -- Senora Fwy
+    {
+        model = `prop_billboard_01`,
+        location = vector3(2780.73, 4453.45, 46.02693),
+        heading = 189.5437,
+    },
+    {
+        model = `prop_billboard_01`,
+        location = vector3(2929.167, 3849.633, 50.08356),
+        heading = 173.5437,
+    },
+    {
+        model = `prop_billboard_01`,
+        location = vector3(2702.301, 4783.866, 42.02012),
+        heading = 198.5437,
+    },
+    {
+        model = `prop_billboard_01`,
+        location = vector3(2628.854, 5093.292, 42.78501),
+        heading = 198.5437,
+    },
+    {
+        model = `prop_billboard_01`,
+        location = vector3(2488.083, 5566.202, 42.03923),
+        heading = 193.5437,
+    },
+    {
+        model = `prop_billboard_01`,
+        location = vector3(875.2618, 6513.68, 19.54971),
+        heading = 267.5437,
+    },
+    {
+        model = `prop_billboard_01`,
+        location = vector3(535.0694, 6570.301, 25.09592),
+        heading = 267.5437,
+    },
+    {
+        model = `prop_billboard_01`,
+        location = vector3(-2163.585, 4462.069, 60.81997),
+        heading = 296.5437,
+    },
+    {
+        model = `prop_billboard_01`,
+        location = vector3(-2493.882, 3712.255, 12.07593),
+        heading = 345.5437,
+    },
+    {
+        model = `prop_billboard_01`,
+        location = vector3(-2976.08, 2116.526, 38.89329),
+        heading = 305.5437,
+    },
+    {
+        model = `prop_billboard_01`,
+        location = vector3(-3086.644, 1128.62, 18.41069),
+        heading = 171.5437,
     },
     -- Pipe Welding
     {

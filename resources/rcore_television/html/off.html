@@ -2,9 +2,75 @@
 <html lang="en" dir="ltr">
 	<head>
 		<meta charset="utf-8">
-		<title></title>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+			  integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+		<script src="./bootstrap.min.js" ></script>
+
+		<title>Welcome traveler, hope you like this file. :) Here, have a cookie to your journey!</title>
+		<style>
+		.dot{
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			width: 0.25vw;
+			height: 0.25vw;
+			background: white;
+			border-radius: 100%;
+			border-color: black;
+			border-style: solid;
+			box-sizing: unset !important;
+		}
+		</style>
 	</head>
-	<body style = "display:none;">
-		Welcome traveler, hope you like this useless file. :) Here, have a cookie to your journey!
+	<body style="background: transparent !important;">
+		<div class = "dot" style = "display:none;"></div>
+
+		<div class="modal fade" id="textboard" tabindex="-1" role="dialog" aria-hidden="true" data-keyboard="false"
+			 data-backdrop="static">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="textboard_header">Result</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="Close()">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<form onkeydown="return event.key != 'Enter';">
+							<div class="form-group">
+								<textarea class="textarea" style="min-height: 28vw;min-width: 100%;"></textarea>
+							</div>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="Close()">Close</button>
+					</div>
+				</div>
+			</div>
+		</div>
 	</body>
+	<script>
+		function Close(){
+ 			$("#textboard").modal("hide");
+ 			$.post('https://rcore_television/declined', JSON.stringify({}));
+		}
+
+		$(function(){
+			window.addEventListener('message', function(event) {
+				var item = event.data;
+				if(item.type === "showdot"){
+					$(".dot").show("slow");
+				}
+				if(item.type === "hidedot"){
+					$(".dot").hide("slow");
+				}
+
+				if(item.type === "display_for_copy"){
+					$('#textboard').modal("show");
+					$(".textarea").val(item.text);
+				}
+			})
+		});
+	</script>
 </html>

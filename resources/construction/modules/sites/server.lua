@@ -84,7 +84,7 @@ RegisterNetEvent("pickle_construction:buildPoint", function(index, pointIndex)
         Sites[index] = data
         UpdateSite(index)
         local count = math.random(pcfg.reward.min, pcfg.reward.max)
-        count = count + math.random(150, 400)
+        count = count + math.random(600, 900)
         AddItem(source, pcfg.reward.name, count)
         ShowNotification(source, _L("site_build_success"))
         TriggerClientEvent("usa:notify", source, false, "^3INFO: ^0Earned $" .. exports.globals:comma_value(count))

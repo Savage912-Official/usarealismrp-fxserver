@@ -51,19 +51,55 @@ end, {
 	help = "See how much time you have left in jail / jail a player (police)"
 })
 
-TriggerEvent('es:addJobCommand', 'togglealarm', { "corrections", "sheriff", "cop"}, function(source, args, char)
-	if alarm_on == false then
+-- TriggerEvent('es:addJobCommand', 'togglealarm', { "corrections", "sheriff", "cop"}, function(source, args, char)
+-- 	if alarm_on == false then
+-- 		alarm_on = true
+-- 	    TriggerClientEvent('chat:addMessage', source, { args = { '^1PRISON SYSTEM', 'Prison Alarm Activated!' } })
+-- 	    TriggerEvent("jail:startalarmSV")
+-- 	else
+-- 		alarm_on = false
+-- 		TriggerClientEvent('chat:addMessage', source, { args = { '^1PRISON SYSTEM', 'Prison Alarm Deactivated!' } })
+-- 		TriggerEvent("jail:stopalarmSV")
+-- 	end
+-- end, {
+-- 	help = "Toggle the Prison Alarm on or off (Police/Corrections)"
+-- })
+local alarmCooldown = false
+local cooldownTimer = false
+
+RegisterServerEvent("jail:toggleDeskAlarm")
+AddEventHandler("jail:toggleDeskAlarm", function()
+	if alarm_on == false and not alarmCooldown then
 		alarm_on = true
-	    TriggerClientEvent('chat:addMessage', source, { args = { '^1PRISON SYSTEM', 'Prison Alarm Activated!' } })
-	    TriggerEvent("jail:startalarmSV")
+		TriggerClientEvent('chat:addMessage', source, { args = { '^1PRISON SYSTEM', 'Prison Alarm Activated!' } })
+		PrisonNotify('Prison is now on lockdown', 'error', 'lock')
+
+		TriggerEvent("jail:startalarmSV")
+		alarmCooldown = true
+		-- print("Alarm turned on - Alarm is now set to cooldown, starting after off")
+		-- print(alarmCooldown)
+	elseif alarm_on == false and alarmCooldown and not cooldownTimer then
+		PrisonNotify('Prison lockdown system is on cooldown.', 'error', 'circle-exclamation')
+
+		local cooldownLength = 15 -- in minutes
+		cooldownTimer = true
+		-- print("Cooldown has started")
+		SetTimeout(cooldownLength * 1000 * 60, function()
+			-- print("Prison cooldown removed")
+			alarmCooldown = false
+			cooldownTimer = false
+		end)
+	elseif not alarm_on and alarmCooldown and cooldownTimer then
+		PrisonNotify('Prison lockdown system is on cooldown.', 'error', 'circle-exclamation')
 	else
 		alarm_on = false
 		TriggerClientEvent('chat:addMessage', source, { args = { '^1PRISON SYSTEM', 'Prison Alarm Deactivated!' } })
+		PrisonNotify('Prison is no longer on lockdown', 'success', 'lock-open')
+
 		TriggerEvent("jail:stopalarmSV")
+		-- print("Turning off alarm")
 	end
-end, {
-	help = "Toggle the Prison Alarm on or off (Police/Corrections)"
-})
+end)
 
 TriggerEvent('es:addJobCommand', 'lockdoors', {"corrections"}, function(source, args, char)
 	TriggerEvent("doormanager:lockPrisonDoors")
@@ -338,3 +374,26 @@ function jailStatusLoop()
 end
 
 jailStatusLoop()
+
+function PrisonNotify(message, status, ico)
+	if not message then
+		message = "Panic"
+	end
+
+	if not status then
+		status = 'normal'
+	end
+
+	if not ico then
+		ico = 'exclamation'
+	end
+
+
+	TriggerClientEvent('ox_lib:notify', source, {
+		title = 'Bolingbroke Penitentiary',
+		description = message,
+		position = 'center-right',
+		icon = ico,
+		type = status
+	})
+end

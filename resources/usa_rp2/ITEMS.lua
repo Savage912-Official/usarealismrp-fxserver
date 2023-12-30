@@ -1,4 +1,5 @@
 local ITEMS = {
+    { name = 'Advanced Pick', type = 'misc', price = 150, legality = 'illegal', quantity = 1, weight = 7, objectModel = "prop_tool_screwdvr03", doNotAutoRemove = true},
     { name = "50 Caliber", type = "weapon", hash = -1716589765, price = 14000, quantity = 1, weight = 20, objectModel = "w_pi_pistol50" },
     { name = "Empty .50 Cal Mag [9]", type = "magazine", price = 400, weight = 7, receives = ".50 Cal", MAX_CAPACITY = 9, currentCapacity = 0 },
     { name = "FN SCAR SC", type = "weapon", hash = GetHashKey("WEAPON_SCARSC"), weight = 28.0, quantity = 1 },
@@ -353,6 +354,7 @@ local ITEMS = {
         notStackable = true
     },
     {name = 'Switchblade', type = 'weapon', hash = -538741184, price = 1500, legality = 'illegal', quantity = 1, weight = 5, stock = math.random(0, 3)},
+    { name = "Raw Corn", type = "misc", price = 250, weight = 5, quantity = 1 },
 }
 
 

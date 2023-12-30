@@ -3,7 +3,7 @@ Vank17a = {}
 
 Config = Config or {
    Price = {
-        paintingeSellAll = math.random(20000, 100000), -- price all
+        paintingeSellAll = math.random(60000, 175000), -- price all
     },
     Items = {
         paintinge = "paintinge",
@@ -16,7 +16,7 @@ Config = Config or {
 }
 Config.CoreScriptName             = 'usa' -- name export
 Config.CoreName                   = 'usa' -- name event
-Config.Cooldown                   = 90 -- 60 minutes
+Config.CooldownHours              = 3
 Config.Jobs = "police" -- Jobs Cops
 Config.RequiredCops = 0 -- Need a police officer. They are currently [4], you can change it
 Config.DoorId = 'Artheist-door' -- name of the door in your doorlock config

@@ -1,6 +1,10 @@
 local locked = false
 local lastScan = { plate = "N/A", speed = 0.00, vehicle = nil }
 local showText = true
+
+local drawTextX = 0.515
+local drawTextY = 1.220
+
 Citizen.CreateThread(function()
 	while true do
 		Wait(0)
@@ -12,9 +16,9 @@ Citizen.CreateThread(function()
 		end
 		if not IsVehicleBlacklisted(car) and (GetPedInVehicleSeat(car, -1) == ped or GetPedInVehicleSeat(car, 0) == ped) and showText then
 			if locked then
-				DrawTxt(0.515, 1.270, 1.0, 1.0, 0.40, '~r~[LOCKED] ~w~Plate: '..lastScan.plate..' | MPH: '..math.ceil(lastScan.speed), 255, 255, 255, 255)
+				DrawTxt(drawTextX, drawTextY, 1.0, 1.0, 0.40, '~r~[LOCKED] ~w~Plate: '..lastScan.plate..' | MPH: '..math.ceil(lastScan.speed), 255, 255, 255, 255)
 			else
-				DrawTxt(0.515, 1.270, 1.0, 1.0, 0.40, 'Plate: '..lastScan.plate..' | MPH: '..math.ceil(lastScan.speed), 255, 255, 255, 255)
+				DrawTxt(drawTextX, drawTextY, 1.0, 1.0, 0.40, 'Plate: '..lastScan.plate..' | MPH: '..math.ceil(lastScan.speed), 255, 255, 255, 255)
 			end
 		end
 	end
@@ -36,6 +40,14 @@ Citizen.CreateThread(function()
 				lastScan.speed = GetEntitySpeed(lastScan.vehicle) * 2.236936
 			end
 		end
+	end
+end)
+
+AddEventHandler('hud:client:LoadMap', function(mapType)
+	if mapType == "square" then
+		drawTextY = 1.22
+	else
+		drawTextY = 1.17
 	end
 end)
 

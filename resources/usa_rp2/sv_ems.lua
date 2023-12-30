@@ -251,6 +251,8 @@ local hospitalBeds = {
 	},
 }
 
+local beingTreated = {}
+
 
 RegisterServerEvent('ems:resetBed')
 AddEventHandler('ems:resetBed', function()
@@ -271,12 +273,27 @@ AddEventHandler('ems:occupyBed', function(index)
 	hospitalBeds[index].occupied = source
 end)
 
+RegisterServerEvent('hospital:saveTreatmentTime', function(time)
+	local char = exports["usa-characters"]:GetCharacter(source)
+	if time > 0 then
+		beingTreated[char.get("_id")] = time
+	else
+		beingTreated[char.get("_id")] = nil
+	end
+end)
+
 AddEventHandler('playerDropped', function()
 	for i = 1, #hospitalBeds do
 		if hospitalBeds[i].occupied == source then
-			print('source was hospitalized, left and now bed is being freed!')
 			hospitalBeds[i].occupied = nil
 		end
+	end
+end)
+
+AddEventHandler("character:loaded", function(char)
+	if beingTreated[char.get("_id")] then
+		print("re admiting patient to hospital bed after leaving with time left on clock")
+		TriggerClientEvent("ems:admitMe", char.get("source"), getFreeHospitalBed(), "Waking up from nap")
 	end
 end)
 
@@ -334,3 +351,17 @@ TriggerEvent('es:addCommand', 'bed', function(source, args, char)
 end, {
 	help = "Enter a hospital bed",
 })
+
+function getFreeHospitalBed()
+	for i = 1, #hospitalBeds do
+		if hospitalBeds[i].occupied == nil then
+			hospitalBeds[i].occupied = targetPlayerId
+			return {
+				heading = hospitalBeds[i].heading,
+				coords = hospitalBeds[i].objCoords,
+				model = hospitalBeds[i].objModel
+			}
+		end
+	end
+	return nil
+end

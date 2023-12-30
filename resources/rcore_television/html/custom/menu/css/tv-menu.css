@@ -1,0 +1,106 @@
+#blackscreen{
+    background: black;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 999999;
+}
+
+.bounce-enter-active {
+  animation: bounce-in 0.5s;
+}
+
+@keyframes bounce-in {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.10);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+#offButton{
+	font-size: 32px;
+    position: absolute;
+    top: 6px;
+    right: 52px;
+}
+
+#off{
+    background: aliceblue;
+    position: absolute;
+    height: 50px;
+    width: 70px;
+    position: absolute;
+    top: 0;
+    right: 0;
+	z-index: 100;
+}
+
+#circle{
+    height: 75px;
+    width: 75px;
+    background-color: aliceblue;
+    border-radius: 50%;
+    display: inline-block;
+    position: absolute;
+    top: -25px;
+    right: 32px;
+}
+
+body {
+    background-image: url(./img/bg.jpg);
+    background-size: cover;
+    overflow: hidden;
+}
+
+#icon-size{
+    font-size: 47px;
+    padding: unset;
+    padding-bottom: 40px;
+    padding-top: 22px;
+}
+
+#menu{
+    margin: auto;
+    width: 89%;
+}
+
+#container{
+    height: 649px;
+    width: 871px;
+    margin: auto;
+    position: fixed;
+    top: 29%;
+    left: 27%;
+}
+
+.text{
+    font-family: Montserrat, sans-serif;
+    text-overflow: ellipsis;
+    font-size: 39px;
+    width: 100%;
+    position: relative;
+    bottom: 17px;
+}
+
+.box{
+    transition-duration: 500ms;
+    background: aliceblue;
+    float: left;
+    margin: 8px;
+    text-align: center;
+    height: 96px;
+    width: 100%;
+}
+
+.box.active {
+    z-index: 999 !important;
+    border-radius: 6px;
+    background: #b8dbfb;
+}

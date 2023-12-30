@@ -619,7 +619,7 @@ supportedVehicles = {
     { name = "Ford F350", model = "wdf350", class = "B" },
     { name = "2021 Ford F-450 Platinum", model = "f450plat", class = "B" },
     { name = "1999 Ford F-150 SVT Lightning", model = "flightning99", class = "B" },
-    { name = "1932 Ford HulaGirl", model = "ford32hulagirl", class = "B" },
+    --{ name = "1932 Ford HulaGirl", model = "ford32hulagirl", class = "B" },
     { name = "1932 Ford V-8 Coupé 2", model = "fordc32h", class = "B" },
     { name = "Ford F150 Raptor", model = "f150", class = "B" },
     { name = "Ford F150 Raptor 2", model = "foxraptor", class = "B" },

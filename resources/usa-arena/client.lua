@@ -4,6 +4,8 @@ local registeredDeath = false
 
 local wasArmed = false
 
+local isPlaying = false
+
 exports.globals:createCulledNonNetworkedPedAtCoords("a_m_y_latino_01", {
     {x = ARENA_COORDS.x, y = ARENA_COORDS.y, z = ARENA_COORDS.z, heading = 59.0}
 }, 300.0, "[E] - Arena", 5.0, function()
@@ -77,7 +79,7 @@ AddEventHandler("arena:leave", function()
 	exports.globals:notify("Left arena", "^3INFO: ^0You have left the arena")
 	isPlaying = false
 	TriggerEvent("arena:setPlayingArenaState", false)
-
+	SetPedInfiniteAmmo(PlayerPedId(), false, GetSelectedPedWeapon(PlayerPedId()))
 end)
 
 RegisterNetEvent("arena:leaderboard")
@@ -101,11 +103,14 @@ AddEventHandler("arena:gameStarted", function()
 	if wasArmed then
 		TriggerServerEvent("arena:equipLastWeapon")
 	end
+	Wait(500)
+	SetPedInfiniteAmmo(PlayerPedId(), true, GetSelectedPedWeapon(PlayerPedId()))
 end)
 
 RegisterNetEvent("arena:gameEnded")
 AddEventHandler("arena:gameEnded", function()
 	wasArmed = false
+	SetPedInfiniteAmmo(PlayerPedId(), false, GetSelectedPedWeapon(PlayerPedId()))
 end)
 
 RegisterNetEvent("arena:playSound")
@@ -153,4 +158,8 @@ arenaPolyZone:onPointInOut(PolyZone.getPlayerPosition, function(isPointInside, p
     if not isPointInside and isPlaying then
 		TriggerEvent("arena:leave")
 	end
+end)
+
+exports("isPlayingArena", function()
+	return isPlaying
 end)

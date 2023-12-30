@@ -177,6 +177,8 @@ MechanicHelper.useMechanicTools = function(veh, repairCount, cb)
                     SetVehicleEngineHealth(veh, 800.0)
                 end
 
+                NetworkRequestControlOfEntity(veh)
+                Wait(300)
                 FixAllTires(veh)
                 TriggerEvent("kq_wheeldamage:fixCar", veh)
                 success = true
@@ -229,6 +231,8 @@ MechanicHelper.useRepairKit = function(veh, repairCount, cb)
                     SetVehicleEngineHealth(veh, 850.0)
                 end
                 
+                NetworkRequestControlOfEntity(veh)
+                Wait(300)
                 FixAllTires(veh)
                 TriggerEvent("kq_wheeldamage:fixCar", veh)
                 success = true
@@ -269,6 +273,18 @@ MechanicHelper.installUpgrade = function(veh, upgrade, cb)
             flag = 39,
         },
     }) then
+        if upgrade.requiresItem then
+            local hasItem = TriggerServerCallback {
+                eventName = "interaction:hasItem",
+                args = {upgrade.requiresItem}
+            }
+            if not hasItem then
+                exports.globals:notify("Missing required item")
+                TriggerEvent("interaction:setBusy", false)
+                cb(false)
+                return
+            end
+        end
         if MechanicHelper.UPGRADE_FUNC_MAP[upgrade.id] then
             MechanicHelper.UPGRADE_FUNC_MAP[upgrade.id](veh, upgrade.increaseAmount) -- call appropriate native
         end

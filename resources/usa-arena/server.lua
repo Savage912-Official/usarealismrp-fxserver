@@ -113,8 +113,8 @@ AddEventHandler("arena:leaderboard", function()
     table.sort(all, function(a, b)
         return a.kdRatio > b.kdRatio
     end)
-    TriggerClientEvent("usa:notify", src, false, "^3INFO: ^0Top 15 Arena Players:")
-    for i = 1, 15 do
+    TriggerClientEvent("usa:notify", src, false, "^3INFO: ^0Top 20 Arena Players:")
+    for i = 1, 20 do
         if all[i] then
             local charDoc = exports.essentialmode:getDocument("characters", all[i]._id)
             local name = charDoc.name.first .. " " .. charDoc.name.last
@@ -345,6 +345,16 @@ AddEventHandler("playerDropped", function(reason)
     currentGame.queue[source] = nil
     currentGame.team1[source] = nil
     currentGame.team2[source] = nil
+end)
+
+exports("isPlayerPlaying", function(src)
+    if currentGame.team1[src] then
+        return true
+    elseif currentGame.team2[src] then
+        return true
+    else
+        return false
+    end
 end)
 
 exports["globals"]:PerformDBCheck("usa-arena", "arena-player-stats")

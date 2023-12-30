@@ -9,7 +9,7 @@ local INPUT_KEY = 38 -- E
 local meth = {
     peds = {
         {x = 705.34, y = 4185.25, z = 40.7858, name = "meth_supplies_ped", model = "U_M_O_TAPHILLBILLY"},
-        {x = 1387.02, y = 4281.44, z = 36.21, name = "meth_supplies_ped_quality", model = 'A_M_M_HILLBILLY_01'}
+        {x = -1149.1988525391, y = 4938.3979492188, z = 222.26870727539, name = "meth_supplies_ped_quality", model = 'A_M_M_HILLBILLY_01'}
     },
     suppliesProduce = "Pseudoephedrine",
     suppliesProduceQuality = 'Red Phosphorus',
@@ -24,16 +24,16 @@ local meth = {
 
 local peds = {}
 
--- /gotoc 1387.02 4281.44 36.21
+-- /gotoc 1149.1988525391 4938.3979492188 222.26870727539,
 -- /gotoc 738.85601806641 -773.63940429688 25.093187332153
-local BUY_RED_PHOS_COORDS = {x = 1387.02, y = 4281.44, z = 36.21}
+local BUY_RED_PHOS_COORDS = {x = -1149.1988525391, y = 4938.3979492188, z = 222.26870727539}
 local BUY_PSEUDOPHEDRINE_COORDS = {x = 704.62, y = 4185.3, z = 40.70}
 local PACKAGE_COORDS = {x = 2434.78, y = 4964.29, z = 42.34}
 local COOK_COORDS = {x = 738.85601806641, y = -773.63940429688, z = 25.093187332153}
 
 local methRank = nil
 
-local blowChances = {0.15, 0.12, 0.9, 0.07, 0.03}
+local blowChances = {0.15, 0.12, 0.09, 0.07, 0.03}
 local produceTimes = {23000, 19000, 15000, 12000, 10000}
 local packageTimes = {7500,6500,5500,4500,3500}
 
@@ -124,7 +124,7 @@ Citizen.CreateThread(function()
         local z = meth.peds[j].z
 
         --Citizen.Trace("spawned in ped # " .. i)
-        local ped = CreatePed(4, hash, x, y, z, 175.189 --[[Heading]], false --[[Networked, set to false if you just want to be visible by the one that spawned it]], false --[[Dynamic]])
+        local ped = CreatePed(4, hash, x, y, z, 333.82864379883 --[[Heading]], false --[[Networked, set to false if you just want to be visible by the one that spawned it]], false --[[Dynamic]])
         SetEntityCanBeDamaged(ped,false)
         SetPedCanRagdollFromPlayerImpact(ped,false)
         TaskSetBlockingOfNonTemporaryEvents(ped,true)
@@ -193,7 +193,7 @@ AddEventHandler("methJob:getSupplies", function(supplyType)
         for i = 1, #peds do
             if peds[i].name == "meth_supplies_ped_quality" then
                 meth.pedIsBusy = true
-                TaskGoStraightToCoord(peds[i].handle, 1386.9, 4283.97, 36.46, 2, -1)
+                TaskGoStraightToCoord(peds[i].handle, -1150.1939697266, 4940.9306640625, 222.26870727539, 2, -1)
                 SetBlockingOfNonTemporaryEvents(peds[i].handle, false)
                 TriggerServerEvent("methJob:startTimer", "meth_supplies_ped_quality")
                 local sounds = {

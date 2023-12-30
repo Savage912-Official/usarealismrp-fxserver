@@ -172,6 +172,17 @@ HoopOffsets = {
 
 BasketballHoops = {
 	{
+		pos = vector3(-2591.771484, 1722.629028, 140.487748), 
+		rot = vector4(0.000000, 0.000000, -0.552076, 0.833794),
+		State = nil,
+		Model = `prop_basketball_net`,
+		IsSubscribed = false,
+		threePointFwdDist = 0.0,
+		threePointSideDist = 0.0,
+		threePointRadius = 30.0,
+		hideBlip = true,
+	},
+	{
 		pos = vector3(63.5991, 41.85581, 72.42996), 
 		rot = vector4(0, 0, -0.9844655, -0.1755779),
 		State = nil,

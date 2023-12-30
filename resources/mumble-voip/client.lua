@@ -328,6 +328,15 @@ function SetTalkingRange(src, modeIndex)
 	end
 end
 
+exports("getVoiceMode", function()
+	local playerData = voiceData[GetPlayerServerId(PlayerId())]
+	if playerData then
+		return mumbleConfig.voiceModes[playerData.mode][2]
+	else
+		return "Normal"
+	end
+end)
+
 -- Events
 AddEventHandler("onClientResourceStart", function(resName) -- Initialises the script, sets up voice range, voice targets and request sync with server
 	if GetCurrentResourceName() ~= resName then

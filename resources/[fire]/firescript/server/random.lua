@@ -7,7 +7,7 @@ Citizen.CreateThread(function()
         Wait(Config.RandomFires.Delay * 1000)
         local EMSonline = exports["usa-characters"]:GetNumCharactersWithJob("ems")
         local random = math.random(1, 3)
-        if Config.RandomFires.Enabled and EMSonline >= 2 and random == 1 then
+        if Config.RandomFires.Enabled and EMSonline >= 1 and random == 1 then
             local fires = Config.RandomFires.Locations[Config.RandomFires.AOP]
             if(fires and #fires > 0) then
                 

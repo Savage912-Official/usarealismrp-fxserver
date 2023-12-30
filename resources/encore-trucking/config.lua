@@ -16,7 +16,7 @@ Config = {}
 Config.AbortKey         = 167 -- (F6)
 Config.TruckRentalPrice = 1000
 Config.TruckModel       = 'phantom'
-Config.PayPerMeter      = 0.43
+Config.PayPerMeter      = 0.46
 
 Config.JobStart = {
 	Coordinates = vector3(1189.61, -3104.31, 4.7),

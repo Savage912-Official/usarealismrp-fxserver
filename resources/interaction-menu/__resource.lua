@@ -13,7 +13,8 @@ client_scripts {
 server_scripts {
   "sv_interaction.lua",
   "sv_droppedItems.lua",
-  "inventory/hotkeys/sv_hotkeys.lua"
+  "inventory/hotkeys/sv_hotkeys.lua",
+  "server/*.lua"
 }
 
 shared_scripts {

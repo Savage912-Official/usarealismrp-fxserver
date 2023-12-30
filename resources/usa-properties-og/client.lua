@@ -1055,14 +1055,11 @@ Citizen.CreateThread(function()
                                 end
                               end
                                 if can_open.status == true then
-                                    --drawTxt("Press [ ~b~E~w~ ] to store your vehicle in the garage!",7,1,0.5,0.8,0.6,255,255,255,255)
-                                    --if IsControlJustPressed(0, MENU_KEY) then
-                                        local vehicle = GetVehiclePedIsIn(me, false)
-                                        local numberPlateText = GetVehicleNumberPlateText(vehicle)
-                                        numberPlateText = exports.globals:trim(numberPlateText)
-                                        TriggerServerEvent("properties:storeVehicle", nearest_property_info.name, numberPlateText)
-                                        Wait(1000)
-                                    --end
+                                    local vehicle = GetVehiclePedIsIn(me, false)
+                                    local numberPlateText = GetVehicleNumberPlateText(vehicle)
+                                    numberPlateText = exports.globals:trim(numberPlateText)
+                                    TriggerServerEvent("properties:storeVehicle", nearest_property_info.name, numberPlateText)
+                                    Wait(1000)
                                 end
                             end
                         else

@@ -94,10 +94,11 @@ AddEventHandler("containerjob:reward", function(securityToken)
         targetContainer = onJob[source]
         -- calculate reward based on distance from drop off
         local dist = #(vector3(targetContainer.x, targetContainer.y, targetContainer.z) - vector3(CONTAINER_DROP_OFF.x, CONTAINER_DROP_OFF.y, CONTAINER_DROP_OFF.z))
-        local reward = math.floor(dist * 3.5)
+        local reward = math.floor(dist * 4.15)
         -- give reward
         local char = exports["usa-characters"]:GetCharacter(source)
-        char.giveBank(reward + math.random(0, 250), "Container Reward")
+        reward = reward + math.random(0, 500)
+        char.giveBank(reward, "Container Reward")
         TriggerClientEvent("usa:notify", source, "~g~Reward:~w~ $" .. exports.globals:comma_value(reward), "Container Reward: $" .. exports.globals:comma_value(reward))
         -- reset state
         onJob[source] = nil

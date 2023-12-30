@@ -63,18 +63,19 @@ function OpenGarageMenu()
         TaskWarpPedIntoVehicle(PlayerPedId(), vehicle, -1)
         menuOpen = false
         -- give key to owner
+        local plate = GetVehicleNumberPlateText(vehicle)
         local vehicle_key = {
-            name = "Key -- " .. GetVehicleNumberPlateText(vehicle),
+            name = "Key -- " .. plate,
             quantity = 1,
             type = "key",
             owner = "constructionCompany",
             make = "construction",
             model = "veh",
-            plate = GetVehicleNumberPlateText(vehicle)
+            plate = plate
         }
         TriggerServerEvent("garage:giveKey", vehicle_key)
+        TriggerServerEvent("vehInv:newTempVehInv", plate, 500)
     end)
-    
     lib.showMenu("pickle_construction:garage")
 end
 

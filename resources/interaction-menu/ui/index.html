@@ -12,9 +12,9 @@
 				<div id="inputBox" class="w3-modal" v-if="inputBox.show">
 					<div class="w3-modal-content" style="background: transparent;">
 						<div class="w3-container" style="width: 100%; text-align: center; padding: 0 auto;">
-							<form v-on:submit.prevent="continueInventoryMove(true)">
-								<input type="number" name="quantity" placeholder="Enter quantity to move..." v-model="inputBox.value" min="1">
-								<button type="button" name="submit" @click="continueInventoryMove(true)">Move</button>
+							<form @submit.prevent @keydown.enter="inputBox.show = false">
+								<input type="number" name="quantity" placeholder="Enter quantity..." v-model="inputBox.value" min="1">
+								<button type="button" name="submit" @click="inputBox.show = false">Ok</button>
 							</form>
 						</div>
 					</div>

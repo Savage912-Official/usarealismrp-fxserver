@@ -582,6 +582,12 @@ SecurityCamConfig.Locations = {
             {label = "Ward Camera 3", x = 1822.5922, y = 3675.7083, z = 36.2129, r = {x = -20.0, y = 0.0, z = 140.0}},
         }
     },
+    {
+        camBox = {label = "Diamond Casino", id = 'casino'},
+        cameras = {
+            {label = "Management Room", x = 1107.8004150391, y = 249.78886413574, z = -44.080974578857, r = {x = -15.0, y = 0.0, z = 225.0}},
+        }
+    },
 }
 
 -- prison cam 1 [x = 1732.7, y = 2649.6, z = 45.6]

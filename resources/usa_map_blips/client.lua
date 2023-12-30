@@ -111,17 +111,18 @@ local blips = {
 	{ title = "PDM - Rockford Hills", x = -1259.8367919922, y = -361.47216796875, id = 225, colour = 57, scale = 0.8},
 	--{ title = "Best Buds", colour = 2, id = 140, x = 377.75665283203, y = -829.908203125, z = 29.302627563477, scale = 0.6 },
 	{ title = "White Widow", colour = 2, id = 140, x = 186.72137451172, y = -249.99935913086, z = 54.070400238037, scale = 0.6 },
-	{ title = "Underground Track", x = 784.30633544922, y = -1868.2249755859, id = 38, colour = 62, scale = 0.8, group = "entertainment"},
+	--{ title = "Underground Track", x = 784.30633544922, y = -1868.2249755859, id = 38, colour = 62, scale = 0.8, group = "entertainment"},
 	{ title = "Untamed Autos", x = 1149.8494, y =  -781.1504, id = 402, colour = 5, scale = 0.9},
 	--{ title = "Fight Club", x = 1059.5687255859, y = -2409.5798339844, id = 210, colour = 0, scale = 0.4, group = "entertainment"},
 	{ title = "RPG", x = -795.98742675781, y = -219.36700439453, id = 402, colour = 5, scale = 0.9},
 	{ title = "Dock Container Job", x = 1192.2296142578, y = -3254.0080566406, id = 371, colour = 62, scale = 0.7, group = "jobs"},
-	{ title = "Cat Cafe", x = -582.01025390625, y = -1060.6533203125, id = 214, colour = 82, scale = 0.8, group = "entertainment"},
+	{ title = "Cat Cafe", x = -582.01025390625, y = -1060.6533203125, id = 214, colour = 82, scale = 0.65, group = "entertainment"},
 	{ title = "Hayes Auto", x = -1419.1739501953, y = -445.88775634766, id = 402, colour = 5, scale = 0.9},
 	{ title = "Autocare Garage", x = 945.94091796875, y = -986.71118164063, id = 402, colour = 5, scale = 0.9},
 	{ title = "Apartments", x = -914.08343505859, y = -1306.4748535156, id = 40, colour = 0, scale = 0.7},
 	{ title = "Apartments", x = 325.38638305664, y = -209.88813781738, id = 40, colour = 0, scale = 0.7},
 	{ title = "Arena", x = -1295.9306640625, y = -3389.06640625, id = 76, colour = 0, scale = 0.7},
+	{ title = "Pawn Shop", x = 184.53681945801, y = -1320.5942382813, id = 267, colour = 0, scale = 0.6},
 }
 
 Citizen.CreateThread(function()

@@ -127,7 +127,7 @@ end)
 
 -- Stage 3 if not caught, sell the stolen goods!
 local purchaser = 'g_m_y_mexgoon_01'
-local purchase_location = {334.39, -2058.19, 20.94, 325.57}
+local purchase_location = {-444.36715698242, 287.39889526367, 83.306907653809, 352.11660766602}
 local BASE_SELL_TIME = 5000
 
 local NPCHandle = nil

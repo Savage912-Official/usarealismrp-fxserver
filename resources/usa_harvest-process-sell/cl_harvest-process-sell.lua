@@ -23,12 +23,29 @@ local JOBS = {
       scale = 1.0,
       name = "Sand Mining"
     }
+  },
+  ["Corn"] = {
+    harvest = {reward_item_name = "Raw Corn"},
+    process = {x = 2415.8889160156, y = 4992.48046875, z = 46.155170440674, time = 18, reward_item_name = "Corn", radius = 4.5},
+    sell = {x =  1674.802734375, y = 4884.2299804688, z = 42.077098846436, heading = 10.0},
+    peds = {
+      {x = 2413.7785644531, y = 4987.7177734375, z = 46.216709136963, heading = 43.0, hash = -973145378, scenario = "WORLD_HUMAN_HANG_OUT_STREET", type = "info", gives_directions_to = "sale", name = "George"},
+      {x =  1674.802734375, y = 4884.2299804688, z = 42.077098846436, heading = 43.0, hash = -973145378, scenario = "WORLD_HUMAN_HANG_OUT_STREET", type = "prop", gives_directions_to = nil, name = "Steve"}
+      -- x = 1223.3, y = 1875.2, z = 78.9 (ped to process at)
+    },
+    anims = {
+      harvest = {
+        dict = "anim@move_m@trash",
+        name = "pickup"
+      }
+    },
+    sound = nil
   }
 }
 
 Citizen.CreateThread(function()
   for name, info in pairs(JOBS) do
-    if info.mapBlip.show then
+    if info.mapBlip and info.mapBlip.show then
       local blip = AddBlipForCoord(info.harvest.x, info.harvest.y, info.harvest.z)
   		SetBlipSprite(blip, info.mapBlip.id)
   		SetBlipDisplay(blip, 4)
@@ -84,7 +101,7 @@ Citizen.CreateThread(function()
     local player_coords = GetEntityCoords(player_ped)
     for job, places in pairs(JOBS) do
       if not IsPedInAnyVehicle(player_ped) then
-        if Vdist(player_coords, places.harvest.x, places.harvest.y, places.harvest.z) < places.harvest.radius then
+        if places.harvest.x and Vdist(player_coords, places.harvest.x, places.harvest.y, places.harvest.z) < places.harvest.radius then
           --print("player is close to harvest job location:  " .. job)
           drawTxt("Press ~g~E~w~ to dig!",0,1,0.5,0.8,0.6,255,255,255,255)
           if IsControlJustPressed(1, KEY) then
@@ -116,13 +133,13 @@ Citizen.CreateThread(function()
                   ClearGpsPlayerWaypoint()
                   if places.peds[i].gives_directions_to == "process" then
                     if job == "Sand" then
-                      TriggerEvent("usa:notify", "You can harvest sand here")
+                      TriggerEvent("usa:notify", "You can harvest here")
                     end
                     TriggerEvent("usa:notify", "Here are directions to the place where you can process " .. places.harvest.reward_item_name .. "s")
                     SetNewWaypoint(places.process.x, places.process.y)
                   elseif places.peds[i].gives_directions_to == "sale" then
                     if job == "Sand" then
-                      TriggerEvent("usa:notify", "You can process sand here")
+                      TriggerEvent("usa:notify", "You can process here")
                     end
                     TriggerEvent("usa:notify", "Here are directions to a place where you can sell " .. places.process.reward_item_name)
                     SetNewWaypoint(places.sell.x, places.sell.y)

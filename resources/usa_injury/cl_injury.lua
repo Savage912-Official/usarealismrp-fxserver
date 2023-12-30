@@ -164,7 +164,7 @@ hospitalLocations = {
 effects = {} -- when you take damage for a specific reason, you may be put into an effect
 injuredParts = {} -- injured body parts, and their wounds as the value
 
------- NOTIFY PLAYER OF INJURIES ------
+local lastNotifyTime = nil
 
 RegisterNetEvent('injuries:showMyInjuries')
 AddEventHandler('injuries:showMyInjuries', function()
@@ -273,7 +273,8 @@ Citizen.CreateThread(function()
                         local secondsBeforeNextStage = data.bleed - (secondsPerStage * injuredParts[bone][injury].stage)
                         if injuredParts[bone][injury].timer == secondsBeforeNextStage and injuredParts[bone][injury].stage < 3 then
                             injuredParts[bone][injury].stage = injuredParts[bone][injury].stage + 1
-                            NotifyPlayerOfInjuries()
+                            --NotifyPlayerOfInjuries()
+                            exports.globals:notify("You're injured. Do /injuries to inspect.")
                         end
                     elseif not IsEntityDead(playerPed) then
                         if not GetScreenEffectIsActive('Rampage') then
@@ -361,7 +362,8 @@ AddEventHandler('DamageEvents:EntityDamaged', function(entity, attacker, weaponH
 						--print('added injuredParts['.. damagedBone..']['..weaponHash..']')
 						TriggerServerEvent('injuries:saveData', injuredParts)
 						Citizen.Wait(2000)
-						NotifyPlayerOfInjuries()
+						--NotifyPlayerOfInjuries()
+                        exports.globals:notify("You're injured. Do /injuries to inspect.")
 					end
                 end
                 return
@@ -433,7 +435,11 @@ function RegisterInjuries(entity, weaponHash)
                         --print('added injuredParts['.. damagedBone..']['..weaponHash..']')
                         TriggerServerEvent('injuries:saveData', injuredParts)
                         Citizen.Wait(2000)
-                        NotifyPlayerOfInjuries()
+                        --NotifyPlayerOfInjuries()
+                        if not lastNotifyTime or GetGameTimer() - lastNotifyTime > 30 * 1000 then
+                            exports.globals:notify("You're injured. Do /injuries to inspect.")
+                            lastNotifyTime = GetGameTimer()
+                        end
                     end
                     return
                 end

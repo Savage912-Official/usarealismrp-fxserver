@@ -354,6 +354,14 @@ AddEventHandler('doormanager:advancedPick', function()
         local x, y, z = door.x, door.y, door.z
         if Vdist(playerCoords, x, y, z) < 1.5 then
             if door.advancedlockpickable then
+              local numCops = TriggerServerCallback {
+                eventName = "globals:getNumCops",
+                args = {}
+              }
+              if numCops <= 3 and door.name:find("Bolingbroke") then
+                exports.globals:notify("Lockpick not working!")
+                return
+              end
                 local x, y, z = table.unpack(playerCoords)
                 local lastStreetHASH = GetStreetNameAtCoord(x, y, z)
                 local lastStreetNAME = GetStreetNameFromHashKey(lastStreetHASH)
@@ -365,7 +373,7 @@ AddEventHandler('doormanager:advancedPick', function()
                 else
                   isMale = IsPedMale(playerPed)
                 end
-                if math.random() >= 0.40 then
+                if math.random() >= 0.40 or door.name:find("Bolingbroke") then
                     TriggerServerEvent('911:LockpickingDoor', x, y, z, lastStreetNAME, isMale)
                 end
                 TriggerEvent('lockpick:openlockpick')

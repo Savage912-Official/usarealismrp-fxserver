@@ -1,5 +1,6 @@
 local PRODUCTS = {}
 local NEARBY_PLANTS = {}
+local BUY_MENU = nil
 
 local me = {
     ped = nil,
@@ -28,6 +29,8 @@ local Whitelisted_Plant_Locations = {
 		distance = 20
 	},
 }
+
+local PLANT_BUY_LOCATION = vector3(413.22399902344, 6539.4467773438, 27.734628677368)
 
 local function isAtWhitelistedLocation()
     local playerCoords = GetEntityCoords(PlayerPedId())
@@ -99,7 +102,7 @@ function doAdjustZCoord(objName)
 end
 
 function ShowHelp()
-    local msg = "'Use' the plant in your inventory to plant it. It will take about 14 whole days to enter its final stage at which point it becomes harvestable by 'using' large scisossors near it. Make sure you buy a watering can from the 24/7 and fertilizer from the hardware store and 'use' them near your plants to keep them alive! After harvesting, you can take the buds to that big barn off Senora Freeway just North of the hardware store under Grapeseed to process them for sale."
+    local msg = "'Use' the plant in your inventory to plant it. It will take about 14 whole days to enter its final stage at which point it becomes harvestable by 'using' large scisossors near it. Make sure you buy a watering can from the 24/7 and fertilizer from the hardware store and 'use' them near your plants to keep them alive! After harvesting, you can take weed buds to that big barn off Senora Freeway just North of the hardware store under Grapeseed to process them for sale. Corn can be processed at O'Neill's ranch and sold at the Grapeseed farmer's market."
     TriggerEvent("chatMessage", "", {}, "^3INFO: ^0" .. msg)
 end
 
@@ -161,6 +164,22 @@ end
 RegisterNetEvent("cultivation:loadProducts")
 AddEventHandler("cultivation:loadProducts", function(products)
     PRODUCTS = products
+    BUY_MENU = {
+        {
+            header = "Select a plant:"
+        }
+    }
+    for name, info in pairs(PRODUCTS) do
+        table.insert(BUY_MENU,  {
+            header = "(1x) " .. info.item.name,
+            context = "$" .. exports.globals:comma_value(math.floor(info.cost)) .. " / ea.",
+            --image = "show a cool image ending in jpg, png, gif, etc"  -- todo
+            event = "cultivation:buy",
+            args = {
+                name
+            }
+        })
+    end
 end)
 
 TriggerServerEvent("cultivation:loadProducts")
@@ -175,7 +194,6 @@ AddEventHandler("cultivation:loadNearbyPlants", function(nearbyPlants)
         else
             for k, v in pairs(plant) do -- to avoid overwriting client side variables (like plant object handle)
                 NEARBY_PLANTS[id][k] = v
-
             end
         end
     end
@@ -352,7 +370,7 @@ Citizen.CreateThread(function()
                     local water = plant.waterLevel.asString
                     local food = plant.foodLevel.asString
                     if not plant.isDead then
-                        DrawText3D(plant.coords.x, plant.coords.y, plant.coords.z, plant.type .. " Plant | " .. water .. " | " .. food)
+                        DrawText3D(plant.coords.x, plant.coords.y, plant.coords.z, plant.type .. " Plant | " .. water .. " | " .. food .. (plant.stage.name == "harvest" and " | Ready" or ""))
                     else
                         DrawText3D(plant.coords.x, plant.coords.y, plant.coords.z, plant.type .. " Plant | ~r~Dead~w~")
                     end
@@ -385,29 +403,30 @@ Citizen.CreateThread(function()
     end
 end)
 
--- listen for cannabis plant purchase keypress, display purchase text --
+-- listen for plant purchase keypress, display purchase text --
 Citizen.CreateThread(function()
     while true do
-        if PRODUCTS and me.coords then
-            for name, info in pairs(PRODUCTS) do
-                local seedBuyLocation = info.buyLocation
-                local distance = Vdist(me.coords.x, me.coords.y, me.coords.z, seedBuyLocation.x, seedBuyLocation.y, seedBuyLocation.z)
-                if distance < MENU_TEXT_RADIUS then
-                    DrawText3D(seedBuyLocation.x, seedBuyLocation.y, seedBuyLocation.z, "[E] - Buy Cannabis Plant | [Hold E] - Help")
-                end
-                if distance < MENU_RADIUS then
-                    if IsControlJustPressed(0, KEYS.E) then
-                        Wait(500)
-                        if IsControlPressed(0, KEYS.E) then
-                            ShowHelp()
-                        else
-                            TriggerServerEvent("cultivation:buy", name)
-                        end
-                        Wait(500)
+        if me.coords then
+            local distance = Vdist(me.coords.x, me.coords.y, me.coords.z, PLANT_BUY_LOCATION.x, PLANT_BUY_LOCATION.y, PLANT_BUY_LOCATION.z)
+            if distance < MENU_TEXT_RADIUS then
+                DrawText3D(PLANT_BUY_LOCATION.x, PLANT_BUY_LOCATION.y, PLANT_BUY_LOCATION.z, "[E] - Buy Plants | [Hold E] - Help")
+            end
+            if distance < MENU_RADIUS then
+                if IsControlJustPressed(0, KEYS.E) then
+                    Wait(500)
+                    if IsControlPressed(0, KEYS.E) then
+                        ShowHelp()
+                    else
+                        TriggerEvent('nh-context:createMenu', BUY_MENU)
                     end
+                    Wait(500)
                 end
             end
         end
         Wait(1)
     end
+end)
+
+RegisterNetEvent("cultivation:buy", function(itemName)
+    TriggerServerEvent("cultivation:buy", itemName)
 end)

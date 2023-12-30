@@ -195,7 +195,7 @@ LXC.ABWeaponsKick = false -- if the player get detected, kick him (NOT RECOMMEND
 ---------------Blacklisted Models-------------------------
 
 LXC.AVD = false -- This bool deletes automatically blacklisted vehicles (may cause lag!! use as your risk)
-LXC.AED = true -- This bool deletes automatically blacklisted entities (may cause lag!! use as your risk)
+LXC.AED = false -- This bool deletes automatically blacklisted entities (may cause lag!! use as your risk)
 LXC.APD = false -- This bool deletes automatically blacklisted peds (may cause lag!! use as your risk)
 LXC.AutomaticDeleteTimeout = 10000 -- This timeout is how often the server checks for blacklisted stuff! (1000 = 1s) (Lower = lag)
 

@@ -88,6 +88,7 @@ Citizen.CreateThread(function()
                 TriggerServerEvent('hud:getBelt', beltOn)
                 TriggerServerEvent('display:shareDisplay', 'clicks seatbelt', 2, 470, 10, 3000)
                 TriggerServerEvent('InteractSound_SV:PlayWithinDistance', 0.5, 'seatbelt-click', 0.2)
+                TriggerEvent("seatbelt:client:ToggleSeatbelt")
             end
 
         elseif wasInCar then

@@ -448,35 +448,62 @@ end)
 
 -- store vehicle at property --
 RegisterServerEvent("properties:storeVehicle")
-AddEventHandler("properties:storeVehicle", function(property_name, plate) --IMPLEMENT
+AddEventHandler("properties:storeVehicle", function(property_name, plate)
   plate = exports.globals:trim(plate)
-  local usource = tonumber(source)
-  -- check if player owns veh trying to store --
-  local owns = false
-  local user = exports["usa-characters"]:GetCharacter(usource)
-  local uvehicles = user.get("vehicles")
-  for i = 1, #uvehicles do
-    if plate == uvehicles[i] then
-        owns = true
-    end
+  local src = tonumber(source)
+  if not doesVehicleBelongToAnyOwnerOfProperty(property_name, plate) then
+    TriggerClientEvent("usa:notify", src, "Vehicle does not belong to any owner of this property")
+    return
   end
-  if owns or (recentlyChangedPlates[user.get("_id")] and recentlyChangedPlates[user.get("_id")][plate]) then
-      -- store vehicle if owner --
-      TriggerEvent('es:exposeDBFunctions', function(couchdb)
-        if recentlyChangedPlates[user.get("_id")] and recentlyChangedPlates[user.get("_id")][plate] then
-          plate = recentlyChangedPlates[user.get("_id")][plate] -- if they recently changed their plate at the DMV, they still own it even though original logic says they don't
-        end
-        couchdb.updateDocument("vehicles", plate, { stored_location = property_name }, function()
-            -- delete vehicle on client --
-            TriggerClientEvent("properties:storeVehicle", usource)
-            -- remove key from inventory --
-            user.removeItem("Key -- " .. plate)
-        end)
-      end)
+  local char = exports["usa-characters"]:GetCharacter(src)
+  local vehDoc = exports.essentialmode:getDocument("vehicles", plate)
+  if vehDoc then
+    vehDoc._rev = nil
+    vehDoc.stored_location = property_name
+    exports.essentialmode:updateDocument("vehicles", plate, vehDoc)
+    TriggerClientEvent("properties:storeVehicle", src)
+    char.removeItem("Key -- " .. plate)
   else
-      TriggerClientEvent("usa:notify", usource, "You do not own that vehicle!")
+    TriggerClientEvent("usa:notify", src, "You do not own that vehicle!")
   end
 end)
+
+function doesVehicleBelongToAnyOwnerOfProperty(propertyName, plate)
+  local ownerIdent = PROPERTIES[propertyName].owner.identifier
+  local ownerDoc = exports.essentialmode:getDocument("characters", ownerIdent)
+  -- main owner
+  for i = 1, #ownerDoc.vehicles do
+    if ownerDoc.vehicles[i] == plate then
+      return true
+    end
+  end
+  -- co owners
+  for i = 1, #PROPERTIES[propertyName].coowners do
+    local coownerIdent = PROPERTIES[propertyName].coowners[i].identifier
+    local coownerDoc = exports.essentialmode:getDocument("characters", coownerIdent)
+    for j = 1, #coownerDoc.vehicles do
+      if coownerDoc.vehicles[j] == plate then
+        return true
+      end
+    end
+  end
+  -- online players (for if newly owned vehicle hasn't saved to DB yet)
+  local onlineChars = exports["usa-characters"]:GetCharactersSync()
+  for i = 1, #onlineChars do
+    for j = 1, #onlineChars[i].get("vehicles") do
+      if onlineChars[i].get("vehicles")[j] == plate then
+        local ownedProperties = GetOwnedProperties(onlineChars[i].get("_id"), true)
+        for k = 1, #ownedProperties do
+          if ownedProperties[k] == propertyName then
+            return true
+          end
+        end
+        return false
+      end
+    end
+  end
+  return false
+end
 
 -- retrieve vehicle from property --
 RegisterServerEvent("properties:retrieveVehicle")

@@ -25,6 +25,7 @@ AddEventHandler("ems:hospitalize", function(treatmentTimeMinutes, bed, index)
         else
             DoScreenFadeIn(1000)
         end
+        TriggerServerEvent("hospital:saveTreatmentTime", treatmentTimeMinutes)
         local admitTime = GetGameTimer()
         while GetGameTimer() - admitTime < (treatmentTimeMinutes * 60 * 1000) do
             Wait(1)
@@ -33,6 +34,7 @@ AddEventHandler("ems:hospitalize", function(treatmentTimeMinutes, bed, index)
         ClearPedBloodDamage(playerPed)
         currentlyAdmitted = false
         TriggerEvent('usa:showHelp', 'You have been treated.')
+        TriggerServerEvent("hospital:saveTreatmentTime", 0)
     end)
 end)
 
@@ -40,29 +42,27 @@ RegisterNetEvent('ems:admitMe')
 AddEventHandler('ems:admitMe', function(bed, reasonForAdmission)
     local playerPed = PlayerPedId()
     local playerCoords = GetEntityCoords(playerPed)
-    if Vdist(playerCoords, hospitalCoords) < 50 then
-        SetEntityHealth(playerPed, 200)
-        local treatmentTimeMinutes = 2
-        local playerInjuries = exports.usa_injury:getPlayerInjuries()
-        for bone, injuries in pairs(playerInjuries) do
-            for injury, data in pairs(playerInjuries[bone]) do
-                if injuries[injury].string == "High-speed Projectile" then 
-                    treatmentTimeMinutes = treatmentTimeMinutes + 4
-                elseif injuries[injury].string == "Knife Puncture" then 
-                    treatmentTimeMinutes = treatmentTimeMinutes + 2
-                elseif injuries[injury].string == "Explosion" then 
-                    treatmentTimeMinutes = treatmentTimeMinutes + 4
-                elseif injuries[injury].string == "Large Sharp Object" then 
-                    treatmentTimeMinutes = treatmentTimeMinutes + 2
-                end
+    SetEntityHealth(playerPed, 200)
+    local treatmentTimeMinutes = 2
+    local playerInjuries = exports.usa_injury:getPlayerInjuries()
+    for bone, injuries in pairs(playerInjuries) do
+        for injury, data in pairs(playerInjuries[bone]) do
+            if injuries[injury].string == "High-speed Projectile" then 
+                treatmentTimeMinutes = treatmentTimeMinutes + 4
+            elseif injuries[injury].string == "Knife Puncture" then 
+                treatmentTimeMinutes = treatmentTimeMinutes + 2
+            elseif injuries[injury].string == "Explosion" then 
+                treatmentTimeMinutes = treatmentTimeMinutes + 4
+            elseif injuries[injury].string == "Large Sharp Object" then 
+                treatmentTimeMinutes = treatmentTimeMinutes + 2
             end
         end
-        if treatmentTimeMinutes > 15 then
-            treatmentTimeMinutes = 15
-        end
-        TriggerEvent('ems:hospitalize', treatmentTimeMinutes, bed)
-        TriggerEvent("chatMessage", '^3^*[HOSPITAL] ^r^7You have been admitted to the hospital. (' .. reasonForAdmission .. ')')
     end
+    if treatmentTimeMinutes > 15 then
+        treatmentTimeMinutes = 15
+    end
+    TriggerEvent('ems:hospitalize', treatmentTimeMinutes, bed)
+    TriggerEvent("chatMessage", '^3^*[HOSPITAL] ^r^7You have been admitted to the hospital. (' .. reasonForAdmission .. ')')
 end)
 
 RegisterNetEvent('ems:getNearestBedIndex')
@@ -119,7 +119,7 @@ function ActivateBed(x, y, z, model)
                     return
                 end
             end
-            TaskPlayAnimAdvanced(playerPed, dict, 'f_sleep_l_loop_bighouse', x, y+0.05, z+0.8, rx, ry, rz-180.0, 1.0, 1.0, -1, 1, 0.0, false, false)
+            TaskPlayAnimAdvanced(playerPed, dict, 'f_sleep_l_loop_bighouse', x, y+0.05, z+1.175, rx, ry, rz-180.0, 1.0, 1.0, -1, 1, 0.0, false, false)
             FreezeEntityPosition(playerPed, true)
         end
     end)

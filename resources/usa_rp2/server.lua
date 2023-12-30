@@ -242,25 +242,18 @@ TriggerEvent('es:addJobCommand', 'impound', { "sheriff", "ems", "corrections" },
 	if MECHS_ON_TO_BLOCK_IMPOUND_CMD == nil or exports["usa-characters"]:GetNumCharactersWithJob("mechanic") < MECHS_ON_TO_BLOCK_IMPOUND_CMD then
 		local msg = "Calls for State Tow"
 		TriggerEvent('display:shareDisplayBySource', source, msg, 5, 370, 10, 8000, true)
-		TriggerClientEvent('impoundVehicle', source)
+		TriggerClientEvent('impoundVehicle', source, false)
 	else
 		TriggerClientEvent("usa:notify", source, "Must call a mechanic!")
 	end
 end, { help = "Impound a vehicle." })
-
-TriggerEvent('es:addCommand', 'dv', function(source, args, char)
-	local group = exports["essentialmode"]:getPlayerFromId(source).getGroup()
-	if group ~= "user" or char.get("job") == "eventPlanner" then
-		TriggerClientEvent('impoundVehicle', source)
-	end
-end, { help = "(Delete) Impound a vehicle. DO NOT USE FOR TRAINS USE /dt INSTEAD" })
 
 RegisterServerEvent("impound:impoundVehicle")
 AddEventHandler("impound:impoundVehicle", function(vehicle, plate)
 	local user = exports["essentialmode"]:getPlayerFromId(source)
 	local userGroup = user.getGroup()
 	local playerJob = exports["usa-characters"]:GetCharacterField(source, "job")
-	if playerJob == "mechanic" or playerJob == "sheriff" or playerJob == "ems" or playerJob == "corrections" or userGroup == "owner" or userGroup == "admin" or userGroup == "mod" or userGroup == "superadmin" then
+	if playerJob == "mechanic" or playerJob == "sheriff" or playerJob == "ems" or playerJob == "corrections" or playerJob == "eventPlanner" or userGroup ~= "user" then
 		if plate then
 			-- update impounded status of vehicle in DB --
 			TriggerEvent('es:exposeDBFunctions', function(couchdb)
@@ -273,6 +266,13 @@ AddEventHandler("impound:impoundVehicle", function(vehicle, plate)
 		TriggerClientEvent("impound:notify", source, "Only ~y~law enforcement~w~,~y~medics~w~, and ~y~admins~w~ can use /impound!")
 	end
 end)
+
+TriggerEvent('es:addCommand', 'dv', function(source, args, char)
+    local group = exports["essentialmode"]:getPlayerFromId(source).getGroup()
+    if group ~= "user" or char.get("job") == "eventPlanner" then
+        TriggerClientEvent('impoundVehicle', source, true)
+    end
+end, { help = "(Delete) Impound a vehicle. DO NOT USE FOR TRAINS USE /dt INSTEAD" })
 
 local JOBS_TO_LOG = {
 	sheriff = {

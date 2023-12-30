@@ -17,12 +17,12 @@ function updateFrame(){
 
     $("#black").css(
     {
-        "max-width": result.max_width + "px",
-        "max-height": result.max_height + "px",
-        "top": result.top + "",
-        "bottom": result.bottom + "",
-        "left": result.left + "",
-        "right": result.right + "",
+        "max-width": "1920px",
+        "max-height": "1080px",
+        "top": "0",
+        "bottom": "0",
+        "left": "0",
+        "right": "0",
     });
 }
 
@@ -51,7 +51,11 @@ var TelevisionPos = [0,0,0];
 var PlayerPos = [0,0,0];
 
 $(document).ready(function(){
-    $.post('http://rcore_television/loaded', JSON.stringify({}));
+    var result = getQueryParams();
+    $.post('http://rcore_television/loaded', JSON.stringify({
+        isMenu: false,
+        identifier: result.identifier,
+    }));
     window.addEventListener('message', function(event) {
         var data = event.data;
         if(data.type === "rcore_tv_update_pos"){
@@ -86,6 +90,7 @@ function GetNewVolume()
         var far_away = 100 - distance;
         vol = (max_volume / 100) * far_away;
     }
+
     return vol;
 }
 

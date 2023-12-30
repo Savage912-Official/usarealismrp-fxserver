@@ -1,6 +1,5 @@
 PRODUCTS = {
     ["cannabis"] = {
-        buyLocation = { x = 413.22399902344,y = 6539.4467773438, z = 27.734628677368 }, -- Paleto
         item = {
             name = "Small Weed Plant",
             quantity = 1,
@@ -21,12 +20,42 @@ PRODUCTS = {
         },
         cost = 75,
         stages = {
-            { name = "vegetative", lengthInHours = 48, objectModels = { "bkr_prop_weed_01_small_01a", "bkr_prop_weed_01_small_01b", "bkr_prop_weed_01_small_01c" } },
-            { name = "flower", lengthInHours = 96, objectModels = { "bkr_prop_weed_med_01a", "bkr_prop_weed_med_01b" } },
-            { name = "harvest", lengthInHours = 168, objectModels = { "bkr_prop_weed_lrg_01b" } }
+            { name = "vegetative", lengthInHours = 5 * 24, objectModels = { "bkr_prop_weed_01_small_01a", "bkr_prop_weed_01_small_01b", "bkr_prop_weed_01_small_01c" } },
+            { name = "flower", lengthInHours = 14 * 24, objectModels = { "bkr_prop_weed_med_01a", "bkr_prop_weed_med_01b" } },
+            { name = "harvest", lengthInHours = 14 * 24, objectModels = { "bkr_prop_weed_lrg_01b" } }
+        }
+    },
+    ["corn"] = {
+        item = {
+            name = "Small Corn Plant",
+            quantity = 1,
+            weight = 5.0,
+            legality = "legal"
+        },
+        harvestItem = {
+            name = "Raw Corn",
+            quantity = 1,
+            weight = 4.0,
+            type = "food",
+            substance = 15.0,
+            legality = "legal",
+            objectModel = "v_res_fa_tincorn"
+        },
+        rewardQuantity = {
+            min = 10,
+            max = 30
+        },
+        cost = 75,
+        stages = {
+            { name = "vegetative", lengthInHours = 7 * 24, objectModels = { "prop_veg_corn_01" } },
+            { name = "harvest", lengthInHours = 7 * 24, objectModels = { "prop_veg_corn_01" } }
         }
     }
 }
+
+exports["interaction-menu"]:registerUsableItem("Small Corn Plant", function(src)
+    TriggerClientEvent("cultivation:plant", src, "corn", "Small Corn Plant")
+end)
 
 PLANTED = {} -- global table of all currently planted plants (sort of an in-memory cache between DB and server)
 
@@ -35,11 +64,13 @@ PLANT_CHECK_INTERVAL_MINUTES = 30
 MAX_DAYS_NO_FOOD = 9
 MAX_DAYS_NO_WATER = 7
 
+--[[
 PLANT_STAGE_HOURS = {
     VEGETATIVE = 5 * 24,
     FLOWER = 10 * 24,
     HARVEST = 14 * 24 -- two weeks (14 days) until ready for harvest
 }
+--]]
 
 NEARBY_DISTANCE = 400
 

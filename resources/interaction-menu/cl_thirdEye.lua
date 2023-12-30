@@ -556,3 +556,13 @@ target.addPoint("catCafeLeaderboard", "Cat Cafe", "fas fa-cat", vector3(-593.948
     },
 })
 -- End of CatCafe ThirdEye
+
+target.addPoint("PrisonLockdownButton", "Prison", "fas fa-siren", vector3(1789.4418945313, 2597.1040039063, 45.797798156738), 1.5, function() end, {
+    {
+        name = 'prisonlockdown',
+        label = 'Trigger Prison Lockdown',
+        onSelect = function(a, b, entityHandle)
+            TriggerServerEvent("jail:toggleDeskAlarm")
+        end
+    },
+})

@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en-us">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" href="./css/tv-menu.css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:600" rel="stylesheet">
+    <script src="./js/vue.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+</head>
+<body>
+    <div id = "blackscreen"> </div>
+    <div id = "container">
+        <div id = "menu">
+            <div class = "box" v-for="item, key in menuItems" v-bind:class="{ active: item.active }">
+                <p class = 'text'>{{item.Label}}</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+<script src="./js/script.js" type="text/javascript"></script>

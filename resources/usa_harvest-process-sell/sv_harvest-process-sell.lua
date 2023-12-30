@@ -27,6 +27,20 @@ local REWARDS = {
       objectModel = "prop_cs_box_step"
     },
     reward_amount = math.random(50, 250)
+  },
+  ["Corn"] = {
+    harvest_item = {
+      name = "Raw Corn"
+    },
+    processed_item = {
+      name = "Processed Corn",
+      quantity = 1,
+      weight = 5.0,
+      type = "misc",
+      legality = "legal",
+      objectModel = "v_res_fa_tincorn"
+    },
+    reward_amount = math.random(400, 700)
   }
 }
 
@@ -75,13 +89,17 @@ AddEventHandler("HPS:rewardItem", function(job_name, stage)
           end
         end
       elseif stage == "Process" then
-          if char.canHoldItem(data.processed_item) then
-            char.removeItem(data.harvest_item.name, 1)
-            data.processed_item.quantity = 1
-            char.giveItem(data.processed_item)
-          else
-            TriggerClientEvent("usa:notify", source, "Inventory full!")
-          end
+        if not char.hasItem(data.harvest_item.name) then
+          TriggerClientEvent("usa:notify", source, "Missing item")
+          return
+        end
+        if char.canHoldItem(data.processed_item) then
+          char.removeItem(data.harvest_item.name, 1)
+          data.processed_item.quantity = 1
+          char.giveItem(data.processed_item)
+        else
+          TriggerClientEvent("usa:notify", source, "Inventory full!")
+        end
       end
     end
   end
@@ -120,7 +138,7 @@ function checkItem(src, job_name, process_time, stage)
     elseif stage == "Sale" then
       character.removeItem(item_name, 1)
       character.giveMoney(REWARDS[job_name].reward_amount)
-      TriggerClientEvent("usa:notify", src, "Here is the cash!")
+      TriggerClientEvent("usa:notify", src, "Earned: $" .. exports.globals:comma_value(REWARDS[job_name].reward_amount))
       TriggerClientEvent("usa:playAnimation", src, "anim@move_m@trash", "pickup", -8, 1, -1, 53, 0, 0, 0, 0, 3)
     end
   else

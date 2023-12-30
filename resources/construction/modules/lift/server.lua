@@ -76,6 +76,9 @@ RegisterNetEvent("pickle_construction:spawnLift", function(coords, heading, rail
 
     Lifts[id] = lift
     UpdateLift(id)
+
+    local char = exports["usa-characters"]:GetCharacter(source)
+    char.removeItem("lift")
 end)
 
 RegisterNetEvent("pickle_construction:removeLift", function(id)
@@ -100,3 +103,5 @@ RegisterUsableItem("lift", function(source)
     if not GetDuty(source) then return false, ShowNotification(source, _L("workplace_not_duty")) end
     TriggerClientEvent("pickle_construction:createLift", source)
 end)
+
+-- todo: fix how lift is not removed from inventory when placed

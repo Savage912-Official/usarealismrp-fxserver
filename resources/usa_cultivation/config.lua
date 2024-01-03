@@ -20,9 +20,9 @@ PRODUCTS = {
         },
         cost = 75,
         stages = {
-            { name = "vegetative", lengthInHours = 5 * 24, objectModels = { "bkr_prop_weed_01_small_01a", "bkr_prop_weed_01_small_01b", "bkr_prop_weed_01_small_01c" } },
-            { name = "flower", lengthInHours = 14 * 24, objectModels = { "bkr_prop_weed_med_01a", "bkr_prop_weed_med_01b" } },
-            { name = "harvest", lengthInHours = 14 * 24, objectModels = { "bkr_prop_weed_lrg_01b" } }
+            { name = "vegetative", lengthInHours = 3 * 24, objectModels = { "bkr_prop_weed_01_small_01a", "bkr_prop_weed_01_small_01b", "bkr_prop_weed_01_small_01c" } },
+            { name = "flower", lengthInHours = 7 * 24, objectModels = { "bkr_prop_weed_med_01a", "bkr_prop_weed_med_01b" } },
+            { name = "harvest", lengthInHours = 7 * 24, objectModels = { "bkr_prop_weed_lrg_01b" } }
         }
     },
     ["corn"] = {
@@ -61,8 +61,8 @@ PLANTED = {} -- global table of all currently planted plants (sort of an in-memo
 
 PLANT_CHECK_INTERVAL_MINUTES = 30
 
-MAX_DAYS_NO_FOOD = 9
-MAX_DAYS_NO_WATER = 7
+MAX_DAYS_NO_FOOD = 3
+MAX_DAYS_NO_WATER = 2
 
 --[[
 PLANT_STAGE_HOURS = {

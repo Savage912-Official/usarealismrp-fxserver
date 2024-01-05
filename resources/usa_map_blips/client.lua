@@ -109,7 +109,7 @@ local blips = {
 	{ title = "Casino", x = 923.79486083984,y = 49.580528259277, id = 89, colour = 73, scale = 0.62, group = "entertainment"},
 	{ title = "Vishnu's Go-Karts", x = -58.797729492188, y = -1839.8370361328, id = 488, colour = 0, scale = 0.7, group = "entertainment"},
 	{ title = "PDM - Rockford Hills", x = -1259.8367919922, y = -361.47216796875, id = 225, colour = 57, scale = 0.8},
-	--{ title = "Best Buds", colour = 2, id = 140, x = 377.75665283203, y = -829.908203125, z = 29.302627563477, scale = 0.6 },
+	{ title = "Best Buds", colour = 2, id = 140, x = 377.75665283203, y = -829.908203125, z = 29.302627563477, scale = 0.6 },
 	{ title = "White Widow", colour = 2, id = 140, x = 186.72137451172, y = -249.99935913086, z = 54.070400238037, scale = 0.6 },
 	--{ title = "Underground Track", x = 784.30633544922, y = -1868.2249755859, id = 38, colour = 62, scale = 0.8, group = "entertainment"},
 	{ title = "Untamed Autos", x = 1149.8494, y =  -781.1504, id = 402, colour = 5, scale = 0.9},

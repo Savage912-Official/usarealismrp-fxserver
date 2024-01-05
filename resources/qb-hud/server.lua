@@ -3,6 +3,7 @@ local ResetStress = false
 TriggerEvent('es:addCommand', 'cash', function(src, args, char)
 	local char = exports['usa-characters']:GetCharacter(src)
     TriggerClientEvent('hud:client:ShowAccounts', src, 'cash', math.floor(char.get("money")))
+    TriggerClientEvent("usa:notify", src, false, "Cash: $" .. exports.globals:comma_value(math.floor(char.get("money"))))
 end, {
 	help = "Show cash on hand"
 })
@@ -10,6 +11,7 @@ end, {
 TriggerEvent('es:addCommand', 'bank', function(src, args, char)
 	local char = exports['usa-characters']:GetCharacter(src)
     TriggerClientEvent('hud:client:ShowAccounts', src, 'bank', math.floor(char.get("bank")))
+    TriggerClientEvent("usa:notify", src, false, "Bank: $" .. exports.globals:comma_value(math.floor(char.get("bank"))))
 end, {
 	help = "Show money in bank"
 })
